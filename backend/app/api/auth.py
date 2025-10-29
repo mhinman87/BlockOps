@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import User
@@ -71,11 +71,21 @@ def refresh_token(request: TokenRefreshRequest, db: Session = Depends(get_db)):
     return {"access_token": access_token}
 
 @router.get("/me", response_model=UserResponse)
-def get_current_user(token: str = None, db: Session = Depends(get_db)):
-    if not token:
+def get_current_user(authorization: str = Header(None), db: Session = Depends(get_db)):
+    if not authorization:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated"
+        )
+    
+    try:
+        scheme, token = authorization.split()
+        if scheme.lower() != "bearer":
+            raise ValueError
+    except (ValueError, IndexError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authorization header"
         )
     
     token_data = verify_token(token)
