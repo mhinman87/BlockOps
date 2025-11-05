@@ -171,7 +171,8 @@ export const LoginPage = () => {
                   setIsLogin(!isLogin);
                   setFormData({ email: '', password: '', fullName: '' });
                 }}
-                className="text-primary hover:text-blue-700 font-semibold transition"
+                style={{ color: '#5d87ff' }}
+                className="hover:opacity-80 font-semibold transition"
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
