@@ -149,7 +149,11 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-200 transition disabled:opacity-50 disabled:cursor-not-allowed mt-8"
+                style={{
+                  background: 'linear-gradient(to right, #5d87ff, #2563eb)',
+                  boxShadow: loading ? 'none' : '0 4px 6px rgba(93, 135, 255, 0.3)'
+                }}
+                className="w-full text-white py-3 rounded-lg font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed mt-8"
               >
                 {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Create Account'}
               </button>
