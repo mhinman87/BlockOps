@@ -98,7 +98,8 @@ export const LoginPage = () => {
                     value={formData.fullName}
                     onChange={handleChange}
                     required={!isLogin}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                    style={{ backgroundColor: 'white', color: '#111827' }}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
                     placeholder="John Doe"
                   />
                 </div>
@@ -115,7 +116,8 @@ export const LoginPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                  style={{ backgroundColor: 'white', color: '#111827' }}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
                   placeholder="you@example.com"
                 />
               </div>
@@ -132,7 +134,8 @@ export const LoginPage = () => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                    style={{ backgroundColor: 'white', color: '#111827' }}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
                     placeholder="••••••••"
                   />
                   <button
