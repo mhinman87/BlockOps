@@ -138,8 +138,11 @@ export const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    style={{ color: '#5d87ff' }}
-                    className="absolute right-4 top-3.5 hover:opacity-80 transition"
+                    style={{ 
+                      background: '#5d87ff',
+                      color: 'white'
+                    }}
+                    className="absolute right-4 top-3.5 px-2 py-1 rounded hover:opacity-80 transition"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -172,8 +175,11 @@ export const LoginPage = () => {
                   setIsLogin(!isLogin);
                   setFormData({ email: '', password: '', fullName: '' });
                 }}
-                style={{ color: '#5d87ff' }}
-                className="hover:opacity-80 font-semibold transition"
+                style={{ 
+                  background: '#5d87ff',
+                  color: 'white'
+                }}
+                className="px-4 py-2 rounded-lg hover:opacity-80 font-semibold transition"
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
