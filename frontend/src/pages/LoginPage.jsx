@@ -89,7 +89,7 @@ export const LoginPage = () => {
               {/* Full Name - Register Only */}
               {!isLogin && (
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
                     Full Name
                   </label>
                   <input
@@ -98,8 +98,23 @@ export const LoginPage = () => {
                     value={formData.fullName}
                     onChange={handleChange}
                     required={!isLogin}
-                    style={{ backgroundColor: 'white', color: '#111827' }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                    style={{ 
+                      backgroundColor: '#ffffff',
+                      color: '#111827',
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      outline: 'none'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#5d87ff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(93, 135, 255, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="John Doe"
                   />
                 </div>
@@ -107,7 +122,7 @@ export const LoginPage = () => {
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
                   Email Address
                 </label>
                 <input
@@ -116,15 +131,30 @@ export const LoginPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  style={{ backgroundColor: 'white', color: '#111827' }}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                  style={{ 
+                    backgroundColor: '#ffffff',
+                    color: '#111827',
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#5d87ff';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(93, 135, 255, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = 'none';
+                  }}
                   placeholder="you@example.com"
                 />
               </div>
 
               {/* Password */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
                   Password
                 </label>
                 <div className="relative">
@@ -134,8 +164,23 @@ export const LoginPage = () => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    style={{ backgroundColor: 'white', color: '#111827' }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-2 focus:ring-blue-100 transition"
+                    style={{ 
+                      backgroundColor: '#ffffff',
+                      color: '#111827',
+                      width: '100%',
+                      padding: '12px 48px 12px 16px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      outline: 'none'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#5d87ff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(93, 135, 255, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#d1d5db';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="••••••••"
                   />
                   <button
