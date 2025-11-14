@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Users, Stethoscope, Award } from 'lucide-react';
+import { ArrowRight, Users, Stethoscope, Monitor, Menu, X, Building2, Scissors, UserRound } from 'lucide-react';
+import HexagonParallax from '../components/HexagonParallax';
 
 export const LandingPage = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const services = [
     {
       icon: Stethoscope,
@@ -15,9 +17,9 @@ export const LandingPage = () => {
       description: 'Comprehensive training programs for your medical team.',
     },
     {
-      icon: Award,
-      title: 'Expert Guidance',
-      description: 'Guidance from board-certified anesthesiologists.',
+      icon: Monitor,
+      title: 'Platform Access',
+      description: 'Track your progress, manage billing, and access resources through our intuitive software platform.',
     },
   ];
 
@@ -40,68 +42,268 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white overflow-hidden w-full">
+    <div className="bg-white w-full">
       {/* Navigation */}
       <nav className="fixed w-full bg-white shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold text-primary">Block Ops</div>
-            <div className="flex gap-4">
+            <div className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">Block Ops</div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#consulting" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                Process
+              </a>
+              <a href="#services" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                Services
+              </a>
+              <a href="#who-we-serve" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                Who We Serve
+              </a>
+              <a href="#about" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                About
+              </a>
+              <a href="#patients" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                Patients
+              </a>
               <Link
                 to="/login"
-                className="px-6 py-2 text-gray-700 hover:text-primary transition"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/login"
-                className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition"
+                className="px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm"
               >
                 Get Started
               </Link>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-gray-700 hover:text-primary transition"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-gray-200">
+              <div className="flex flex-col space-y-4">
+                <a 
+                  href="#consulting" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
+                >
+                  Our Process
+                </a>
+                <a 
+                  href="#services" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
+                >
+                  Services
+                </a>
+                <a 
+                  href="#who-we-serve" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
+                >
+                  Who We Serve
+                </a>
+                <a 
+                  href="#about" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
+                >
+                  About
+                </a>
+                <a 
+                  href="#patients" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
+                >
+                  Patients
+                </a>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mx-4 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm text-center"
+                >
+                  Get Started
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+      <section className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-cyan-50 relative min-h-screen">
+        <HexagonParallax />
+        <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col justify-center min-h-[calc(100vh-8rem)]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             Regional Anesthesiology <span className="text-primary">Consulting</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Expert consulting services from board-certified anesthesiologists specializing in regional methods. Elevate your practice with proven expertise.
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
+          We provide comprehensive assessments of your anesthesia program and deliver tailored recommendations designed to implement regional anesthesia techniques and optimize the effectiveness and success of your services.
           </p>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition text-lg"
-          >
-            Get Started
-            <ArrowRight size={20} />
-          </Link>
+          <div>
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm"
+            >
+              Get Started
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Process Section */}
+      <section id="consulting" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black relative min-h-screen flex items-center overflow-hidden">
+        <div className="max-w-7xl mx-auto w-full relative">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
+            
+            {/* Left Side - Content */}
+            <div className="md:col-span-3 order-1 relative z-10">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 text-white">
+                Our Process
+              </h2>
+              
+              {/* Process Steps */}
+              <div className="space-y-6 sm:space-y-8 mb-8">
+                {/* Step 1 */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <span className="text-lg sm:text-xl font-bold text-primary">1</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Website Contact
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Explore our services and get FREE consultations and initial insights.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <span className="text-lg sm:text-xl font-bold text-primary">2</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Outreach
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Connect with us through your preferred channel - call, email, or chat.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <span className="text-lg sm:text-xl font-bold text-primary">3</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Schedule Appointment
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Book your free consultation at a time that works for you.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <span className="text-lg sm:text-xl font-bold text-primary">4</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      First Appointment
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Comprehensive assessment of your anesthesia program - 100% FREE.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 5 */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <span className="text-lg sm:text-xl font-bold text-primary">5</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Transparent Pricing
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Clear cost breakdown with no hidden fees - see exactly what you're getting.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Button */}
+              <div className="mt-8">
+                <Link
+                  to="#process-details"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
+                >
+                  Learn More About Our Process
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Side - Image */}
+            <div className="md:col-span-2 order-2 relative hidden md:block">
+              {/* Empty column to maintain layout spacing */}
+            </div>
+          </div>
+          
+          {/* Absolute positioned image that breaks out of grid */}
+          <div className="absolute right-0 bottom-0 hidden md:block" style={{ width: '65%', transform: 'translateX(30%) translateY(20%)' }}>
+            <img 
+              src="/images/process/contact-website.png" 
+              alt="Our Process" 
+              className="w-full h-auto rounded-xl shadow-2xl"
+            />
+          </div>
+          
+          {/* Mobile image */}
+          <div className="md:hidden mt-8">
+            <img 
+              src="/images/process/contact-website.png" 
+              alt="Our Process" 
+              className="w-full h-auto rounded-xl shadow-lg"
+            />
+          </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
+      <section id="services" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
+        <HexagonParallax />
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Our Services
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
                 <div
                   key={index}
-                  className="p-8 bg-gray-50 rounded-xl hover:shadow-lg transition"
+                  className="p-6 sm:p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition border border-gray-200"
                 >
-                  <Icon className="w-12 h-12 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                  <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-primary mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-gray-900">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600">{service.description}</p>
+                  <p className="text-sm sm:text-base text-gray-600 font-light">{service.description}</p>
                 </div>
               );
             })}
@@ -109,53 +311,182 @@ export const LandingPage = () => {
         </div>
       </section>
 
+      {/* Who We Serve Section */}
+      <section id="who-we-serve" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black relative min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
+            
+            {/* Right Side - Content (appears first on mobile) */}
+            <div className="md:col-span-2 order-1 md:order-2">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 text-white">
+                Who We Serve
+              </h2>
+              
+              {/* Bullet Points */}
+              <div className="space-y-6 sm:space-y-8">
+                {/* Hospitals */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Hospitals
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Comprehensive regional anesthesia programs for hospital systems.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Surgery Centers */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <Scissors className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Surgery Centers
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Specialized consulting for ambulatory surgical centers.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Medical Groups */}
+                <div className="flex items-start gap-4 group">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
+                    <UserRound className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
+                      Medical Groups
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-300 font-light">
+                      Training and implementation support for medical practices.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Left Side - Image with Hexagon Frame (appears second on mobile) */}
+            <div className="md:col-span-3 order-2 md:order-1 flex justify-center">
+              <div className="relative w-full max-w-2xl">
+                {/* Hexagon SVG Container */}
+                <div className="relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-auto">
+                    <defs>
+                      {/* Hexagon clip path */}
+                      <clipPath id="hexagonClip">
+                        <path d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" />
+                      </clipPath>
+                      
+                      {/* Glow filter */}
+                      <filter id="glow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    
+                    {/* Hexagon Background (light grey) */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="#f3f4f6"
+                    />
+                    
+                    {/* Hospital Image */}
+                    <image 
+                      href="/images/who-we-serve/hospital.png" 
+                      x="7" 
+                      y="2" 
+                      width="86" 
+                      height="96"
+                      clipPath="url(#hexagonClip)"
+                      preserveAspectRatio="xMidYMid slice"
+                    />
+                    
+                    {/* Hexagon Border with Glow */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="none" 
+                      stroke="#42A5B3" 
+                      strokeWidth="0.8"
+                      filter="url(#glow)"
+                      className="drop-shadow-[0_0_10px_rgba(66,165,179,0.5)]"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Team Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
+      <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
+        <HexagonParallax />
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Meet Our Team
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
             {team.map((member, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition text-center"
+                className="bg-gray-50 p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition text-center border border-gray-200"
               >
-                <div className="w-24 h-24 bg-gradient-to-br from-blue-400 to-primary rounded-full mx-auto mb-4"></div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-teal-400 to-primary rounded-full mx-auto mb-3 sm:mb-4"></div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                   {member.name}
                 </h3>
-                <p className="text-primary font-medium mb-3">{member.role}</p>
-                <p className="text-gray-600">{member.description}</p>
+                <p className="text-primary font-medium mb-2 sm:mb-3 uppercase tracking-wide text-xs sm:text-sm">{member.role}</p>
+                <p className="text-sm sm:text-base text-gray-600 font-light">{member.description}</p>
               </div>
             ))}
+          </div>
+          
+          {/* Learn More About Company Button */}
+          <div className="text-center">
+            <Link
+              to="/company"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
+            >
+              Learn More About Our Company
+              <ArrowRight size={18} />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="patients" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Get in Touch
           </h2>
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
             <div>
-              <h3 className="text-2xl font-semibold mb-6 text-gray-900">
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-900">
                 Contact Information
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-gray-600 text-sm">EMAIL</p>
-                  <p className="text-gray-900 font-medium">info@blockops.com</p>
+                  <p className="text-gray-600 text-xs sm:text-sm font-bold uppercase tracking-wider">Email</p>
+                  <p className="text-sm sm:text-base text-gray-900 font-light">info@blockops.com</p>
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm">PHONE</p>
-                  <p className="text-gray-900 font-medium">(913) 555-0000</p>
+                  <p className="text-gray-600 text-xs sm:text-sm font-bold uppercase tracking-wider">Phone</p>
+                  <p className="text-sm sm:text-base text-gray-900 font-light">(913) 555-0000</p>
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm">LOCATION</p>
-                  <p className="text-gray-900 font-medium">Kansas City, KS</p>
+                  <p className="text-gray-600 text-xs sm:text-sm font-bold uppercase tracking-wider">Location</p>
+                  <p className="text-sm sm:text-base text-gray-900 font-light">Kansas City, KS</p>
                 </div>
               </div>
             </div>
@@ -163,21 +494,21 @@ export const LandingPage = () => {
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm sm:text-base"
               />
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm sm:text-base"
               />
               <textarea
                 placeholder="Your Message"
                 rows="4"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm sm:text-base"
               ></textarea>
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition font-medium"
+                className="w-full bg-primary text-white py-2 sm:py-3 rounded-lg hover:opacity-90 transition font-bold text-sm sm:text-base"
               >
                 Send Message
               </button>
@@ -187,11 +518,48 @@ export const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-400">
-            &copy; 2024 Block Ops. All rights reserved.
-          </p>
+      <footer className="bg-gray-900 text-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-6 sm:mb-8">
+            <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Block Ops</div>
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
+              <Link
+                to="/careers"
+                className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
+              >
+                Careers
+              </Link>
+              <Link
+                to="/careers"
+                className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
+              >
+                About
+              </Link>
+              <Link
+                to="/careers"
+                className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
+              >
+                Patients
+              </Link>
+              <Link
+                to="/careers"
+                className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
+              >
+                Who We Serve
+              </Link>
+              <Link
+                to="/careers"
+                className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
+              >
+                Meet Our Team
+              </Link>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center">
+            <p className="text-gray-400 font-light text-xs sm:text-sm">
+              &copy; 2026 Block Ops. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
