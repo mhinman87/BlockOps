@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { CompanyPage } from './pages/CompanyPage';
+import { ProcessPage } from './pages/ProcessPage';
 import { DashboardHome } from './pages/DashboardHome';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/company" element={<CompanyPage />} />
+          <Route path="/process" element={<ProcessPage />} />
 
           {/* Protected Routes */}
           <Route

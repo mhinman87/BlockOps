@@ -53,9 +53,9 @@ export const LandingPage = () => {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              <a href="#consulting" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <Link to="/process" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
                 Process
-              </a>
+              </Link>
               <a href="#services" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
                 Services
               </a>
@@ -89,13 +89,13 @@ export const LandingPage = () => {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-200">
               <div className="flex flex-col space-y-4">
-                <a 
-                  href="#consulting" 
+                <Link 
+                  to="/process" 
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2"
                 >
                   Our Process
-                </a>
+                </Link>
                 <a 
                   href="#services" 
                   onClick={() => setMobileMenuOpen(false)}
@@ -251,7 +251,7 @@ export const LandingPage = () => {
               {/* Button */}
               <div className="mt-8">
                 <Link
-                  to="#process-details"
+                  to="/process"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
                 >
                   Learn More About Our Process
