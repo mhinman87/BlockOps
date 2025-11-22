@@ -5,6 +5,8 @@ import HexagonParallax from '../components/HexagonParallax';
 
 export const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hospitalHover, setHospitalHover] = useState(false);
+  const [surgeryHover, setSurgeryHover] = useState(false);
   const services = [
     {
       icon: Stethoscope,
@@ -139,7 +141,7 @@ export const LandingPage = () => {
       <section className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-cyan-50 relative min-h-screen">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col justify-center min-h-[calc(100vh-8rem)]">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             Regional Anesthesiology <span className="text-primary">Consulting</span>
           </h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
@@ -164,7 +166,7 @@ export const LandingPage = () => {
             
             {/* Left Side - Content */}
             <div className="md:col-span-3 order-1 relative z-10">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 text-white">
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-12 text-white">
                 Our Process
               </h2>
               
@@ -264,13 +266,55 @@ export const LandingPage = () => {
             </div>
           </div>
           
-          {/* Absolute positioned image that breaks out of grid */}
-          <div className="absolute right-0 bottom-0 hidden md:block" style={{ width: '65%', transform: 'translateX(30%) translateY(20%)' }}>
-            <img 
-              src="/images/process/contact-website.png" 
-              alt="Our Process" 
-              className="w-full h-auto rounded-xl shadow-2xl"
-            />
+          {/* Absolute positioned hexagon image that breaks out of grid */}
+          <div className="absolute right-0 top-1/2 hidden md:block" style={{ width: '71.5%', transform: 'translateX(40%) translateY(-50%)' }}>
+            <div className="relative">
+              {/* Hexagon SVG Container - Extended right side */}
+              <svg viewBox="0 0 100 100" className="w-full h-auto">
+                <defs>
+                  {/* Modified hexagon clip path - flat on right */}
+                  <clipPath id="hexagonClipProcess">
+                    <path d="M50 2 L100 2 L100 98 L50 98 L7 73 L7 27 Z" />
+                  </clipPath>
+                  
+                  {/* Glow filter */}
+                  <filter id="glowProcess">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Modified shape Background - Black - flat on right */}
+                <path 
+                  d="M50 2 L100 2 L100 98 L50 98 L7 73 L7 27 Z" 
+                  fill="#000000"
+                />
+                
+                {/* Process Image */}
+                <image 
+                  href="/images/process/contact-website.png" 
+                  x="7" 
+                  y="5" 
+                  width="93" 
+                  height="96"
+                  clipPath="url(#hexagonClipProcess)"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+                
+                {/* Border with Glow - only left hexagon side */}
+                <path 
+                  d="M50 2 L7 27 L7 73 L50 98" 
+                  fill="none" 
+                  stroke="#42A5B3" 
+                  strokeWidth="0.8"
+                  filter="url(#glowProcess)"
+                  className="drop-shadow-[0_0_10px_rgba(66,165,179,0.5)]"
+                />
+              </svg>
+            </div>
           </div>
           
           {/* Mobile image */}
@@ -288,7 +332,7 @@ export const LandingPage = () => {
       <section id="services" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Our Services
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -314,77 +358,39 @@ export const LandingPage = () => {
       {/* Who We Serve Section */}
       <section id="who-we-serve" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black relative min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
+          {/* Centered Title */}
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-12 sm:mb-16 text-white text-center">
+            Who We Serve
+          </h2>
+          
+          {/* Two Hexagons */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-24 max-w-5xl mx-auto">
             
-            {/* Right Side - Content (appears first on mobile) */}
-            <div className="md:col-span-2 order-1 md:order-2">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 text-white">
-                Who We Serve
-              </h2>
-              
-              {/* Bullet Points */}
-              <div className="space-y-6 sm:space-y-8">
-                {/* Hospitals */}
-                <div className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
-                    <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
-                      Hospitals
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-300 font-light">
-                      Comprehensive regional anesthesia programs for hospital systems.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Surgery Centers */}
-                <div className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
-                    <Scissors className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
-                      Surgery Centers
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-300 font-light">
-                      Specialized consulting for ambulatory surgical centers.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Medical Groups */}
-                <div className="flex items-start gap-4 group">
-                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition">
-                    <UserRound className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1 sm:mb-2">
-                      Medical Groups
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-300 font-light">
-                      Training and implementation support for medical practices.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Left Side - Image with Hexagon Frame (appears second on mobile) */}
-            <div className="md:col-span-3 order-2 md:order-1 flex justify-center">
-              <div className="relative w-full max-w-2xl">
+            {/* Hospitals Hexagon */}
+            <div 
+              className="flex flex-col items-center group" 
+              style={{ perspective: '1000px' }}
+              onMouseEnter={() => setHospitalHover(true)}
+              onMouseLeave={() => setHospitalHover(false)}
+            >
+              <div 
+                className="relative w-full max-w-sm" 
+                style={{ 
+                  transformStyle: 'preserve-3d',
+                  transform: hospitalHover ? 'rotateX(5deg) rotateY(-5deg) scale(1.05)' : 'rotateX(0deg) rotateY(0deg) scale(1)'
+                }}
+              >
                 {/* Hexagon SVG Container */}
                 <div className="relative">
                   <svg viewBox="0 0 100 100" className="w-full h-auto">
                     <defs>
                       {/* Hexagon clip path */}
-                      <clipPath id="hexagonClip">
+                      <clipPath id="hexagonClipHospital">
                         <path d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" />
                       </clipPath>
                       
                       {/* Glow filter */}
-                      <filter id="glow">
+                      <filter id="glowHospital">
                         <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                         <feMerge>
                           <feMergeNode in="coloredBlur"/>
@@ -393,7 +399,7 @@ export const LandingPage = () => {
                       </filter>
                     </defs>
                     
-                    {/* Hexagon Background (light grey) */}
+                    {/* Hexagon Background */}
                     <path 
                       d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
                       fill="#f3f4f6"
@@ -406,8 +412,17 @@ export const LandingPage = () => {
                       y="2" 
                       width="86" 
                       height="96"
-                      clipPath="url(#hexagonClip)"
+                      clipPath="url(#hexagonClipHospital)"
                       preserveAspectRatio="xMidYMid slice"
+                      className="group-hover:opacity-40"
+                    />
+                    
+                    {/* Dark Overlay on Hover */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="black"
+                      clipPath="url(#hexagonClipHospital)"
+                      className="opacity-0 group-hover:opacity-60"
                     />
                     
                     {/* Hexagon Border with Glow */}
@@ -416,12 +431,125 @@ export const LandingPage = () => {
                       fill="none" 
                       stroke="#42A5B3" 
                       strokeWidth="0.8"
-                      filter="url(#glow)"
-                      className="drop-shadow-[0_0_10px_rgba(66,165,179,0.5)]"
+                      filter="url(#glowHospital)"
+                      className="drop-shadow-[0_0_10px_rgba(66,165,179,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(66,165,179,0.8)]"
                     />
+                    
+                    {/* Text Overlay */}
+                    <foreignObject x="15" y="25" width="70" height="50" clipPath="url(#hexagonClipHospital)">
+                      <div xmlns="http://www.w3.org/1999/xhtml" className="w-full h-full flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <p className="text-white text-center font-light"
+                           style={{ 
+                             fontSize: '5px',
+                             lineHeight: '1.4',
+                             textShadow: '0 1px 4px rgba(0,0,0,0.9)',
+                             padding: '0 2px'
+                           }}>
+                          From small rural facilities to large healthcare systems, we bring expertise in regional anesthesia to hospitals of all sizes and complexities.
+                        </p>
+                      </div>
+                    </foreignObject>
                   </svg>
                 </div>
               </div>
+              
+              {/* Label */}
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mt-6 text-center">
+                Hospitals
+              </h3>
+            </div>
+
+            {/* Ambulatory Surgery Centers Hexagon */}
+            <div 
+              className="flex flex-col items-center group" 
+              style={{ perspective: '1000px' }}
+              onMouseEnter={() => setSurgeryHover(true)}
+              onMouseLeave={() => setSurgeryHover(false)}
+            >
+              <div 
+                className="relative w-full max-w-sm" 
+                style={{ 
+                  transformStyle: 'preserve-3d',
+                  transform: surgeryHover ? 'rotateX(5deg) rotateY(5deg) scale(1.05)' : 'rotateX(0deg) rotateY(0deg) scale(1)'
+                }}
+              >
+                {/* Hexagon SVG Container */}
+                <div className="relative">
+                  <svg viewBox="0 0 100 100" className="w-full h-auto">
+                    <defs>
+                      {/* Hexagon clip path */}
+                      <clipPath id="hexagonClipSurgery">
+                        <path d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" />
+                      </clipPath>
+                      
+                      {/* Glow filter */}
+                      <filter id="glowSurgery">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    
+                    {/* Hexagon Background */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="#f3f4f6"
+                    />
+                    
+                    {/* Surgery Center Image */}
+                    <image 
+                      href="/images/who-we-serve/surgery.png" 
+                      x="7" 
+                      y="2" 
+                      width="86" 
+                      height="96"
+                      clipPath="url(#hexagonClipSurgery)"
+                      preserveAspectRatio="xMidYMid slice"
+                      className="group-hover:opacity-40"
+                    />
+                    
+                    {/* Dark Overlay on Hover */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="black"
+                      clipPath="url(#hexagonClipSurgery)"
+                      className="opacity-0 group-hover:opacity-60"
+                    />
+                    
+                    {/* Hexagon Border with Glow */}
+                    <path 
+                      d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z" 
+                      fill="none" 
+                      stroke="#42A5B3" 
+                      strokeWidth="0.8"
+                      filter="url(#glowSurgery)"
+                      className="drop-shadow-[0_0_10px_rgba(66,165,179,0.5)] group-hover:drop-shadow-[0_0_20px_rgba(66,165,179,0.8)]"
+                    />
+                    
+                    {/* Text Overlay */}
+                    <foreignObject x="15" y="25" width="70" height="50" clipPath="url(#hexagonClipSurgery)">
+                      <div xmlns="http://www.w3.org/1999/xhtml" className="w-full h-full flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <p className="text-white text-center font-light"
+                           style={{ 
+                             fontSize: '5px',
+                             lineHeight: '1.4',
+                             textShadow: '0 1px 4px rgba(0,0,0,0.9)',
+                             padding: '0 2px'
+                           }}>
+                          We partner with your surgical center as an extension of your team, delivering customized regional anesthesia solutions tailored to your specific needs.
+                        </p>
+                      </div>
+                    </foreignObject>
+                  </svg>
+                </div>
+              </div>
+              
+              {/* Label */}
+              <h3 className="text-xl sm:text-2xl font-semibold text-white mt-6 text-center">
+                Surgery Centers
+              </h3>
             </div>
 
           </div>
@@ -432,7 +560,7 @@ export const LandingPage = () => {
       <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Meet Our Team
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
@@ -467,7 +595,7 @@ export const LandingPage = () => {
       {/* Contact Section */}
       <section id="patients" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
             Get in Touch
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">

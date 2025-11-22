@@ -21,7 +21,7 @@ export const DashboardLayout = ({ children }) => {
   const menuItems = [
     {
       icon: LayoutDashboard,
-      label: 'Dashboard',
+      label: 'Home',
       path: '/dashboard',
     },
     {
