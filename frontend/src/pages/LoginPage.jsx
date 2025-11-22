@@ -43,17 +43,17 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-hidden" style={{ background: 'linear-gradient(to bottom right, rgb(240, 249, 255), rgb(224, 242, 254))' }}>
+    <div className="min-h-screen w-full overflow-hidden bg-gradient-to-br from-teal-50 to-cyan-50">
       {/* Navigation Bar */}
       <nav className="fixed w-full bg-white shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-2xl font-bold text-primary">
+            <Link to="/" className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">
               Block Ops
             </Link>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary transition"
+              className="inline-flex items-center gap-2 text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm"
             >
               <ArrowLeft size={20} />
               <span>Back</span>
@@ -68,10 +68,10 @@ export const LoginPage = () => {
           {/* Card */}
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
             {/* Title */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-2 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2 text-center uppercase tracking-wide">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h1>
-            <p className="text-gray-600 text-center mb-8">
+            <p className="text-gray-600 text-center mb-8 font-light">
               {isLogin
                 ? 'Sign in to access your consulting dashboard'
                 : 'Create an account to get started with Block Ops'}
@@ -89,7 +89,7 @@ export const LoginPage = () => {
               {/* Full Name - Register Only */}
               {!isLogin && (
                 <div>
-                  <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-bold uppercase tracking-wide mb-2 text-gray-900">
                     Full Name
                   </label>
                   <input
@@ -108,8 +108,8 @@ export const LoginPage = () => {
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#5d87ff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(93, 135, 255, 0.1)';
+                      e.target.style.borderColor = '#42A5B3';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 165, 179, 0.1)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#d1d5db';
@@ -122,7 +122,7 @@ export const LoginPage = () => {
 
               {/* Email */}
               <div>
-                <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
+                <label className="block text-sm font-bold uppercase tracking-wide mb-2 text-gray-900">
                   Email Address
                 </label>
                 <input
@@ -154,7 +154,7 @@ export const LoginPage = () => {
 
               {/* Password */}
               <div>
-                <label style={{ color: '#111827' }} className="block text-sm font-semibold mb-2">
+                <label className="block text-sm font-bold uppercase tracking-wide mb-2 text-gray-900">
                   Password
                 </label>
                 <div className="relative">
@@ -174,8 +174,8 @@ export const LoginPage = () => {
                       outline: 'none'
                     }}
                     onFocus={(e) => {
-                      e.target.style.borderColor = '#5d87ff';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(93, 135, 255, 0.1)';
+                      e.target.style.borderColor = '#42A5B3';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 165, 179, 0.1)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = '#d1d5db';
@@ -186,11 +186,7 @@ export const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    style={{ 
-                      background: '#5d87ff',
-                      color: 'white'
-                    }}
-                    className="absolute right-4 top-3.5 px-2 py-1 rounded hover:opacity-80 transition"
+                    className="absolute right-4 top-3.5 px-2 py-1 rounded hover:opacity-80 transition bg-primary text-white"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -201,11 +197,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                style={{
-                  background: 'linear-gradient(to right, #5d87ff, #2563eb)',
-                  boxShadow: loading ? 'none' : '0 4px 6px rgba(93, 135, 255, 0.3)'
-                }}
-                className="w-full text-white py-3 rounded-lg font-semibold hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed mt-8"
+                className="w-full bg-primary text-white py-3 rounded-lg font-bold uppercase tracking-wide hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed mt-8 shadow-lg shadow-primary/50"
               >
                 {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Create Account'}
               </button>
@@ -215,7 +207,7 @@ export const LoginPage = () => {
             <div className="my-6 border-t border-gray-200"></div>
 
             {/* Toggle Form */}
-            <p className="text-center text-gray-700 text-sm">
+            <p className="text-center text-gray-700 text-sm font-light">
               {isLogin ? "Don't have an account? " : 'Already have an account? '}
               <button
                 type="button"
@@ -223,11 +215,7 @@ export const LoginPage = () => {
                   setIsLogin(!isLogin);
                   setFormData({ email: '', password: '', fullName: '' });
                 }}
-                style={{ 
-                  background: '#5d87ff',
-                  color: 'white'
-                }}
-                className="px-4 py-2 rounded-lg hover:opacity-80 font-semibold transition"
+                className="px-4 py-2 rounded-lg hover:opacity-80 font-bold uppercase tracking-wide transition bg-primary text-white"
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
@@ -235,7 +223,7 @@ export const LoginPage = () => {
           </div>
 
           {/* Footer */}
-          <p className="text-center text-gray-600 text-xs mt-8">
+          <p className="text-center text-gray-600 text-xs mt-8 font-light">
             By signing in, you agree to our terms and conditions
           </p>
         </div>

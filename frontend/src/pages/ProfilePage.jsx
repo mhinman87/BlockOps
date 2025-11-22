@@ -39,35 +39,35 @@ export const ProfilePage = () => {
       <div className="max-w-2xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">My Profile</h1>
-          <p className="text-gray-400 mt-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 uppercase tracking-wide">My Profile</h1>
+          <p className="text-gray-600 mt-2 font-light">
             Manage your account information and preferences
           </p>
         </div>
 
         {/* Profile Card */}
-        <div className="bg-dark-card rounded-xl border border-dark-border overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden">
           {/* Banner */}
-          <div className="h-32 bg-gradient-to-r from-primary to-blue-600"></div>
+          <div className="h-32 bg-gradient-to-r from-teal-400 to-primary"></div>
 
           {/* Profile Content */}
           <div className="p-8 relative -mt-16">
             {/* Avatar */}
             <div className="mb-6">
-              <div className="w-24 h-24 bg-gradient-to-br from-primary to-blue-600 rounded-xl border-4 border-dark-card"></div>
+              <div className="w-24 h-24 bg-gradient-to-br from-teal-400 to-primary rounded-xl border-4 border-white shadow-lg"></div>
             </div>
 
             {/* Edit Button */}
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">
                   {user?.full_name}
                 </h2>
-                <p className="text-gray-400">{user?.email}</p>
+                <p className="text-gray-600 font-light">{user?.email}</p>
               </div>
               <button
                 onClick={() => setIsEditing(!isEditing)}
-                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition font-medium"
+                className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
               >
                 {isEditing ? 'Cancel' : 'Edit Profile'}
               </button>
@@ -76,37 +76,43 @@ export const ProfilePage = () => {
             {/* Profile Information */}
             {!isEditing ? (
               <div className="space-y-6">
-                <div className="flex items-center gap-4 p-4 bg-dark-bg rounded-lg">
-                  <User className="text-primary" size={20} />
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <User className="text-primary" size={20} />
+                  </div>
                   <div>
-                    <p className="text-gray-400 text-sm">Full Name</p>
-                    <p className="text-white font-medium">{user?.full_name}</p>
+                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wide">Full Name</p>
+                    <p className="text-gray-900 font-medium">{user?.full_name}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-dark-bg rounded-lg">
-                  <Mail className="text-primary" size={20} />
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <Mail className="text-primary" size={20} />
+                  </div>
                   <div>
-                    <p className="text-gray-400 text-sm">Email Address</p>
-                    <p className="text-white font-medium">{user?.email}</p>
+                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wide">Email Address</p>
+                    <p className="text-gray-900 font-medium">{user?.email}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-dark-bg rounded-lg">
-                  <Calendar className="text-primary" size={20} />
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="bg-primary/10 p-3 rounded-lg">
+                    <Calendar className="text-primary" size={20} />
+                  </div>
                   <div>
-                    <p className="text-gray-400 text-sm">Member Since</p>
-                    <p className="text-white font-medium">
+                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wide">Member Since</p>
+                    <p className="text-gray-900 font-medium">
                       {formatDate(user?.created_at)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-dark-bg rounded-lg">
-                  <div className="w-5 h-5 bg-green-400 rounded-full"></div>
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="w-5 h-5 bg-green-500 rounded-full"></div>
                   <div>
-                    <p className="text-gray-400 text-sm">Account Status</p>
-                    <p className="text-white font-medium">
+                    <p className="text-gray-600 text-sm font-bold uppercase tracking-wide">Account Status</p>
+                    <p className="text-gray-900 font-medium">
                       {user?.is_active ? 'Active' : 'Inactive'}
                     </p>
                   </div>
@@ -116,7 +122,7 @@ export const ProfilePage = () => {
               // Edit Form
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-bold uppercase tracking-wide text-gray-900 mb-2">
                     Full Name
                   </label>
                   <input
@@ -124,12 +130,12 @@ export const ProfilePage = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-dark-bg border border-dark-border rounded-lg text-white focus:outline-none focus:border-primary transition"
+                    className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-bold uppercase tracking-wide text-gray-900 mb-2">
                     Email Address
                   </label>
                   <input
@@ -137,9 +143,9 @@ export const ProfilePage = () => {
                     name="email"
                     value={formData.email}
                     disabled
-                    className="w-full px-4 py-2.5 bg-dark-bg border border-dark-border rounded-lg text-gray-500 opacity-50 cursor-not-allowed"
+                    className="w-full px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-lg text-gray-500 cursor-not-allowed"
                   />
-                  <p className="text-gray-400 text-xs mt-1">
+                  <p className="text-gray-600 text-xs mt-1 font-light">
                     Email cannot be changed
                   </p>
                 </div>
@@ -147,14 +153,14 @@ export const ProfilePage = () => {
                 <div className="flex gap-4 pt-4">
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition font-medium"
+                    className="px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
                   >
                     Save Changes
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="px-6 py-2 bg-dark-bg border border-dark-border text-white rounded-lg hover:border-primary transition font-medium"
+                    className="px-6 py-2 bg-white border border-gray-300 text-gray-900 rounded-lg hover:border-primary hover:text-primary transition font-bold uppercase tracking-wide text-sm"
                   >
                     Cancel
                   </button>
