@@ -27,19 +27,19 @@ export const LandingPage = () => {
 
   const team = [
     {
-      name: 'Dr. Anesthesiologist',
+      name: 'Dr. Samir Bhakta',
       role: 'Regional Anesthesia Specialist',
-      description: 'Board-certified anesthesiologist with expertise in regional methods.',
+      description: 'Board-certified anesthesiologist specializing in regional anesthesia techniques.',
     },
     {
-      name: 'Sales Representative',
+      name: 'Adrian',
       role: 'Medical Sales',
       description: 'Dedicated to connecting clients with the right solutions.',
     },
     {
-      name: 'CTO',
-      role: 'Chief Technology Officer',
-      description: 'Physician-programmer bridging healthcare and technology.',
+      name: 'Max Hinman',
+      role: 'Chief Information Officer',
+      description: 'Building the technology and operations behind Block Ops.',
     },
   ];
 
@@ -609,10 +609,6 @@ export const LandingPage = () => {
                   <p className="text-sm sm:text-base text-gray-900 font-light">info@blockops.com</p>
                 </div>
                 <div>
-                  <p className="text-gray-600 text-xs sm:text-sm font-bold uppercase tracking-wider">Phone</p>
-                  <p className="text-sm sm:text-base text-gray-900 font-light">(913) 555-0000</p>
-                </div>
-                <div>
                   <p className="text-gray-600 text-xs sm:text-sm font-bold uppercase tracking-wider">Location</p>
                   <p className="text-sm sm:text-base text-gray-900 font-light">Kansas City, KS</p>
                 </div>
@@ -652,35 +648,35 @@ export const LandingPage = () => {
             <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Block Ops</div>
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
               <Link
-                to="/careers"
+                to="/process"
                 className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
               >
-                Careers
+                Process
               </Link>
               <Link
-                to="/careers"
+                to="/company"
                 className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
               >
                 About
               </Link>
-              <Link
-                to="/careers"
+              <a
+                href="/#patients"
                 className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
               >
-                Patients
-              </Link>
-              <Link
-                to="/careers"
+                Contact
+              </a>
+              <a
+                href="/#who-we-serve"
                 className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
               >
                 Who We Serve
-              </Link>
-              <Link
-                to="/careers"
+              </a>
+              <a
+                href="/#about"
                 className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm"
               >
                 Meet Our Team
-              </Link>
+              </a>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-6 sm:pt-8 text-center">
