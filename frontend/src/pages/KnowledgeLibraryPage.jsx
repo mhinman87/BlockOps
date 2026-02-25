@@ -6,19 +6,16 @@ import {
   FileText, 
   ChevronRight,
   Shield,
-  FlaskConical,
-  Crosshair,
-  SprayCan,
-  Wrench,
-  ClipboardList,
-  Heart,
+  Zap,
+  Stethoscope,
+  Monitor,
   Users,
-  Scale,
-  Crown,
+  Building2,
+  BarChart3,
   Grid3X3,
   List,
   Clock,
-  Tag
+  Beaker
 } from 'lucide-react';
 
 export const KnowledgeLibraryPage = () => {
@@ -27,84 +24,86 @@ export const KnowledgeLibraryPage = () => {
   const [viewMode, setViewMode] = useState('grid');
 
   const categories = [
-    { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500', count: 6 },
-    { id: 'pharmacology', icon: FlaskConical, label: 'Pharmacology', color: 'bg-purple-500', count: 3 },
-    { id: 'technique', icon: Crosshair, label: 'Technical Fundamentals', color: 'bg-blue-500', count: 7 },
-    { id: 'sterile', icon: SprayCan, label: 'Sterile Technique', color: 'bg-teal-500', count: 2 },
-    { id: 'infrastructure', icon: Wrench, label: 'Physical Infrastructure', color: 'bg-amber-500', count: 6 },
-    { id: 'documentation', icon: ClipboardList, label: 'Documentation & Digital', color: 'bg-indigo-500', count: 4 },
-    { id: 'nursing', icon: Heart, label: 'Nursing Core Competencies', color: 'bg-pink-500', count: 5 },
-    { id: 'patient', icon: Users, label: 'Patient Experience', color: 'bg-green-500', count: 5 },
-    { id: 'compliance', icon: Scale, label: 'Compliance & Billing', color: 'bg-cyan-500', count: 4 },
-    { id: 'governance', icon: Crown, label: 'Governance', color: 'bg-orange-500', count: 2 },
+    { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500' },
+    { id: 'pharmacology', icon: Beaker, label: 'Pharmacology', color: 'bg-purple-500' },
+    { id: 'technique', icon: Stethoscope, label: 'Technical Fundamentals', color: 'bg-blue-500' },
+    { id: 'sterile', icon: Zap, label: 'Sterile Technique', color: 'bg-teal-500' },
+    { id: 'infrastructure', icon: Building2, label: 'Physical Infrastructure', color: 'bg-amber-500' },
+    { id: 'documentation', icon: Monitor, label: 'Documentation & Digital', color: 'bg-indigo-500' },
+    { id: 'nursing', icon: Users, label: 'Nursing Competencies', color: 'bg-green-500' },
+    { id: 'patient', icon: Users, label: 'Patient Experience', color: 'bg-rose-500' },
+    { id: 'compliance', icon: BarChart3, label: 'Compliance & Billing', color: 'bg-cyan-500' },
+    { id: 'governance', icon: Shield, label: 'Governance', color: 'bg-orange-500' },
   ];
 
+  // Real Foundation deliverables built with Samir
   const libraryItems = [
     // Safety (6)
-    { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergy review, equipment readiness, and block-specific confirmation.', category: 'safety', status: 'draft', tags: ['Checklist', 'Pre-Procedure'] },
-    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part Local Anesthetic Systemic Toxicity protocol: prevention strategies, early recognition signs, crisis response algorithm, and intralipid stocking/dosing requirements.', category: 'safety', status: 'draft', tags: ['Emergency', 'LAST', 'Critical'] },
-    { id: 3, title: 'Standardized Test Dose Protocol', description: 'Protocol for test dose administration before local anesthetic injection. Includes epinephrine-containing test dose criteria and monitoring parameters.', category: 'safety', status: 'draft', tags: ['Pre-Procedure', 'Verification'] },
-    { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Maximum dose calculation tables for common local anesthetics across standard patient weights and concentrations. Includes lean body weight adjustments.', category: 'safety', status: 'draft', tags: ['Dosing', 'Calculator', 'Reference'] },
-    { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) requiring high volumes. Concentration-to-volume conversion with max dose safety checks.', category: 'safety', status: 'draft', tags: ['Dosing', 'Plane Blocks'] },
-    { id: 6, title: 'LAST "Second Responder" Nursing Competency', description: 'Nursing-specific competency checklist for LAST events. Covers role assignment, intralipid preparation, airway equipment retrieval, and documentation.', category: 'safety', status: 'draft', tags: ['Nursing', 'Emergency', 'Competency'] },
+    { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
+    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'] },
+    { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
+    { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
+    { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
+    { id: 6, title: 'LAST Second Responder Nursing Competency', description: 'Nursing-specific competency checklist for responding to LAST events as second responder. Covers intralipid preparation, airway assistance, and documentation.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Nursing'] },
 
     // Pharmacology (3)
-    { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine as default long-acting, mepivacaine as default short-acting, with alternatives and contraindication pathways.', category: 'pharmacology', status: 'draft', tags: ['Algorithm', 'Decision Support'] },
-    { id: 8, title: 'Adjuvant Dosing Guide', description: 'Adjuvant medication guide with dexamethasone 4mg + epinephrine 1:400K as defaults, clonidine as secondary option. Includes onset/duration profiles and contraindications.', category: 'pharmacology', status: 'draft', tags: ['Dosing', 'Adjuvants'] },
-    { id: 9, title: 'Exparel Utilization Criteria', description: 'Evidence-based assessment of liposomal bupivacaine (Exparel). Honest cost-benefit analysis — not recommended as default due to 20-80x cost for marginal benefit.', category: 'pharmacology', status: 'draft', tags: ['Cost Analysis', 'Exparel'] },
+    { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine default long-acting, mepivacaine default short-acting, with alternatives and clinical rationale.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'] },
+    { id: 8, title: 'Adjuvant Dosing Guide', description: 'Standardized adjuvant dosing: dexamethasone 4mg + epinephrine 1:400K as defaults, clonidine as secondary option. Includes evidence summaries.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology', 'Dosing'] },
+    { id: 9, title: 'Exparel Utilization Criteria', description: 'Evidence-based assessment of liposomal bupivacaine. Not recommended as default due to 20-80x cost for marginal benefit over standard LA with adjuvants.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'] },
 
     // Technical Fundamentals (7)
-    { id: 10, title: 'Knobology Cheat Sheet', description: 'Quick reference for ultrasound machine settings: depth, gain, focus zone, and frequency optimization for nerve block procedures.', category: 'technique', status: 'draft', tags: ['Ultrasound', 'Quick Ref'] },
-    { id: 11, title: 'PART Maneuver Guide', description: 'Four-component probe manipulation technique: Pressure, Alignment, Rotation, and Tilting. Systematic approach to optimizing ultrasound image quality.', category: 'technique', status: 'draft', tags: ['Ultrasound', 'Technique'] },
-    { id: 12, title: 'Triangle of Success Setup Guide', description: 'Ergonomic setup guide positioning the three critical elements: patient, ultrasound screen, and operator. Reduces fatigue and improves needle visualization.', category: 'technique', status: 'draft', tags: ['Ergonomics', 'Setup'] },
-    { id: 13, title: 'In-Plane Technique SOP', description: 'Block Ops standard operating procedure for in-plane needle approach. Default technique for all 6 launch blocks. Includes visualization tips and troubleshooting.', category: 'technique', status: 'draft', tags: ['SOP', 'Needle Technique'] },
-    { id: 14, title: 'Out-of-Plane Technique SOP', description: 'Standard operating procedure for out-of-plane needle approach. Reserved for specific clinical scenarios only — not the default approach.', category: 'technique', status: 'draft', tags: ['SOP', 'Needle Technique'] },
-    { id: 15, title: 'Hydrodissection & Opening Pressure Protocol', description: 'Protocol for using hydrodissection to confirm needle tip location and create tissue planes. Includes opening pressure thresholds and injection technique.', category: 'technique', status: 'draft', tags: ['Technique', 'Advanced'] },
-    { id: 16, title: 'Intraneural Injection Stop Criteria', description: 'Four mandatory stop criteria for suspected intraneural injection. Immediate response protocol with escalation pathway.', category: 'technique', status: 'draft', tags: ['Safety', 'Stop Criteria'] },
+    { id: 10, title: 'Knobology Cheat Sheet', description: 'Quick reference for ultrasound machine settings: depth, gain, focus, frequency optimization for nerve block imaging.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique', 'Ultrasound'] },
+    { id: 11, title: 'PART Maneuver Guide', description: 'Probe manipulation technique guide: Pressure, Alignment, Rotation, and Tilting for optimal ultrasound visualization.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique', 'Ultrasound'] },
+    { id: 12, title: 'Triangle of Success Setup Guide', description: 'Ergonomic positioning guide for operator, patient, ultrasound machine, and equipment to optimize block performance.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique', 'Ergonomics'] },
+    { id: 13, title: 'In-Plane Technique SOP', description: 'Standard operating procedure for in-plane needle approach. Block Ops default technique for all 6 launch blocks.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique'] },
+    { id: 14, title: 'Out-of-Plane Technique SOP', description: 'Standard operating procedure for out-of-plane needle approach. Specific applications only — not the default technique.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique'] },
+    { id: 15, title: 'Hydrodissection & Opening Pressure Protocol', description: 'Protocol for using hydrodissection to confirm correct tissue plane and assess opening pressure before full injection.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique'] },
+    { id: 16, title: 'Intraneural Injection Stop Criteria', description: 'Four evidence-based stop criteria for detecting and preventing intraneural injection during nerve blocks.', category: 'technique', status: 'draft', tags: ['Foundation', 'Technique', 'Safety'] },
 
     // Sterile Technique (2)
-    { id: 17, title: 'Clean vs Sterile Protocol', description: 'Definitive guide on when clean technique vs full sterile technique is required. Based on procedure type, catheter placement, and facility standards.', category: 'sterile', status: 'draft', tags: ['Infection Control', 'Protocol'] },
-    { id: 18, title: 'Probe Cover & Gel Management Standard', description: 'Standard for ultrasound probe covering, gel application, and contamination prevention. Includes single-use vs reusable cover guidance.', category: 'sterile', status: 'draft', tags: ['Infection Control', 'Equipment'] },
+    { id: 17, title: 'Clean vs Sterile Protocol', description: 'Defines when clean technique is acceptable vs when full sterile technique is required for different block types and clinical settings.', category: 'sterile', status: 'draft', tags: ['Foundation', 'Sterile Technique'] },
+    { id: 18, title: 'Probe Cover & Gel Management Standard', description: 'Standardized protocol for probe cover selection, application, gel management, and contamination prevention.', category: 'sterile', status: 'draft', tags: ['Foundation', 'Sterile Technique'] },
 
     // Physical Infrastructure (6)
-    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia cart. Drawer-by-drawer organization with labeled zones for needles, local anesthetics, adjuvants, and emergency supplies.', category: 'infrastructure', status: 'draft', tags: ['Setup', 'Organization'] },
-    { id: 20, title: 'Daily Cart Restock Checklist', description: 'Daily checklist for block cart preparation. Covers needle inventory, local anesthetic stock levels, adjuvant medications, emergency supplies, and expiration date verification.', category: 'infrastructure', status: 'draft', tags: ['Daily', 'Checklist'] },
-    { id: 21, title: 'Block Bay Workflow Logic', description: 'Patient flow logic for the block bay: arrival, pre-procedure check, block performance, recovery monitoring, and transfer. Includes timing targets.', category: 'infrastructure', status: 'draft', tags: ['Workflow', 'Operations'] },
-    { id: 22, title: 'Machine Cleaning Checklist', description: 'Ultrasound machine cleaning and maintenance protocol. Pre-shift, between-patient, and end-of-day procedures.', category: 'infrastructure', status: 'draft', tags: ['Maintenance', 'Checklist'] },
-    { id: 23, title: 'Probe Cover Selection Guide', description: 'Guide for selecting appropriate probe covers based on procedure type. Includes cost comparison and compatibility with common ultrasound models.', category: 'infrastructure', status: 'draft', tags: ['Equipment', 'Reference'] },
-    { id: 24, title: 'Gel Management SOP', description: 'Standard operating procedure for ultrasound gel handling, storage, contamination prevention, and disposal.', category: 'infrastructure', status: 'draft', tags: ['SOP', 'Supplies'] },
+    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia block cart. Standardized drawer assignments, supply locations, and labeling system.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
+    { id: 20, title: 'Daily Cart Restock Checklist', description: 'Daily checklist for nursing staff to verify block cart supplies, expiration dates, and equipment readiness before first case.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Daily'] },
+    { id: 21, title: 'Block Bay Workflow Logic', description: 'Workflow diagram and logic for patient flow through the block bay — from arrival to block completion to OR transport.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Workflow'] },
+    { id: 22, title: 'Machine Cleaning Checklist', description: 'Ultrasound machine cleaning and maintenance protocol. Daily, weekly, and post-case cleaning requirements.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
+    { id: 23, title: 'Probe Cover Selection Guide', description: 'Guide for selecting appropriate probe covers based on block type, sterility requirements, and clinical setting.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
+    { id: 24, title: 'Gel Management SOP', description: 'Standard operating procedure for ultrasound gel handling, contamination prevention, and waste management.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
 
     // Documentation & Digital (4)
-    { id: 25, title: 'Pre-Op Nursing Smart Template', description: 'Structured nursing documentation template for pre-operative block assessment. Covers consent verification, site marking, baseline neuro exam, and sedation assessment.', category: 'documentation', status: 'draft', tags: ['EMR', 'Nursing', 'Template'] },
-    { id: 26, title: 'PACU Block Assessment Smart Template', description: 'Post-procedure nursing template for PACU monitoring. Includes sensory/motor assessment, pain scoring, block regression tracking, and discharge criteria.', category: 'documentation', status: 'draft', tags: ['EMR', 'PACU', 'Template'] },
-    { id: 27, title: 'Block Status Tracking Board Guide', description: 'Setup guide for a visual tracking board in the block bay or PACU. Shows block type, time performed, expected duration, and current status for all active patients.', category: 'documentation', status: 'draft', tags: ['Tracking', 'Visual Management'] },
-    { id: 28, title: 'Block Success/Failure Log', description: 'Data collection template for tracking block success rates, onset times, rescue interventions, and patient-reported outcomes. Feeds quarterly reports.', category: 'documentation', status: 'draft', tags: ['Tracking', 'Outcomes', 'Data'] },
+    { id: 25, title: 'PreOp Nursing Smart Template', description: 'Pre-operative nursing assessment template specific to regional anesthesia patients. Structured fields for block-relevant history and assessment.', category: 'documentation', status: 'draft', tags: ['Foundation', 'Documentation', 'EMR'] },
+    { id: 26, title: 'PACU Block Assessment Smart Template', description: 'Post-anesthesia care unit assessment template for monitoring patients with active nerve blocks. Includes sensory/motor checks.', category: 'documentation', status: 'draft', tags: ['Foundation', 'Documentation', 'EMR'] },
+    { id: 27, title: 'Block Status Tracking Board Guide', description: 'Setup guide for a visual tracking board showing block status for all active patients — for OR and PACU visibility.', category: 'documentation', status: 'draft', tags: ['Foundation', 'Documentation', 'Tracking'] },
+    { id: 28, title: 'Block Success/Failure Log', description: 'Data collection template for tracking block outcomes: success rates, onset times, rescue requirements, and complications.', category: 'documentation', status: 'draft', tags: ['Foundation', 'Documentation', 'Outcomes'] },
 
-    // Nursing Core Competencies (5)
-    { id: 29, title: 'Sedation Administration & Monitoring SOP', description: 'Protocol for sedation during nerve block procedures. Covers pre-sedation assessment, medication administration, monitoring parameters, and rescue criteria.', category: 'nursing', status: 'draft', tags: ['Sedation', 'SOP', 'Monitoring'] },
-    { id: 30, title: 'Sterile Setup & Assist Competency', description: 'Nursing competency checklist for sterile field preparation and procedure assistance. Covers gowning, gloving, tray setup, and hand-off technique.', category: 'nursing', status: 'draft', tags: ['Competency', 'Sterile'] },
-    { id: 31, title: 'Fall Risk Assessment', description: 'Assessment tool for fall risk in patients with lower extremity nerve blocks. Includes scoring criteria, prevention interventions, and mobility clearance protocol.', category: 'nursing', status: 'draft', tags: ['Safety', 'Assessment', 'Lower Extremity'] },
-    { id: 32, title: 'Red Flag Recognition Card', description: 'Quick-reference card for nursing staff listing red flag signs requiring immediate provider notification: LAST symptoms, vascular compromise, compartment syndrome indicators.', category: 'nursing', status: 'draft', tags: ['Emergency', 'Quick Ref'] },
-    { id: 33, title: 'Breakthrough Pain Protocol', description: 'Nursing protocol for managing breakthrough pain when a nerve block is inadequate or wearing off. Includes multimodal rescue pathways and escalation criteria.', category: 'nursing', status: 'draft', tags: ['Pain Management', 'Protocol'] },
+    // Nursing Competencies (5)
+    { id: 29, title: 'Sedation Administration & Monitoring SOP', description: 'Protocol for nursing administration and monitoring of procedural sedation during nerve block placement.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing'] },
+    { id: 30, title: 'Sterile Setup & Assist Competency', description: 'Competency checklist for nursing staff assisting with nerve block procedures — sterile field preparation, equipment handling, and provider support.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing', 'Competency'] },
+    { id: 31, title: 'Fall Risk Assessment', description: 'Nursing assessment tool for fall risk in patients with active lower extremity nerve blocks. Includes prevention interventions.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing', 'Safety'] },
+    { id: 32, title: 'Red Flag Recognition Card', description: 'Quick-reference card for nursing staff listing red flag signs and symptoms requiring immediate escalation in block patients.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing', 'Safety'] },
+    { id: 33, title: 'Breakthrough Pain Protocol', description: 'Protocol for managing breakthrough pain in patients with nerve blocks. Escalation pathway from repositioning through rescue analgesia.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing'] },
 
     // Patient Experience (5)
-    { id: 34, title: 'Nerve Block Patient Brochure', description: 'Patient-facing educational brochure explaining nerve blocks in plain language. What it is, how it works, what to expect, and why it\'s used instead of relying solely on opioids.', category: 'patient', status: 'draft', tags: ['Education', 'Patient-Facing'] },
-    { id: 35, title: 'Regional Anesthesia Consent Form', description: 'Standardized informed consent template for nerve block procedures. Covers risks, benefits, alternatives, and patient acknowledgment in clear language.', category: 'patient', status: 'draft', tags: ['Legal', 'Consent'] },
-    { id: 36, title: 'Post-Block Sensory Guide', description: 'Patient handout explaining expected sensations after a nerve block: numbness timeline, what\'s normal vs concerning, and when feeling returns.', category: 'patient', status: 'draft', tags: ['Education', 'Post-Procedure'] },
-    { id: 37, title: 'Fall Prevention Patient Agreement', description: 'Patient acknowledgment form for fall prevention after lower extremity blocks. Covers mobility restrictions, use of assistive devices, and caregiver requirements.', category: 'patient', status: 'draft', tags: ['Safety', 'Agreement'] },
-    { id: 38, title: 'Patient Red Flag Card', description: 'Take-home card for patients listing warning signs that require calling the provider or going to the ER. Simple, large-font format.', category: 'patient', status: 'draft', tags: ['Take-Home', 'Safety'] },
+    { id: 34, title: 'Nerve Block Patient Brochure', description: 'Patient-facing educational brochure explaining what nerve blocks are, what to expect, and how they improve recovery — in plain language.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient Education'] },
+    { id: 35, title: 'Regional Anesthesia Consent Form', description: 'Informed consent template covering risks, benefits, and alternatives for regional anesthesia procedures.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Legal'] },
+    { id: 36, title: 'Post-Block Sensory Guide', description: 'Patient handout explaining expected sensory changes after a nerve block — what is normal, what to watch for, and when to call.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient Education'] },
+    { id: 37, title: 'Fall Prevention Patient Agreement', description: 'Patient agreement and education document for fall prevention when discharged with an active lower extremity block.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Safety'] },
+    { id: 38, title: 'Patient Red Flag Card', description: 'Wallet-sized card for patients listing warning signs that require calling their provider or going to the ER after a nerve block.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Safety'] },
 
     // Compliance & Billing (4)
-    { id: 39, title: 'CPT/ICD-10 Crosswalk', description: 'Complete billing reference mapping nerve block procedures to correct CPT codes and ICD-10 diagnosis codes. Includes modifier guidance and common denial reasons.', category: 'compliance', status: 'draft', tags: ['Billing', 'CPT', 'Reference'] },
-    { id: 40, title: 'Medical Necessity Phrases', description: 'Pre-written medical necessity justification phrases for documentation and prior authorization. Mapped to specific block types and surgical indications.', category: 'compliance', status: 'draft', tags: ['Billing', 'Documentation'] },
-    { id: 41, title: 'PACU Length-of-Stay Tracker', description: 'Tracking template for measuring PACU length of stay for block vs non-block patients. Generates data for ROI reporting and program justification.', category: 'compliance', status: 'draft', tags: ['Tracking', 'ROI', 'Data'] },
-    { id: 42, title: 'MME Calculator Reference', description: 'Morphine milligram equivalent calculator for tracking opioid consumption. Compares block vs non-block patients for outcome reporting.', category: 'compliance', status: 'draft', tags: ['Opioid Tracking', 'Calculator'] },
+    { id: 39, title: 'CPT/ICD-10 Crosswalk', description: 'Complete billing reference mapping nerve block CPT codes to ICD-10 diagnosis codes, with modifiers and common denial reasons.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Billing', 'CPT'] },
+    { id: 40, title: 'Medical Necessity Phrases', description: 'Pre-written medical necessity language for documentation and prior authorization. Covers common payer requirements.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Billing', 'Documentation'] },
+    { id: 41, title: 'PACU Length-of-Stay Tracker', description: 'Tracking template for measuring PACU length of stay in block vs non-block patients. Feeds ROI calculations.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Outcomes', 'Tracking'] },
+    { id: 42, title: 'MME Calculator Reference', description: 'Morphine milligram equivalent calculator and reference card for tracking opioid reduction in block patients.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Outcomes', 'Opioid'] },
 
     // Governance (2)
-    { id: 43, title: 'Block Champion Charter', description: 'Formal charter defining the Champion provider\'s role, responsibilities, authority, and accountability within the regional anesthesia program. Includes escalation pathways.', category: 'governance', status: 'draft', tags: ['Champion', 'Leadership'] },
-    { id: 44, title: 'Block Lead Nurse Responsibility List', description: 'Defined responsibilities for the lead nurse supporting the block program. Covers cart management, competency tracking, scheduling coordination, and quality reporting.', category: 'governance', status: 'draft', tags: ['Nursing', 'Leadership'] },
+    { id: 43, title: 'Block Champion Charter', description: 'Defines the role, responsibilities, authority, and accountability of the on-site Block Champion provider. The governance backbone of every engagement.', category: 'governance', status: 'draft', tags: ['Foundation', 'Governance'] },
+    { id: 44, title: 'Block Lead Nurse Responsibility List', description: 'Defines the Block Lead Nurse role — daily responsibilities, quality checks, supply management, and escalation authority.', category: 'governance', status: 'draft', tags: ['Foundation', 'Governance', 'Nursing'] },
   ];
 
+  // Filter logic
   const filteredItems = libraryItems.filter((item) => {
     const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
     const matchesSearch = searchQuery === '' || 
@@ -122,7 +121,7 @@ export const KnowledgeLibraryPage = () => {
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Knowledge Library</h1>
         <p className="text-gray-500 text-sm mt-1 font-light">
-          Foundation Package protocols, references, and templates. All documents are drafts pending clinical review.
+          44 Foundation Package deliverables — all drafts pending clinical review.
         </p>
       </div>
 
@@ -132,7 +131,7 @@ export const KnowledgeLibraryPage = () => {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
             type="text"
-            placeholder="Search protocols, templates, guides..."
+            placeholder="Search deliverables..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-primary text-sm font-light"
@@ -165,6 +164,8 @@ export const KnowledgeLibraryPage = () => {
           All ({libraryItems.length})
         </button>
         {categories.map((cat) => {
+          const count = libraryItems.filter(i => i.category === cat.id).length;
+          if (count === 0) return null;
           const Icon = cat.icon;
           return (
             <button
@@ -174,8 +175,7 @@ export const KnowledgeLibraryPage = () => {
                 activeCategory === cat.id ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
               }`}
             >
-              <Icon size={12} />
-              {cat.label} ({cat.count})
+              {cat.label} ({count})
             </button>
           );
         })}
@@ -183,7 +183,7 @@ export const KnowledgeLibraryPage = () => {
 
       {/* Results Count */}
       <p className="text-xs text-gray-400 mb-4 font-semibold">
-        {filteredItems.length} {filteredItems.length === 1 ? 'resource' : 'resources'}
+        {filteredItems.length} {filteredItems.length === 1 ? 'deliverable' : 'deliverables'}
       </p>
 
       {/* Content Grid / List */}
@@ -199,20 +199,17 @@ export const KnowledgeLibraryPage = () => {
                     <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
                   </div>
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
-                    Draft
+                    Draft — Pending Review
                   </span>
                 </div>
-
                 <h3 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-primary transition leading-snug">
                   {item.title}
                 </h3>
-
                 <p className="text-xs text-gray-500 font-light mb-4 line-clamp-2 leading-relaxed">
                   {item.description}
                 </p>
-
                 <div className="flex flex-wrap gap-1">
-                  {item.tags.slice(0, 3).map((tag, i) => (
+                  {item.tags.map((tag, i) => (
                     <span key={i} className="text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded">
                       {tag}
                     </span>
@@ -247,7 +244,7 @@ export const KnowledgeLibraryPage = () => {
       {filteredItems.length === 0 && (
         <div className="text-center py-16">
           <BookOpen className="mx-auto text-gray-300 mb-4" size={48} />
-          <p className="text-gray-500 font-semibold">No resources found</p>
+          <p className="text-gray-500 font-semibold">No deliverables found</p>
           <p className="text-gray-400 text-sm font-light mt-1">Try adjusting your search or filters</p>
         </div>
       )}
