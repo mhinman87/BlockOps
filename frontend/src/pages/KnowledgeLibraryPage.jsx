@@ -181,11 +181,16 @@ Always calculate maximum allowable dose based on lean body weight:
 
 *Block Ops © 2025 — DRAFT: Not for clinical use until approved by Dr. Bhakta*`;
 
+import { useUserRole } from '../hooks/useUserRole';
+import { useDeliverableStatus } from '../hooks/useDeliverableStatus';
+
 export const KnowledgeLibraryPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [selectedItem, setSelectedItem] = useState(null);
+  const userRole = useUserRole();
+  const { getStatus, getStatusInfo, updateStatus } = useDeliverableStatus();
 
   const categories = [
     { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500' },
@@ -279,14 +284,26 @@ export const KnowledgeLibraryPage = () => {
 
   const getCategoryInfo = (catId) => categories.find(c => c.id === catId);
 
+  // Filter items based on role — clients only see approved docs
+  const roleFilteredItems = filteredItems.filter((item) => {
+    if (userRole.isTeam) return true; // Team sees everything
+    if (!item.hasContent) return false; // Clients only see items with content
+    const status = item.storagePath ? getStatus(item.storagePath) : 'draft';
+    return status === 'approved';
+  });
+
   // If viewing a deliverable, show the viewer
   if (selectedItem) {
     const catInfo = getCategoryInfo(selectedItem.category);
+    const status = selectedItem.storagePath ? getStatus(selectedItem.storagePath) : 'draft';
     return (
       <DashboardLayout>
         <DeliverableViewer 
           deliverable={{ ...selectedItem, categoryLabel: catInfo?.label }} 
-          onBack={() => setSelectedItem(null)} 
+          onBack={() => setSelectedItem(null)}
+          userRole={userRole}
+          currentStatus={status}
+          onStatusUpdate={updateStatus}
         />
       </DashboardLayout>
     );
@@ -360,13 +377,13 @@ export const KnowledgeLibraryPage = () => {
 
       {/* Results Count */}
       <p className="text-xs text-gray-400 mb-4 font-semibold">
-        {filteredItems.length} {filteredItems.length === 1 ? 'deliverable' : 'deliverables'}
+        {roleFilteredItems.length} {roleFilteredItems.length === 1 ? 'deliverable' : 'deliverables'}
       </p>
 
       {/* Content Grid / List */}
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filteredItems.map((item) => {
+          {roleFilteredItems.map((item) => {
             const catInfo = getCategoryInfo(item.category);
             return (
               <div 
@@ -385,9 +402,12 @@ export const KnowledgeLibraryPage = () => {
                         View
                       </span>
                     )}
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
-                      Draft
-                    </span>
+                    {(() => {
+                      const s = item.storagePath ? getStatus(item.storagePath) : 'draft';
+                      if (s === 'approved') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Approved</span>;
+                      if (s === 'needs_revision') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Needs Revision</span>;
+                      return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>;
+                    })()}
                   </div>
                 </div>
                 <h3 className={`text-sm font-bold mb-2 leading-snug ${item.hasContent ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
@@ -409,7 +429,7 @@ export const KnowledgeLibraryPage = () => {
         </div>
       ) : (
         <div className="space-y-2">
-          {filteredItems.map((item) => {
+          {roleFilteredItems.map((item) => {
             const catInfo = getCategoryInfo(item.category);
             return (
               <div 
@@ -425,7 +445,12 @@ export const KnowledgeLibraryPage = () => {
                 <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
                   <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
                   {item.hasContent && <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">View</span>}
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>
+                  {(() => {
+                    const s = item.storagePath ? getStatus(item.storagePath) : 'draft';
+                    if (s === 'approved') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Approved</span>;
+                    if (s === 'needs_revision') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Revision</span>;
+                    return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>;
+                  })()}
                 </div>
                 <ChevronRight size={16} className={`flex-shrink-0 ${item.hasContent ? 'text-primary' : 'text-gray-200'}`} />
               </div>
@@ -434,7 +459,7 @@ export const KnowledgeLibraryPage = () => {
         </div>
       )}
 
-      {filteredItems.length === 0 && (
+      {roleFilteredItems.length === 0 && (
         <div className="text-center py-16">
           <BookOpen className="mx-auto text-gray-300 mb-4" size={48} />
           <p className="text-gray-500 font-semibold">No deliverables found</p>

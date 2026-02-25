@@ -16,9 +16,14 @@ const STORAGE_PATHS = {
   'LAST Protocol Suite': 'foundation/LAST_Protocol_Suite.md',
 };
 
+import { useUserRole } from '../hooks/useUserRole';
+import { useDeliverableStatus } from '../hooks/useDeliverableStatus';
+
 export const DeliverablesPage = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
+  const userRole = useUserRole();
+  const { getStatus, updateStatus } = useDeliverableStatus();
 
   const packages = [
     {
@@ -162,6 +167,7 @@ export const DeliverablesPage = () => {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'approved': return { text: 'Approved', color: 'bg-green-100 text-green-700' };
+      case 'needs_revision': return { text: 'Needs Revision', color: 'bg-red-100 text-red-700' };
       case 'draft': return { text: 'Draft — Pending Review', color: 'bg-amber-100 text-amber-700' };
       case 'not-started': return { text: 'Not Started', color: 'bg-gray-100 text-gray-400' };
       default: return { text: status, color: 'bg-gray-100 text-gray-400' };
@@ -181,11 +187,15 @@ export const DeliverablesPage = () => {
 
   // If viewing a deliverable, show the viewer
   if (selectedItem) {
+    const status = selectedItem.storagePath ? getStatus(selectedItem.storagePath) : 'draft';
     return (
       <DashboardLayout>
         <DeliverableViewer 
           deliverable={selectedItem} 
-          onBack={() => setSelectedItem(null)} 
+          onBack={() => setSelectedItem(null)}
+          userRole={userRole}
+          currentStatus={status}
+          onStatusUpdate={updateStatus}
         />
       </DashboardLayout>
     );
@@ -227,6 +237,7 @@ export const DeliverablesPage = () => {
           { id: 'all', label: 'All' },
           { id: 'draft', label: 'Drafted' },
           { id: 'approved', label: 'Approved' },
+          { id: 'needs_revision', label: 'Needs Revision' },
           { id: 'not-started', label: 'Not Started' },
         ].map((f) => (
           <button
@@ -307,9 +318,15 @@ export const DeliverablesPage = () => {
                                   View
                                 </span>
                               )}
-                              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusLabel.color}`}>
-                                {statusLabel.text}
-                              </span>
+                              {(() => {
+                                const realStatus = item.storagePath ? getStatus(item.storagePath) : item.status;
+                                const label = getStatusLabel(realStatus);
+                                return (
+                                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${label.color}`}>
+                                    {label.text}
+                                  </span>
+                                );
+                              })()}
                             </div>
                           </div>
                         );

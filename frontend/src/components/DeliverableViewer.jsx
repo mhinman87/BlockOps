@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft, FileText, Tag, Loader2 } from 'lucide-react';
+import { ArrowLeft, FileText, Tag, Loader2, CheckCircle2, AlertTriangle, X } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
-export const DeliverableViewer = ({ deliverable, onBack }) => {
+export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdate, currentStatus }) => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showRevisionModal, setShowRevisionModal] = useState(false);
+  const [revisionNotes, setRevisionNotes] = useState('');
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -35,6 +38,33 @@ export const DeliverableViewer = ({ deliverable, onBack }) => {
     fetchContent();
   }, [deliverable]);
 
+  const handleApprove = async () => {
+    if (!onStatusUpdate) return;
+    setUpdating(true);
+    await onStatusUpdate(deliverable.storagePath, 'approved');
+    setUpdating(false);
+  };
+
+  const handleNeedsRevision = async () => {
+    if (!onStatusUpdate) return;
+    setUpdating(true);
+    await onStatusUpdate(deliverable.storagePath, 'needs_revision', revisionNotes);
+    setShowRevisionModal(false);
+    setRevisionNotes('');
+    setUpdating(false);
+  };
+
+  const getStatusBadge = () => {
+    switch (currentStatus) {
+      case 'approved':
+        return <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-100 text-green-700 flex items-center gap-1"><CheckCircle2 size={12} /> Approved</span>;
+      case 'needs_revision':
+        return <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-100 text-red-700 flex items-center gap-1"><AlertTriangle size={12} /> Needs Revision</span>;
+      default:
+        return <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">Draft — Pending Review</span>;
+    }
+  };
+
   if (!deliverable) return null;
 
   return (
@@ -54,9 +84,7 @@ export const DeliverableViewer = ({ deliverable, onBack }) => {
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{deliverable.title}</h1>
             <p className="text-sm text-gray-500 font-light mt-1">{deliverable.description}</p>
           </div>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 flex-shrink-0">
-            Draft — Pending Review
-          </span>
+          {getStatusBadge()}
         </div>
 
         <div className="flex flex-wrap items-center gap-3 mt-3">
@@ -71,7 +99,74 @@ export const DeliverableViewer = ({ deliverable, onBack }) => {
             </div>
           )}
         </div>
+
+        {/* Reviewer Actions */}
+        {userRole?.isReviewer && currentStatus !== 'approved' && (
+          <div className="mt-4 flex gap-3">
+            <button
+              onClick={handleApprove}
+              disabled={updating}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-semibold disabled:opacity-50"
+            >
+              <CheckCircle2 size={16} />
+              {updating ? 'Updating...' : 'Approve'}
+            </button>
+            <button
+              onClick={() => setShowRevisionModal(true)}
+              disabled={updating}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-semibold disabled:opacity-50"
+            >
+              <AlertTriangle size={16} />
+              Needs Revision
+            </button>
+          </div>
+        )}
+
+        {/* Show if already approved */}
+        {userRole?.isReviewer && currentStatus === 'approved' && (
+          <div className="mt-4 bg-green-50 border border-green-200 rounded-lg px-4 py-3 flex items-center gap-2">
+            <CheckCircle2 className="text-green-600" size={16} />
+            <span className="text-sm text-green-800 font-semibold">This deliverable has been approved.</span>
+          </div>
+        )}
       </div>
+
+      {/* Revision Notes Modal */}
+      {showRevisionModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">Revision Notes</h3>
+              <button onClick={() => setShowRevisionModal(false)} className="text-gray-400 hover:text-gray-600">
+                <X size={20} />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 font-light mb-3">Describe what needs to be changed:</p>
+            <textarea
+              value={revisionNotes}
+              onChange={(e) => setRevisionNotes(e.target.value)}
+              rows={4}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary text-sm font-light"
+              placeholder="e.g., Dosing table needs updated values for ropivacaine..."
+            />
+            <div className="flex gap-3 mt-4 justify-end">
+              <button
+                onClick={() => setShowRevisionModal(false)}
+                className="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleNeedsRevision}
+                disabled={updating || !revisionNotes.trim()}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-semibold disabled:opacity-50"
+              >
+                {updating ? 'Submitting...' : 'Submit Revision Request'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="bg-white border border-gray-200 rounded-xl p-6 sm:p-8 lg:p-10">
