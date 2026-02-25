@@ -27,6 +27,9 @@ const STORAGE_PATHS = {
   'LA_Selection_Algorithm': 'foundation/LA_Selection_Algorithm.md',
   'Block_Cart_Planogram': 'foundation/Block_Cart_Planogram.md',
   'CPT_ICD10_Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
+  'Standardized_Test_Dose_Protocol': 'foundation/Standardized_Test_Dose_Protocol.md',
+  'High_Volume_Dilution_Chart': 'foundation/High_Volume_Dilution_Chart.md',
+  'LAST_Second_Responder_Nursing_Competency': 'foundation/LAST_Second_Responder_Nursing_Competency.md',
 };
 
 // Legacy — keeping for reference but no longer used inline
@@ -215,10 +218,10 @@ export const KnowledgeLibraryPage = () => {
     // Safety (6)
     { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Block_Time_Out_Checklist'] },
     { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'], hasContent: true, storagePath: STORAGE_PATHS['LAST_Protocol_Suite'] },
-    { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
+    { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Standardized_Test_Dose_Protocol'] },
     { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'], hasContent: true, storagePath: STORAGE_PATHS['Weight_Based_Max_Dose_Calculator'] },
-    { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
-    { id: 6, title: 'LAST Second Responder Nursing Competency', description: 'Nursing-specific competency checklist for responding to LAST events as second responder. Covers intralipid preparation, airway assistance, and documentation.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Nursing'] },
+    { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'], hasContent: true, storagePath: STORAGE_PATHS['High_Volume_Dilution_Chart'] },
+    { id: 6, title: 'LAST Second Responder Nursing Competency', description: 'Nursing-specific competency checklist for responding to LAST events as second responder. Covers intralipid preparation, airway assistance, and documentation.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Nursing'], hasContent: true, storagePath: STORAGE_PATHS['LAST_Second_Responder_Nursing_Competency'] },
 
     // Pharmacology (3)
     { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine default long-acting, mepivacaine default short-acting, with alternatives and clinical rationale.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'], hasContent: true, storagePath: STORAGE_PATHS['LA_Selection_Algorithm'] },

@@ -19,6 +19,9 @@ const STORAGE_PATHS = {
   'LA Selection Algorithm': 'foundation/LA_Selection_Algorithm.md',
   'Block Cart Planogram': 'foundation/Block_Cart_Planogram.md',
   'CPT/ICD-10 Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
+  'Standardized Test Dose Protocol': 'foundation/Standardized_Test_Dose_Protocol.md',
+  'High-Volume Dilution Chart': 'foundation/High_Volume_Dilution_Chart.md',
+  'LAST Second Responder Nursing Competency': 'foundation/LAST_Second_Responder_Nursing_Competency.md',
 };
 
 import { useUserRole } from '../hooks/useUserRole';
@@ -42,10 +45,10 @@ export const DeliverablesPage = () => {
           items: [
             { name: 'Block Time-Out Checklist', status: 'draft', storagePath: STORAGE_PATHS['Block Time-Out Checklist'] },
             { name: 'LAST Protocol Suite', status: 'draft', storagePath: STORAGE_PATHS['LAST Protocol Suite'] },
-            { name: 'Standardized Test Dose Protocol', status: 'draft' },
+            { name: 'Standardized Test Dose Protocol', status: 'draft', storagePath: STORAGE_PATHS['Standardized Test Dose Protocol'] },
             { name: 'Weight-Based Max Dose Calculator', status: 'draft', storagePath: STORAGE_PATHS['Weight-Based Max Dose Calculator'] },
-            { name: 'High-Volume Dilution Chart', status: 'draft' },
-            { name: 'LAST Second Responder Nursing Competency', status: 'draft' },
+            { name: 'High-Volume Dilution Chart', status: 'draft', storagePath: STORAGE_PATHS['High-Volume Dilution Chart'] },
+            { name: 'LAST Second Responder Nursing Competency', status: 'draft', storagePath: STORAGE_PATHS['LAST Second Responder Nursing Competency'] },
           ]
         },
         {
