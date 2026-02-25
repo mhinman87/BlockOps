@@ -19,8 +19,13 @@ import {
   Beaker
 } from 'lucide-react';
 
-// LAST Protocol Suite — full content
-const LAST_PROTOCOL_CONTENT = `# BLOCK OPS — Local Anesthetic Systemic Toxicity (LAST) Protocol Suite
+// Storage paths for deliverables with uploaded content
+const STORAGE_PATHS = {
+  'LAST_Protocol_Suite': 'foundation/LAST_Protocol_Suite.md',
+};
+
+// Legacy — keeping for reference but no longer used inline
+const LAST_PROTOCOL_CONTENT_UNUSED = `# BLOCK OPS — Local Anesthetic Systemic Toxicity (LAST) Protocol Suite
 ## Foundation Package | Safety | Version: DRAFT v0.1 — Pending Clinical Review
 
 ---
@@ -199,7 +204,7 @@ export const KnowledgeLibraryPage = () => {
   const libraryItems = [
     // Safety (6)
     { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
-    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'], hasContent: true, content: LAST_PROTOCOL_CONTENT },
+    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'], hasContent: true, storagePath: STORAGE_PATHS['LAST_Protocol_Suite'] },
     { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
     { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
     { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
