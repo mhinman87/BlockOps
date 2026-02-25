@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
+import { DeliverableViewer } from '../components/DeliverableViewer';
 import { 
   Search, 
   BookOpen, 
@@ -18,10 +19,168 @@ import {
   Beaker
 } from 'lucide-react';
 
+// LAST Protocol Suite — full content
+const LAST_PROTOCOL_CONTENT = `# BLOCK OPS — Local Anesthetic Systemic Toxicity (LAST) Protocol Suite
+## Foundation Package | Safety | Version: DRAFT v0.1 — Pending Clinical Review
+
+---
+
+# PART 1: PREVENTION & MONITORING
+
+### What is LAST?
+Local anesthetic systemic toxicity (LAST) is a rare but life-threatening complication that occurs when local anesthetic reaches supratherapeutic plasma concentrations. This may result from inadvertent intravascular injection, excessive dosing, or delayed tissue absorption. LAST affects the central nervous system and cardiovascular system, and can progress rapidly from prodromal symptoms to seizures, cardiac arrhythmias, and cardiac arrest.
+
+### Incidence
+- Estimated incidence: 0.03-0.2% of peripheral nerve blocks
+- Higher risk with high-volume fascial plane blocks (TAP, PECS, QL, ESP)
+- Ultrasound guidance has reduced but not eliminated the incidence
+- Up to 50% of cases may present atypically — without classic CNS excitation
+
+### Risk Factors
+**Patient Factors:**
+- Extremes of age (pediatric, elderly)
+- Low muscle mass / low body weight
+- Cardiac disease (reduced cardiac output slows LA redistribution)
+- Hepatic disease (impaired LA metabolism)
+- Renal disease
+- Pregnancy (increased sensitivity, decreased protein binding)
+- Hypoalbuminemia (increased free drug fraction)
+- Acidosis (increases unbound LA fraction)
+
+**Procedural Factors:**
+- High-volume blocks (TAP, PECS) — large total LA dose
+- Highly vascular injection sites
+- Use of long-acting, more cardiotoxic agents (bupivacaine > ropivacaine > lidocaine)
+- Absence of ultrasound guidance
+- Absence of epinephrine as intravascular marker
+- Multiple blocks in same session (cumulative dosing)
+
+### Prevention Strategies
+
+#### 1. Weight-Based Dosing
+Always calculate maximum allowable dose based on lean body weight:
+
+| Local Anesthetic | Max Dose (without Epi) | Max Dose (with Epi) |
+|---|---|---|
+| Bupivacaine | 2.5 mg/kg | 3 mg/kg |
+| Ropivacaine | 3 mg/kg | 3.5 mg/kg |
+| Lidocaine | 4.5 mg/kg | 7 mg/kg |
+| Mepivacaine | 5 mg/kg | 7 mg/kg |
+
+#### 2. Aspirate Before Injecting
+- Aspirate before **every** injection increment
+
+#### 3. Incremental Injection
+- Inject in **3-5 mL aliquots**, pausing 15-30 seconds between increments
+- This is the single most important technique for preventing large-bolus intravascular injection
+
+#### 4. Epinephrine as Intravascular Marker
+- Add epinephrine 1:400,000 (2.5 mcg/mL) to the LA solution
+- Intravascular injection produces: HR increase ≥10 bpm, BP increase ≥15 mmHg systolic
+
+#### 5. Ultrasound Guidance
+- Use ultrasound for all peripheral nerve blocks (Block Ops standard)
+
+#### 6. Monitor After Injection
+- Continue monitoring for **30-45 minutes after injection** of large volumes
+
+---
+
+# PART 2: RECOGNITION — Signs & Symptoms
+
+### Typical Presentation (Classic Progression)
+
+**Stage 1: Prodromal / Early CNS Excitation**
+- Perioral numbness/tingling
+- Metallic taste
+- Tinnitus (ringing in ears)
+- Lightheadedness / dizziness
+- Agitation, anxiety, restlessness
+
+**Stage 2: CNS Excitation → Depression**
+- Seizures (occur in ~70% of LAST cases)
+- Loss of consciousness
+- Respiratory depression / apnea
+
+**Stage 3: Cardiovascular Toxicity**
+- Hypotension, Bradycardia
+- Conduction abnormalities (prolonged PR, wide QRS, AV block)
+- Ventricular arrhythmias (VT, VF)
+- Cardiac arrest / asystole
+
+### ⚠️ Atypical Presentations
+- Up to **50% of cases may not follow the classic progression**
+- ~40% present as sudden-onset seizure without prodromal symptoms
+- ~11% present with cardiovascular toxicity as the first sign
+- Delayed onset up to 60 minutes post-injection
+
+> **Any neurological or cardiovascular change occurring within 60 minutes of LA administration should be considered LAST until proven otherwise.**
+
+---
+
+# PART 3: CRISIS RESPONSE — Treatment Protocol
+*Based on: ASRA LAST Checklist (Neal JM, Neal EJ, Weinberg GL, 2020)*
+
+### IMMEDIATE ACTIONS (First 60 Seconds)
+
+1. **STOP** the injection immediately
+2. **CALL** for help — get the LAST rescue kit (20% Intralipid)
+3. **AIRWAY** — 100% oxygen, secure airway if needed
+4. **SEIZURES** — Midazolam 2-4 mg IV (avoid large-dose propofol)
+
+### INTRALIPID 20% — DO NOT DELAY
+
+| Step | Dose | 70 kg Example |
+|---|---|---|
+| **BOLUS** | 1.5 mL/kg over 1 min | **105 mL** |
+| **INFUSION** | 0.25 mL/kg/min | **17.5 mL/min** |
+| **If unstable** | Repeat bolus × 1-2 (q3-5 min) | 105 mL again |
+| **If still unstable** | Double infusion to 0.5 mL/kg/min | 35 mL/min |
+| **MAX DOSE** | ~12 mL/kg in first 30 min | **840 mL** |
+
+**Continue infusion ≥15 min after hemodynamically stable.**
+
+### IF CARDIAC ARREST — Modified ACLS
+- CPR — high quality
+- **Epinephrine ≤1 mcg/kg** (NOT standard 1 mg ACLS dose)
+- **Amiodarone** for ventricular arrhythmias
+- **AVOID:** vasopressin, lidocaine, calcium channel blockers, beta-blockers
+- **Continue Intralipid** throughout resuscitation
+- **Consider ECMO** early if refractory
+
+### POST-EVENT
+- ICU transfer — monitor 4-6 hours minimum (12 hours if severe/bupivacaine)
+- Serial labs: lipid panel, troponin, amylase/lipase, ABG
+- Complete documentation and root cause analysis
+- Report to facility risk management
+
+---
+
+# PART 4: INTRALIPID STOCKING
+
+### Requirements
+- **Minimum stock:** 1,000 mL of 20% Intralipid per block location
+- Stored in a **clearly labeled, dedicated location** known to all team members
+- **Not locked** — must be accessible without keys or codes
+- Include IV tubing with the Intralipid
+- Check expiration dates monthly
+
+---
+
+## Evidence Base & References
+1. Neal JM, Neal EJ, Weinberg GL. ASRA LAST Checklist: 2020 Version. Reg Anesth Pain Med. 2021;46(1):81-82.
+2. Neal JM, Barrington MJ, et al. Third ASRA Practice Advisory on LAST. Reg Anesth Pain Med. 2018;43(2):113-123.
+3. Macfarlane AJR, et al. Updates in our understanding of LAST. Anaesthesia. 2021;76(S1):27-39.
+4. Shalaby M, et al. Atypical and delayed presentations of LAST. Clin Exp Emerg Med. 2024.
+5. El-Boghdadly K, et al. LAST: current perspectives. Local Reg Anesth. 2018;11:35-44.
+
+*Block Ops © 2025 — DRAFT: Not for clinical use until approved by Dr. Bhakta*`;
+
 export const KnowledgeLibraryPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const categories = [
     { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500' },
@@ -40,7 +199,7 @@ export const KnowledgeLibraryPage = () => {
   const libraryItems = [
     // Safety (6)
     { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
-    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'] },
+    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'], hasContent: true, content: LAST_PROTOCOL_CONTENT },
     { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
     { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
     { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
@@ -114,6 +273,19 @@ export const KnowledgeLibraryPage = () => {
   });
 
   const getCategoryInfo = (catId) => categories.find(c => c.id === catId);
+
+  // If viewing a deliverable, show the viewer
+  if (selectedItem) {
+    const catInfo = getCategoryInfo(selectedItem.category);
+    return (
+      <DashboardLayout>
+        <DeliverableViewer 
+          deliverable={{ ...selectedItem, categoryLabel: catInfo?.label }} 
+          onBack={() => setSelectedItem(null)} 
+        />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
@@ -192,17 +364,28 @@ export const KnowledgeLibraryPage = () => {
           {filteredItems.map((item) => {
             const catInfo = getCategoryInfo(item.category);
             return (
-              <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-primary/40 hover:shadow-md transition group cursor-pointer">
+              <div 
+                key={item.id} 
+                className={`bg-white border rounded-xl p-5 transition group ${item.hasContent ? 'border-gray-200 hover:border-primary/40 hover:shadow-md cursor-pointer' : 'border-gray-200 cursor-default opacity-80'}`}
+                onClick={() => item.hasContent && setSelectedItem(item)}
+              >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${catInfo.color}`}></div>
                     <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
                   </div>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
-                    Draft — Pending Review
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {item.hasContent && (
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                        View
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                      Draft
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-primary transition leading-snug">
+                <h3 className={`text-sm font-bold mb-2 leading-snug ${item.hasContent ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
                   {item.title}
                 </h3>
                 <p className="text-xs text-gray-500 font-light mb-4 line-clamp-2 leading-relaxed">
@@ -224,17 +407,22 @@ export const KnowledgeLibraryPage = () => {
           {filteredItems.map((item) => {
             const catInfo = getCategoryInfo(item.category);
             return (
-              <div key={item.id} className="bg-white border border-gray-200 rounded-lg px-5 py-3 hover:border-primary/40 hover:shadow-sm transition flex items-center gap-4 cursor-pointer group">
+              <div 
+                key={item.id} 
+                className={`bg-white border border-gray-200 rounded-lg px-5 py-3 transition flex items-center gap-4 group ${item.hasContent ? 'hover:border-primary/40 hover:shadow-sm cursor-pointer' : 'cursor-default opacity-80'}`}
+                onClick={() => item.hasContent && setSelectedItem(item)}
+              >
                 <div className={`w-2 h-8 rounded-full ${catInfo.color} flex-shrink-0`}></div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary transition truncate">{item.title}</h3>
+                  <h3 className={`text-sm font-bold transition truncate ${item.hasContent ? 'text-gray-900 group-hover:text-primary' : 'text-gray-900'}`}>{item.title}</h3>
                   <p className="text-xs text-gray-400 font-light truncate">{item.description}</p>
                 </div>
                 <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
                   <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
+                  {item.hasContent && <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">View</span>}
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>
                 </div>
-                <ChevronRight size={16} className="text-gray-300 flex-shrink-0" />
+                <ChevronRight size={16} className={`flex-shrink-0 ${item.hasContent ? 'text-primary' : 'text-gray-200'}`} />
               </div>
             );
           })}
