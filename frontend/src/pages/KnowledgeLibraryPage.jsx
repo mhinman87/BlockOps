@@ -22,6 +22,11 @@ import {
 // Storage paths for deliverables with uploaded content
 const STORAGE_PATHS = {
   'LAST_Protocol_Suite': 'foundation/LAST_Protocol_Suite.md',
+  'Block_Time_Out_Checklist': 'foundation/Block_Time_Out_Checklist.md',
+  'Weight_Based_Max_Dose_Calculator': 'foundation/Weight_Based_Max_Dose_Calculator.md',
+  'LA_Selection_Algorithm': 'foundation/LA_Selection_Algorithm.md',
+  'Block_Cart_Planogram': 'foundation/Block_Cart_Planogram.md',
+  'CPT_ICD10_Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
 };
 
 // Legacy — keeping for reference but no longer used inline
@@ -208,15 +213,15 @@ export const KnowledgeLibraryPage = () => {
   // Real Foundation deliverables built with Samir
   const libraryItems = [
     // Safety (6)
-    { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
+    { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergies, anticoagulation status, and equipment readiness.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Block_Time_Out_Checklist'] },
     { id: 2, title: 'LAST Protocol Suite', description: 'Four-part local anesthetic systemic toxicity protocol: prevention strategies, recognition signs, crisis response algorithm, and intralipid stocking/administration guide.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Emergency'], hasContent: true, storagePath: STORAGE_PATHS['LAST_Protocol_Suite'] },
     { id: 3, title: 'Standardized Test Dose Protocol', description: 'Standardized protocol for test dose administration before local anesthetic injection to detect intravascular placement.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety'] },
-    { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
+    { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Dosing reference with volume tables for common patient weights and local anesthetic concentrations. Prevents overdose errors.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'], hasContent: true, storagePath: STORAGE_PATHS['Weight_Based_Max_Dose_Calculator'] },
     { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) where higher volumes at lower concentrations are needed for adequate spread.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Dosing'] },
     { id: 6, title: 'LAST Second Responder Nursing Competency', description: 'Nursing-specific competency checklist for responding to LAST events as second responder. Covers intralipid preparation, airway assistance, and documentation.', category: 'safety', status: 'draft', tags: ['Foundation', 'Safety', 'Nursing'] },
 
     // Pharmacology (3)
-    { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine default long-acting, mepivacaine default short-acting, with alternatives and clinical rationale.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'] },
+    { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine default long-acting, mepivacaine default short-acting, with alternatives and clinical rationale.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'], hasContent: true, storagePath: STORAGE_PATHS['LA_Selection_Algorithm'] },
     { id: 8, title: 'Adjuvant Dosing Guide', description: 'Standardized adjuvant dosing: dexamethasone 4mg + epinephrine 1:400K as defaults, clonidine as secondary option. Includes evidence summaries.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology', 'Dosing'] },
     { id: 9, title: 'Exparel Utilization Criteria', description: 'Evidence-based assessment of liposomal bupivacaine. Not recommended as default due to 20-80x cost for marginal benefit over standard LA with adjuvants.', category: 'pharmacology', status: 'draft', tags: ['Foundation', 'Pharmacology'] },
 
@@ -234,7 +239,7 @@ export const KnowledgeLibraryPage = () => {
     { id: 18, title: 'Probe Cover & Gel Management Standard', description: 'Standardized protocol for probe cover selection, application, gel management, and contamination prevention.', category: 'sterile', status: 'draft', tags: ['Foundation', 'Sterile Technique'] },
 
     // Physical Infrastructure (6)
-    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia block cart. Standardized drawer assignments, supply locations, and labeling system.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
+    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia block cart. Standardized drawer assignments, supply locations, and labeling system.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'], hasContent: true, storagePath: STORAGE_PATHS['Block_Cart_Planogram'] },
     { id: 20, title: 'Daily Cart Restock Checklist', description: 'Daily checklist for nursing staff to verify block cart supplies, expiration dates, and equipment readiness before first case.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Daily'] },
     { id: 21, title: 'Block Bay Workflow Logic', description: 'Workflow diagram and logic for patient flow through the block bay — from arrival to block completion to OR transport.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Workflow'] },
     { id: 22, title: 'Machine Cleaning Checklist', description: 'Ultrasound machine cleaning and maintenance protocol. Daily, weekly, and post-case cleaning requirements.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'] },
@@ -262,7 +267,7 @@ export const KnowledgeLibraryPage = () => {
     { id: 38, title: 'Patient Red Flag Card', description: 'Wallet-sized card for patients listing warning signs that require calling their provider or going to the ER after a nerve block.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Safety'] },
 
     // Compliance & Billing (4)
-    { id: 39, title: 'CPT/ICD-10 Crosswalk', description: 'Complete billing reference mapping nerve block CPT codes to ICD-10 diagnosis codes, with modifiers and common denial reasons.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Billing', 'CPT'] },
+    { id: 39, title: 'CPT/ICD-10 Crosswalk', description: 'Complete billing reference mapping nerve block CPT codes to ICD-10 diagnosis codes, with modifiers and common denial reasons.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Billing', 'CPT'], hasContent: true, storagePath: STORAGE_PATHS['CPT_ICD10_Crosswalk'] },
     { id: 40, title: 'Medical Necessity Phrases', description: 'Pre-written medical necessity language for documentation and prior authorization. Covers common payer requirements.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Billing', 'Documentation'] },
     { id: 41, title: 'PACU Length-of-Stay Tracker', description: 'Tracking template for measuring PACU length of stay in block vs non-block patients. Feeds ROI calculations.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Outcomes', 'Tracking'] },
     { id: 42, title: 'MME Calculator Reference', description: 'Morphine milligram equivalent calculator and reference card for tracking opioid reduction in block patients.', category: 'compliance', status: 'draft', tags: ['Foundation', 'Outcomes', 'Opioid'] },

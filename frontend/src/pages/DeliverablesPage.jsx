@@ -14,6 +14,11 @@ import {
 // Storage paths for deliverables with uploaded content
 const STORAGE_PATHS = {
   'LAST Protocol Suite': 'foundation/LAST_Protocol_Suite.md',
+  'Block Time-Out Checklist': 'foundation/Block_Time_Out_Checklist.md',
+  'Weight-Based Max Dose Calculator': 'foundation/Weight_Based_Max_Dose_Calculator.md',
+  'LA Selection Algorithm': 'foundation/LA_Selection_Algorithm.md',
+  'Block Cart Planogram': 'foundation/Block_Cart_Planogram.md',
+  'CPT/ICD-10 Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
 };
 
 import { useUserRole } from '../hooks/useUserRole';
@@ -35,10 +40,10 @@ export const DeliverablesPage = () => {
         {
           name: 'Safety',
           items: [
-            { name: 'Block Time-Out Checklist', status: 'draft' },
+            { name: 'Block Time-Out Checklist', status: 'draft', storagePath: STORAGE_PATHS['Block Time-Out Checklist'] },
             { name: 'LAST Protocol Suite', status: 'draft', storagePath: STORAGE_PATHS['LAST Protocol Suite'] },
             { name: 'Standardized Test Dose Protocol', status: 'draft' },
-            { name: 'Weight-Based Max Dose Calculator', status: 'draft' },
+            { name: 'Weight-Based Max Dose Calculator', status: 'draft', storagePath: STORAGE_PATHS['Weight-Based Max Dose Calculator'] },
             { name: 'High-Volume Dilution Chart', status: 'draft' },
             { name: 'LAST Second Responder Nursing Competency', status: 'draft' },
           ]
@@ -46,7 +51,7 @@ export const DeliverablesPage = () => {
         {
           name: 'Pharmacology',
           items: [
-            { name: 'LA Selection Algorithm', status: 'draft' },
+            { name: 'LA Selection Algorithm', status: 'draft', storagePath: STORAGE_PATHS['LA Selection Algorithm'] },
             { name: 'Adjuvant Dosing Guide', status: 'draft' },
             { name: 'Exparel Utilization Criteria', status: 'draft' },
           ]
@@ -73,7 +78,7 @@ export const DeliverablesPage = () => {
         {
           name: 'Physical Infrastructure',
           items: [
-            { name: 'Block Cart Planogram', status: 'draft' },
+            { name: 'Block Cart Planogram', status: 'draft', storagePath: STORAGE_PATHS['Block Cart Planogram'] },
             { name: 'Daily Cart Restock Checklist', status: 'draft' },
             { name: 'Block Bay Workflow Logic', status: 'draft' },
             { name: 'Machine Cleaning Checklist', status: 'draft' },
@@ -113,7 +118,7 @@ export const DeliverablesPage = () => {
         {
           name: 'Compliance & Billing',
           items: [
-            { name: 'CPT/ICD-10 Crosswalk', status: 'draft' },
+            { name: 'CPT/ICD-10 Crosswalk', status: 'draft', storagePath: STORAGE_PATHS['CPT/ICD-10 Crosswalk'] },
             { name: 'Medical Necessity Phrases', status: 'draft' },
             { name: 'PACU Length-of-Stay Tracker', status: 'draft' },
             { name: 'MME Calculator Reference', status: 'draft' },
