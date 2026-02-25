@@ -46,7 +46,7 @@ export const DeliverableViewer = ({ deliverable, onBack }) => {
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition font-semibold mb-4"
         >
           <ArrowLeft size={16} />
-          Back to Library
+          Back
         </button>
         
         <div className="flex items-start justify-between flex-wrap gap-4">

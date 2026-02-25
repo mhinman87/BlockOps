@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
+import { DeliverableViewer } from '../components/DeliverableViewer';
 import { 
   CheckCircle2, 
   Clock, 
   AlertCircle,
   Download,
   Package,
-  FileText
+  FileText,
+  Eye
 } from 'lucide-react';
+
+// Storage paths for deliverables with uploaded content
+const STORAGE_PATHS = {
+  'LAST Protocol Suite': 'foundation/LAST_Protocol_Suite.md',
+};
 
 export const DeliverablesPage = () => {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const packages = [
     {
@@ -23,7 +31,7 @@ export const DeliverablesPage = () => {
           name: 'Safety',
           items: [
             { name: 'Block Time-Out Checklist', status: 'draft' },
-            { name: 'LAST Protocol Suite', status: 'draft' },
+            { name: 'LAST Protocol Suite', status: 'draft', storagePath: STORAGE_PATHS['LAST Protocol Suite'] },
             { name: 'Standardized Test Dose Protocol', status: 'draft' },
             { name: 'Weight-Based Max Dose Calculator', status: 'draft' },
             { name: 'High-Volume Dilution Chart', status: 'draft' },
@@ -171,6 +179,18 @@ export const DeliverablesPage = () => {
     return items.filter(item => item.status === activeFilter);
   };
 
+  // If viewing a deliverable, show the viewer
+  if (selectedItem) {
+    return (
+      <DashboardLayout>
+        <DeliverableViewer 
+          deliverable={selectedItem} 
+          onBack={() => setSelectedItem(null)} 
+        />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       {/* Header */}
@@ -269,16 +289,28 @@ export const DeliverablesPage = () => {
                       {filtered.map((item, idx) => {
                         const statusLabel = getStatusLabel(item.status);
                         return (
-                          <div key={idx} className="px-5 py-2.5 flex items-center justify-between hover:bg-gray-50 transition">
+                          <div 
+                            key={idx} 
+                            className={`px-5 py-2.5 flex items-center justify-between hover:bg-gray-50 transition ${item.storagePath ? 'cursor-pointer group' : ''}`}
+                            onClick={() => item.storagePath && setSelectedItem({ title: item.name, description: section.name + ' — Foundation Package', storagePath: item.storagePath, categoryLabel: section.name })}
+                          >
                             <div className="flex items-center gap-3">
                               {getStatusIcon(item.status)}
-                              <span className={`text-sm ${item.status === 'not-started' ? 'text-gray-400' : 'text-gray-900'}`}>
+                              <span className={`text-sm ${item.status === 'not-started' ? 'text-gray-400' : item.storagePath ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
                                 {item.name}
                               </span>
                             </div>
-                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusLabel.color}`}>
-                              {statusLabel.text}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              {item.storagePath && (
+                                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
+                                  <Eye size={12} />
+                                  View
+                                </span>
+                              )}
+                              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusLabel.color}`}>
+                                {statusLabel.text}
+                              </span>
+                            </div>
                           </div>
                         );
                       })}
