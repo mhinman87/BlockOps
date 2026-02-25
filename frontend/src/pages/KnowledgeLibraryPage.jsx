@@ -4,326 +4,117 @@ import {
   Search, 
   BookOpen, 
   FileText, 
-  Video, 
-  Download, 
   ChevronRight,
-  Stethoscope,
-  Zap,
-  Monitor,
+  Shield,
+  FlaskConical,
+  Crosshair,
+  SprayCan,
+  Wrench,
+  ClipboardList,
+  Heart,
   Users,
-  Building2,
-  BarChart3,
-  Filter,
+  Scale,
+  Crown,
   Grid3X3,
   List,
   Clock,
-  Tag,
-  Lock,
-  Eye
+  Tag
 } from 'lucide-react';
 
 export const KnowledgeLibraryPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
-  const [activeType, setActiveType] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
 
-  const pillars = [
-    { id: 'clinical', icon: Stethoscope, label: 'Clinical Architecture', color: 'bg-blue-500' },
-    { id: 'operations', icon: Zap, label: 'Physical Operations', color: 'bg-amber-500' },
-    { id: 'digital', icon: Monitor, label: 'Digital Platform', color: 'bg-purple-500' },
-    { id: 'human', icon: Users, label: 'Human Capital', color: 'bg-green-500' },
-    { id: 'stakeholder', icon: Building2, label: 'Stakeholder Integration', color: 'bg-rose-500' },
-    { id: 'value', icon: BarChart3, label: 'Value Intelligence', color: 'bg-cyan-500' },
+  const categories = [
+    { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500', count: 6 },
+    { id: 'pharmacology', icon: FlaskConical, label: 'Pharmacology', color: 'bg-purple-500', count: 3 },
+    { id: 'technique', icon: Crosshair, label: 'Technical Fundamentals', color: 'bg-blue-500', count: 7 },
+    { id: 'sterile', icon: SprayCan, label: 'Sterile Technique', color: 'bg-teal-500', count: 2 },
+    { id: 'infrastructure', icon: Wrench, label: 'Physical Infrastructure', color: 'bg-amber-500', count: 6 },
+    { id: 'documentation', icon: ClipboardList, label: 'Documentation & Digital', color: 'bg-indigo-500', count: 4 },
+    { id: 'nursing', icon: Heart, label: 'Nursing Core Competencies', color: 'bg-pink-500', count: 5 },
+    { id: 'patient', icon: Users, label: 'Patient Experience', color: 'bg-green-500', count: 5 },
+    { id: 'compliance', icon: Scale, label: 'Compliance & Billing', color: 'bg-cyan-500', count: 4 },
+    { id: 'governance', icon: Crown, label: 'Governance', color: 'bg-orange-500', count: 2 },
   ];
 
-  const contentTypes = [
-    { id: 'all', label: 'All' },
-    { id: 'protocol', label: 'Protocols' },
-    { id: 'reference', label: 'Reference Cards' },
-    { id: 'template', label: 'Templates' },
-    { id: 'video', label: 'Videos' },
-    { id: 'guide', label: 'Guides' },
-  ];
-
-  // Dummy library content
   const libraryItems = [
-    // Clinical Architecture
-    {
-      id: 1,
-      title: 'LAST Protocol — Local Anesthetic Systemic Toxicity',
-      description: 'Evidence-based emergency response protocol for LAST events. Includes intralipid dosing, airway management algorithm, and post-event reporting template.',
-      pillar: 'clinical',
-      type: 'protocol',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Safety', 'Emergency', 'Foundation'],
-      access: 'all',
-    },
-    {
-      id: 2,
-      title: 'Regional Anesthesia Time-Out Checklist',
-      description: 'Standardized pre-procedure safety checklist including patient verification, consent confirmation, laterality check, and equipment readiness.',
-      pillar: 'clinical',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Safety', 'Checklist', 'Foundation'],
-      access: 'all',
-    },
-    {
-      id: 3,
-      title: 'Adductor Canal Block — Clinical Protocol',
-      description: 'Complete technique guide for single-shot adductor canal block. Includes ultrasound anatomy, needle approach, local anesthetic selection, and dosing calculator.',
-      pillar: 'clinical',
-      type: 'protocol',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-18',
-      version: '1.0',
-      tags: ['Block Pack', 'Adductor Canal', 'Knee'],
-      access: 'provider',
-    },
-    {
-      id: 4,
-      title: 'Adductor Canal Block — Pocket Reference Card',
-      description: 'Quick-reference card with ultrasound landmarks, needle trajectory, dosing ranges, and troubleshooting tips. Designed for bedside use.',
-      pillar: 'clinical',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-18',
-      version: '1.0',
-      tags: ['Block Pack', 'Adductor Canal', 'Quick Ref'],
-      access: 'provider',
-    },
-    {
-      id: 5,
-      title: 'Pharmacology Quick Reference — Local Anesthetics',
-      description: 'Max dose calculations, onset/duration profiles, and comparison chart for lidocaine, bupivacaine, ropivacaine, and chloroprocaine.',
-      pillar: 'clinical',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Pharmacology', 'Foundation', 'Dosing'],
-      access: 'all',
-    },
-    {
-      id: 6,
-      title: 'Ultrasound-Guided Block Technique — Video Series',
-      description: 'Narrated demonstration of proper probe handling, in-plane needle visualization, and hydrodissection technique.',
-      pillar: 'clinical',
-      type: 'video',
-      format: 'Video',
-      icon: Video,
-      updated: '2026-02-20',
-      version: '1.0',
-      tags: ['Training', 'Technique', 'Foundation'],
-      access: 'provider',
-    },
+    // Safety (6)
+    { id: 1, title: 'Block Time-Out Checklist', description: '9-point verification checklist that must be completed before sedation. Covers patient ID, consent, laterality, allergy review, equipment readiness, and block-specific confirmation.', category: 'safety', status: 'draft', tags: ['Checklist', 'Pre-Procedure'] },
+    { id: 2, title: 'LAST Protocol Suite', description: 'Four-part Local Anesthetic Systemic Toxicity protocol: prevention strategies, early recognition signs, crisis response algorithm, and intralipid stocking/dosing requirements.', category: 'safety', status: 'draft', tags: ['Emergency', 'LAST', 'Critical'] },
+    { id: 3, title: 'Standardized Test Dose Protocol', description: 'Protocol for test dose administration before local anesthetic injection. Includes epinephrine-containing test dose criteria and monitoring parameters.', category: 'safety', status: 'draft', tags: ['Pre-Procedure', 'Verification'] },
+    { id: 4, title: 'Weight-Based Max Dose Calculator', description: 'Maximum dose calculation tables for common local anesthetics across standard patient weights and concentrations. Includes lean body weight adjustments.', category: 'safety', status: 'draft', tags: ['Dosing', 'Calculator', 'Reference'] },
+    { id: 5, title: 'High-Volume Dilution Chart', description: 'Dilution reference for plane blocks (TAP, PECS, serratus) requiring high volumes. Concentration-to-volume conversion with max dose safety checks.', category: 'safety', status: 'draft', tags: ['Dosing', 'Plane Blocks'] },
+    { id: 6, title: 'LAST "Second Responder" Nursing Competency', description: 'Nursing-specific competency checklist for LAST events. Covers role assignment, intralipid preparation, airway equipment retrieval, and documentation.', category: 'safety', status: 'draft', tags: ['Nursing', 'Emergency', 'Competency'] },
 
-    // Physical Operations
-    {
-      id: 7,
-      title: 'Block Bay Setup Guide',
-      description: 'Complete specifications for a dedicated regional anesthesia block bay: equipment list, monitor placement, supply cart organization, and privacy requirements.',
-      pillar: 'operations',
-      type: 'guide',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Infrastructure', 'Foundation', 'Setup'],
-      access: 'admin',
-    },
-    {
-      id: 8,
-      title: 'Block Cart Equipment Checklist',
-      description: 'Standardized checklist for daily block cart preparation. Includes needle inventory, local anesthetic stock, ultrasound supplies, and emergency equipment.',
-      pillar: 'operations',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Equipment', 'Checklist', 'Daily'],
-      access: 'all',
-    },
-    {
-      id: 9,
-      title: 'Pre-Op Workflow Integration Guide',
-      description: 'How to integrate block procedures into existing pre-op flow without adding delays. Scheduling templates and time-motion analysis.',
-      pillar: 'operations',
-      type: 'guide',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-16',
-      version: '1.0',
-      tags: ['Workflow', 'Scheduling', 'Foundation'],
-      access: 'admin',
-    },
+    // Pharmacology (3)
+    { id: 7, title: 'LA Selection Algorithm', description: 'Decision algorithm for local anesthetic selection. Bupivacaine as default long-acting, mepivacaine as default short-acting, with alternatives and contraindication pathways.', category: 'pharmacology', status: 'draft', tags: ['Algorithm', 'Decision Support'] },
+    { id: 8, title: 'Adjuvant Dosing Guide', description: 'Adjuvant medication guide with dexamethasone 4mg + epinephrine 1:400K as defaults, clonidine as secondary option. Includes onset/duration profiles and contraindications.', category: 'pharmacology', status: 'draft', tags: ['Dosing', 'Adjuvants'] },
+    { id: 9, title: 'Exparel Utilization Criteria', description: 'Evidence-based assessment of liposomal bupivacaine (Exparel). Honest cost-benefit analysis — not recommended as default due to 20-80x cost for marginal benefit.', category: 'pharmacology', status: 'draft', tags: ['Cost Analysis', 'Exparel'] },
 
-    // Digital Platform
-    {
-      id: 10,
-      title: 'EMR Documentation Template — Nerve Block',
-      description: 'Standardized note template for documenting nerve block procedures. Includes pre-procedure assessment, technique details, and post-procedure monitoring.',
-      pillar: 'digital',
-      type: 'template',
-      format: 'DOCX',
-      icon: FileText,
-      updated: '2026-02-17',
-      version: '1.0',
-      tags: ['EMR', 'Documentation', 'Foundation'],
-      access: 'provider',
-    },
-    {
-      id: 11,
-      title: 'Block Success Tracking Log',
-      description: 'Data collection template for tracking block success rates, onset times, patient satisfaction, and complications. Feeds into quarterly outcome reports.',
-      pillar: 'digital',
-      type: 'template',
-      format: 'XLSX',
-      icon: FileText,
-      updated: '2026-02-17',
-      version: '1.0',
-      tags: ['Tracking', 'Outcomes', 'Data'],
-      access: 'provider',
-    },
+    // Technical Fundamentals (7)
+    { id: 10, title: 'Knobology Cheat Sheet', description: 'Quick reference for ultrasound machine settings: depth, gain, focus zone, and frequency optimization for nerve block procedures.', category: 'technique', status: 'draft', tags: ['Ultrasound', 'Quick Ref'] },
+    { id: 11, title: 'PART Maneuver Guide', description: 'Four-component probe manipulation technique: Pressure, Alignment, Rotation, and Tilting. Systematic approach to optimizing ultrasound image quality.', category: 'technique', status: 'draft', tags: ['Ultrasound', 'Technique'] },
+    { id: 12, title: 'Triangle of Success Setup Guide', description: 'Ergonomic setup guide positioning the three critical elements: patient, ultrasound screen, and operator. Reduces fatigue and improves needle visualization.', category: 'technique', status: 'draft', tags: ['Ergonomics', 'Setup'] },
+    { id: 13, title: 'In-Plane Technique SOP', description: 'Block Ops standard operating procedure for in-plane needle approach. Default technique for all 6 launch blocks. Includes visualization tips and troubleshooting.', category: 'technique', status: 'draft', tags: ['SOP', 'Needle Technique'] },
+    { id: 14, title: 'Out-of-Plane Technique SOP', description: 'Standard operating procedure for out-of-plane needle approach. Reserved for specific clinical scenarios only — not the default approach.', category: 'technique', status: 'draft', tags: ['SOP', 'Needle Technique'] },
+    { id: 15, title: 'Hydrodissection & Opening Pressure Protocol', description: 'Protocol for using hydrodissection to confirm needle tip location and create tissue planes. Includes opening pressure thresholds and injection technique.', category: 'technique', status: 'draft', tags: ['Technique', 'Advanced'] },
+    { id: 16, title: 'Intraneural Injection Stop Criteria', description: 'Four mandatory stop criteria for suspected intraneural injection. Immediate response protocol with escalation pathway.', category: 'technique', status: 'draft', tags: ['Safety', 'Stop Criteria'] },
 
-    // Human Capital
-    {
-      id: 12,
-      title: 'Nursing Competency Checklist — Regional Anesthesia',
-      description: 'Tiered competency framework for nursing staff managing patients with regional blocks. Covers assessment, monitoring, troubleshooting, and escalation.',
-      pillar: 'human',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-18',
-      version: '1.0',
-      tags: ['Nursing', 'Competency', 'Training'],
-      access: 'all',
-    },
-    {
-      id: 13,
-      title: 'Champion Provider Activation Guide',
-      description: 'Onboarding guide for the on-site champion provider. Covers role responsibilities, program governance, and escalation pathways.',
-      pillar: 'human',
-      type: 'guide',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-15',
-      version: '1.0',
-      tags: ['Champion', 'Governance', 'Foundation'],
-      access: 'provider',
-    },
+    // Sterile Technique (2)
+    { id: 17, title: 'Clean vs Sterile Protocol', description: 'Definitive guide on when clean technique vs full sterile technique is required. Based on procedure type, catheter placement, and facility standards.', category: 'sterile', status: 'draft', tags: ['Infection Control', 'Protocol'] },
+    { id: 18, title: 'Probe Cover & Gel Management Standard', description: 'Standard for ultrasound probe covering, gel application, and contamination prevention. Includes single-use vs reusable cover guidance.', category: 'sterile', status: 'draft', tags: ['Infection Control', 'Equipment'] },
 
-    // Stakeholder Integration
-    {
-      id: 14,
-      title: 'Surgeon Compact Template',
-      description: 'Agreement template between the regional anesthesia team and surgical service. Defines expectations, communication protocols, and feedback loops.',
-      pillar: 'stakeholder',
-      type: 'template',
-      format: 'DOCX',
-      icon: FileText,
-      updated: '2026-02-19',
-      version: '1.0',
-      tags: ['Surgeon', 'Agreement', 'Foundation'],
-      access: 'admin',
-    },
-    {
-      id: 15,
-      title: 'Patient Education — What to Expect (Nerve Block)',
-      description: 'Patient-facing brochure explaining nerve blocks in plain language. Covers what it is, what to expect, home care instructions, and when to call.',
-      pillar: 'stakeholder',
-      type: 'guide',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-16',
-      version: '1.0',
-      tags: ['Patient', 'Education', 'Consent'],
-      access: 'all',
-    },
-    {
-      id: 16,
-      title: 'Home Instructions — Adductor Canal Block',
-      description: 'Post-discharge instruction sheet for patients who received an adductor canal block. Covers expected numbness duration, activity restrictions, and warning signs.',
-      pillar: 'stakeholder',
-      type: 'reference',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-18',
-      version: '1.0',
-      tags: ['Patient', 'Block Pack', 'Adductor Canal'],
-      access: 'all',
-    },
+    // Physical Infrastructure (6)
+    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia cart. Drawer-by-drawer organization with labeled zones for needles, local anesthetics, adjuvants, and emergency supplies.', category: 'infrastructure', status: 'draft', tags: ['Setup', 'Organization'] },
+    { id: 20, title: 'Daily Cart Restock Checklist', description: 'Daily checklist for block cart preparation. Covers needle inventory, local anesthetic stock levels, adjuvant medications, emergency supplies, and expiration date verification.', category: 'infrastructure', status: 'draft', tags: ['Daily', 'Checklist'] },
+    { id: 21, title: 'Block Bay Workflow Logic', description: 'Patient flow logic for the block bay: arrival, pre-procedure check, block performance, recovery monitoring, and transfer. Includes timing targets.', category: 'infrastructure', status: 'draft', tags: ['Workflow', 'Operations'] },
+    { id: 22, title: 'Machine Cleaning Checklist', description: 'Ultrasound machine cleaning and maintenance protocol. Pre-shift, between-patient, and end-of-day procedures.', category: 'infrastructure', status: 'draft', tags: ['Maintenance', 'Checklist'] },
+    { id: 23, title: 'Probe Cover Selection Guide', description: 'Guide for selecting appropriate probe covers based on procedure type. Includes cost comparison and compatibility with common ultrasound models.', category: 'infrastructure', status: 'draft', tags: ['Equipment', 'Reference'] },
+    { id: 24, title: 'Gel Management SOP', description: 'Standard operating procedure for ultrasound gel handling, storage, contamination prevention, and disposal.', category: 'infrastructure', status: 'draft', tags: ['SOP', 'Supplies'] },
 
-    // Value Intelligence
-    {
-      id: 17,
-      title: 'CPT/ICD Coding Guide — Regional Anesthesia',
-      description: 'Complete billing reference for regional anesthesia procedures. Includes CPT codes, modifiers, ICD-10 mappings, and common denial reasons with appeal templates.',
-      pillar: 'value',
-      type: 'guide',
-      format: 'PDF',
-      icon: FileText,
-      updated: '2026-02-20',
-      version: '1.0',
-      tags: ['Billing', 'CPT', 'Revenue'],
-      access: 'admin',
-    },
-    {
-      id: 18,
-      title: 'Quarterly Outcome Report Template',
-      description: 'Template for generating quarterly program performance reports. Block success rates, complication tracking, financial impact, and recommendations.',
-      pillar: 'value',
-      type: 'template',
-      format: 'XLSX',
-      icon: FileText,
-      updated: '2026-02-19',
-      version: '1.0',
-      tags: ['Reporting', 'Outcomes', 'Quarterly'],
-      access: 'admin',
-    },
+    // Documentation & Digital (4)
+    { id: 25, title: 'Pre-Op Nursing Smart Template', description: 'Structured nursing documentation template for pre-operative block assessment. Covers consent verification, site marking, baseline neuro exam, and sedation assessment.', category: 'documentation', status: 'draft', tags: ['EMR', 'Nursing', 'Template'] },
+    { id: 26, title: 'PACU Block Assessment Smart Template', description: 'Post-procedure nursing template for PACU monitoring. Includes sensory/motor assessment, pain scoring, block regression tracking, and discharge criteria.', category: 'documentation', status: 'draft', tags: ['EMR', 'PACU', 'Template'] },
+    { id: 27, title: 'Block Status Tracking Board Guide', description: 'Setup guide for a visual tracking board in the block bay or PACU. Shows block type, time performed, expected duration, and current status for all active patients.', category: 'documentation', status: 'draft', tags: ['Tracking', 'Visual Management'] },
+    { id: 28, title: 'Block Success/Failure Log', description: 'Data collection template for tracking block success rates, onset times, rescue interventions, and patient-reported outcomes. Feeds quarterly reports.', category: 'documentation', status: 'draft', tags: ['Tracking', 'Outcomes', 'Data'] },
+
+    // Nursing Core Competencies (5)
+    { id: 29, title: 'Sedation Administration & Monitoring SOP', description: 'Protocol for sedation during nerve block procedures. Covers pre-sedation assessment, medication administration, monitoring parameters, and rescue criteria.', category: 'nursing', status: 'draft', tags: ['Sedation', 'SOP', 'Monitoring'] },
+    { id: 30, title: 'Sterile Setup & Assist Competency', description: 'Nursing competency checklist for sterile field preparation and procedure assistance. Covers gowning, gloving, tray setup, and hand-off technique.', category: 'nursing', status: 'draft', tags: ['Competency', 'Sterile'] },
+    { id: 31, title: 'Fall Risk Assessment', description: 'Assessment tool for fall risk in patients with lower extremity nerve blocks. Includes scoring criteria, prevention interventions, and mobility clearance protocol.', category: 'nursing', status: 'draft', tags: ['Safety', 'Assessment', 'Lower Extremity'] },
+    { id: 32, title: 'Red Flag Recognition Card', description: 'Quick-reference card for nursing staff listing red flag signs requiring immediate provider notification: LAST symptoms, vascular compromise, compartment syndrome indicators.', category: 'nursing', status: 'draft', tags: ['Emergency', 'Quick Ref'] },
+    { id: 33, title: 'Breakthrough Pain Protocol', description: 'Nursing protocol for managing breakthrough pain when a nerve block is inadequate or wearing off. Includes multimodal rescue pathways and escalation criteria.', category: 'nursing', status: 'draft', tags: ['Pain Management', 'Protocol'] },
+
+    // Patient Experience (5)
+    { id: 34, title: 'Nerve Block Patient Brochure', description: 'Patient-facing educational brochure explaining nerve blocks in plain language. What it is, how it works, what to expect, and why it\'s used instead of relying solely on opioids.', category: 'patient', status: 'draft', tags: ['Education', 'Patient-Facing'] },
+    { id: 35, title: 'Regional Anesthesia Consent Form', description: 'Standardized informed consent template for nerve block procedures. Covers risks, benefits, alternatives, and patient acknowledgment in clear language.', category: 'patient', status: 'draft', tags: ['Legal', 'Consent'] },
+    { id: 36, title: 'Post-Block Sensory Guide', description: 'Patient handout explaining expected sensations after a nerve block: numbness timeline, what\'s normal vs concerning, and when feeling returns.', category: 'patient', status: 'draft', tags: ['Education', 'Post-Procedure'] },
+    { id: 37, title: 'Fall Prevention Patient Agreement', description: 'Patient acknowledgment form for fall prevention after lower extremity blocks. Covers mobility restrictions, use of assistive devices, and caregiver requirements.', category: 'patient', status: 'draft', tags: ['Safety', 'Agreement'] },
+    { id: 38, title: 'Patient Red Flag Card', description: 'Take-home card for patients listing warning signs that require calling the provider or going to the ER. Simple, large-font format.', category: 'patient', status: 'draft', tags: ['Take-Home', 'Safety'] },
+
+    // Compliance & Billing (4)
+    { id: 39, title: 'CPT/ICD-10 Crosswalk', description: 'Complete billing reference mapping nerve block procedures to correct CPT codes and ICD-10 diagnosis codes. Includes modifier guidance and common denial reasons.', category: 'compliance', status: 'draft', tags: ['Billing', 'CPT', 'Reference'] },
+    { id: 40, title: 'Medical Necessity Phrases', description: 'Pre-written medical necessity justification phrases for documentation and prior authorization. Mapped to specific block types and surgical indications.', category: 'compliance', status: 'draft', tags: ['Billing', 'Documentation'] },
+    { id: 41, title: 'PACU Length-of-Stay Tracker', description: 'Tracking template for measuring PACU length of stay for block vs non-block patients. Generates data for ROI reporting and program justification.', category: 'compliance', status: 'draft', tags: ['Tracking', 'ROI', 'Data'] },
+    { id: 42, title: 'MME Calculator Reference', description: 'Morphine milligram equivalent calculator for tracking opioid consumption. Compares block vs non-block patients for outcome reporting.', category: 'compliance', status: 'draft', tags: ['Opioid Tracking', 'Calculator'] },
+
+    // Governance (2)
+    { id: 43, title: 'Block Champion Charter', description: 'Formal charter defining the Champion provider\'s role, responsibilities, authority, and accountability within the regional anesthesia program. Includes escalation pathways.', category: 'governance', status: 'draft', tags: ['Champion', 'Leadership'] },
+    { id: 44, title: 'Block Lead Nurse Responsibility List', description: 'Defined responsibilities for the lead nurse supporting the block program. Covers cart management, competency tracking, scheduling coordination, and quality reporting.', category: 'governance', status: 'draft', tags: ['Nursing', 'Leadership'] },
   ];
 
-  // Filter logic
   const filteredItems = libraryItems.filter((item) => {
-    const matchesCategory = activeCategory === 'all' || item.pillar === activeCategory;
-    const matchesType = activeType === 'all' || item.type === activeType;
+    const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
     const matchesSearch = searchQuery === '' || 
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesType && matchesSearch;
+    return matchesCategory && matchesSearch;
   });
 
-  const getPillarInfo = (pillarId) => pillars.find(p => p.id === pillarId);
-
-  const getAccessBadge = (access) => {
-    switch(access) {
-      case 'provider': return { label: 'Provider', color: 'bg-blue-100 text-blue-700' };
-      case 'admin': return { label: 'Admin', color: 'bg-amber-100 text-amber-700' };
-      default: return { label: 'All Roles', color: 'bg-gray-100 text-gray-600' };
-    }
-  };
-
-  const getFormatBadge = (format) => {
-    switch(format) {
-      case 'Video': return 'bg-red-100 text-red-700';
-      case 'XLSX': return 'bg-green-100 text-green-700';
-      case 'DOCX': return 'bg-blue-100 text-blue-700';
-      default: return 'bg-gray-100 text-gray-600';
-    }
-  };
+  const getCategoryInfo = (catId) => categories.find(c => c.id === catId);
 
   return (
     <DashboardLayout>
@@ -331,7 +122,7 @@ export const KnowledgeLibraryPage = () => {
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Knowledge Library</h1>
         <p className="text-gray-500 text-sm mt-1 font-light">
-          Protocols, references, templates, and training materials — organized by the Gold Standard framework.
+          Foundation Package protocols, references, and templates. All documents are drafts pending clinical review.
         </p>
       </div>
 
@@ -363,99 +154,64 @@ export const KnowledgeLibraryPage = () => {
         </div>
       </div>
 
-      {/* Pillar Filters */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      {/* Category Filters */}
+      <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setActiveCategory('all')}
           className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${
             activeCategory === 'all' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
           }`}
         >
-          All Pillars
+          All ({libraryItems.length})
         </button>
-        {pillars.map((pillar) => {
-          const Icon = pillar.icon;
+        {categories.map((cat) => {
+          const Icon = cat.icon;
           return (
             <button
-              key={pillar.id}
-              onClick={() => setActiveCategory(pillar.id)}
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition ${
-                activeCategory === pillar.id ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
+                activeCategory === cat.id ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
               }`}
             >
               <Icon size={12} />
-              {pillar.label}
+              {cat.label} ({cat.count})
             </button>
           );
         })}
       </div>
 
-      {/* Type Filters */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {contentTypes.map((type) => (
-          <button
-            key={type.id}
-            onClick={() => setActiveType(type.id)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-              activeType === type.id ? 'bg-primary/10 text-primary border border-primary/30' : 'bg-white text-gray-500 border border-gray-200 hover:border-gray-300'
-            }`}
-          >
-            {type.label}
-          </button>
-        ))}
-      </div>
-
       {/* Results Count */}
       <p className="text-xs text-gray-400 mb-4 font-semibold">
-        {filteredItems.length} {filteredItems.length === 1 ? 'resource' : 'resources'} found
+        {filteredItems.length} {filteredItems.length === 1 ? 'resource' : 'resources'}
       </p>
 
       {/* Content Grid / List */}
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredItems.map((item) => {
-            const pillarInfo = getPillarInfo(item.pillar);
-            const accessBadge = getAccessBadge(item.access);
-            const Icon = item.icon;
+            const catInfo = getCategoryInfo(item.category);
             return (
               <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-primary/40 hover:shadow-md transition group cursor-pointer">
-                {/* Top row — pillar + access */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${pillarInfo.color}`}></div>
-                    <span className="text-xs font-semibold text-gray-400">{pillarInfo.label}</span>
+                    <div className={`w-2 h-2 rounded-full ${catInfo.color}`}></div>
+                    <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
                   </div>
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${accessBadge.color}`}>
-                    {accessBadge.label}
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                    Draft
                   </span>
                 </div>
 
-                {/* Title */}
                 <h3 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-primary transition leading-snug">
                   {item.title}
                 </h3>
 
-                {/* Description */}
                 <p className="text-xs text-gray-500 font-light mb-4 line-clamp-2 leading-relaxed">
                   {item.description}
                 </p>
 
-                {/* Bottom row — format + version + date */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded ${getFormatBadge(item.format)}`}>
-                      {item.format}
-                    </span>
-                    <span className="text-xs text-gray-400">v{item.version}</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <Clock size={12} />
-                    <span>{item.updated}</span>
-                  </div>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1 mt-3">
+                <div className="flex flex-wrap gap-1">
                   {item.tags.slice(0, 3).map((tag, i) => (
                     <span key={i} className="text-xs text-gray-400 bg-gray-50 px-2 py-0.5 rounded">
                       {tag}
@@ -469,19 +225,17 @@ export const KnowledgeLibraryPage = () => {
       ) : (
         <div className="space-y-2">
           {filteredItems.map((item) => {
-            const pillarInfo = getPillarInfo(item.pillar);
-            const accessBadge = getAccessBadge(item.access);
+            const catInfo = getCategoryInfo(item.category);
             return (
               <div key={item.id} className="bg-white border border-gray-200 rounded-lg px-5 py-3 hover:border-primary/40 hover:shadow-sm transition flex items-center gap-4 cursor-pointer group">
-                <div className={`w-2 h-8 rounded-full ${pillarInfo.color} flex-shrink-0`}></div>
+                <div className={`w-2 h-8 rounded-full ${catInfo.color} flex-shrink-0`}></div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary transition truncate">{item.title}</h3>
                   <p className="text-xs text-gray-400 font-light truncate">{item.description}</p>
                 </div>
                 <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded ${getFormatBadge(item.format)}`}>{item.format}</span>
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${accessBadge.color}`}>{accessBadge.label}</span>
-                  <span className="text-xs text-gray-400 w-20 text-right">{item.updated}</span>
+                  <span className="text-xs font-semibold text-gray-400">{catInfo.label}</span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>
                 </div>
                 <ChevronRight size={16} className="text-gray-300 flex-shrink-0" />
               </div>
