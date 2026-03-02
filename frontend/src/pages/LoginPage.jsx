@@ -10,11 +10,17 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const { login, register, error } = useAuth();
 
+  const [inviteError, setInviteError] = useState('');
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     fullName: '',
+    inviteCode: '',
   });
+
+  // Valid invite codes — swap for Supabase lookup later
+  const VALID_INVITE_CODES = ['BLOCKOPS2026', 'FOUNDING-PARTNER', 'TEAM-ACCESS'];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +38,13 @@ export const LoginPage = () => {
     if (isLogin) {
       success = await login(formData.email, formData.password);
     } else {
+      // Validate invite code before allowing registration
+      if (!VALID_INVITE_CODES.includes(formData.inviteCode.trim().toUpperCase())) {
+        setInviteError('Invalid invite code. Contact your Block Ops representative for access.');
+        setLoading(false);
+        return;
+      }
+      setInviteError('');
       success = await register(formData.email, formData.fullName, formData.password);
     }
 
@@ -117,6 +130,43 @@ export const LoginPage = () => {
                     }}
                     placeholder="John Doe"
                   />
+                </div>
+              )}
+
+              {/* Invite Code - Register Only */}
+              {!isLogin && (
+                <div>
+                  <label className="block text-sm font-bold uppercase tracking-wide mb-2 text-gray-900">
+                    Invite Code
+                  </label>
+                  <input
+                    type="text"
+                    name="inviteCode"
+                    value={formData.inviteCode}
+                    onChange={handleChange}
+                    required={!isLogin}
+                    style={{ 
+                      backgroundColor: '#ffffff',
+                      color: '#111827',
+                      width: '100%',
+                      padding: '12px 16px',
+                      border: inviteError ? '1px solid #ef4444' : '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      outline: 'none'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#42A5B3';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(66, 165, 179, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = inviteError ? '#ef4444' : '#d1d5db';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                    placeholder="Enter your invite code"
+                  />
+                  {inviteError && (
+                    <p className="text-red-500 text-xs mt-1">{inviteError}</p>
+                  )}
                 </div>
               )}
 
@@ -213,7 +263,8 @@ export const LoginPage = () => {
                 type="button"
                 onClick={() => {
                   setIsLogin(!isLogin);
-                  setFormData({ email: '', password: '', fullName: '' });
+                  setFormData({ email: '', password: '', fullName: '', inviteCode: '' });
+                  setInviteError('');
                 }}
                 className="px-4 py-2 rounded-lg hover:opacity-80 font-bold uppercase tracking-wide transition bg-primary text-white"
               >
