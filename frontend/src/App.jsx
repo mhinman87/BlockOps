@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
@@ -13,6 +14,7 @@ import { SettingsPage } from './pages/SettingsPage';
 
 function App() {
   return (
+    <HelmetProvider>
     <Router>
       <AuthProvider>
         <Routes>
@@ -34,6 +36,7 @@ function App() {
         </Routes>
       </AuthProvider>
     </Router>
+    </HelmetProvider>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -157,6 +158,11 @@ export const LandingPage = () => {
 
   return (
     <div className="bg-white w-full">
+      <Helmet>
+        <title>Block Ops — Regional Anesthesiology Consulting for ASCs</title>
+        <meta name="description" content="Block Ops helps ambulatory surgery centers build and sustain high-performing nerve block programs. Turnkey protocols, on-site training, AI-powered support, and measurable outcomes." />
+        <link rel="canonical" href="https://blockops.consulting/" />
+      </Helmet>
       {/* Navigation */}
       <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
