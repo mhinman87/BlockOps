@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
@@ -34,11 +33,6 @@ export const CompanyPage = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      <Helmet>
-        <title>Our Team — Block Ops</title>
-        <meta name="description" content="Meet the Block Ops team — regional anesthesia experts, technology builders, and healthcare sales professionals building the future of nerve block programs." />
-        <link rel="canonical" href="https://blockops.consulting/company" />
-      </Helmet>
       {/* Navigation */}
       <nav className="fixed w-full bg-white shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
