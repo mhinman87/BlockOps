@@ -11,6 +11,9 @@ import { DeliverablesPage } from './pages/DeliverablesPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
+import { MeetingPage } from './pages/MeetingPage';
+import { LeadsPage } from './pages/LeadsPage';
+import { IntelPage } from './pages/IntelPage';
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
           <Route path="/dashboard/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
           <Route path="/dashboard/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+          <Route path="/dashboard/meeting" element={<ProtectedRoute><MeetingPage /></ProtectedRoute>} />
+          <Route path="/dashboard/leads" element={<ProtectedRoute><LeadsPage /></ProtectedRoute>} />
+          <Route path="/dashboard/intel" element={<ProtectedRoute><IntelPage /></ProtectedRoute>} />
 
           {/* Catch all */}
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRole } from '../hooks/useUserRole';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   Menu,
@@ -12,12 +13,17 @@ import {
   Settings,
   LogOut,
   ChevronDown,
+  Users,
+  Target,
+  ClipboardList,
+  TrendingUp,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { isTeam } = useUserRole();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,6 +32,12 @@ export const DashboardLayout = ({ children }) => {
     { icon: BookOpen, label: 'Knowledge Library', path: '/dashboard/library' },
     { icon: FolderOpen, label: 'My Deliverables', path: '/dashboard/deliverables' },
     { icon: BarChart3, label: 'Analytics', path: '/dashboard/analytics' },
+  ];
+
+  const teamMenuItems = [
+    { icon: ClipboardList, label: 'Weekly Meeting', path: '/dashboard/meeting' },
+    { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
+    { icon: TrendingUp, label: 'Business Intel', path: '/dashboard/intel' },
   ];
 
   const bottomMenuItems = [
@@ -79,6 +91,13 @@ export const DashboardLayout = ({ children }) => {
         <nav className="flex-1 px-3 py-4 space-y-1">
           <p className="px-4 text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Main</p>
           {mainMenuItems.map((item) => <NavLink key={item.path} item={item} />)}
+
+          {isTeam && (
+            <div className="pt-4">
+              <p className="px-4 text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Team</p>
+              {teamMenuItems.map((item) => <NavLink key={item.path} item={item} />)}
+            </div>
+          )}
           
           <div className="pt-4">
             <p className="px-4 text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Account</p>
