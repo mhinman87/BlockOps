@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useUserRole } from '../hooks/useUserRole';
 import { supabase } from '../services/supabase';
-import { CheckCircle2, Circle, Plus, X, Filter, Search, User, Tag, Rocket, ChevronDown } from 'lucide-react';
+import { CheckCircle2, Circle, Plus, X, Filter, Search, User, Tag, Rocket, ChevronDown, Pencil, Save } from 'lucide-react';
 
 const OWNERS = ['Max', 'Samir', 'Adrian', 'Bloq'];
 const CATEGORIES = ['Legal', 'Website', 'Dashboard', 'Sales', 'Funding', 'Infrastructure', 'Content', 'Agent'];
@@ -35,6 +35,8 @@ export const TasksPage = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [newTask, setNewTask] = useState({ title: '', description: '', owner: 'Max', category: 'Website' });
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editData, setEditData] = useState({});
 
   const fetchTasks = async () => {
     const { data, error } = await supabase
@@ -49,6 +51,30 @@ export const TasksPage = () => {
   };
 
   useEffect(() => { fetchTasks(); }, []);
+
+  const startEdit = (task) => {
+    setEditingId(task.id);
+    setEditData({ title: task.title, description: task.description || '', owner: task.owner, category: task.category });
+  };
+
+  const saveEdit = async () => {
+    if (!editData.title.trim()) return;
+    await supabase.from('launch_tasks').update({
+      title: editData.title.trim(),
+      description: editData.description.trim() || null,
+      owner: editData.owner,
+      category: editData.category,
+      updated_at: new Date().toISOString(),
+    }).eq('id', editingId);
+    setTasks(prev => prev.map(t => t.id === editingId ? { ...t, ...editData } : t));
+    setEditingId(null);
+    setEditData({});
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditData({});
+  };
 
   const toggleDone = async (id, currentDone) => {
     await supabase.from('launch_tasks').update({ done: !currentDone, updated_at: new Date().toISOString() }).eq('id', id);
@@ -218,17 +244,47 @@ export const TasksPage = () => {
               </div>
               {grouped[owner].map((task, idx) => (
                 <div key={task.id}
-                  className={`flex items-start gap-3 px-5 py-3.5 hover:bg-gray-50 transition ${idx !== grouped[owner].length - 1 ? 'border-b border-gray-50' : ''}`}>
-                  <button onClick={() => toggleDone(task.id, task.done)} className="mt-0.5 flex-shrink-0">
-                    <Circle size={18} className="text-gray-300 hover:text-primary transition" />
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 font-medium">{task.title}</p>
-                    {task.description && <p className="text-xs text-gray-500 font-light mt-0.5">{task.description}</p>}
-                  </div>
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${CATEGORY_COLORS[task.category] || 'bg-gray-100 text-gray-600'}`}>
-                    {task.category}
-                  </span>
+                  className={`px-5 py-3.5 hover:bg-gray-50 transition ${idx !== grouped[owner].length - 1 ? 'border-b border-gray-50' : ''}`}>
+                  {editingId === task.id ? (
+                    <div className="space-y-2">
+                      <input type="text" value={editData.title} onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary outline-none" autoFocus />
+                      <input type="text" value={editData.description} onChange={e => setEditData(prev => ({ ...prev, description: e.target.value }))}
+                        placeholder="Description..." className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary outline-none" />
+                      <div className="flex items-center gap-2">
+                        <select value={editData.owner} onChange={e => setEditData(prev => ({ ...prev, owner: e.target.value }))}
+                          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white">
+                          {OWNERS.map(o => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                        <select value={editData.category} onChange={e => setEditData(prev => ({ ...prev, category: e.target.value }))}
+                          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white">
+                          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                        <button onClick={saveEdit} className="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:opacity-90 flex items-center gap-1">
+                          <Save size={12} /> Save
+                        </button>
+                        <button onClick={cancelEdit} className="px-3 py-1.5 text-gray-500 hover:text-gray-700 text-xs font-semibold">Cancel</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-start gap-3">
+                      <button onClick={() => toggleDone(task.id, task.done)} className="mt-0.5 flex-shrink-0">
+                        <Circle size={18} className="text-gray-300 hover:text-primary transition" />
+                      </button>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-gray-900 font-medium">{task.title}</p>
+                        {task.description && <p className="text-xs text-gray-500 font-light mt-0.5">{task.description}</p>}
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_COLORS[task.category] || 'bg-gray-100 text-gray-600'}`}>
+                          {task.category}
+                        </span>
+                        <button onClick={() => startEdit(task)} className="text-gray-300 hover:text-gray-500 transition">
+                          <Pencil size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
