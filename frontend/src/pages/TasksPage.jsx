@@ -37,6 +37,8 @@ export const TasksPage = () => {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [completedTasks, setCompletedTasks] = useState([]);
 
   const fetchTasks = async () => {
     const { data, error } = await supabase
@@ -50,7 +52,17 @@ export const TasksPage = () => {
     setLoading(false);
   };
 
+  const fetchCompleted = async () => {
+    const { data, error } = await supabase
+      .from('launch_tasks')
+      .select('*')
+      .eq('done', true)
+      .order('updated_at', { ascending: false });
+    if (!error && data) setCompletedTasks(data);
+  };
+
   useEffect(() => { fetchTasks(); }, []);
+  useEffect(() => { if (showCompleted) fetchCompleted(); }, [showCompleted]);
 
   const startEdit = (task) => {
     setEditingId(task.id);
@@ -78,7 +90,17 @@ export const TasksPage = () => {
 
   const toggleDone = async (id, currentDone) => {
     await supabase.from('launch_tasks').update({ done: !currentDone, updated_at: new Date().toISOString() }).eq('id', id);
-    setTasks(prev => prev.filter(t => t.id !== id));
+    if (!currentDone) {
+      // Moving to done — remove from active, add to completed
+      const task = tasks.find(t => t.id === id);
+      setTasks(prev => prev.filter(t => t.id !== id));
+      if (task) setCompletedTasks(prev => [{ ...task, done: true }, ...prev]);
+    } else {
+      // Undoing — remove from completed, add back to active
+      const task = completedTasks.find(t => t.id === id);
+      setCompletedTasks(prev => prev.filter(t => t.id !== id));
+      if (task) setTasks(prev => [...prev, { ...task, done: false }]);
+    }
   };
 
   const addTask = async () => {
@@ -116,6 +138,7 @@ export const TasksPage = () => {
   });
 
   const totalTasks = tasks.length;
+  const totalCompleted = completedTasks.length;
   const ownerCounts = {};
   OWNERS.forEach(o => { ownerCounts[o] = tasks.filter(t => t.owner === o).length; });
 
@@ -138,9 +161,9 @@ export const TasksPage = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
           <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Total</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Remaining</p>
             <p className="text-2xl font-black text-gray-900">{totalTasks}</p>
           </div>
           {OWNERS.map(o => (
@@ -153,6 +176,11 @@ export const TasksPage = () => {
               <p className={`text-2xl font-black ${filterOwner === o ? 'text-primary' : 'text-gray-900'}`}>{ownerCounts[o]}</p>
             </div>
           ))}
+          <div className="bg-white rounded-xl border border-gray-200 p-4 cursor-pointer hover:border-green-300 transition"
+            onClick={() => setShowCompleted(!showCompleted)}>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Done ✅</p>
+            <p className={`text-2xl font-black ${showCompleted ? 'text-green-500' : 'text-gray-900'}`}>{totalCompleted}</p>
+          </div>
         </div>
 
         {/* Add Task Form */}
@@ -289,6 +317,34 @@ export const TasksPage = () => {
               ))}
             </div>
           ))
+        )}
+        {/* Completed Tasks */}
+        {showCompleted && completedTasks.length > 0 && (
+          <div className="bg-white rounded-xl border border-green-200 overflow-hidden">
+            <div className="px-5 py-3 border-b border-green-100 bg-green-50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-green-500" />
+                <span className="text-sm font-bold text-green-900">Completed ({completedTasks.length})</span>
+              </div>
+              <button onClick={() => setShowCompleted(false)} className="text-xs text-green-600 hover:text-green-800 font-semibold">Hide</button>
+            </div>
+            {completedTasks.map((task, idx) => (
+              <div key={task.id}
+                className={`flex items-start gap-3 px-5 py-3 hover:bg-green-50/50 transition ${idx !== completedTasks.length - 1 ? 'border-b border-gray-50' : ''}`}>
+                <button onClick={() => toggleDone(task.id, task.done)} className="mt-0.5 flex-shrink-0">
+                  <CheckCircle2 size={18} className="text-green-500 hover:text-green-700 transition" />
+                </button>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-gray-400 font-medium line-through">{task.title}</p>
+                  {task.description && <p className="text-xs text-gray-300 font-light mt-0.5 line-through">{task.description}</p>}
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className={`w-2 h-2 rounded-full ${OWNER_COLORS[task.owner]}`}></div>
+                  <span className="text-xs text-gray-400">{task.owner}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </DashboardLayout>
