@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Stethoscope, Monitor, Menu, X, Building2, Scissors, UserRound } from 'lucide-react';
 import HexagonParallax from '../components/HexagonParallax';
@@ -8,6 +8,41 @@ export const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hospitalHover, setHospitalHover] = useState(false);
   const [surgeryHover, setSurgeryHover] = useState(false);
+
+  // Cursor spotlight effect
+  const heroRef = useRef(null);
+  const blobRef = useRef(null);
+  const targetPos = useRef({ x: 50, y: 50 });
+  const currentPos = useRef({ x: 50, y: 50 });
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const blob = blobRef.current;
+    if (!hero || !blob) return;
+
+    const handleMouseMove = (e) => {
+      const rect = hero.getBoundingClientRect();
+      targetPos.current = {
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      };
+    };
+
+    const animate = () => {
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.07;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.07;
+      blob.style.background = `radial-gradient(ellipse 700px 550px at ${currentPos.current.x}% ${currentPos.current.y}%, rgba(66,165,179,0.28) 0%, rgba(66,165,179,0.06) 45%, transparent 70%)`;
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    hero.addEventListener('mousemove', handleMouseMove);
+    rafRef.current = requestAnimationFrame(animate);
+    return () => {
+      hero.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
   const services = [
     {
       icon: Stethoscope,
@@ -139,19 +174,37 @@ export const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-cyan-50 relative min-h-screen">
+      <section
+        ref={heroRef}
+        className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 relative min-h-screen overflow-hidden"
+        style={{ background: '#060d14' }}
+      >
+        {/* Cursor spotlight blob */}
+        <div
+          ref={blobRef}
+          className="absolute inset-0 pointer-events-none"
+          style={{ zIndex: 1 }}
+        />
+        {/* Ambient static glow — top-right corner */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 1,
+            background: 'radial-gradient(ellipse 500px 400px at 85% 15%, rgba(66,165,179,0.10) 0%, transparent 70%)',
+          }}
+        />
         <HexagonParallax />
-        <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col justify-center min-h-[calc(100vh-8rem)]">
+        <div className="max-w-7xl mx-auto text-center relative flex flex-col justify-center min-h-[calc(100vh-8rem)]" style={{ zIndex: 10 }}>
           <RevealText
             as="h1"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight"
             triggerOnMount
             delay={0}
           >
             Regional Anesthesiology <span className="text-primary">Consulting</span>
           </RevealText>
           <ScrollReveal triggerOnMount delay={0.3}>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
               We provide comprehensive assessments of your anesthesia program and deliver tailored recommendations designed to implement regional anesthesia techniques and optimize the effectiveness and success of your services.
             </p>
           </ScrollReveal>
