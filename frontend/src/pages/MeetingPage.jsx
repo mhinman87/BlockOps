@@ -1,8 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
-import { ClipboardList, Calendar, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react';
+import { TeamDocViewer } from '../components/TeamDocViewer';
+import { useUserRole } from '../hooks/useUserRole';
+import { ClipboardList, Calendar, ChevronRight, FileText } from 'lucide-react';
+
+const MEETING_DOCS = [
+  {
+    title: 'Week of March 10, 2026',
+    description: 'Master Playbook review, logo approval, grants & funding, lead gen pipeline',
+    path: 'team/meetings/Meeting_2026-03-10.md',
+    version: 'Current',
+    date: '2026-03-10',
+    current: true,
+  },
+];
 
 export const MeetingPage = () => {
+  const { isTeam } = useUserRole();
+  const [openDoc, setOpenDoc] = useState(null);
+
+  // Auto-open current meeting
+  const currentMeeting = MEETING_DOCS.find(m => m.current);
+
+  if (openDoc) {
+    return (
+      <DashboardLayout>
+        <div className="space-y-4">
+          <button
+            onClick={() => setOpenDoc(null)}
+            className="text-sm text-primary hover:text-primary/80 font-semibold flex items-center gap-1"
+          >
+            ← Back to Meetings
+          </button>
+          <TeamDocViewer
+            storagePath={openDoc.path}
+            title={openDoc.title}
+            description={openDoc.description}
+            version={openDoc.version}
+            isTeam={isTeam}
+          />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -12,33 +53,57 @@ export const MeetingPage = () => {
           <p className="text-gray-500 mt-1">Team agenda, action items, and progress tracking</p>
         </div>
 
-        {/* Coming Soon Card */}
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <ClipboardList className="text-primary" size={32} />
+        {/* Current Meeting Card */}
+        {currentMeeting && (
+          <button
+            onClick={() => setOpenDoc(currentMeeting)}
+            className="w-full bg-white rounded-xl border-2 border-primary/30 p-6 hover:border-primary/60 transition text-left"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                  <Calendar className="text-primary" size={24} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-bold text-gray-900">{currentMeeting.title}</p>
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">UPCOMING</span>
+                  </div>
+                  <p className="text-sm text-gray-500 font-light mt-0.5">{currentMeeting.description}</p>
+                </div>
+              </div>
+              <ChevronRight size={20} className="text-primary" />
+            </div>
+          </button>
+        )}
+
+        {/* Meeting History */}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="p-5 border-b border-gray-100">
+            <p className="text-sm font-bold text-gray-900">Meeting History</p>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Meeting Dashboard Coming Soon</h2>
-          <p className="text-gray-500 max-w-md mx-auto mb-6">
-            This section will auto-generate your weekly meeting agenda with action items, 
-            pipeline status, deliverable progress, and links to relevant documents.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            <div className="bg-gray-50 rounded-lg p-4 text-left">
-              <Calendar size={20} className="text-primary mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Auto-Generated Agenda</p>
-              <p className="text-xs text-gray-500 mt-1">Based on open items and recent activity</p>
+          {MEETING_DOCS.length > 0 ? (
+            MEETING_DOCS.map((doc, idx) => (
+              <button
+                key={doc.path}
+                onClick={() => setOpenDoc(doc)}
+                className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== MEETING_DOCS.length - 1 ? 'border-b border-gray-50' : ''}`}
+              >
+                <div className="flex items-center gap-3">
+                  <FileText size={16} className="text-gray-400" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">{doc.title}</p>
+                    <p className="text-xs text-gray-500 font-light">{doc.description}</p>
+                  </div>
+                </div>
+                <ChevronRight size={14} className="text-gray-300" />
+              </button>
+            ))
+          ) : (
+            <div className="p-8 text-center">
+              <p className="text-sm text-gray-400">No past meetings yet</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-4 text-left">
-              <CheckCircle2 size={20} className="text-green-500 mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Action Item Tracking</p>
-              <p className="text-xs text-gray-500 mt-1">Assigned owners and due dates</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 text-left">
-              <AlertCircle size={20} className="text-amber-500 mb-2" />
-              <p className="text-sm font-semibold text-gray-900">Blockers & Decisions</p>
-              <p className="text-xs text-gray-500 mt-1">Items needing team discussion</p>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
