@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Stethoscope, Monitor, Menu, X, Building2, Scissors, UserRound } from 'lucide-react';
 import HexagonParallax from '../components/HexagonParallax';
+import { ScrollReveal, RevealText } from '../components/ScrollReveal';
 
 export const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -141,21 +142,30 @@ export const LandingPage = () => {
       <section className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-cyan-50 relative min-h-screen">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col justify-center min-h-[calc(100vh-8rem)]">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <RevealText
+            as="h1"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight"
+            triggerOnMount
+            delay={0}
+          >
             Regional Anesthesiology <span className="text-primary">Consulting</span>
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
-          We provide comprehensive assessments of your anesthesia program and deliver tailored recommendations designed to implement regional anesthesia techniques and optimize the effectiveness and success of your services.
-          </p>
-          <div>
-            <Link
-              to="/login"
-              className="inline-flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm"
-            >
-              Get Started
-              <ArrowRight size={18} />
-            </Link>
-          </div>
+          </RevealText>
+          <ScrollReveal triggerOnMount delay={0.3}>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto font-light px-4">
+              We provide comprehensive assessments of your anesthesia program and deliver tailored recommendations designed to implement regional anesthesia techniques and optimize the effectiveness and success of your services.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal triggerOnMount delay={0.5}>
+            <div>
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm"
+              >
+                Get Started
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -166,9 +176,12 @@ export const LandingPage = () => {
             
             {/* Left Side - Content */}
             <div className="md:col-span-3 order-1 relative z-10">
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-12 text-white">
+              <RevealText
+                as="h2"
+                className="text-3xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-12 text-white"
+              >
                 Our Process
-              </h2>
+              </RevealText>
               
               {/* Process Steps */}
               <div className="space-y-6 sm:space-y-8 mb-8">
@@ -249,15 +262,17 @@ export const LandingPage = () => {
               </div>
 
               {/* Button */}
-              <div className="mt-8">
-                <Link
-                  to="/process"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
-                >
-                  Learn More About Our Process
-                  <ArrowRight size={18} />
-                </Link>
-              </div>
+              <ScrollReveal delay={0.3}>
+                <div className="mt-8">
+                  <Link
+                    to="/process"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
+                  >
+                    Learn More About Our Process
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </ScrollReveal>
             </div>
 
             {/* Right Side - Image */}
@@ -332,23 +347,25 @@ export const LandingPage = () => {
       <section id="services" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <RevealText
+            as="h2"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900"
+          >
             Our Services
-          </h2>
+          </RevealText>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {services.map((service, index) => {
               const Icon = service.icon;
               return (
-                <div
-                  key={index}
-                  className="p-6 sm:p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition border border-gray-200"
-                >
-                  <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-primary mb-3 sm:mb-4" />
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-gray-900">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 font-light">{service.description}</p>
-                </div>
+                <ScrollReveal key={index} delay={index * 0.12}>
+                  <div className="p-6 sm:p-8 bg-gray-50 rounded-xl shadow-md hover:shadow-xl transition border border-gray-200 h-full">
+                    <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-primary mb-3 sm:mb-4" />
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-gray-900">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-600 font-light">{service.description}</p>
+                  </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -359,16 +376,20 @@ export const LandingPage = () => {
       <section id="who-we-serve" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black relative min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto w-full">
           {/* Centered Title */}
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-12 sm:mb-16 text-white text-center">
+          <RevealText
+            as="h2"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold mb-12 sm:mb-16 text-white text-center"
+          >
             Who We Serve
-          </h2>
+          </RevealText>
           
           {/* Two Hexagons */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-24 max-w-5xl mx-auto">
             
             {/* Hospitals Hexagon */}
-            <div 
-              className="flex flex-col items-center group" 
+            <ScrollReveal delay={0}>
+            <div
+              className="flex flex-col items-center group"
               style={{ perspective: '1000px' }}
               onMouseEnter={() => setHospitalHover(true)}
               onMouseLeave={() => setHospitalHover(false)}
@@ -458,10 +479,12 @@ export const LandingPage = () => {
                 Hospitals
               </h3>
             </div>
+            </ScrollReveal>
 
             {/* Ambulatory Surgery Centers Hexagon */}
-            <div 
-              className="flex flex-col items-center group" 
+            <ScrollReveal delay={0.18}>
+            <div
+              className="flex flex-col items-center group"
               style={{ perspective: '1000px' }}
               onMouseEnter={() => setSurgeryHover(true)}
               onMouseLeave={() => setSurgeryHover(false)}
@@ -551,6 +574,7 @@ export const LandingPage = () => {
                 Surgery Centers
               </h3>
             </div>
+            </ScrollReveal>
 
           </div>
         </div>
@@ -560,14 +584,17 @@ export const LandingPage = () => {
       <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center">
         <HexagonParallax />
         <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <RevealText
+            as="h2"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900"
+          >
             Meet Our Team
-          </h2>
+          </RevealText>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
             {team.map((member, index) => (
+              <ScrollReveal key={index} delay={index * 0.12}>
               <div
-                key={index}
-                className="bg-gray-50 p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition text-center border border-gray-200"
+                className="bg-gray-50 p-6 sm:p-8 rounded-xl shadow-md hover:shadow-xl transition text-center border border-gray-200 h-full"
               >
                 <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-teal-400 to-primary rounded-full mx-auto mb-3 sm:mb-4"></div>
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
@@ -576,28 +603,35 @@ export const LandingPage = () => {
                 <p className="text-primary font-medium mb-2 sm:mb-3 uppercase tracking-wide text-xs sm:text-sm">{member.role}</p>
                 <p className="text-sm sm:text-base text-gray-600 font-light">{member.description}</p>
               </div>
+              </ScrollReveal>
             ))}
           </div>
-          
+
           {/* Learn More About Company Button */}
-          <div className="text-center">
-            <Link
-              to="/company"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
-            >
-              Learn More About Our Company
-              <ArrowRight size={18} />
-            </Link>
-          </div>
+          <ScrollReveal delay={0.2}>
+            <div className="text-center">
+              <Link
+                to="/company"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm shadow-lg shadow-primary/50"
+              >
+                Learn More About Our Company
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Contact Section */}
       <section id="patients" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900">
+          <RevealText
+            as="h2"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-10 sm:mb-16 text-gray-900"
+          >
             Get in Touch
-          </h2>
+          </RevealText>
+          <ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
             <div>
               <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-900">
@@ -642,6 +676,7 @@ export const LandingPage = () => {
               </button>
             </form>
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
