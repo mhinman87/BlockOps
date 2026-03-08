@@ -161,7 +161,10 @@ export const LandingPage = () => {
       <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">Block Ops</Link>
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/logo-192.png" alt="Block Ops" className="w-8 h-8 sm:w-10 sm:h-10" />
+              <span className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">Block Ops</span>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
@@ -728,7 +731,10 @@ export const LandingPage = () => {
       <footer className="bg-black text-white py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-            <div className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Block Ops</div>
+            <div className="flex items-center gap-2">
+              <img src="/logo-192.png" alt="Block Ops" className="w-8 h-8" />
+              <span className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide">Block Ops</span>
+            </div>
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
               <a href="#approach" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Approach</a>
               <a href="#results" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Results</a>

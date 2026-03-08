@@ -37,8 +37,9 @@ export const CompanyPage = () => {
       <nav className="fixed w-full bg-white shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">
-              Block Ops
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/logo-192.png" alt="Block Ops" className="w-8 h-8 sm:w-10 sm:h-10" />
+              <span className="text-xl sm:text-2xl font-black text-primary uppercase tracking-wide">Block Ops</span>
             </Link>
             
             {/* Desktop Navigation */}

@@ -83,8 +83,9 @@ export const DashboardLayout = ({ children }) => {
       >
         {/* Logo */}
         <div className="flex items-center justify-between h-14 px-5 border-b border-gray-200">
-          <Link to="/dashboard" className="text-lg font-black text-primary uppercase tracking-wide">
-            Block Ops
+          <Link to="/dashboard" className="flex items-center gap-2">
+            <img src="/logo-192.png" alt="Block Ops" className="w-8 h-8" />
+            <span className="text-lg font-black text-primary uppercase tracking-wide">Block Ops</span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-500 hover:text-gray-900">
             <X size={20} />
