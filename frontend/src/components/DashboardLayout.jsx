@@ -17,6 +17,7 @@ import {
   Target,
   ClipboardList,
   TrendingUp,
+  BookMarked,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -37,6 +38,7 @@ export const DashboardLayout = ({ children }) => {
   const teamMenuItems = [
     { icon: ClipboardList, label: 'Weekly Meeting', path: '/dashboard/meeting' },
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
+    { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
     { icon: TrendingUp, label: 'Business Intel', path: '/dashboard/intel' },
   ];
 
