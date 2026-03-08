@@ -14,6 +14,7 @@ import { MeetingPage } from './pages/MeetingPage';
 import { LeadsPage } from './pages/LeadsPage';
 import { IntelPage } from './pages/IntelPage';
 import { OperationsPage } from './pages/OperationsPage';
+import { TasksPage } from './pages/TasksPage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
           <Route path="/dashboard/meeting" element={<ProtectedRoute><MeetingPage /></ProtectedRoute>} />
           <Route path="/dashboard/leads" element={<ProtectedRoute><LeadsPage /></ProtectedRoute>} />
+          <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/intel" element={<ProtectedRoute><IntelPage /></ProtectedRoute>} />
 

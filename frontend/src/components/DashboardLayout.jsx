@@ -18,6 +18,7 @@ import {
   ClipboardList,
   TrendingUp,
   BookMarked,
+  ListChecks,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -36,6 +37,7 @@ export const DashboardLayout = ({ children }) => {
   ];
 
   const teamMenuItems = [
+    { icon: ListChecks, label: 'Launch Tracker', path: '/dashboard/tasks' },
     { icon: ClipboardList, label: 'Weekly Meeting', path: '/dashboard/meeting' },
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
     { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
