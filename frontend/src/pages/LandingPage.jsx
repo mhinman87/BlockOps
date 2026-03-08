@@ -9,37 +9,73 @@ export const LandingPage = () => {
   const [hospitalHover, setHospitalHover] = useState(false);
   const [surgeryHover, setSurgeryHover] = useState(false);
 
-  // Cursor spotlight effect
+  // Cursor spotlight + hexagon cursor effect
   const heroRef = useRef(null);
   const blobRef = useRef(null);
-  const targetPos = useRef({ x: 50, y: 50 });
-  const currentPos = useRef({ x: 50, y: 50 });
+  const cursorDotRef = useRef(null);
+  const cursorRingRef = useRef(null);
+  const targetPos = useRef({ x: 50, y: 50 });   // % for blob
+  const currentPos = useRef({ x: 50, y: 50 });  // % for blob (lerped)
+  const cursorPx = useRef({ x: -100, y: -100 }); // exact px for dot
+  const ringPx = useRef({ x: -100, y: -100 });   // px for ring (lerped)
   const rafRef = useRef(null);
 
   useEffect(() => {
     const hero = heroRef.current;
     const blob = blobRef.current;
+    const dot = cursorDotRef.current;
+    const ring = cursorRingRef.current;
     if (!hero || !blob) return;
 
     const handleMouseMove = (e) => {
       const rect = hero.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      cursorPx.current = { x, y };
       targetPos.current = {
-        x: ((e.clientX - rect.left) / rect.width) * 100,
-        y: ((e.clientY - rect.top) / rect.height) * 100,
+        x: (x / rect.width) * 100,
+        y: (y / rect.height) * 100,
       };
     };
 
+    const handleMouseEnter = () => {
+      if (dot) dot.style.opacity = '1';
+      if (ring) ring.style.opacity = '1';
+    };
+    const handleMouseLeave = () => {
+      if (dot) dot.style.opacity = '0';
+      if (ring) ring.style.opacity = '0';
+    };
+
     const animate = () => {
+      // Blob (% based, slow lerp)
       currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.07;
       currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.07;
       blob.style.background = `radial-gradient(ellipse 700px 550px at ${currentPos.current.x}% ${currentPos.current.y}%, rgba(66,165,179,0.28) 0%, rgba(66,165,179,0.06) 45%, transparent 70%)`;
+
+      // Dot — snaps directly to cursor
+      if (dot) {
+        dot.style.transform = `translate(${cursorPx.current.x - 10}px, ${cursorPx.current.y - 10}px)`;
+      }
+
+      // Ring — lerps behind cursor
+      ringPx.current.x += (cursorPx.current.x - ringPx.current.x) * 0.1;
+      ringPx.current.y += (cursorPx.current.y - ringPx.current.y) * 0.1;
+      if (ring) {
+        ring.style.transform = `translate(${ringPx.current.x - 22}px, ${ringPx.current.y - 22}px)`;
+      }
+
       rafRef.current = requestAnimationFrame(animate);
     };
 
     hero.addEventListener('mousemove', handleMouseMove);
+    hero.addEventListener('mouseenter', handleMouseEnter);
+    hero.addEventListener('mouseleave', handleMouseLeave);
     rafRef.current = requestAnimationFrame(animate);
     return () => {
       hero.removeEventListener('mousemove', handleMouseMove);
+      hero.removeEventListener('mouseenter', handleMouseEnter);
+      hero.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -177,7 +213,7 @@ export const LandingPage = () => {
       <section
         ref={heroRef}
         className="pt-24 sm:pt-32 pb-20 sm:pb-40 px-4 sm:px-6 lg:px-8 relative min-h-screen overflow-hidden"
-        style={{ background: '#060d14' }}
+        style={{ background: '#060d14', cursor: 'none' }}
       >
         {/* Cursor spotlight blob */}
         <div
@@ -185,6 +221,38 @@ export const LandingPage = () => {
           className="absolute inset-0 pointer-events-none"
           style={{ zIndex: 1 }}
         />
+
+        {/* Custom hex cursor — small dot */}
+        <div
+          ref={cursorDotRef}
+          className="absolute top-0 left-0 pointer-events-none"
+          style={{ zIndex: 100, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 100 100">
+            <path
+              d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z"
+              fill="rgba(66,165,179,0.2)"
+              stroke="#42A5B3"
+              strokeWidth="5"
+            />
+          </svg>
+        </div>
+
+        {/* Custom hex cursor — trailing ring */}
+        <div
+          ref={cursorRingRef}
+          className="absolute top-0 left-0 pointer-events-none"
+          style={{ zIndex: 99, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}
+        >
+          <svg width="44" height="44" viewBox="0 0 100 100">
+            <path
+              d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z"
+              fill="none"
+              stroke="rgba(66,165,179,0.35)"
+              strokeWidth="3"
+            />
+          </svg>
+        </div>
         {/* Ambient static glow — top-right corner */}
         <div
           className="absolute inset-0 pointer-events-none"
