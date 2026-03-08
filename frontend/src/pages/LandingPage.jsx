@@ -50,18 +50,21 @@ export const LandingPage = () => {
     const blob = blobRef.current;
     const dot = cursorDotRef.current;
     const ring = cursorRingRef.current;
-    if (!hero || !blob) return;
+    if (!blob) return;
 
     const handleMouseMove = (e) => {
-      const rect = hero.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      cursorPx.current = { x, y };
-      targetPos.current = { x: (x / rect.width) * 100, y: (y / rect.height) * 100 };
-    };
-    const handleMouseEnter = () => {
+      // Update cursor px position (viewport coords for fixed elements)
+      cursorPx.current = { x: e.clientX, y: e.clientY };
+      // Show cursors on first move
       if (dot) dot.style.opacity = '1';
       if (ring) ring.style.opacity = '1';
+      // Update blob target using hero-relative % (spotlight stays in hero)
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        targetPos.current = { x: (x / rect.width) * 100, y: (y / rect.height) * 100 };
+      }
     };
     const handleMouseLeave = () => {
       if (dot) dot.style.opacity = '0';
@@ -77,14 +80,12 @@ export const LandingPage = () => {
       if (ring) ring.style.transform = `translate(${ringPx.current.x - 22}px, ${ringPx.current.y - 22}px)`;
       rafRef.current = requestAnimationFrame(animate);
     };
-    hero.addEventListener('mousemove', handleMouseMove);
-    hero.addEventListener('mouseenter', handleMouseEnter);
-    hero.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     rafRef.current = requestAnimationFrame(animate);
     return () => {
-      hero.removeEventListener('mousemove', handleMouseMove);
-      hero.removeEventListener('mouseenter', handleMouseEnter);
-      hero.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -212,7 +213,19 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="bg-white w-full">
+    <div className="bg-white w-full" style={{ cursor: 'none' }}>
+      {/* Hex cursor — dot (fixed, page-wide) */}
+      <div ref={cursorDotRef} className="fixed top-0 left-0 pointer-events-none" style={{ zIndex: 9999, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
+        <svg width="20" height="20" viewBox="0 0 100 100">
+          <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="rgba(66,165,179,0.2)" stroke="#42A5B3" strokeWidth="5" />
+        </svg>
+      </div>
+      {/* Hex cursor — trailing ring (fixed, page-wide) */}
+      <div ref={cursorRingRef} className="fixed top-0 left-0 pointer-events-none" style={{ zIndex: 9998, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
+        <svg width="44" height="44" viewBox="0 0 100 100">
+          <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="rgba(66,165,179,0.35)" strokeWidth="3" />
+        </svg>
+      </div>
       {/* Navigation */}
       <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -281,24 +294,12 @@ export const LandingPage = () => {
       <section
         ref={heroRef}
         className="pt-24 sm:pt-32 pb-20 sm:pb-32 px-4 sm:px-6 lg:px-8 relative min-h-screen flex items-center overflow-hidden"
-        style={{ background: '#060d14', cursor: 'none' }}
+        style={{ background: '#060d14' }}
       >
         {/* Cursor spotlight blob */}
         <div ref={blobRef} className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }} />
         {/* Ambient static glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1, background: 'radial-gradient(ellipse 500px 400px at 85% 15%, rgba(66,165,179,0.10) 0%, transparent 70%)' }} />
-        {/* Hex cursor — dot */}
-        <div ref={cursorDotRef} className="absolute top-0 left-0 pointer-events-none" style={{ zIndex: 100, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
-          <svg width="20" height="20" viewBox="0 0 100 100">
-            <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="rgba(66,165,179,0.2)" stroke="#42A5B3" strokeWidth="5" />
-          </svg>
-        </div>
-        {/* Hex cursor — trailing ring */}
-        <div ref={cursorRingRef} className="absolute top-0 left-0 pointer-events-none" style={{ zIndex: 99, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
-          <svg width="44" height="44" viewBox="0 0 100 100">
-            <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="rgba(66,165,179,0.35)" strokeWidth="3" />
-          </svg>
-        </div>
         <HexagonParallax />
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <ScrollReveal triggerOnMount delay={0}>
