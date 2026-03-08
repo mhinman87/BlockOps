@@ -1,0 +1,8 @@
+# Block Ops - robots.txt
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /login
+
+Sitemap: https://blockops.consulting/sitemap.xml
