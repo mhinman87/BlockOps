@@ -284,6 +284,9 @@ export const LandingPage = () => {
               <a href="#about" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
                 About
               </a>
+              <Link to="/blog" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+                Blog
+              </Link>
               <Link
                 to="/login"
                 className="px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm"
@@ -315,6 +318,7 @@ export const LandingPage = () => {
                 <a href="#results" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Results</a>
                 <a href="#who-we-serve" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Who We Serve</a>
                 <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">About</a>
+                <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Blog</Link>
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mx-4 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm text-center">Client Login</Link>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="mx-4 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-bold uppercase tracking-wide text-sm text-center">Free Consultation</a>
               </div>
@@ -861,6 +865,7 @@ export const LandingPage = () => {
               <a href="#who-we-serve" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Who We Serve</a>
               <a href="#about" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Team</a>
               <a href="#contact" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Contact</a>
+              <Link to="/blog" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Blog</Link>
               <Link to="/login" className="text-gray-400 hover:text-white transition font-semibold uppercase tracking-wide text-xs sm:text-sm">Client Login</Link>
             </div>
           </div>

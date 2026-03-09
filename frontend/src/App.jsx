@@ -15,6 +15,8 @@ import { LeadsPage } from './pages/LeadsPage';
 import { IntelPage } from './pages/IntelPage';
 import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
+import { BlogPage } from './pages/BlogPage';
+import { BlogPostPage } from './pages/BlogPostPage';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/company" element={<CompanyPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
 
           {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><DashboardHome /></ProtectedRoute>} />
