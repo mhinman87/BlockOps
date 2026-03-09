@@ -70,6 +70,28 @@ export const LandingPage = () => {
       if (dot) dot.style.opacity = '0';
       if (ring) ring.style.opacity = '0';
     };
+
+    // Inject spin keyframe
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `@keyframes hex-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
+    document.head.appendChild(styleEl);
+
+    const dotSvg = dot?.querySelector('svg');
+    const ringSvg = ring?.querySelector('svg');
+    const INTERACTIVE = 'a, button, [role="button"], select, input, textarea, label, .group';
+    const handleMouseOver = (e) => {
+      if (e.target.closest(INTERACTIVE)) {
+        if (dotSvg) dotSvg.style.animation = 'hex-spin 0.9s linear infinite';
+        if (ringSvg) ringSvg.style.animation = 'hex-spin 1.6s linear infinite reverse';
+      }
+    };
+    const handleMouseOut = (e) => {
+      if (e.target.closest(INTERACTIVE)) {
+        if (dotSvg) dotSvg.style.animation = 'none';
+        if (ringSvg) ringSvg.style.animation = 'none';
+      }
+    };
+
     const animate = () => {
       currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.07;
       currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.07;
@@ -81,12 +103,17 @@ export const LandingPage = () => {
       rafRef.current = requestAnimationFrame(animate);
     };
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
     document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     rafRef.current = requestAnimationFrame(animate);
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(rafRef.current);
+      document.head.removeChild(styleEl);
     };
   }, []);
 
