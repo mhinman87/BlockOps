@@ -26,8 +26,6 @@ import { ScrollReveal, RevealText } from '../components/ScrollReveal';
 
 export const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hospitalHover, setHospitalHover] = useState(false);
-  const [surgeryHover, setSurgeryHover] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
@@ -76,19 +74,25 @@ export const LandingPage = () => {
     styleEl.textContent = `@keyframes hex-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`;
     document.head.appendChild(styleEl);
 
-    const dotSvg = dot?.querySelector('svg');
-    const ringSvg = ring?.querySelector('svg');
+    const dotWrapper = dot?.firstElementChild;
+    const ringWrapper = ring?.firstElementChild;
+    const dotSvg = dotWrapper?.querySelector('svg');
+    const ringSvg = ringWrapper?.querySelector('svg');
     const INTERACTIVE = 'a, button, [role="button"], select, input, textarea, label, .group';
     const handleMouseOver = (e) => {
       if (e.target.closest(INTERACTIVE)) {
         if (dotSvg) dotSvg.style.animation = 'hex-spin 0.9s linear infinite';
         if (ringSvg) ringSvg.style.animation = 'hex-spin 1.6s linear infinite reverse';
+        if (dotWrapper) dotWrapper.style.transform = 'scale(2)';
+        if (ringWrapper) ringWrapper.style.transform = 'scale(2)';
       }
     };
     const handleMouseOut = (e) => {
       if (e.target.closest(INTERACTIVE)) {
         if (dotSvg) dotSvg.style.animation = 'none';
         if (ringSvg) ringSvg.style.animation = 'none';
+        if (dotWrapper) dotWrapper.style.transform = 'scale(1)';
+        if (ringWrapper) ringWrapper.style.transform = 'scale(1)';
       }
     };
 
@@ -243,15 +247,19 @@ export const LandingPage = () => {
     <div className="bg-white w-full" style={{ cursor: 'none' }}>
       {/* Hex cursor — dot (fixed, page-wide) */}
       <div ref={cursorDotRef} className="fixed top-0 left-0 pointer-events-none" style={{ zIndex: 9999, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
-        <svg width="20" height="20" viewBox="0 0 100 100">
-          <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="rgba(66,165,179,0.2)" stroke="#42A5B3" strokeWidth="5" />
-        </svg>
+        <div style={{ display: 'inline-block', transformOrigin: 'center', transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+          <svg width="20" height="20" viewBox="0 0 100 100">
+            <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="rgba(66,165,179,0.2)" stroke="#42A5B3" strokeWidth="5" />
+          </svg>
+        </div>
       </div>
       {/* Hex cursor — trailing ring (fixed, page-wide) */}
       <div ref={cursorRingRef} className="fixed top-0 left-0 pointer-events-none" style={{ zIndex: 9998, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
-        <svg width="44" height="44" viewBox="0 0 100 100">
-          <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="rgba(66,165,179,0.35)" strokeWidth="3" />
-        </svg>
+        <div style={{ display: 'inline-block', transformOrigin: 'center', transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+          <svg width="44" height="44" viewBox="0 0 100 100">
+            <path d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z" fill="none" stroke="rgba(66,165,179,0.35)" strokeWidth="3" />
+          </svg>
+        </div>
       </div>
       {/* Navigation */}
       <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50">
@@ -589,11 +597,7 @@ export const LandingPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl mx-auto">
             {/* Hospitals */}
-            <div 
-              className="group cursor-default"
-              onMouseEnter={() => setHospitalHover(true)}
-              onMouseLeave={() => setHospitalHover(false)}
-            >
+            <div className="group">
               <div className="relative">
                 <svg viewBox="0 0 100 100" className="w-full max-w-sm mx-auto h-auto">
                   <defs>
@@ -633,11 +637,7 @@ export const LandingPage = () => {
             </div>
 
             {/* Surgery Centers */}
-            <div 
-              className="group cursor-default"
-              onMouseEnter={() => setSurgeryHover(true)}
-              onMouseLeave={() => setSurgeryHover(false)}
-            >
+            <div className="group">
               <div className="relative">
                 <svg viewBox="0 0 100 100" className="w-full max-w-sm mx-auto h-auto">
                   <defs>
