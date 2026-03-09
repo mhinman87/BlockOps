@@ -54,3 +54,9 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Hide default cursor site-wide — custom hex cursor replaces it */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}

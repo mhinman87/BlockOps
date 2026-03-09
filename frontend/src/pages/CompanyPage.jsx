@@ -12,7 +12,7 @@ export const CompanyPage = () => {
   
   const leadership = [
     {
-      name: 'Dr. Samir Bhakta',
+      name: 'Samir Bhakta, MD',
       role: 'Regional Anesthesia Specialist',
       roleColor: 'text-primary',
       description: 'Board-certified anesthesiologist specializing in regional anesthesia techniques. Samir leads all clinical architecture, protocol development, and on-site implementation for Block Ops. His expertise drives the Gold Standard framework that defines every engagement.',

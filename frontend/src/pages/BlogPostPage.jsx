@@ -5,7 +5,7 @@ import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
 const posts = {
   'future-of-regional-anesthesia-in-ambulatory-surgery': {
     title: 'The Future of Regional Anesthesia in Ambulatory Surgery',
-    author: 'Dr. Samir Bhakta',
+    author: 'Samir Bhakta, MD',
     date: 'March 7, 2026',
     readTime: '6 min read',
     category: 'Industry Trends',
@@ -72,7 +72,7 @@ The real question isn't whether regional anesthesia belongs in your ASC. It's wh
 
 ---
 
-*Dr. Samir Bhakta is a board-certified anesthesiologist specializing in regional anesthesia techniques, with extensive experience building perioperative programs for ambulatory surgery centers and hospitals.*
+*Samir Bhakta, MD is a board-certified anesthesiologist specializing in regional anesthesia techniques, with extensive experience building perioperative programs for ambulatory surgery centers and hospitals.*
     `,
   },
 };

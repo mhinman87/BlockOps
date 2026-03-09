@@ -227,7 +227,7 @@ export const LandingPage = () => {
 
   const team = [
     {
-      name: 'Dr. Samir Bhakta',
+      name: 'Samir Bhakta, MD',
       role: 'Regional Anesthesia Specialist',
       description: 'Board-certified anesthesiologist specializing in regional anesthesia techniques. Leads all clinical architecture, protocol development, and on-site implementation.',
     },
@@ -244,7 +244,7 @@ export const LandingPage = () => {
   ];
 
   return (
-    <div className="bg-white w-full" style={{ cursor: 'none' }}>
+    <div className="bg-white w-full cursor-hidden">
       {/* Hex cursor — dot (fixed, page-wide) */}
       <div ref={cursorDotRef} className="fixed top-0 left-0 pointer-events-none" style={{ zIndex: 9999, opacity: 0, willChange: 'transform', transition: 'opacity 0.2s ease' }}>
         <div style={{ display: 'inline-block', transformOrigin: 'center', transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
