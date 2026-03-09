@@ -17,6 +17,7 @@ import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -44,7 +45,7 @@ function App() {
           <Route path="/dashboard/intel" element={<ProtectedRoute><IntelPage /></ProtectedRoute>} />
 
           {/* Catch all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>
     </Router>
