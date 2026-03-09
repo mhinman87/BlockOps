@@ -10,19 +10,19 @@ const posts = {
     readTime: '6 min read',
     category: 'Industry Trends',
     content: `
-The ambulatory surgery center (ASC) model is one of the fastest-growing segments in American healthcare. With more than 6,100 Medicare-certified ASCs operating nationwide — and hundreds more opening each year — the shift from hospital-based to outpatient surgical care is undeniable.
+The ambulatory surgery center (ASC) model is one of the fastest-growing segments in American healthcare. With more than 6,100 Medicare-certified ASCs operating nationwide, and hundreds more opening each year, the shift from hospital-based to outpatient surgical care is undeniable.
 
-But this growth creates a critical challenge: **how do you deliver high-quality anesthesia care in a setting designed for speed, efficiency, and same-day discharge?**
+This growth creates a real challenge, though. How do you deliver high-quality anesthesia care in a setting designed for speed, efficiency, and same-day discharge?
 
-The answer, increasingly, is regional anesthesia.
+The answer is increasingly clear: regional anesthesia.
 
 ## Why Regional Anesthesia Is the Future of ASC Care
 
 ### 1. The Opioid Equation
 
-General anesthesia with opioid-based pain management has been the default for decades. But the consequences are well-documented — postoperative nausea, prolonged PACU stays, respiratory depression, and the ever-present risk of opioid dependence.
+General anesthesia with opioid-based pain management has been the default for decades. The consequences are well-documented. Postoperative nausea, prolonged PACU stays, respiratory depression, and the ever-present risk of opioid dependence all come with the territory.
 
-Regional anesthesia flips this equation. A well-placed nerve block can reduce opioid consumption by **40-60% in the first 24 hours** post-surgery. For an ASC performing 2,000+ orthopedic cases annually, that's not just a clinical improvement — it's a fundamental shift in patient outcomes.
+Regional anesthesia changes this completely. A well-placed nerve block can reduce opioid consumption by **40-60% in the first 24 hours** post-surgery. For an ASC performing 2,000+ orthopedic cases annually, that represents a meaningful shift in patient outcomes across the board.
 
 ### 2. PACU Throughput
 
@@ -31,13 +31,13 @@ Every minute a patient spends in the PACU costs your facility $30-50 in staffing
 For a busy ASC, this translates to:
 - More cases per day without expanding physical space
 - Reduced nursing overtime
-- Higher patient satisfaction scores (patients wake up comfortable, not nauseated)
+- Higher patient satisfaction scores, since patients wake up comfortable instead of nauseated
 
 ### 3. The Revenue Opportunity
 
-Regional anesthesia isn't just a cost saver — it's a revenue generator. Properly coded and billed nerve blocks generate **$200-800 per case in additional reimbursement** through CPT codes that many facilities currently leave on the table.
+Regional anesthesia saves money, but it also generates revenue. Properly coded and billed nerve blocks generate **$200-800 per case in additional reimbursement** through CPT codes that many facilities currently leave on the table.
 
-The math is straightforward: a facility performing 1,500 eligible cases per year with proper block billing can generate **$300K-$1.2M in additional annual revenue** — often exceeding the entire cost of implementing a regional program.
+The math is straightforward. A facility performing 1,500 eligible cases per year with proper block billing can generate **$300K-$1.2M in additional annual revenue**, often exceeding the entire cost of implementing a regional program.
 
 ## What's Holding Facilities Back?
 
@@ -53,22 +53,22 @@ Three barriers come up consistently:
 
 ## The System Approach
 
-This is why we built Block Ops as a **system**, not a consultancy. A consultant tells you what to do. A system gives you everything you need to do it — and keeps working long after the consultant leaves.
+This is why we built Block Ops as a **system**, not a consultancy. A consultant tells you what to do. A system gives you everything you need to do it, and keeps working long after the consultant leaves.
 
 Our six-pillar framework addresses every dimension of a regional anesthesia program:
 
-1. **Clinical Architecture** — Evidence-based protocols aligned with ASRA and ASA guidelines
-2. **Physical Operations** — Block bay design, workflow optimization, supply chain
-3. **Digital Platform** — Dashboards, documentation templates, outcome tracking
-4. **Human Capital** — Provider training, competency tiers, nursing education
-5. **Stakeholder Integration** — Surgeon buy-in, patient education, care coordination
-6. **Value Intelligence** — Billing optimization, ROI measurement, compliance
+1. **Clinical Architecture**: Evidence-based protocols aligned with ASRA and ASA guidelines
+2. **Physical Operations**: Block bay design, workflow optimization, supply chain
+3. **Digital Platform**: Dashboards, documentation templates, outcome tracking
+4. **Human Capital**: Provider training, competency tiers, nursing education
+5. **Stakeholder Integration**: Surgeon buy-in, patient education, care coordination
+6. **Value Intelligence**: Billing optimization, ROI measurement, compliance
 
 ## Looking Ahead
 
-The facilities that invest in regional anesthesia infrastructure today are positioning themselves for the next decade of ambulatory surgery. As payer models increasingly reward quality outcomes and reduced opioid use, having a structured, measurable regional program won't just be a competitive advantage — it will be a requirement.
+The facilities that invest in regional anesthesia infrastructure today are positioning themselves for the next decade of ambulatory surgery. As payer models increasingly reward quality outcomes and reduced opioid use, having a structured, measurable regional program will move from competitive advantage to baseline requirement.
 
-The question isn't whether regional anesthesia belongs in your ASC. It's whether you have the system to deliver it consistently, safely, and profitably.
+The real question isn't whether regional anesthesia belongs in your ASC. It's whether you have the system to deliver it consistently, safely, and profitably.
 
 ---
 
