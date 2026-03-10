@@ -49,10 +49,10 @@ export const OperationsPage = () => {
     setLoading(true);
     setError(null);
     try {
-      // List all items in team/operations/
+      // List all items in operations/
       const { data: items, error: listError } = await supabase.storage
         .from('deliverables')
-        .list('team/operations', { limit: 200 });
+        .list('operations', { limit: 200 });
 
       if (listError) throw listError;
 
@@ -62,7 +62,7 @@ export const OperationsPage = () => {
       // Fetch the first ~500 bytes of each file to parse the header
       const docsWithMeta = await Promise.all(
         mdFiles.map(async (file) => {
-          const path = `team/operations/${file.name}`;
+          const path = `operations/${file.name}`;
           try {
             const { data: urlData } = supabase.storage.from('deliverables').getPublicUrl(path);
             const resp = await fetch(urlData.publicUrl + `?t=${Date.now()}`, {
@@ -158,7 +158,7 @@ export const OperationsPage = () => {
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Storage</p>
-            <p className="text-sm font-semibold text-gray-600 mt-1">team/operations/</p>
+            <p className="text-sm font-semibold text-gray-600 mt-1">operations/</p>
           </div>
         </div>
 
@@ -192,7 +192,7 @@ export const OperationsPage = () => {
 
             {folders.length === 0 && (
               <div className="p-8 text-center text-gray-400 text-sm">
-                No documents found in team/operations/
+                No documents found in operations/
               </div>
             )}
 
