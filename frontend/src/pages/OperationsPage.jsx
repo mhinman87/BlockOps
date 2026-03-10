@@ -2,64 +2,93 @@ import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
-import { BookMarked, ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2 } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Shield, Rocket, Users, AlertTriangle, Scale, Briefcase } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-
-// Parse markdown header to extract title, version, description, and last updated
+// Parse markdown header to extract title, version, and last updated
 const parseMarkdownHeader = (text) => {
-  const lines = text.split('\n').slice(0, 15); // only scan first 15 lines
+  const lines = text.split('\n').slice(0, 15);
   let title = '';
   let version = '';
-  let description = '';
   let lastUpdated = '';
 
   for (const line of lines) {
     const trimmed = line.trim();
-    // Title: first H1
     if (!title && trimmed.startsWith('# ')) {
       title = trimmed.replace(/^# /, '');
     }
-    // Version from H2 like "## Internal Operations | Version: DRAFT v2.0"
     if (!version && trimmed.toLowerCase().includes('version')) {
       const vMatch = trimmed.match(/v(?:ersion[:\s]*)?(?:draft\s+)?(v?\d+\.\d+)/i);
       if (vMatch) {
         version = vMatch[1].startsWith('v') ? vMatch[1] : 'v' + vMatch[1];
       }
     }
-    // Last Updated
     if (!lastUpdated && trimmed.toLowerCase().includes('last updated')) {
       const dMatch = trimmed.match(/(\d{4}-\d{2}-\d{2})/);
       if (dMatch) lastUpdated = dMatch[1];
     }
   }
 
-  return { title, version: version || 'v1.0', description: '', lastUpdated };
+  return { title, version: version || '', lastUpdated };
+};
+
+// Auto-categorize a file based on its filename
+const categorizeFile = (fileName) => {
+  const lower = fileName.toLowerCase();
+
+  if (lower.includes('master_playbook') || lower.includes('operating_model') || lower.includes('strategic_vision')) {
+    return 'Master Documents';
+  }
+  if (lower.match(/phase_[1-3]/)) {
+    return 'Phase 1-3: Acquire & Launch';
+  }
+  if (lower.match(/phase_[4-6]/)) {
+    return 'Phase 4-6: Deliver & Grow';
+  }
+  if (lower.match(/phase_[7-8]/)) {
+    return 'Phase 7-8: Protect & Exit';
+  }
+  if (lower.includes('legal') || lower.includes('compliance')) {
+    return 'Legal & Compliance';
+  }
+  if (lower.includes('lead') || lower.includes('sales') || lower.includes('elevator') || lower.includes('pitch')) {
+    return 'Sales & Outreach';
+  }
+  return 'Other Documents';
+};
+
+const CATEGORY_CONFIG = {
+  'Master Documents': { icon: Shield, color: 'text-primary', order: 0 },
+  'Phase 1-3: Acquire & Launch': { icon: Rocket, color: 'text-green-500', order: 1 },
+  'Phase 4-6: Deliver & Grow': { icon: Users, color: 'text-blue-500', order: 2 },
+  'Phase 7-8: Protect & Exit': { icon: AlertTriangle, color: 'text-amber-500', order: 3 },
+  'Sales & Outreach': { icon: Briefcase, color: 'text-purple-500', order: 4 },
+  'Legal & Compliance': { icon: Scale, color: 'text-red-400', order: 5 },
+  'Other Documents': { icon: FolderOpen, color: 'text-gray-500', order: 6 },
 };
 
 export const OperationsPage = () => {
   const { isTeam } = useUserRole();
   const [openDoc, setOpenDoc] = useState(null);
-  const [folders, setFolders] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState({});
 
   const fetchDocs = async () => {
     setLoading(true);
     setError(null);
     try {
-      // List all items in operations/
       const { data: items, error: listError } = await supabase.storage
         .from('deliverables')
         .list('operations', { limit: 200 });
 
       if (listError) throw listError;
 
-      // Filter to .md files only
+      // Only show .md files
       const mdFiles = (items || []).filter(f => f.name.endsWith('.md'));
 
-      // Fetch the first ~500 bytes of each file to parse the header
+      // Fetch headers for metadata
       const docsWithMeta = await Promise.all(
         mdFiles.map(async (file) => {
           const path = `operations/${file.name}`;
@@ -76,7 +105,7 @@ export const OperationsPage = () => {
               title: meta.title || file.name.replace(/_/g, ' ').replace('.md', ''),
               version: meta.version,
               lastUpdated: meta.lastUpdated,
-              updatedAt: file.updated_at,
+              category: categorizeFile(file.name),
             };
           } catch {
             return {
@@ -85,15 +114,42 @@ export const OperationsPage = () => {
               title: file.name.replace(/_/g, ' ').replace('.md', ''),
               version: '',
               lastUpdated: '',
-              updatedAt: file.updated_at,
+              category: categorizeFile(file.name),
             };
           }
         })
       );
 
-      // Sort alphabetically by title
-      docsWithMeta.sort((a, b) => a.title.localeCompare(b.title));
-      setFolders(docsWithMeta);
+      // Group by category
+      const grouped = {};
+      for (const doc of docsWithMeta) {
+        if (!grouped[doc.category]) grouped[doc.category] = [];
+        grouped[doc.category].push(doc);
+      }
+
+      // Sort docs within each category by title
+      for (const cat of Object.keys(grouped)) {
+        grouped[cat].sort((a, b) => a.title.localeCompare(b.title));
+      }
+
+      // Convert to sorted array
+      const sortedCategories = Object.entries(grouped)
+        .map(([name, docs]) => ({ name, docs, ...(CATEGORY_CONFIG[name] || CATEGORY_CONFIG['Other Documents']) }))
+        .sort((a, b) => a.order - b.order);
+
+      setCategories(sortedCategories);
+
+      // Expand all categories by default
+      const expanded = {};
+      sortedCategories.forEach(c => { expanded[c.name] = true; });
+      setExpandedCategories(prev => {
+        // Preserve user's expand/collapse state on refresh
+        const merged = { ...expanded };
+        for (const key of Object.keys(prev)) {
+          if (key in merged) merged[key] = prev[key];
+        }
+        return merged;
+      });
     } catch (err) {
       setError('Failed to load documents. Please try again.');
       console.error(err);
@@ -104,6 +160,12 @@ export const OperationsPage = () => {
   useEffect(() => {
     fetchDocs();
   }, []);
+
+  const toggleCategory = (name) => {
+    setExpandedCategories(prev => ({ ...prev, [name]: !prev[name] }));
+  };
+
+  const totalDocs = categories.reduce((a, c) => a + c.docs.length, 0);
 
   if (openDoc) {
     return (
@@ -147,18 +209,22 @@ export const OperationsPage = () => {
         </div>
 
         {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Documents</p>
-            <p className="text-2xl font-black text-gray-900">{folders.length}</p>
+            <p className="text-2xl font-black text-gray-900">{totalDocs}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Categories</p>
+            <p className="text-2xl font-black text-primary">{categories.length}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Phases</p>
+            <p className="text-2xl font-black text-gray-900">8</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Source</p>
-            <p className="text-2xl font-black text-primary">Live</p>
-          </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Storage</p>
-            <p className="text-sm font-semibold text-gray-600 mt-1">operations/</p>
+            <p className="text-2xl font-black text-green-500">Live</p>
           </div>
         </div>
 
@@ -177,50 +243,59 @@ export const OperationsPage = () => {
           </div>
         )}
 
-        {/* Documents List */}
-        {!loading && !error && (
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="flex items-center gap-3 p-5 border-b border-gray-100">
-              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                <FolderOpen className="text-primary" size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-gray-900">All Operations Documents</p>
-                <p className="text-xs text-gray-500">{folders.length} file{folders.length !== 1 ? 's' : ''} in storage</p>
-              </div>
-            </div>
+        {/* Document Categories */}
+        {!loading && !error && categories.map((category) => {
+          const Icon = category.icon;
+          const isExpanded = expandedCategories[category.name];
 
-            {folders.length === 0 && (
-              <div className="p-8 text-center text-gray-400 text-sm">
-                No documents found in operations/
-              </div>
-            )}
-
-            {folders.map((doc, idx) => (
+          return (
+            <div key={category.name} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <button
-                key={doc.path}
-                onClick={() => setOpenDoc(doc)}
-                className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== folders.length - 1 ? 'border-b border-gray-50' : ''}`}
+                onClick={() => toggleCategory(category.name)}
+                className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <FileText size={16} className="text-gray-400 flex-shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
-                    {doc.lastUpdated && (
-                      <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
-                    )}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <Icon className={category.color} size={20} />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-bold text-gray-900">{category.name}</p>
+                    <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                  {doc.version && (
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{doc.version}</span>
-                  )}
-                  <ChevronRight size={14} className="text-gray-300" />
-                </div>
+                {isExpanded ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
               </button>
-            ))}
-          </div>
-        )}
+
+              {isExpanded && (
+                <div className="border-t border-gray-100">
+                  {category.docs.map((doc, idx) => (
+                    <button
+                      key={doc.path}
+                      onClick={() => setOpenDoc(doc)}
+                      className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== category.docs.length - 1 ? 'border-b border-gray-50' : ''}`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <FileText size={16} className="text-gray-400 flex-shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
+                          {doc.lastUpdated && (
+                            <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                        {doc.version && (
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{doc.version}</span>
+                        )}
+                        <ChevronRight size={14} className="text-gray-300" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </DashboardLayout>
   );
