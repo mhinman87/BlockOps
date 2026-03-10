@@ -118,7 +118,8 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
     setLoading(true);
     try {
       const { data } = supabase.storage.from('deliverables').getPublicUrl(storagePath);
-      const response = await fetch(data.publicUrl);
+      const cacheBuster = `?t=${Date.now()}`;
+      const response = await fetch(data.publicUrl + cacheBuster);
       if (!response.ok) throw new Error('Failed to fetch');
       const text = await response.text();
       setContent(text);

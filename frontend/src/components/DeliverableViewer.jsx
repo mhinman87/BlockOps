@@ -168,7 +168,8 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
           .from('deliverables')
           .getPublicUrl(deliverable.storagePath);
 
-        const response = await fetch(data.publicUrl);
+        const cacheBuster = `?t=${Date.now()}`;
+        const response = await fetch(data.publicUrl + cacheBuster);
         if (!response.ok) throw new Error('Failed to fetch document');
         const text = await response.text();
         setContent(text);
