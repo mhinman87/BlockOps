@@ -1,72 +1,109 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
-import { BookMarked, ChevronDown, ChevronRight, FileText, Shield, Rocket, Users, AlertTriangle, LogOut, Target, Handshake, Briefcase, Scale } from 'lucide-react';
+import { BookMarked, ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2 } from 'lucide-react';
+import { supabase } from '../services/supabase';
 
-const OPERATIONS_DOCS = [
-  {
-    category: 'Master Documents',
-    icon: Shield,
-    color: 'text-primary',
-    docs: [
-      { title: 'Master Playbook', description: 'Complete 8-phase operations framework', path: 'team/operations/Block_Ops_Master_Playbook_v2.md', version: 'v2.0' },
-      { title: 'Strategic Vision', description: 'Company strategy, exit paths, and platform roadmap', path: 'team/operations/Block_Ops_Strategic_Vision_v1.md', version: 'v1.0' },
-      { title: 'Operating Model', description: 'Business model, pricing, and delivery structure', path: 'team/operations/Block_Ops_Operating_Model_v1.md', version: 'v1.0' },
-    ]
-  },
-  {
-    category: 'Phase 1-3: Acquire & Launch',
-    icon: Rocket,
-    color: 'text-green-500',
-    docs: [
-      { title: 'Phase 1: Lead Gen & Qualification', description: 'Finding and qualifying ideal clients', path: 'team/operations/Phase_1_Lead_Gen_Qualification_v2.md', version: 'v2.0' },
-      { title: 'Phase 1: Sales & Site Assessment', description: 'Discovery calls, proposals, and closing', path: 'team/operations/Phase_1_Sales_Site_Assessment_Playbook.md', version: 'v1.0' },
-      { title: 'Phase 2: Pre-Visit Prep & Customization', description: 'Site configuration and protocol customization', path: 'team/operations/Phase_2_PreVisit_Prep_Customization_v2.md', version: 'v2.0' },
-      { title: 'Phase 3: On-Site Training', description: 'Samir\'s on-site training visit protocol', path: 'team/operations/Phase_3_OnSite_Training_v2.md', version: 'v2.0' },
-    ]
-  },
-  {
-    category: 'Phase 4-6: Deliver & Grow',
-    icon: Users,
-    color: 'text-blue-500',
-    docs: [
-      { title: 'Phase 4: Go-Live & Bridge Support', description: 'First 30 days post-launch support', path: 'team/operations/Phase_4_GoLive_Bridge_Support_v2.md', version: 'v2.0' },
-      { title: 'Phase 5: Ongoing Support & Subscription', description: 'Monthly cadence, agent support, outcome tracking', path: 'team/operations/Phase_5_Ongoing_Support_Subscription_v2.md', version: 'v2.0' },
-      { title: 'Phase 6: Renewal & Expansion', description: 'Contract renewal, upselling Block Packs, multi-site', path: 'team/operations/Phase_6_Renewal_Expansion_v2.md', version: 'v2.0' },
-    ]
-  },
-  {
-    category: 'Phase 7-8: Protect & Exit',
-    icon: AlertTriangle,
-    color: 'text-amber-500',
-    docs: [
-      { title: 'Phase 7: Churn Prevention', description: 'Early warning system and save protocols', path: 'team/operations/Phase_7_Churn_Prevention_v2.md', version: 'v2.0' },
-      { title: 'Phase 8: Offboarding', description: 'Professional exit when a client leaves', path: 'team/operations/Phase_8_Offboarding_v2.md', version: 'v2.0' },
-    ]
-  },
-  {
-    category: 'Sales & Legal',
-    icon: Scale,
-    color: 'text-purple-500',
-    docs: [
-      { title: 'Elevator Pitch', description: 'Adrian\'s refined pitch for prospects', path: 'team/operations/elevator-pitch-v1.md', version: 'v1.0' },
-      { title: 'Legal Launch Checklist', description: 'Legal requirements before first client', path: 'team/operations/Legal_Launch_Checklist.md', version: 'v1.0' },
-      { title: 'Legal Review Needed', description: 'Items flagged for attorney review', path: 'team/operations/Legal_Review_Needed.md', version: 'v1.0' },
-    ]
-  },
-];
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
+// Parse markdown header to extract title, version, description, and last updated
+const parseMarkdownHeader = (text) => {
+  const lines = text.split('\n').slice(0, 15); // only scan first 15 lines
+  let title = '';
+  let version = '';
+  let description = '';
+  let lastUpdated = '';
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Title: first H1
+    if (!title && trimmed.startsWith('# ')) {
+      title = trimmed.replace(/^# /, '');
+    }
+    // Version from H2 like "## Internal Operations | Version: DRAFT v2.0"
+    if (!version && trimmed.toLowerCase().includes('version')) {
+      const vMatch = trimmed.match(/v(?:ersion[:\s]*)?(?:draft\s+)?(v?\d+\.\d+)/i);
+      if (vMatch) {
+        version = vMatch[1].startsWith('v') ? vMatch[1] : 'v' + vMatch[1];
+      }
+    }
+    // Last Updated
+    if (!lastUpdated && trimmed.toLowerCase().includes('last updated')) {
+      const dMatch = trimmed.match(/(\d{4}-\d{2}-\d{2})/);
+      if (dMatch) lastUpdated = dMatch[1];
+    }
+  }
+
+  return { title, version: version || 'v1.0', description: '', lastUpdated };
+};
 
 export const OperationsPage = () => {
   const { isTeam } = useUserRole();
   const [openDoc, setOpenDoc] = useState(null);
-  const [expandedCategories, setExpandedCategories] = useState(
-    OPERATIONS_DOCS.reduce((acc, cat) => ({ ...acc, [cat.category]: true }), {})
-  );
+  const [folders, setFolders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const toggleCategory = (category) => {
-    setExpandedCategories(prev => ({ ...prev, [category]: !prev[category] }));
+  const fetchDocs = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // List all items in team/operations/
+      const { data: items, error: listError } = await supabase.storage
+        .from('deliverables')
+        .list('team/operations', { limit: 200 });
+
+      if (listError) throw listError;
+
+      // Filter to .md files only
+      const mdFiles = (items || []).filter(f => f.name.endsWith('.md'));
+
+      // Fetch the first ~500 bytes of each file to parse the header
+      const docsWithMeta = await Promise.all(
+        mdFiles.map(async (file) => {
+          const path = `team/operations/${file.name}`;
+          try {
+            const { data: urlData } = supabase.storage.from('deliverables').getPublicUrl(path);
+            const resp = await fetch(urlData.publicUrl + `?t=${Date.now()}`, {
+              headers: { 'Range': 'bytes=0-1500' }
+            });
+            const text = await resp.text();
+            const meta = parseMarkdownHeader(text);
+            return {
+              path,
+              fileName: file.name,
+              title: meta.title || file.name.replace(/_/g, ' ').replace('.md', ''),
+              version: meta.version,
+              lastUpdated: meta.lastUpdated,
+              updatedAt: file.updated_at,
+            };
+          } catch {
+            return {
+              path,
+              fileName: file.name,
+              title: file.name.replace(/_/g, ' ').replace('.md', ''),
+              version: '',
+              lastUpdated: '',
+              updatedAt: file.updated_at,
+            };
+          }
+        })
+      );
+
+      // Sort alphabetically by title
+      docsWithMeta.sort((a, b) => a.title.localeCompare(b.title));
+      setFolders(docsWithMeta);
+    } catch (err) {
+      setError('Failed to load documents. Please try again.');
+      console.error(err);
+    }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    fetchDocs();
+  }, []);
 
   if (openDoc) {
     return (
@@ -81,7 +118,7 @@ export const OperationsPage = () => {
           <TeamDocViewer
             storagePath={openDoc.path}
             title={openDoc.title}
-            description={openDoc.description}
+            description=""
             version={openDoc.version}
             isTeam={isTeam}
           />
@@ -94,80 +131,96 @@ export const OperationsPage = () => {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Operations</h1>
-          <p className="text-gray-500 mt-1">Internal playbooks, phase docs, and company strategy</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Operations</h1>
+            <p className="text-gray-500 mt-1">Internal playbooks, phase docs, and company strategy</p>
+          </div>
+          <button
+            onClick={fetchDocs}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-primary bg-white border border-gray-200 rounded-lg hover:border-primary/30 transition"
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            Refresh
+          </button>
         </div>
 
         {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Documents</p>
-            <p className="text-2xl font-black text-gray-900">{OPERATIONS_DOCS.reduce((a, c) => a + c.docs.length, 0)}</p>
+            <p className="text-2xl font-black text-gray-900">{folders.length}</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Phases</p>
-            <p className="text-2xl font-black text-primary">8</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Source</p>
+            <p className="text-2xl font-black text-primary">Live</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Categories</p>
-            <p className="text-2xl font-black text-gray-900">{OPERATIONS_DOCS.length}</p>
-          </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Status</p>
-            <p className="text-2xl font-black text-green-500">Live</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Storage</p>
+            <p className="text-sm font-semibold text-gray-600 mt-1">team/operations/</p>
           </div>
         </div>
 
-        {/* Document Categories */}
-        {OPERATIONS_DOCS.map((category) => {
-          const Icon = category.icon;
-          const isExpanded = expandedCategories[category.category];
-          
-          return (
-            <div key={category.category} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <button
-                onClick={() => toggleCategory(category.category)}
-                className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Icon className={category.color} size={20} />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-bold text-gray-900">{category.category}</p>
-                    <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
-                  </div>
-                </div>
-                {isExpanded ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
-              </button>
-              
-              {isExpanded && (
-                <div className="border-t border-gray-100">
-                  {category.docs.map((doc, idx) => (
-                    <button
-                      key={doc.path}
-                      onClick={() => setOpenDoc(doc)}
-                      className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== category.docs.length - 1 ? 'border-b border-gray-50' : ''}`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <FileText size={16} className="text-gray-400 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-semibold text-gray-900">{doc.title}</p>
-                          <p className="text-xs text-gray-500 font-light">{doc.description}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{doc.version}</span>
-                        <ChevronRight size={14} className="text-gray-300" />
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+        {/* Loading State */}
+        {loading && (
+          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+            <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
+            <p className="text-sm text-gray-500">Loading documents from storage...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
+        {/* Documents List */}
+        {!loading && !error && (
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="flex items-center gap-3 p-5 border-b border-gray-100">
+              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <FolderOpen className="text-primary" size={20} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">All Operations Documents</p>
+                <p className="text-xs text-gray-500">{folders.length} file{folders.length !== 1 ? 's' : ''} in storage</p>
+              </div>
             </div>
-          );
-        })}
+
+            {folders.length === 0 && (
+              <div className="p-8 text-center text-gray-400 text-sm">
+                No documents found in team/operations/
+              </div>
+            )}
+
+            {folders.map((doc, idx) => (
+              <button
+                key={doc.path}
+                onClick={() => setOpenDoc(doc)}
+                className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== folders.length - 1 ? 'border-b border-gray-50' : ''}`}
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <FileText size={16} className="text-gray-400 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
+                    {doc.lastUpdated && (
+                      <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                  {doc.version && (
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{doc.version}</span>
+                  )}
+                  <ChevronRight size={14} className="text-gray-300" />
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </DashboardLayout>
   );
