@@ -15,6 +15,7 @@ import { LeadsPage } from './pages/LeadsPage';
 import { IntelPage } from './pages/IntelPage';
 import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
+import { BusinessPage } from './pages/BusinessPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/dashboard/leads" element={<ProtectedRoute><LeadsPage /></ProtectedRoute>} />
           <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
+          <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
           <Route path="/dashboard/intel" element={<ProtectedRoute><IntelPage /></ProtectedRoute>} />
 
           {/* Catch all */}

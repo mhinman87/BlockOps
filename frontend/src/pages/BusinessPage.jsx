@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
-import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Shield, Rocket, Users, AlertTriangle, Scale, Briefcase } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Scale, Briefcase, TrendingUp, Eye } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
-// Parse markdown header to extract title, version, and last updated
 const parseMarkdownHeader = (text) => {
   const lines = text.split('\n').slice(0, 15);
   let title = '';
@@ -32,34 +31,24 @@ const parseMarkdownHeader = (text) => {
   return { title, version: version || '', lastUpdated };
 };
 
-// Auto-categorize a file based on its filename
 const categorizeFile = (fileName) => {
   const lower = fileName.toLowerCase();
-
-  if (lower.includes('master_playbook') || lower.includes('operating_model')) {
-    return 'Master Documents';
-  }
-  if (lower.match(/phase_[1-3]/)) {
-    return 'Phase 1-3: Acquire & Launch';
-  }
-  if (lower.match(/phase_[4-6]/)) {
-    return 'Phase 4-6: Deliver & Grow';
-  }
-  if (lower.match(/phase_[7-8]/)) {
-    return 'Phase 7-8: Protect & Exit';
-  }
-  return 'Other Documents';
+  if (lower.includes('strategic') || lower.includes('vision') || lower.includes('operating_model')) return 'Strategy';
+  if (lower.includes('pricing') || lower.includes('revenue')) return 'Pricing & Revenue';
+  if (lower.includes('legal') || lower.includes('compliance')) return 'Legal & Compliance';
+  if (lower.includes('pitch') || lower.includes('sales') || lower.includes('elevator')) return 'Sales & Outreach';
+  return 'Other';
 };
 
 const CATEGORY_CONFIG = {
-  'Master Documents': { icon: Shield, color: 'text-primary', order: 0 },
-  'Phase 1-3: Acquire & Launch': { icon: Rocket, color: 'text-green-500', order: 1 },
-  'Phase 4-6: Deliver & Grow': { icon: Users, color: 'text-blue-500', order: 2 },
-  'Phase 7-8: Protect & Exit': { icon: AlertTriangle, color: 'text-amber-500', order: 3 },
-  'Other Documents': { icon: FolderOpen, color: 'text-gray-500', order: 4 },
+  'Strategy': { icon: Eye, color: 'text-primary', order: 0 },
+  'Pricing & Revenue': { icon: TrendingUp, color: 'text-green-500', order: 1 },
+  'Sales & Outreach': { icon: Briefcase, color: 'text-purple-500', order: 2 },
+  'Legal & Compliance': { icon: Scale, color: 'text-red-400', order: 3 },
+  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 4 },
 };
 
-export const OperationsPage = () => {
+export const BusinessPage = () => {
   const { isTeam } = useUserRole();
   const [openDoc, setOpenDoc] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -73,17 +62,15 @@ export const OperationsPage = () => {
     try {
       const { data: items, error: listError } = await supabase.storage
         .from('deliverables')
-        .list('operations', { limit: 200 });
+        .list('business', { limit: 200 });
 
       if (listError) throw listError;
 
-      // Only show .md files
       const mdFiles = (items || []).filter(f => f.name.endsWith('.md'));
 
-      // Fetch headers for metadata
       const docsWithMeta = await Promise.all(
         mdFiles.map(async (file) => {
-          const path = `operations/${file.name}`;
+          const path = `business/${file.name}`;
           try {
             const { data: urlData } = supabase.storage.from('deliverables').getPublicUrl(path);
             const resp = await fetch(urlData.publicUrl + `?t=${Date.now()}`, {
@@ -112,30 +99,25 @@ export const OperationsPage = () => {
         })
       );
 
-      // Group by category
       const grouped = {};
       for (const doc of docsWithMeta) {
         if (!grouped[doc.category]) grouped[doc.category] = [];
         grouped[doc.category].push(doc);
       }
 
-      // Sort docs within each category by title
       for (const cat of Object.keys(grouped)) {
         grouped[cat].sort((a, b) => a.title.localeCompare(b.title));
       }
 
-      // Convert to sorted array
       const sortedCategories = Object.entries(grouped)
-        .map(([name, docs]) => ({ name, docs, ...(CATEGORY_CONFIG[name] || CATEGORY_CONFIG['Other Documents']) }))
+        .map(([name, docs]) => ({ name, docs, ...(CATEGORY_CONFIG[name] || CATEGORY_CONFIG['Other']) }))
         .sort((a, b) => a.order - b.order);
 
       setCategories(sortedCategories);
 
-      // Expand all categories by default
       const expanded = {};
       sortedCategories.forEach(c => { expanded[c.name] = true; });
       setExpandedCategories(prev => {
-        // Preserve user's expand/collapse state on refresh
         const merged = { ...expanded };
         for (const key of Object.keys(prev)) {
           if (key in merged) merged[key] = prev[key];
@@ -167,7 +149,7 @@ export const OperationsPage = () => {
             onClick={() => setOpenDoc(null)}
             className="text-sm text-primary hover:text-primary/80 font-semibold flex items-center gap-1"
           >
-            ← Back to Operations
+            ← Back to Business
           </button>
           <TeamDocViewer
             storagePath={openDoc.path}
@@ -184,11 +166,10 @@ export const OperationsPage = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Operations</h1>
-            <p className="text-gray-500 mt-1">Internal playbooks, phase docs, and company strategy</p>
+            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Business</h1>
+            <p className="text-gray-500 mt-1">Strategy, pricing, legal, and sales materials</p>
           </div>
           <button
             onClick={fetchDocs}
@@ -200,8 +181,7 @@ export const OperationsPage = () => {
           </button>
         </div>
 
-        {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Documents</p>
             <p className="text-2xl font-black text-gray-900">{totalDocs}</p>
@@ -211,16 +191,11 @@ export const OperationsPage = () => {
             <p className="text-2xl font-black text-primary">{categories.length}</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Phases</p>
-            <p className="text-2xl font-black text-gray-900">8</p>
-          </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
             <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Source</p>
             <p className="text-2xl font-black text-green-500">Live</p>
           </div>
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
@@ -228,14 +203,12 @@ export const OperationsPage = () => {
           </div>
         )}
 
-        {/* Error State */}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
-        {/* Document Categories */}
         {!loading && !error && categories.map((category) => {
           const Icon = category.icon;
           const isExpanded = expandedCategories[category.name];

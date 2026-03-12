@@ -19,6 +19,7 @@ import {
   TrendingUp,
   BookMarked,
   ListChecks,
+  Briefcase,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -41,6 +42,7 @@ export const DashboardLayout = ({ children }) => {
     { icon: ClipboardList, label: 'Weekly Meeting', path: '/dashboard/meeting' },
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
     { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
+    { icon: Briefcase, label: 'Business', path: '/dashboard/business' },
     { icon: TrendingUp, label: 'Business Intel', path: '/dashboard/intel' },
   ];
 
