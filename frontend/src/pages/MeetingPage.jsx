@@ -6,12 +6,20 @@ import { ClipboardList, Calendar, ChevronRight, FileText } from 'lucide-react';
 
 const MEETING_DOCS = [
   {
+    title: 'Week of March 17, 2026',
+    description: 'All 8 Phases Layer 2 review, LLC update, legal brief, pricing tiers, platform features',
+    path: 'team/meetings/Meeting_2026-03-17.md',
+    version: 'Current',
+    date: '2026-03-17',
+    current: true,
+  },
+  {
     title: 'Week of March 10, 2026',
     description: 'Master Playbook review, logo approval, grants & funding, lead gen pipeline',
     path: 'team/meetings/Meeting_2026-03-10.md',
-    version: 'Current',
+    version: 'Past',
     date: '2026-03-10',
-    current: true,
+    current: false,
   },
 ];
 
