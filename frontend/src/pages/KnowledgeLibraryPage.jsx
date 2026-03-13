@@ -233,7 +233,7 @@ export const KnowledgeLibraryPage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [selectedItem, setSelectedItem] = useState(null);
   const userRole = useUserRole();
-  const { getStatus, getStatusInfo, updateStatus } = useDeliverableStatus();
+  const { statuses, getStatus, getStatusInfo, updateStatus } = useDeliverableStatus();
 
   const categories = [
     { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500' },
@@ -358,7 +358,13 @@ export const KnowledgeLibraryPage = () => {
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Knowledge Library</h1>
         <p className="text-gray-500 text-sm mt-1 font-light">
-          44 Foundation Package deliverables — all drafts pending clinical review.
+          {(() => {
+            const all = Object.values(statuses || {});
+            const approved = all.filter(s => s.status === 'approved').length;
+            if (approved === 0) return '44 Foundation Package deliverables — all drafts pending clinical review.';
+            if (approved === 44) return '44 Foundation Package deliverables — all approved.';
+            return `44 Foundation Package deliverables — ${approved} approved, ${44 - approved} pending review.`;
+          })()}
         </p>
       </div>
 

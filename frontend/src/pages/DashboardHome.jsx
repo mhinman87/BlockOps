@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useAuth } from '../contexts/AuthContext';
+import { useDeliverableStatus } from '../hooks/useDeliverableStatus';
 import { Link } from 'react-router-dom';
 import { 
   CheckCircle2,
@@ -17,11 +18,20 @@ import {
 
 export const DashboardHome = () => {
   const { user } = useAuth();
+  const { statuses } = useDeliverableStatus();
+
+  const counts = useMemo(() => {
+    const all = Object.values(statuses);
+    const approved = all.filter(s => s.status === 'approved').length;
+    const needsRevision = all.filter(s => s.status === 'needs_revision').length;
+    const pending = 44 - approved - needsRevision;
+    return { approved, needsRevision, pending };
+  }, [statuses]);
 
   const stats = [
-    { label: 'Foundation Deliverables', value: '44', sublabel: 'Drafted', icon: FileText, color: 'text-amber-600' },
-    { label: 'Pending Review', value: '44', sublabel: 'By Dr. Bhakta', icon: Clock, color: 'text-amber-600' },
-    { label: 'Block Packs', value: '0 / 6', sublabel: 'In progress', icon: Package, color: 'text-gray-400' },
+    { label: 'Approved', value: String(counts.approved), sublabel: 'By Dr. Bhakta', icon: CheckCircle2, color: counts.approved > 0 ? 'text-green-600' : 'text-gray-400' },
+    { label: 'Pending Review', value: String(counts.pending), sublabel: 'Drafts', icon: Clock, color: 'text-amber-600' },
+    { label: 'Needs Revision', value: String(counts.needsRevision), sublabel: 'Flagged', icon: AlertTriangle, color: counts.needsRevision > 0 ? 'text-red-600' : 'text-gray-400' },
   ];
 
   const phases = [
@@ -86,13 +96,23 @@ export const DashboardHome = () => {
       </div>
 
       {/* Status Banner */}
-      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-        <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
-        <div>
-          <p className="text-sm font-semibold text-amber-800">All 44 Foundation deliverables are drafted — awaiting Samir's clinical review</p>
-          <p className="text-xs text-amber-600 font-light mt-1">Nothing goes live until Samir approves each document. Block Pack development starts after Foundation is signed off.</p>
+      {counts.approved < 44 ? (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+          <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
+          <div>
+            <p className="text-sm font-semibold text-amber-800">{counts.approved} of 44 Foundation deliverables approved — {counts.pending} pending clinical review</p>
+            <p className="text-xs text-amber-600 font-light mt-1">Nothing goes live until Dr. Bhakta approves each document. Block Pack development starts after Foundation is signed off.</p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+          <CheckCircle2 className="text-green-500 flex-shrink-0 mt-0.5" size={18} />
+          <div>
+            <p className="text-sm font-semibold text-green-800">All 44 Foundation deliverables approved!</p>
+            <p className="text-xs text-green-600 font-light mt-1">Foundation Package is complete. Block Pack development can begin.</p>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
