@@ -246,14 +246,9 @@ export const OperationsPage = () => {
                 onClick={() => toggleCategory(category.name)}
                 className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Icon className={category.color} size={20} />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-bold text-gray-900">{category.name}</p>
-                    <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
-                  </div>
+                <div className="text-left">
+                  <p className="text-lg font-bold text-gray-900">{category.name}</p>
+                  <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
                 </div>
                 {isExpanded ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
               </button>
