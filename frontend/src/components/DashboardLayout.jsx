@@ -16,7 +16,6 @@ import {
   Users,
   Target,
   ClipboardList,
-  TrendingUp,
   BookMarked,
   ListChecks,
   Briefcase,
@@ -43,7 +42,6 @@ export const DashboardLayout = ({ children }) => {
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
     { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
     { icon: Briefcase, label: 'Business', path: '/dashboard/business' },
-    { icon: TrendingUp, label: 'Business Intel', path: '/dashboard/intel' },
   ];
 
   const bottomMenuItems = [

@@ -12,7 +12,6 @@ import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { MeetingPage } from './pages/MeetingPage';
 import { LeadsPage } from './pages/LeadsPage';
-import { IntelPage } from './pages/IntelPage';
 import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
 import { BusinessPage } from './pages/BusinessPage';
@@ -44,7 +43,6 @@ function App() {
           <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
-          <Route path="/dashboard/intel" element={<ProtectedRoute><IntelPage /></ProtectedRoute>} />
 
           {/* Catch all */}
           <Route path="*" element={<NotFoundPage />} />
