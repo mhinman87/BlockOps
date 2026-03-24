@@ -249,7 +249,13 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
                 </div>
               )}
               <span className="text-xs text-gray-300">•</span>
-              <span className="text-xs text-gray-400">Version: DRAFT v0.1</span>
+              <span className="text-xs text-gray-400">
+                {(() => {
+                  if (!content) return 'Version: DRAFT';
+                  const vMatch = content.match(/Version:\s*(.*?)(?:\n|$)/i);
+                  return vMatch ? `Version: ${vMatch[1].trim()}` : 'Version: DRAFT';
+                })()}
+              </span>
             </div>
           </div>
 
