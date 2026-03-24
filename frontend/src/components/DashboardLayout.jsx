@@ -65,7 +65,14 @@ export const DashboardLayout = ({ children }) => {
             ? 'bg-primary text-white shadow-md shadow-primary/30'
             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
         }`}
-        onClick={() => setSidebarOpen(false)}
+        onClick={(e) => {
+          setSidebarOpen(false);
+          // If already on this page, force a re-navigation to reset any internal state (e.g., open documents)
+          if (location.pathname === item.path) {
+            e.preventDefault();
+            navigate(item.path, { state: { reset: Date.now() } });
+          }
+        }}
       >
         <Icon size={18} />
         <span>{item.label}</span>

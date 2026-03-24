@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
@@ -61,7 +62,15 @@ const CATEGORY_CONFIG = {
 
 export const OperationsPage = () => {
   const { isTeam } = useUserRole();
+  const location = useLocation();
   const [openDoc, setOpenDoc] = useState(null);
+
+  // Reset to list view when sidebar nav is clicked
+  useEffect(() => {
+    if (location.state?.reset) {
+      setOpenDoc(null);
+    }
+  }, [location.state]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
