@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { DeliverableViewer } from '../components/DeliverableViewer';
 import { 
@@ -63,10 +64,15 @@ import { useUserRole } from '../hooks/useUserRole';
 import { useDeliverableStatus } from '../hooks/useDeliverableStatus';
 
 export const DeliverablesPage = () => {
+  const location = useLocation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
   const userRole = useUserRole();
   const { getStatus, updateStatus } = useDeliverableStatus();
+
+  useEffect(() => {
+    if (location.state?.reset) setSelectedItem(null);
+  }, [location.state]);
 
   const packages = [
     {
@@ -217,15 +223,23 @@ export const DeliverablesPage = () => {
     }
   };
 
+  // Get the real status for any item (from Supabase deliverable_status table, falling back to hardcoded)
+  const getRealStatus = (item) => {
+    if (item.storagePath) return getStatus(item.storagePath);
+    return item.status;
+  };
+
   const getAllItems = (pkg) => pkg.sections.flatMap(s => s.items);
-  const totalDrafts = packages.reduce((acc, pkg) => acc + getAllItems(pkg).filter(i => i.status === 'draft').length, 0);
-  const totalApproved = packages.reduce((acc, pkg) => acc + getAllItems(pkg).filter(i => i.status === 'approved').length, 0);
-  const totalNotStarted = packages.reduce((acc, pkg) => acc + getAllItems(pkg).filter(i => i.status === 'not-started').length, 0);
-  const totalItems = packages.reduce((acc, pkg) => acc + getAllItems(pkg).length, 0);
+  const allItems = packages.flatMap(pkg => getAllItems(pkg));
+  const totalItems = allItems.length;
+  const totalApproved = allItems.filter(i => getRealStatus(i) === 'approved').length;
+  const totalNeedsRevision = allItems.filter(i => getRealStatus(i) === 'needs_revision').length;
+  const totalNotStarted = allItems.filter(i => getRealStatus(i) === 'not-started').length;
+  const totalDrafts = totalItems - totalApproved - totalNeedsRevision - totalNotStarted;
 
   const filterItems = (items) => {
     if (activeFilter === 'all') return items;
-    return items.filter(item => item.status === activeFilter);
+    return items.filter(item => getRealStatus(item) === activeFilter);
   };
 
   // If viewing a deliverable, show the viewer
@@ -299,8 +313,8 @@ export const DeliverablesPage = () => {
       <div className="space-y-6">
         {packages.map((pkg) => {
           const allItems = getAllItems(pkg);
-          const draftCount = allItems.filter(i => i.status === 'draft').length;
-          const approvedCount = allItems.filter(i => i.status === 'approved').length;
+          const approvedCount = allItems.filter(i => getRealStatus(i) === 'approved').length;
+          const draftCount = allItems.filter(i => getRealStatus(i) === 'draft').length;
           const progress = allItems.length > 0 ? Math.round(((draftCount + approvedCount) / allItems.length) * 100) : 0;
 
           return (
@@ -314,7 +328,7 @@ export const DeliverablesPage = () => {
                     </div>
                     <div>
                       <h2 className="text-base font-bold text-gray-900">{pkg.name}</h2>
-                      <p className="text-xs text-gray-400 font-light">{draftCount} drafted, {approvedCount} approved of {allItems.length} total</p>
+                      <p className="text-xs text-gray-400 font-light">{approvedCount} approved, {draftCount} drafted of {allItems.length} total</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -341,7 +355,7 @@ export const DeliverablesPage = () => {
                     </div>
                     <div className="divide-y divide-gray-50">
                       {filtered.map((item, idx) => {
-                        const statusLabel = getStatusLabel(item.status);
+                        const realStatus = getRealStatus(item);
                         return (
                           <div 
                             key={idx} 
@@ -349,8 +363,8 @@ export const DeliverablesPage = () => {
                             onClick={() => item.storagePath && setSelectedItem({ title: item.name, description: section.name + ' — Foundation Package', storagePath: item.storagePath, categoryLabel: section.name })}
                           >
                             <div className="flex items-center gap-3">
-                              {getStatusIcon(item.status)}
-                              <span className={`text-sm ${item.status === 'not-started' ? 'text-gray-400' : item.storagePath ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
+                              {getStatusIcon(realStatus)}
+                              <span className={`text-sm ${realStatus === 'not-started' ? 'text-gray-400' : item.storagePath ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
                                 {item.name}
                               </span>
                             </div>
