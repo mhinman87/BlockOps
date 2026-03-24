@@ -35,28 +35,34 @@ export const DashboardHome = () => {
   ];
 
   const phases = [
-    { name: 'Foundation Content', status: 'in-progress', progress: 80, description: '44 deliverables drafted, pending clinical review' },
+    { name: 'Foundation Content', status: 'in-progress', progress: Math.round((counts.approved / 44) * 100), description: `${counts.approved} of 44 deliverables approved by Dr. Bhakta` },
+    { name: 'Legal & Business Setup', status: 'in-progress', progress: 40, description: 'LLC ✅ EIN ✅ Bank ⏳ Operating Agreement ⏳ Insurance ⏳' },
+    { name: 'Operations Playbook', status: 'completed', progress: 100, description: 'All 8 phases Layer 2 complete & approved' },
     { name: 'First Block Pack', status: 'upcoming', progress: 0, description: 'Adductor Canal (Knee) — starts after Foundation approval' },
-    { name: 'Platform Build', status: 'in-progress', progress: 40, description: 'Website live, dashboard functional, Supabase integrated' },
+    { name: 'Platform Build', status: 'in-progress', progress: 50, description: 'Dashboard live, deliverable viewer, approval system working' },
     { name: 'Agent Architecture', status: 'upcoming', progress: 0, description: 'Client-facing AI agent — after content is approved' },
   ];
 
   const recentWork = [
-    { text: 'Migrated auth from Render backend to Supabase', date: 'Feb 23', type: 'Platform' },
-    { text: 'Rebuilt landing page with ROI-focused messaging', date: 'Feb 23', type: 'Website' },
-    { text: 'Built Knowledge Library, Deliverables tracker, Analytics pages', date: 'Feb 23', type: 'Dashboard' },
-    { text: 'Completed all 44 Foundation deliverable drafts', date: 'Feb 24', type: 'Content' },
-    { text: 'LAST Protocol Suite sent to Samir for review', date: 'Feb 23', type: 'Content' },
-    { text: 'Block Time-Out Checklist sent to Samir for review', date: 'Feb 23', type: 'Content' },
+    { text: 'Dashboard stats wired to live approval data', date: 'Mar 23', type: 'Platform' },
+    { text: 'Block Time-Out Checklist v0.3 — reviewed & updated with Samir', date: 'Mar 23', type: 'Content' },
+    { text: 'LAST Protocol Suite v0.3 approved by Samir', date: 'Mar 12', type: 'Content' },
+    { text: 'All 8 Ops Phases Layer 2 complete & approved', date: 'Mar 12', type: 'Operations' },
+    { text: 'LLC formed, EIN obtained, Chase business account applied', date: 'Mar 18', type: 'Business' },
+    { text: 'Legal Brief for Attorney created & sent', date: 'Mar 12', type: 'Legal' },
   ];
 
   const nextSteps = [
-    { text: 'Samir reviews all Foundation drafts', priority: 'high', owner: 'Samir' },
-    { text: 'Wire contact form to Supabase', priority: 'medium', owner: 'Bloq' },
-    { text: 'Set up Supabase Storage for deliverable files', priority: 'medium', owner: 'Max' },
-    { text: 'Custom domain for website', priority: 'low', owner: 'Max' },
-    { text: 'Begin Adductor Canal Block Pack', priority: 'medium', owner: 'Samir + Bloq' },
-    { text: 'Design client agent architecture', priority: 'medium', owner: 'Max' },
+    { text: 'Continue Foundation deliverable reviews (1-by-1 with Samir)', priority: 'high', owner: 'Samir + Bloq', done: false },
+    { text: 'Get Operating Agreement from attorney', priority: 'high', owner: 'Samir', done: false },
+    { text: 'Get Client Services Agreement from attorney', priority: 'high', owner: 'Samir', done: false },
+    { text: 'Obtain E&O + General Liability insurance', priority: 'high', owner: 'Samir', done: false },
+    { text: 'Finalize Chase business checking setup', priority: 'medium', owner: 'Samir', done: false },
+    { text: 'Samir to decide epi concentration default (1:200K vs 1:400K)', priority: 'medium', owner: 'Samir', done: false },
+    { text: 'Build PHI detection/purge system for client agents', priority: 'medium', owner: 'Max', done: false },
+    { text: 'LLC formation — Certificate of Filing received', priority: 'high', owner: 'Samir', done: true },
+    { text: 'EIN obtained from IRS', priority: 'high', owner: 'Samir', done: true },
+    { text: 'LAST Protocol Suite approved', priority: 'high', owner: 'Samir', done: true },
   ];
 
   const getPhaseColor = (status) => {
@@ -184,7 +190,7 @@ export const DashboardHome = () => {
         <div className="bg-white border border-gray-200 rounded-xl p-5">
           <h2 className="text-base font-bold text-gray-900 mb-4">Next Steps</h2>
           <div className="space-y-2">
-            {nextSteps.map((item, index) => (
+            {nextSteps.filter(i => !i.done).map((item, index) => (
               <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-gray-900">{item.text}</p>
@@ -196,6 +202,19 @@ export const DashboardHome = () => {
               </div>
             ))}
           </div>
+          {nextSteps.some(i => i.done) && (
+            <div className="mt-4 pt-3 border-t border-gray-100">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Completed</p>
+              <div className="space-y-1">
+                {nextSteps.filter(i => i.done).map((item, index) => (
+                  <div key={index} className="flex items-center gap-2 px-3 py-1.5">
+                    <CheckCircle2 size={14} className="text-green-500 flex-shrink-0" />
+                    <p className="text-sm text-gray-400 line-through font-light">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
