@@ -1,22 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../services/supabase';
 
-// Cache role across hook instances to prevent flash on navigation
-let cachedRole = null;
+// Persist role across navigations AND browser refreshes
+const ROLE_KEY = 'blockops_user_role';
+const getCachedRole = () => {
+  try { return sessionStorage.getItem(ROLE_KEY); } catch { return null; }
+};
+const setCachedRole = (role) => {
+  try { sessionStorage.setItem(ROLE_KEY, role); } catch {}
+};
 
 export const useUserRole = () => {
-  const [role, setRole] = useState(cachedRole);
-  const [loading, setLoading] = useState(cachedRole === null);
+  const [role, setRole] = useState(getCachedRole);
+  const [loading, setLoading] = useState(getCachedRole() === null);
   const fetched = useRef(false);
 
   useEffect(() => {
-    // If we already fetched this session, don't re-fetch
-    if (cachedRole !== null && fetched.current) return;
+    if (fetched.current) return;
 
     const fetchRole = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        cachedRole = 'client';
+        setCachedRole('client');
         setRole('client');
         setLoading(false);
         fetched.current = true;
@@ -29,13 +34,9 @@ export const useUserRole = () => {
         .eq('user_id', user.id)
         .single();
 
-      if (error || !data) {
-        cachedRole = 'client';
-        setRole('client');
-      } else {
-        cachedRole = data.role;
-        setRole(data.role);
-      }
+      const resolvedRole = (!error && data) ? data.role : 'client';
+      setCachedRole(resolvedRole);
+      setRole(resolvedRole);
       setLoading(false);
       fetched.current = true;
     };
