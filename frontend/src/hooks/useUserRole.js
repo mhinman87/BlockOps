@@ -1,16 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../services/supabase';
 
+// Cache role across hook instances to prevent flash on navigation
+let cachedRole = null;
+
 export const useUserRole = () => {
-  const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(cachedRole);
+  const [loading, setLoading] = useState(cachedRole === null);
+  const fetched = useRef(false);
 
   useEffect(() => {
+    // If we already fetched this session, don't re-fetch
+    if (cachedRole !== null && fetched.current) return;
+
     const fetchRole = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
+        cachedRole = 'client';
         setRole('client');
         setLoading(false);
+        fetched.current = true;
         return;
       }
 
@@ -21,16 +30,22 @@ export const useUserRole = () => {
         .single();
 
       if (error || !data) {
-        // No role assigned = client by default
+        cachedRole = 'client';
         setRole('client');
       } else {
+        cachedRole = data.role;
         setRole(data.role);
       }
       setLoading(false);
+      fetched.current = true;
     };
 
     fetchRole();
   }, []);
 
-  return { role, loading, isReviewer: role === 'reviewer', isAdmin: role === 'admin', isTeam: role === 'reviewer' || role === 'admin' };
+  const isReviewer = role === 'reviewer';
+  const isAdmin = role === 'admin';
+  const isTeam = isReviewer || isAdmin;
+
+  return { role, loading, isReviewer, isAdmin, isTeam };
 };
