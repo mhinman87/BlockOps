@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
+import { useTheme } from '../contexts/ThemeContext';
 import { Bell, Lock, Eye } from 'lucide-react';
 
 export const SettingsPage = () => {
+  const { dark, toggle } = useTheme();
   const [settings, setSettings] = useState({
     emailNotifications: true,
     smsNotifications: false,
-    darkMode: true,
     twoFactor: false,
   });
 
   const handleToggle = (key) => {
+    if (key === 'darkMode') {
+      toggle();
+      return;
+    }
     setSettings((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -53,11 +58,15 @@ export const SettingsPage = () => {
           label: 'Dark Mode',
           description: 'Enable dark theme',
           key: 'darkMode',
-          disabled: true,
         },
       ],
     },
   ];
+
+  const getSettingValue = (key) => {
+    if (key === 'darkMode') return dark;
+    return settings[key] || false;
+  };
 
   return (
     <DashboardLayout>
@@ -105,21 +114,20 @@ export const SettingsPage = () => {
                       <label className="relative flex items-center cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={settings[item.key] || false}
+                          checked={getSettingValue(item.key)}
                           onChange={() => handleToggle(item.key)}
-                          disabled={item.disabled}
                           className="sr-only"
                         />
                         <div
                           className={`w-11 h-6 rounded-full transition ${
-                            settings[item.key]
+                            getSettingValue(item.key)
                               ? 'bg-primary'
                               : 'bg-gray-300'
-                          } ${item.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          }`}
                         >
                           <span
                             className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition transform shadow-sm ${
-                              settings[item.key] ? 'translate-x-5' : ''
+                              getSettingValue(item.key) ? 'translate-x-5' : ''
                             }`}
                           ></span>
                         </div>
