@@ -176,6 +176,13 @@ export const DashboardLayout = ({ children }) => {
                 </div>
                 <Link to="/dashboard/profile" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-border/50">Profile</Link>
                 <Link to="/dashboard/settings" onClick={() => setProfileOpen(false)} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-border/50">Settings</Link>
+                <button
+                  onClick={toggle}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-border/50 flex items-center justify-between border-t border-gray-100 dark:border-dark-border"
+                >
+                  <span>{dark ? 'Light Mode' : 'Dark Mode'}</span>
+                  {dark ? <Sun size={14} className="text-amber-400" /> : <Moon size={14} className="text-gray-400" />}
+                </button>
                 <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 border-t border-gray-100 dark:border-dark-border">Sign Out</button>
               </div>
             )}
