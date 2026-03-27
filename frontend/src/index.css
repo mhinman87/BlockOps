@@ -21,6 +21,196 @@ body {
   font-weight: 400;
 }
 
+/* Dark mode body */
+.dark body,
+html.dark body {
+  background-color: #1a1d2e;
+}
+
+/* ===== DARK MODE OVERRIDES FOR DASHBOARD ===== */
+
+/* Cards and containers */
+.dark .bg-white {
+  background-color: #252b3f !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1a1d2e !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #2d3348 !important;
+}
+
+/* Borders */
+.dark .border-gray-200,
+.dark .border-gray-100,
+.dark .border-gray-50 {
+  border-color: #3a4157 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #4a5170 !important;
+}
+
+/* Text colors */
+.dark .text-gray-900 {
+  color: #e8eaf0 !important;
+}
+
+.dark .text-gray-800 {
+  color: #d0d4de !important;
+}
+
+.dark .text-gray-700 {
+  color: #b8bdcc !important;
+}
+
+.dark .text-gray-600 {
+  color: #9ca3b8 !important;
+}
+
+.dark .text-gray-500 {
+  color: #7c849c !important;
+}
+
+.dark .text-gray-400 {
+  color: #5e6680 !important;
+}
+
+/* Hover states */
+.dark .hover\:bg-gray-50:hover {
+  background-color: #2d3348 !important;
+}
+
+.dark .hover\:bg-gray-100:hover {
+  background-color: #343a52 !important;
+}
+
+/* Status banners */
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+}
+
+.dark .border-amber-200 {
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.dark .bg-green-50 {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+}
+
+.dark .border-green-200,
+.dark .border-green-100 {
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+.dark .bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.dark .border-red-200 {
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Tag/badge colors in dark mode */
+.dark .bg-amber-100 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+}
+
+.dark .bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.15) !important;
+}
+
+.dark .bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+.dark .bg-purple-100 {
+  background-color: rgba(168, 85, 247, 0.15) !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+.dark .bg-cyan-100 {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+}
+
+.dark .bg-pink-100 {
+  background-color: rgba(236, 72, 153, 0.15) !important;
+}
+
+/* Progress bars */
+.dark .bg-gray-200 {
+  background-color: #3a4157 !important;
+}
+
+/* Inputs */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #1a1d2e !important;
+  border-color: #3a4157 !important;
+  color: #e8eaf0 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #5e6680 !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: #42A5B3 !important;
+}
+
+/* Dividers */
+.dark .divide-gray-50 > :not(:last-child) {
+  border-color: #3a4157 !important;
+}
+
+/* Scrollbar */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1a1d2e;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3a4157;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4a5170;
+}
+
+/* Dark mode for markdown viewer */
+.dark .bg-gray-900 {
+  background-color: #111322 !important;
+}
+
+/* Shadow adjustments */
+.dark .shadow-xl,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Yellow warning banner text */
+.dark .bg-yellow-50 {
+  background-color: rgba(234, 179, 8, 0.1) !important;
+}
+
+.dark .border-yellow-200 {
+  border-color: rgba(234, 179, 8, 0.3) !important;
+}
+
 #root {
   width: 100%;
   overflow-x: hidden;

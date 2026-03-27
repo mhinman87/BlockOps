@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
@@ -21,6 +22,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   return (
+    <ThemeProvider>
     <Router>
       <AuthProvider>
         <Routes>
@@ -49,6 +51,7 @@ function App() {
         </Routes>
       </AuthProvider>
     </Router>
+    </ThemeProvider>
   );
 }
 
