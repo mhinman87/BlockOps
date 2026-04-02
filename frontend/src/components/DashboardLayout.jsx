@@ -22,6 +22,7 @@ import {
   Briefcase,
   Moon,
   Sun,
+  Brain,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -46,6 +47,7 @@ export const DashboardLayout = ({ children }) => {
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
     { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
     { icon: Briefcase, label: 'Business', path: '/dashboard/business' },
+    { icon: Brain, label: 'Agent Knowledge', path: '/dashboard/agent-knowledge' },
   ];
 
   const bottomMenuItems = [
