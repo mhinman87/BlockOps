@@ -12,7 +12,7 @@ import {
   Layers
 } from 'lucide-react';
 import { useUserRole } from '../hooks/useUserRole';
-import { supabase } from '../services/supabase';
+// supabase import handled by DeliverableViewer
 
 const AGENT_FILES = [
   {
@@ -56,32 +56,14 @@ const AGENT_FILES = [
 export const AgentKnowledgePage = () => {
   const location = useLocation();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false);
   const { isTeam } = useUserRole();
 
   useEffect(() => {
     if (location.state?.reset) setSelectedFile(null);
   }, [location.state]);
 
-  const handleFileClick = async (file) => {
+  const handleFileClick = (file) => {
     setSelectedFile(file);
-    setLoading(true);
-    try {
-      const { data } = supabase.storage
-        .from('deliverables')
-        .getPublicUrl(file.path);
-      const res = await fetch(data.publicUrl);
-      if (res.ok) {
-        const text = await res.text();
-        setContent(text);
-      } else {
-        setContent('# File not found\n\nThis agent knowledge file has not been uploaded yet.');
-      }
-    } catch (err) {
-      setContent('# Error loading file\n\n' + err.message);
-    }
-    setLoading(false);
   };
 
   const totalUnits = AGENT_FILES.reduce((sum, f) => sum + f.units, 0);
@@ -90,22 +72,18 @@ export const AgentKnowledgePage = () => {
   const completeFiles = AGENT_FILES.filter(f => f.status === 'complete').length;
 
   if (selectedFile) {
+    const deliverableObj = {
+      name: selectedFile.name + ' — Agent Knowledge',
+      storagePath: selectedFile.path,
+    };
     return (
       <DashboardLayout>
         <div className="p-6">
-          <button
-            onClick={() => setSelectedFile(null)}
-            className="mb-4 text-primary hover:text-primary/80 font-semibold text-sm flex items-center gap-1"
-          >
-            ← Back to Agent Knowledge
-          </button>
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-          ) : (
-            <DeliverableViewer content={content} title={selectedFile.name + ' — Agent Knowledge'} />
-          )}
+          <DeliverableViewer 
+            deliverable={deliverableObj} 
+            onBack={() => setSelectedFile(null)}
+            userRole={isTeam ? 'team' : 'client'}
+          />
         </div>
       </DashboardLayout>
     );
