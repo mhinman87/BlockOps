@@ -65,10 +65,13 @@ const getCategoryLabel = (path) => {
 
 const categorizeFile = (filePath) => {
   const lower = filePath.toLowerCase();
-  if (lower.startsWith('legal-drafts/')) return 'Legal & Compliance';
+  if (lower.startsWith('legal-drafts/client-contracts/')) return 'Client Contracts';
+  if (lower.startsWith('legal-drafts/compliance-regulatory/')) return 'Compliance / Regulatory';
+  if (lower.startsWith('legal-drafts/internal/')) return 'Internal Legal';
+  if (lower.startsWith('legal-drafts/platform-web/')) return 'Platform / Web Legal';
+  if (lower.startsWith('legal-drafts/reference/')) return 'Legal Reference';
   if (lower.includes('strategic') || lower.includes('vision') || lower.includes('operating_model')) return 'Strategy';
   if (lower.includes('pricing') || lower.includes('revenue')) return 'Pricing & Revenue';
-  if (lower.includes('legal') || lower.includes('compliance')) return 'Legal & Compliance';
   if (lower.includes('pitch') || lower.includes('sales') || lower.includes('elevator')) return 'Sales & Outreach';
   return 'Other';
 };
@@ -77,8 +80,12 @@ const CATEGORY_CONFIG = {
   'Strategy': { icon: Eye, color: 'text-primary', order: 0 },
   'Pricing & Revenue': { icon: TrendingUp, color: 'text-green-500', order: 1 },
   'Sales & Outreach': { icon: Briefcase, color: 'text-purple-500', order: 2 },
-  'Legal & Compliance': { icon: Scale, color: 'text-red-400', order: 3 },
-  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 4 },
+  'Client Contracts': { icon: Scale, color: 'text-red-400', order: 3 },
+  'Compliance / Regulatory': { icon: Scale, color: 'text-red-400', order: 4 },
+  'Internal Legal': { icon: Scale, color: 'text-red-400', order: 5 },
+  'Platform / Web Legal': { icon: Scale, color: 'text-red-400', order: 6 },
+  'Legal Reference': { icon: Scale, color: 'text-red-400', order: 7 },
+  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 8 },
 };
 
 export const BusinessPage = () => {
