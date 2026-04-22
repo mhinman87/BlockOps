@@ -32,8 +32,9 @@ const parseMarkdownHeader = (text) => {
   return { title, version: version || '', lastUpdated };
 };
 
-const categorizeFile = (fileName) => {
-  const lower = fileName.toLowerCase();
+const categorizeFile = (filePath) => {
+  const lower = filePath.toLowerCase();
+  if (lower.startsWith('legal-drafts/')) return 'Legal & Compliance';
   if (lower.includes('strategic') || lower.includes('vision') || lower.includes('operating_model')) return 'Strategy';
   if (lower.includes('pricing') || lower.includes('revenue')) return 'Pricing & Revenue';
   if (lower.includes('legal') || lower.includes('compliance')) return 'Legal & Compliance';
@@ -69,17 +70,43 @@ export const BusinessPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const { data: items, error: listError } = await supabase.storage
+      const { data: businessItems, error: businessError } = await supabase.storage
         .from('deliverables')
         .list('business', { limit: 200 });
 
-      if (listError) throw listError;
+      if (businessError) throw businessError;
 
-      const mdFiles = (items || []).filter(f => f.name.endsWith('.md'));
+      const collectLegalDrafts = async () => {
+        const sections = [
+          'legal-drafts/client-contracts',
+          'legal-drafts/compliance-regulatory',
+          'legal-drafts/internal',
+          'legal-drafts/platform-web',
+          'legal-drafts/reference',
+        ];
+
+        const lists = await Promise.all(sections.map(async (section) => {
+          const { data, error } = await supabase.storage.from('deliverables').list(section, { limit: 200 });
+          if (error) throw error;
+          return (data || []).filter(f => f.name.endsWith('.md')).map(f => ({
+            name: f.name,
+            path: `${section}/${f.name}`,
+          }));
+        }));
+
+        return lists.flat();
+      };
+
+      const businessFiles = (businessItems || [])
+        .filter(f => f.name.endsWith('.md'))
+        .map(f => ({ name: f.name, path: `business/${f.name}` }));
+
+      const legalFiles = await collectLegalDrafts();
+      const mdFiles = [...businessFiles, ...legalFiles];
 
       const docsWithMeta = await Promise.all(
         mdFiles.map(async (file) => {
-          const path = `business/${file.name}`;
+          const path = file.path;
           try {
             const { data: urlData } = supabase.storage.from('deliverables').getPublicUrl(path);
             const resp = await fetch(urlData.publicUrl + `?t=${Date.now()}`, {
@@ -93,7 +120,7 @@ export const BusinessPage = () => {
               title: meta.title || file.name.replace(/_/g, ' ').replace('.md', ''),
               version: meta.version,
               lastUpdated: meta.lastUpdated,
-              category: categorizeFile(file.name),
+              category: categorizeFile(path),
             };
           } catch {
             return {
@@ -102,7 +129,7 @@ export const BusinessPage = () => {
               title: file.name.replace(/_/g, ' ').replace('.md', ''),
               version: '',
               lastUpdated: '',
-              category: categorizeFile(file.name),
+              category: categorizeFile(path),
             };
           }
         })
