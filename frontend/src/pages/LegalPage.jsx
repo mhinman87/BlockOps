@@ -8,21 +8,14 @@ import { supabase } from '../services/supabase';
 
 const parseMarkdownHeader = (text) => {
   const lines = text.split('\n').slice(0, 20);
-  let title = '';
-  let subtitle = '';
+  const headings = [];
   let version = '';
   let lastUpdated = '';
 
   for (const line of lines) {
     const trimmed = line.trim();
-    if (!title && trimmed.startsWith('# ')) {
-      title = trimmed.replace(/^# /, '');
-      continue;
-    }
-    if (!subtitle && trimmed.startsWith('## ')) {
-      subtitle = trimmed.replace(/^## /, '');
-      continue;
-    }
+    if (trimmed.startsWith('# ')) headings.push(trimmed.replace(/^# /, ''));
+    if (trimmed.startsWith('## ')) headings.push(trimmed.replace(/^## /, ''));
     if (!version && trimmed.toLowerCase().includes('version')) {
       const vMatch = trimmed.match(/v(?:ersion[:\s]*)?(?:draft\s+)?(v?\d+\.\d+)/i);
       if (vMatch) version = vMatch[1].startsWith('v') ? vMatch[1] : 'v' + vMatch[1];
@@ -33,8 +26,18 @@ const parseMarkdownHeader = (text) => {
     }
   }
 
-  return { title, subtitle, version: version || '', lastUpdated };
+  return { headings, version: version || '', lastUpdated };
 };
+
+const BAD_TITLES = new Set([
+  'block ops llc',
+  'block ops',
+  'purpose',
+  'summary',
+  'objective',
+  'position',
+  'issue presented',
+]);
 
 const formatFileName = (fileName) => fileName
   .replace(/\.md$/i, '')
@@ -42,9 +45,11 @@ const formatFileName = (fileName) => fileName
   .replace(/_/g, ' ')
   .trim();
 
-const getDisplayTitle = ({ title, subtitle, fileName }) => {
-  if (subtitle) return subtitle;
-  if (title && title.toUpperCase() !== 'BLOCK OPS LLC' && title.toUpperCase() !== 'BLOCK OPS') return title;
+const getDisplayTitle = ({ headings, fileName }) => {
+  for (const heading of headings || []) {
+    const normalized = heading.trim().toLowerCase();
+    if (!BAD_TITLES.has(normalized)) return heading;
+  }
   return formatFileName(fileName);
 };
 
@@ -113,7 +118,7 @@ export const LegalPage = () => {
             return {
               path: file.path,
               fileName: file.name,
-              title: getDisplayTitle({ title: meta.title, subtitle: meta.subtitle, fileName: file.name }),
+              title: getDisplayTitle({ headings: meta.headings, fileName: file.name }),
               version: meta.version,
               lastUpdated: meta.lastUpdated,
               category: categorizeFile(file.path),
@@ -122,7 +127,7 @@ export const LegalPage = () => {
             return {
               path: file.path,
               fileName: file.name,
-              title: getDisplayTitle({ title: '', subtitle: '', fileName: file.name }),
+              title: getDisplayTitle({ headings: [], fileName: file.name }),
               version: '',
               lastUpdated: '',
               category: categorizeFile(file.path),
