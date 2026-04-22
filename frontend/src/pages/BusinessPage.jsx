@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
-import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Scale, Briefcase, TrendingUp, Eye } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Briefcase, TrendingUp, Eye } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
 const parseMarkdownHeader = (text) => {
-  const lines = text.split('\n').slice(0, 20);
+  const lines = text.split('\n').slice(0, 15);
   let title = '';
-  let subtitle = '';
   let version = '';
   let lastUpdated = '';
 
@@ -17,11 +16,6 @@ const parseMarkdownHeader = (text) => {
     const trimmed = line.trim();
     if (!title && trimmed.startsWith('# ')) {
       title = trimmed.replace(/^# /, '');
-      continue;
-    }
-    if (!subtitle && trimmed.startsWith('## ')) {
-      subtitle = trimmed.replace(/^## /, '');
-      continue;
     }
     if (!version && trimmed.toLowerCase().includes('version')) {
       const vMatch = trimmed.match(/v(?:ersion[:\s]*)?(?:draft\s+)?(v?\d+\.\d+)/i);
@@ -35,41 +29,11 @@ const parseMarkdownHeader = (text) => {
     }
   }
 
-  return { title, subtitle, version: version || '', lastUpdated };
+  return { title, version: version || '', lastUpdated };
 };
 
-const formatFileName = (fileName) => fileName
-  .replace(/\.md$/i, '')
-  .replace(/_DRAFT$/i, '')
-  .replace(/_/g, ' ')
-  .trim();
-
-const getDisplayTitle = ({ path, title, subtitle, fileName }) => {
-  if (path.startsWith('legal-drafts/')) {
-    if (subtitle) return subtitle;
-    if (title && title.toUpperCase() !== 'BLOCK OPS LLC' && title.toUpperCase() !== 'BLOCK OPS') return title;
-    return formatFileName(fileName);
-  }
-
-  return title || formatFileName(fileName);
-};
-
-const getCategoryLabel = (path) => {
-  if (path.startsWith('legal-drafts/client-contracts/')) return 'Client Contracts';
-  if (path.startsWith('legal-drafts/internal/')) return 'Internal';
-  if (path.startsWith('legal-drafts/platform-web/')) return 'Platform / Web';
-  if (path.startsWith('legal-drafts/compliance-regulatory/')) return 'Compliance / Regulatory';
-  if (path.startsWith('legal-drafts/reference/')) return 'Reference';
-  return '';
-};
-
-const categorizeFile = (filePath) => {
-  const lower = filePath.toLowerCase();
-  if (lower.startsWith('legal-drafts/client-contracts/')) return 'Client Contracts';
-  if (lower.startsWith('legal-drafts/compliance-regulatory/')) return 'Compliance / Regulatory';
-  if (lower.startsWith('legal-drafts/internal/')) return 'Internal Legal';
-  if (lower.startsWith('legal-drafts/platform-web/')) return 'Platform / Web Legal';
-  if (lower.startsWith('legal-drafts/reference/')) return 'Legal Reference';
+const categorizeFile = (fileName) => {
+  const lower = fileName.toLowerCase();
   if (lower.includes('strategic') || lower.includes('vision') || lower.includes('operating_model')) return 'Strategy';
   if (lower.includes('pricing') || lower.includes('revenue')) return 'Pricing & Revenue';
   if (lower.includes('pitch') || lower.includes('sales') || lower.includes('elevator')) return 'Sales & Outreach';
@@ -80,12 +44,7 @@ const CATEGORY_CONFIG = {
   'Strategy': { icon: Eye, color: 'text-primary', order: 0 },
   'Pricing & Revenue': { icon: TrendingUp, color: 'text-green-500', order: 1 },
   'Sales & Outreach': { icon: Briefcase, color: 'text-purple-500', order: 2 },
-  'Client Contracts': { icon: Scale, color: 'text-red-400', order: 3 },
-  'Compliance / Regulatory': { icon: Scale, color: 'text-red-400', order: 4 },
-  'Internal Legal': { icon: Scale, color: 'text-red-400', order: 5 },
-  'Platform / Web Legal': { icon: Scale, color: 'text-red-400', order: 6 },
-  'Legal Reference': { icon: Scale, color: 'text-red-400', order: 7 },
-  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 8 },
+  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 3 },
 };
 
 export const BusinessPage = () => {
@@ -93,7 +52,6 @@ export const BusinessPage = () => {
   const location = useLocation();
   const [openDoc, setOpenDoc] = useState(null);
 
-  // Reset to list view when sidebar nav is clicked
   useEffect(() => {
     if (location.state?.reset) {
       setOpenDoc(null);
@@ -108,43 +66,17 @@ export const BusinessPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const { data: businessItems, error: businessError } = await supabase.storage
+      const { data: items, error: listError } = await supabase.storage
         .from('deliverables')
         .list('business', { limit: 200 });
 
-      if (businessError) throw businessError;
+      if (listError) throw listError;
 
-      const collectLegalDrafts = async () => {
-        const sections = [
-          'legal-drafts/client-contracts',
-          'legal-drafts/compliance-regulatory',
-          'legal-drafts/internal',
-          'legal-drafts/platform-web',
-          'legal-drafts/reference',
-        ];
-
-        const lists = await Promise.all(sections.map(async (section) => {
-          const { data, error } = await supabase.storage.from('deliverables').list(section, { limit: 200 });
-          if (error) throw error;
-          return (data || []).filter(f => f.name.endsWith('.md')).map(f => ({
-            name: f.name,
-            path: `${section}/${f.name}`,
-          }));
-        }));
-
-        return lists.flat();
-      };
-
-      const businessFiles = (businessItems || [])
-        .filter(f => f.name.endsWith('.md'))
-        .map(f => ({ name: f.name, path: `business/${f.name}` }));
-
-      const legalFiles = await collectLegalDrafts();
-      const mdFiles = [...businessFiles, ...legalFiles];
+      const mdFiles = (items || []).filter(f => f.name.endsWith('.md'));
 
       const docsWithMeta = await Promise.all(
         mdFiles.map(async (file) => {
-          const path = file.path;
+          const path = `business/${file.name}`;
           try {
             const { data: urlData } = supabase.storage.from('deliverables').getPublicUrl(path);
             const resp = await fetch(urlData.publicUrl + `?t=${Date.now()}`, {
@@ -155,21 +87,19 @@ export const BusinessPage = () => {
             return {
               path,
               fileName: file.name,
-              title: getDisplayTitle({ path, title: meta.title, subtitle: meta.subtitle, fileName: file.name }),
-              subtitle: getCategoryLabel(path),
+              title: meta.title || file.name.replace(/_/g, ' ').replace('.md', ''),
               version: meta.version,
               lastUpdated: meta.lastUpdated,
-              category: categorizeFile(path),
+              category: categorizeFile(file.name),
             };
           } catch {
             return {
               path,
               fileName: file.name,
-              title: getDisplayTitle({ path, title: '', subtitle: '', fileName: file.name }),
-              subtitle: getCategoryLabel(path),
+              title: file.name.replace(/_/g, ' ').replace('.md', ''),
               version: '',
               lastUpdated: '',
-              category: categorizeFile(path),
+              category: categorizeFile(file.name),
             };
           }
         })
@@ -245,7 +175,7 @@ export const BusinessPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Business</h1>
-            <p className="text-gray-500 mt-1">Strategy, pricing, legal, and sales materials</p>
+            <p className="text-gray-500 mt-1">Strategy, pricing, business development, and operating materials</p>
           </div>
           <button
             onClick={fetchDocs}
@@ -314,11 +244,9 @@ export const BusinessPage = () => {
                         <FileText size={16} className="text-gray-400 flex-shrink-0" />
                         <div className="min-w-0">
                           <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
-                          <div className="flex items-center gap-2 text-xs text-gray-400 font-light">
-                            {doc.subtitle && <span>{doc.subtitle}</span>}
-                            {doc.subtitle && doc.lastUpdated && <span>•</span>}
-                            {doc.lastUpdated && <span>Updated {doc.lastUpdated}</span>}
-                          </div>
+                          {doc.lastUpdated && (
+                            <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 ml-4">

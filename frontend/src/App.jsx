@@ -16,6 +16,7 @@ import { LeadsPage } from './pages/LeadsPage';
 import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
 import { BusinessPage } from './pages/BusinessPage';
+import { LegalPage } from './pages/LegalPage';
 import { AgentKnowledgePage } from './pages/AgentKnowledgePage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
@@ -46,6 +47,7 @@ function App() {
           <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
+          <Route path="/dashboard/legal" element={<ProtectedRoute><LegalPage /></ProtectedRoute>} />
           <Route path="/dashboard/agent-knowledge" element={<ProtectedRoute><AgentKnowledgePage /></ProtectedRoute>} />
 
           {/* Catch all */}
