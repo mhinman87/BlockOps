@@ -7,8 +7,9 @@ import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Sc
 import { supabase } from '../services/supabase';
 
 const parseMarkdownHeader = (text) => {
-  const lines = text.split('\n').slice(0, 15);
+  const lines = text.split('\n').slice(0, 20);
   let title = '';
+  let subtitle = '';
   let version = '';
   let lastUpdated = '';
 
@@ -16,6 +17,11 @@ const parseMarkdownHeader = (text) => {
     const trimmed = line.trim();
     if (!title && trimmed.startsWith('# ')) {
       title = trimmed.replace(/^# /, '');
+      continue;
+    }
+    if (!subtitle && trimmed.startsWith('## ')) {
+      subtitle = trimmed.replace(/^## /, '');
+      continue;
     }
     if (!version && trimmed.toLowerCase().includes('version')) {
       const vMatch = trimmed.match(/v(?:ersion[:\s]*)?(?:draft\s+)?(v?\d+\.\d+)/i);
@@ -29,7 +35,32 @@ const parseMarkdownHeader = (text) => {
     }
   }
 
-  return { title, version: version || '', lastUpdated };
+  return { title, subtitle, version: version || '', lastUpdated };
+};
+
+const formatFileName = (fileName) => fileName
+  .replace(/\.md$/i, '')
+  .replace(/_DRAFT$/i, '')
+  .replace(/_/g, ' ')
+  .trim();
+
+const getDisplayTitle = ({ path, title, subtitle, fileName }) => {
+  if (path.startsWith('legal-drafts/')) {
+    if (subtitle) return subtitle;
+    if (title && title.toUpperCase() !== 'BLOCK OPS LLC' && title.toUpperCase() !== 'BLOCK OPS') return title;
+    return formatFileName(fileName);
+  }
+
+  return title || formatFileName(fileName);
+};
+
+const getCategoryLabel = (path) => {
+  if (path.startsWith('legal-drafts/client-contracts/')) return 'Client Contracts';
+  if (path.startsWith('legal-drafts/internal/')) return 'Internal';
+  if (path.startsWith('legal-drafts/platform-web/')) return 'Platform / Web';
+  if (path.startsWith('legal-drafts/compliance-regulatory/')) return 'Compliance / Regulatory';
+  if (path.startsWith('legal-drafts/reference/')) return 'Reference';
+  return '';
 };
 
 const categorizeFile = (filePath) => {
@@ -117,7 +148,8 @@ export const BusinessPage = () => {
             return {
               path,
               fileName: file.name,
-              title: meta.title || file.name.replace(/_/g, ' ').replace('.md', ''),
+              title: getDisplayTitle({ path, title: meta.title, subtitle: meta.subtitle, fileName: file.name }),
+              subtitle: getCategoryLabel(path),
               version: meta.version,
               lastUpdated: meta.lastUpdated,
               category: categorizeFile(path),
@@ -126,7 +158,8 @@ export const BusinessPage = () => {
             return {
               path,
               fileName: file.name,
-              title: file.name.replace(/_/g, ' ').replace('.md', ''),
+              title: getDisplayTitle({ path, title: '', subtitle: '', fileName: file.name }),
+              subtitle: getCategoryLabel(path),
               version: '',
               lastUpdated: '',
               category: categorizeFile(path),
@@ -274,9 +307,11 @@ export const BusinessPage = () => {
                         <FileText size={16} className="text-gray-400 flex-shrink-0" />
                         <div className="min-w-0">
                           <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
-                          {doc.lastUpdated && (
-                            <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
-                          )}
+                          <div className="flex items-center gap-2 text-xs text-gray-400 font-light">
+                            {doc.subtitle && <span>{doc.subtitle}</span>}
+                            {doc.subtitle && doc.lastUpdated && <span>•</span>}
+                            {doc.lastUpdated && <span>Updated {doc.lastUpdated}</span>}
+                          </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 ml-4">
