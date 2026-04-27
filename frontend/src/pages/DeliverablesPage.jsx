@@ -50,7 +50,6 @@ const STORAGE_PATHS = {
   'Nerve Block Patient Brochure': 'foundation/Nerve_Block_Patient_Brochure.md',
   'Regional Anesthesia Consent Form': 'foundation/RA_Consent_Form.md',
   'Post-Block Sensory Guide': 'foundation/Post_Block_Sensory_Guide.md',
-  'Fall Prevention Patient Agreement': 'foundation/Fall_Prevention_Patient_Agreement.md',
   'Patient Red Flag Card': 'foundation/Patient_Red_Flag_Card.md',
   'CPT/ICD-10 Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
   'Medical Necessity Phrases': 'foundation/Medical_Necessity_Phrases.md',
@@ -155,7 +154,6 @@ export const DeliverablesPage = () => {
             { name: 'Nerve Block Patient Brochure', status: 'draft', storagePath: STORAGE_PATHS['Nerve Block Patient Brochure'] },
             { name: 'Regional Anesthesia Consent Form', status: 'draft', storagePath: STORAGE_PATHS['Regional Anesthesia Consent Form'] },
             { name: 'Post-Block Sensory Guide', status: 'draft', storagePath: STORAGE_PATHS['Post-Block Sensory Guide'] },
-            { name: 'Fall Prevention Patient Agreement', status: 'draft', storagePath: STORAGE_PATHS['Fall Prevention Patient Agreement'] },
             { name: 'Patient Red Flag Card', status: 'draft', storagePath: STORAGE_PATHS['Patient Red Flag Card'] },
           ]
         },

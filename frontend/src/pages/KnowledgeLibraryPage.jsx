@@ -57,7 +57,6 @@ const STORAGE_PATHS = {
   'Nerve_Block_Patient_Brochure': 'foundation/Nerve_Block_Patient_Brochure.md',
   'RA_Consent_Form': 'foundation/RA_Consent_Form.md',
   'Post_Block_Sensory_Guide': 'foundation/Post_Block_Sensory_Guide.md',
-  'Fall_Prevention_Patient_Agreement': 'foundation/Fall_Prevention_Patient_Agreement.md',
   'Patient_Red_Flag_Card': 'foundation/Patient_Red_Flag_Card.md',
   'CPT_ICD10_Crosswalk': 'foundation/CPT_ICD10_Crosswalk.md',
   'Medical_Necessity_Phrases': 'foundation/Medical_Necessity_Phrases.md',
@@ -297,11 +296,10 @@ export const KnowledgeLibraryPage = () => {
     { id: 32, title: 'Red Flag Recognition Card', description: 'Quick-reference card for nursing staff listing red flag signs and symptoms requiring immediate escalation in block patients.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Red_Flag_Recognition_Card'] },
     { id: 33, title: 'Breakthrough Pain Protocol', description: 'Protocol for managing breakthrough pain in patients with nerve blocks. Escalation pathway from repositioning through rescue analgesia.', category: 'nursing', status: 'draft', tags: ['Foundation', 'Nursing'], hasContent: true, storagePath: STORAGE_PATHS['Breakthrough_Pain_Protocol'] },
 
-    // Patient Experience (5)
+    // Patient Experience (4)
     { id: 34, title: 'Nerve Block Patient Brochure', description: 'Patient-facing educational brochure explaining what nerve blocks are, what to expect, and how they improve recovery — in plain language.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient Education'], hasContent: true, storagePath: STORAGE_PATHS['Nerve_Block_Patient_Brochure'] },
     { id: 35, title: 'Regional Anesthesia Consent Form', description: 'Informed consent template covering risks, benefits, and alternatives for regional anesthesia procedures.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Legal'], hasContent: true, storagePath: STORAGE_PATHS['RA_Consent_Form'] },
     { id: 36, title: 'Post-Block Sensory Guide', description: 'Patient handout explaining expected sensory changes after a nerve block — what is normal, what to watch for, and when to call.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient Education'], hasContent: true, storagePath: STORAGE_PATHS['Post_Block_Sensory_Guide'] },
-    { id: 37, title: 'Fall Prevention Patient Agreement', description: 'Patient agreement and education document for fall prevention when discharged with an active lower extremity block.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Fall_Prevention_Patient_Agreement'] },
     { id: 38, title: 'Patient Red Flag Card', description: 'Wallet-sized card for patients listing warning signs that require calling their provider or going to the ER after a nerve block.', category: 'patient', status: 'draft', tags: ['Foundation', 'Patient', 'Safety'], hasContent: true, storagePath: STORAGE_PATHS['Patient_Red_Flag_Card'] },
 
     // Compliance & Billing (4)
@@ -361,9 +359,9 @@ export const KnowledgeLibraryPage = () => {
           {(() => {
             const all = Object.values(statuses || {});
             const approved = all.filter(s => s.status === 'approved').length;
-            if (approved === 0) return '44 Foundation Package deliverables — all drafts pending clinical review.';
-            if (approved === 44) return '44 Foundation Package deliverables — all approved.';
-            return `44 Foundation Package deliverables — ${approved} approved, ${44 - approved} pending review.`;
+            if (approved === 0) return '43 Foundation Package deliverables — all drafts pending clinical review.';
+            if (approved === 43) return '43 Foundation Package deliverables — all approved.';
+            return `43 Foundation Package deliverables — ${approved} approved, ${43 - approved} pending review.`;
           })()}
         </p>
       </div>
