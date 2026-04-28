@@ -23,6 +23,7 @@ const FILE_METADATA = {
   'High_Volume_Dilution_Chart.agent.md': { category: 'Safety', units: 8, qaPairs: 0 },
   'LAST_Second_Responder_Nursing_Competency.agent.md': { category: 'Safety', units: 8, qaPairs: 0 },
   'Block_Champion_Charter.agent.md': { category: 'Governance', units: 11, qaPairs: 8 },
+  'Block_Lead_Nurse_Responsibility_List.agent.md': { category: 'Governance', units: 9, qaPairs: 7 },
 };
 
 const humanizeFileName = (fileName) => fileName
