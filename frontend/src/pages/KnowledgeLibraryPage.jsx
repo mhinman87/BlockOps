@@ -40,6 +40,7 @@ const STORAGE_PATHS = {
   'Clean_vs_Sterile_Protocol': 'foundation/Clean_vs_Sterile_Protocol.md',
   'Probe_Cover_Gel_Management_Standard': 'foundation/Probe_Cover_Gel_Management_Standard.md',
   'Block_Cart_Planogram': 'foundation/Block_Cart_Planogram.md',
+  'Block_Cart_Par_Level_Guide': 'foundation/Block_Cart_Par_Level_Guide.md',
   'Daily_Cart_Restock_Checklist': 'foundation/Daily_Cart_Restock_Checklist.md',
   'Block_Bay_Workflow_Logic': 'foundation/Block_Bay_Workflow_Logic.md',
   'Machine_Cleaning_Checklist': 'foundation/Machine_Cleaning_Checklist.md',
@@ -276,7 +277,8 @@ export const KnowledgeLibraryPage = () => {
     { id: 18, title: 'Probe Cover & Gel Management Standard', description: 'Standardized protocol for probe cover selection, application, gel management, and contamination prevention.', category: 'sterile', status: 'draft', tags: ['Foundation', 'Sterile Technique'], hasContent: true, storagePath: STORAGE_PATHS['Probe_Cover_Gel_Management_Standard'] },
 
     // Physical Infrastructure (6)
-    { id: 19, title: 'Block Cart Planogram', description: 'Visual layout specification for the regional anesthesia block cart. Standardized drawer assignments, supply locations, and labeling system.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'], hasContent: true, storagePath: STORAGE_PATHS['Block_Cart_Planogram'] },
+    { id: 19, title: 'Block Cart Planogram', description: 'Standardized framework for block-cart organization, emergency readiness, and customizable cart logic.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'], hasContent: true, storagePath: STORAGE_PATHS['Block_Cart_Planogram'] },
+    { id: 191, title: 'Block Cart Par Level Guide', description: 'Companion stocking-logic guide for setting minimum recommended quantities, restock triggers, and scaling based on workflow volume.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Operations'], hasContent: true, storagePath: STORAGE_PATHS['Block_Cart_Par_Level_Guide'] },
     { id: 20, title: 'Daily Cart Restock Checklist', description: 'Daily checklist for nursing staff to verify block cart supplies, expiration dates, and equipment readiness before first case.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Daily'], hasContent: true, storagePath: STORAGE_PATHS['Daily_Cart_Restock_Checklist'] },
     { id: 21, title: 'Block Bay Workflow Logic', description: 'Workflow diagram and logic for patient flow through the block bay — from arrival to block completion to OR transport.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure', 'Workflow'], hasContent: true, storagePath: STORAGE_PATHS['Block_Bay_Workflow_Logic'] },
     { id: 22, title: 'Machine Cleaning Checklist', description: 'Ultrasound machine cleaning and maintenance protocol. Daily, weekly, and post-case cleaning requirements.', category: 'infrastructure', status: 'draft', tags: ['Foundation', 'Infrastructure'], hasContent: true, storagePath: STORAGE_PATHS['Machine_Cleaning_Checklist'] },
@@ -359,9 +361,9 @@ export const KnowledgeLibraryPage = () => {
           {(() => {
             const all = Object.values(statuses || {});
             const approved = all.filter(s => s.status === 'approved').length;
-            if (approved === 0) return '43 Foundation Package deliverables — all drafts pending clinical review.';
-            if (approved === 43) return '43 Foundation Package deliverables — all approved.';
-            return `43 Foundation Package deliverables — ${approved} approved, ${43 - approved} pending review.`;
+            if (approved === 0) return '44 Foundation Package deliverables — all drafts pending clinical review.';
+            if (approved === 44) return '44 Foundation Package deliverables — all approved.';
+            return `44 Foundation Package deliverables — ${approved} approved, ${44 - approved} pending review.`;
           })()}
         </p>
       </div>

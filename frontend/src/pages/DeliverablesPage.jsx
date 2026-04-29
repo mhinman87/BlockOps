@@ -33,6 +33,7 @@ const STORAGE_PATHS = {
   'Clean vs Sterile Protocol': 'foundation/Clean_vs_Sterile_Protocol.md',
   'Probe Cover & Gel Management Standard': 'foundation/Probe_Cover_Gel_Management_Standard.md',
   'Block Cart Planogram': 'foundation/Block_Cart_Planogram.md',
+  'Block Cart Par Level Guide': 'foundation/Block_Cart_Par_Level_Guide.md',
   'Daily Cart Restock Checklist': 'foundation/Daily_Cart_Restock_Checklist.md',
   'Block Bay Workflow Logic': 'foundation/Block_Bay_Workflow_Logic.md',
   'Machine Cleaning Checklist': 'foundation/Machine_Cleaning_Checklist.md',
@@ -122,6 +123,7 @@ export const DeliverablesPage = () => {
           name: 'Physical Infrastructure',
           items: [
             { name: 'Block Cart Planogram', status: 'draft', storagePath: STORAGE_PATHS['Block Cart Planogram'] },
+            { name: 'Block Cart Par Level Guide', status: 'draft', storagePath: STORAGE_PATHS['Block Cart Par Level Guide'] },
             { name: 'Daily Cart Restock Checklist', status: 'draft', storagePath: STORAGE_PATHS['Daily Cart Restock Checklist'] },
             { name: 'Block Bay Workflow Logic', status: 'draft', storagePath: STORAGE_PATHS['Block Bay Workflow Logic'] },
             { name: 'Machine Cleaning Checklist', status: 'draft', storagePath: STORAGE_PATHS['Machine Cleaning Checklist'] },
