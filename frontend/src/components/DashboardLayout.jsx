@@ -19,6 +19,7 @@ import {
   BookMarked,
   ListChecks,
   Briefcase,
+  MessageSquare,
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -42,6 +43,7 @@ export const DashboardLayout = ({ children }) => {
     { icon: Target, label: 'Lead Pipeline', path: '/dashboard/leads' },
     { icon: BookMarked, label: 'Operations', path: '/dashboard/operations' },
     { icon: Briefcase, label: 'Business', path: '/dashboard/business' },
+    { icon: MessageSquare, label: 'AI Assistant', path: '/dashboard/chatbot' },
   ];
 
   const bottomMenuItems = [

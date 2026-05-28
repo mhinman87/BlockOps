@@ -18,6 +18,7 @@ import { BusinessPage } from './pages/BusinessPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { ChatbotPage } from './pages/ChatbotPage';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
+          <Route path="/dashboard/chatbot" element={<ProtectedRoute><ChatbotPage /></ProtectedRoute>} />
 
           {/* Catch all */}
           <Route path="*" element={<NotFoundPage />} />

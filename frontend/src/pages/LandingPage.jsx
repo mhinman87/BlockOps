@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import BlockOpsChatWidget from '../components/BlockOpsChatWidget';
 import { 
   ArrowRight, 
   Menu, 
@@ -880,6 +881,8 @@ export const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      <BlockOpsChatWidget />
     </div>
   );
 };
