@@ -7,7 +7,6 @@ import {
   ArrowRight,
   BarChart3,
   BookOpen,
-  CheckCircle2,
   Layers3,
 } from 'lucide-react';
 import {
@@ -25,9 +24,32 @@ import {
 } from '../services/launchOpsService.js';
 
 const parseLines = (value) => (value || '')
-  .split('\n')
+  .replace(/\\n/g, '\n')
+  .split(/\n+/)
   .map((line) => line.trim())
   .filter(Boolean);
+
+const stripBulletPrefix = (value) => (value || '')
+  .replace(/^\s*(?:[-•*]|\d+[.)])\s*/, '')
+  .trim();
+
+const taskPriorityRank = (priority) => {
+  const normalized = (priority || '').toLowerCase();
+  const order = {
+    critical: 0,
+    high: 1,
+    medium: 2,
+    low: 3,
+  };
+
+  return order[normalized] ?? 9;
+};
+
+const people = [
+  { name: 'Samir', focusKey: 'samirFocus' },
+  { name: 'Max', focusKey: 'maxFocus' },
+  { name: 'Adrian', focusKey: 'adrianFocus' },
+];
 
 export const DashboardHome = () => {
   const { user } = useAuth();
@@ -70,11 +92,25 @@ export const DashboardHome = () => {
   const snapshot = useMemo(() => buildLaunchOpsSnapshot({ milestones, tasks, agenda }), [milestones, tasks, agenda]);
   const currentMilestone = snapshot.currentMilestone;
   const currentReadiness = currentMilestone ? snapshot.readinessBySlug[currentMilestone.slug] : null;
-  const thisWeekTasks = snapshot.thisWeekTasks || [];
-  const blockedTasks = snapshot.blockedTasks || [];
-  const priorities = parseLines(agenda?.companyPriorities);
-  const launchRisks = parseLines(agenda?.launchRisks);
-  const decisionsNeeded = parseLines(agenda?.decisionsNeeded);
+  const currentPriorities = people.map((person) => ({
+    ...person,
+    priority: stripBulletPrefix(parseLines(agenda?.[person.focusKey])[0] || 'Not set yet.'),
+  }));
+  const currentTasksByPerson = people.map((person) => {
+    const ownerTasks = (snapshot.tasksByOwner[person.name] || [])
+      .filter((task) => task.status !== 'done' && task.computedStatus !== 'done')
+      .sort((a, b) => taskPriorityRank(a.priority) - taskPriorityRank(b.priority)
+        || (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
+        || a.title.localeCompare(b.title))
+      .slice(0, 3);
+
+    return {
+      ...person,
+      tasks: ownerTasks,
+    };
+  });
+  const launchRisks = parseLines(agenda?.launchRisks).slice(0, 5);
+  const decisionsNeeded = parseLines(agenda?.decisionsNeeded).slice(0, 3);
 
   const currentProgressPercent = currentMilestone
     ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
@@ -202,41 +238,80 @@ export const DashboardHome = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
         <div className={`${dashboardCard} p-5`}>
-          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">This Week&apos;s Priorities</h2>
-          <div className="space-y-3">
-            {priorities.length === 0 ? (
-              <p className="text-sm text-gray-400 dark:text-gray-500">No priorities loaded yet.</p>
-            ) : priorities.map((item, index) => (
-              <div key={index} className={`flex items-start gap-3 p-3 ${dashboardSurfaceMuted}`}>
-                <div className="bg-primary/10 p-1.5 rounded mt-0.5">
-                  <CheckCircle2 size={14} className="text-primary" />
+          <div className="flex items-end justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Priority</h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                One live objective per person.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {currentPriorities.map((person) => (
+              <div key={person.name} className={`rounded-xl border border-gray-100 dark:border-dark-border p-4 ${dashboardSurfaceMuted}`}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
+                    {person.name.slice(0, 1)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
+                    <p className="text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500">Current priority</p>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-700 dark:text-gray-200 font-light">{item}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">
+                  {person.priority}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
         <div className={`${dashboardCard} p-5`}>
-          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">This Week Tasks</h2>
-          <div className="space-y-2">
-            {thisWeekTasks.length === 0 ? (
-              <p className="text-sm text-gray-400 dark:text-gray-500">No this-week tasks loaded yet.</p>
-            ) : thisWeekTasks.map((task) => (
-              <div key={task.id} className={`p-3 ${dashboardSurfaceMuted}`}>
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{task.taskKey} — {task.title}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Owner: {task.primaryOwner} · Milestone: {milestones.find((milestone) => milestone.id === task.milestoneId)?.slug || '—'}
-                    </p>
+          <div className="flex items-end justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Tasks</h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Top three active tasks per person.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {currentTasksByPerson.map((person) => (
+              <div key={person.name} className={`rounded-xl border border-gray-100 dark:border-dark-border p-4 ${dashboardSurfaceMuted}`}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
+                    {person.name.slice(0, 1)}
                   </div>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 flex-shrink-0">
-                    {task.priority}
-                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
+                    <p className="text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500">Top tasks</p>
+                  </div>
                 </div>
+
+                {person.tasks.length === 0 ? (
+                  <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No active tasks yet.</p>
+                ) : (
+                  <ol className="space-y-2">
+                    {person.tasks.map((task, index) => (
+                      <li key={task.id} className="rounded-lg bg-white/70 dark:bg-dark-bg/60 border border-white/70 dark:border-dark-border p-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
+                              {index + 1}. {task.title}
+                            </p>
+                          </div>
+                          <span className="flex-shrink-0 rounded-full bg-amber-100 text-amber-700 px-2 py-0.5 text-[11px] font-semibold capitalize">
+                            {task.priority}
+                          </span>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                )}
               </div>
             ))}
           </div>
@@ -245,27 +320,37 @@ export const DashboardHome = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div className={`${dashboardCard} p-5`}>
-          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Launch Risks</h2>
+          <div className="flex items-end justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Launch Risks</h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Keep this tight so it stays useful.</p>
+            </div>
+          </div>
           <div className="space-y-2">
             {launchRisks.length === 0 ? (
               <p className="text-sm text-gray-400 dark:text-gray-500">No launch risks loaded yet.</p>
             ) : launchRisks.map((item, index) => (
               <div key={index} className="flex items-start gap-3 p-3 bg-red-50 dark:bg-dark-border/40 border border-red-100 dark:border-dark-border rounded-lg">
                 <AlertTriangle size={14} className="text-red-500 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-red-800 dark:text-gray-200 font-light">{item}</p>
+                <p className="text-sm text-red-800 dark:text-gray-200 font-light leading-6">{item}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className={`${dashboardCard} p-5`}>
-          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Decisions Needed</h2>
+          <div className="flex items-end justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Decisions Needed</h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Only the 3 biggest calls should live here.</p>
+            </div>
+          </div>
           <div className="space-y-2">
             {decisionsNeeded.length === 0 ? (
               <p className="text-sm text-gray-400 dark:text-gray-500">No pending decisions loaded yet.</p>
             ) : decisionsNeeded.map((item, index) => (
               <div key={index} className={`p-3 ${dashboardSurfaceMuted}`}>
-                <p className="text-sm text-gray-700 dark:text-gray-200 font-light">{item}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">{item}</p>
               </div>
             ))}
           </div>
