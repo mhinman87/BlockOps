@@ -5,8 +5,8 @@ begin;
 
 insert into launch_milestones (slug, title, description, status, owner, sort_order, readiness_score, gate_notes)
 values
-  ('m1-mock-run-build-ready', 'Build complete enough for full internal mock run', 'Finish the deliverables and build the system enough to take a completely made-up mock client from beginning to onboarded and live.', 'in_progress', 'Max', 1, 20, 'Current active milestone.'),
-  ('m2-mock-run-complete', 'Internal mock client run completed cleanly', 'Run the entire Block Ops process on a fake client and resolve the major friction points.', 'locked', 'Max', 2, 0, 'Depends on M1.'),
+  ('m1-mock-run-build-ready', 'Ready for fake-client run', 'Get the system ready to run a fake client through it.', 'in_progress', 'Max', 1, 20, 'Current active milestone.'),
+  ('m2-mock-run-complete', 'Fake-client run, benchmarks, and standards', 'Run the fake client, benchmark the system, and define the board-exam and quality standards for the next stage.', 'locked', 'Max', 2, 0, 'Depends on M1.'),
   ('m3-trusted-anesthesiologist-validation', 'Trusted anesthesiologist validation round', 'Take the system in person to 2-3 anesthesiologists already known to Samir and let them poke holes in it.', 'locked', 'Samir', 3, 0, 'Depends on M2.'),
   ('m4-validation-closed', 'Clinical validation round closed / holes patched', 'Incorporate the review feedback and clean up the weaknesses that were exposed.', 'locked', 'Samir', 4, 0, 'Depends on M3.'),
   ('m5-founding-partner-ready', 'Founding partner ready', 'The system, process, and legal/compliance base are strong enough to safely support a real founding partner.', 'locked', 'Adrian', 5, 0, 'Depends on M4 and legal/compliance readiness.'),
@@ -46,8 +46,8 @@ with milestone_lookup as (
   select slug, id from launch_milestones
 ), task_rows as (
   select * from (values
-    ('S1', 'Define mock-client minimum clinical deliverable set', 'Decide which deliverables are absolutely required for a believable fake client to move from qualification to onboarded and live.', 'Samir', 'this_week', 'critical', 'Clinical Standard & Deliverables', 'm1-mock-run-build-ready', false, false, false, 10),
-    ('S2', 'Identify remaining priority deliverables needed before mock run', 'Convert the mock-client minimum set into a concrete list of unfinished or underdeveloped content that must be completed first.', 'Samir', 'ready', 'critical', 'Clinical Standard & Deliverables', 'm1-mock-run-build-ready', false, false, false, 20),
+    ('S1', 'Define minimum quality standards for fake-client readiness', 'Decide which clinical and workflow standards the system must meet before we can honestly run a fake client through it.', 'Samir', 'this_week', 'critical', 'Clinical Standard & Quality', 'm1-mock-run-build-ready', false, false, false, 10),
+    ('S2', 'Identify remaining gaps before fake-client readiness', 'Convert the readiness standard into a concrete list of unfinished or underdeveloped pieces that still need to be completed before M1.', 'Samir', 'ready', 'critical', 'Clinical Standard & Quality', 'm1-mock-run-build-ready', false, false, false, 20),
     ('S3', 'Create mock-client clinical walkthrough expectations', 'Define what the clinical side of the fake onboarding/live run should demonstrate to count as believable and useful.', 'Samir', 'locked', 'high', 'Mock Client / Demo Flow', 'm1-mock-run-build-ready', false, false, false, 30),
     ('S4', 'Define trusted anesthesiologist validation targets', 'Identify the first 2-3 anesthesiologists Samir wants to use for the hole-poking validation round.', 'Samir', 'ready', 'high', 'Clinical Validation Round', 'm3-trusted-anesthesiologist-validation', false, false, false, 40),
     ('S5', 'Define validation-round hole-poking prompts', 'Define exactly what external reviewers should pressure-test: protocols, training logic, agent behavior, onboarding flow, practical use, etc.', 'Samir', 'locked', 'high', 'Clinical Validation Round', 'm3-trusted-anesthesiologist-validation', false, false, false, 50),
@@ -213,12 +213,12 @@ values (
   'Block Ops is a standardized implementation system for building and sustaining high-performing regional anesthesia programs at the site level.',
   'm1-mock-run-build-ready',
   '1. Finish the system enough to run a fake client end-to-end.\n2. Build the task/milestone operating system so launch execution becomes visible and manageable.\n3. Continue legal/compliance groundwork so founding partner readiness is not blocked later.',
-  '- identify priority remaining deliverables needed for mock-client readiness\n- define clinical must-haves for a believable mock onboarding/live run\n- outline trusted anesthesiologist validation targets and what they should be asked to poke at\n- continue legal/clinical boundary framing where needed',
-  '- define and build the adaptive operating system structure\n- plan migration from simple launch_tasks to milestone/dependency-aware execution system\n- identify what product/system pieces are still missing for a full fake-client flow\n- keep platform architecture aligned to internal mock run needs first',
+  '- identify the minimum readiness standard needed to run the fake client\n- define clinical must-haves for a believable fake onboarding/live run\n- outline trusted anesthesiologist validation targets and what they should be asked to poke at\n- continue legal/clinical boundary framing where needed',
+  '- define and build the adaptive operating system structure\n- plan migration from simple launch_tasks to milestone/dependency-aware execution system\n- identify what product/system pieces are still missing for the fake-client run and its benchmarks\n- keep platform architecture aligned to internal mock run needs first',
   '- define the ideal mock-client commercial path from initial interest through onboarding\n- refine the future founding partner path so it can be tested in the mock run\n- start shaping how expert validation sessions should be framed from a buyer/relationship perspective\n- continue organizing commercial assets needed downstream',
   '- define what mock client complete means\n- define what founding partner ready means\n- define legal/compliance items required before real founding partner signing\n- decide how expert feedback will be captured and turned into changes',
   '- true dashboard intelligence layer is blocked on schema/UI upgrade\n- founding partner tasks remain structurally downstream of mock run and validation round\n- paid client tasks remain downstream of founding partner proof',
-  '- exact success criteria for M1 and M2\n- which deliverables are absolutely required before the mock run\n- what legal package is truly mandatory before M6\n- whether the upgraded task system should extend launch_tasks or move to a new milestone/task schema',
+  '- exact success criteria for M1 and M2\n- what quality standards the fake-client run must meet\n- what legal package is truly mandatory before M6\n- whether the upgraded task system should extend launch_tasks or move to a new milestone/task schema',
   '- stale dashboard data causing false confidence\n- too much work happening without explicit dependency logic\n- legal items being treated as side tasks instead of launch gates\n- mock run attempted before the system is truly coherent'
 )
 on conflict (week_of) do update set

@@ -1,14 +1,27 @@
+const MILESTONE_COPY_OVERRIDES = {
+  'm1-mock-run-build-ready': {
+    title: 'Ready for fake-client run',
+    description: 'Get the system ready to run a fake client through it.',
+    gateNotes: 'Current active milestone.',
+  },
+  'm2-mock-run-complete': {
+    title: 'Fake-client run, benchmarks, and standards',
+    description: 'Run the fake client, benchmark the system, and define the board-exam and quality standards for the next stage.',
+    gateNotes: 'Depends on M1.',
+  },
+};
+
 export const normalizeLaunchMilestoneRow = (row) => ({
   id: row.id,
   slug: row.slug,
-  title: row.title,
-  description: row.description,
+  title: MILESTONE_COPY_OVERRIDES[row.slug]?.title || row.title,
+  description: MILESTONE_COPY_OVERRIDES[row.slug]?.description || row.description,
   status: row.status,
   owner: row.owner,
   targetDate: row.target_date,
   sortOrder: row.sort_order ?? 0,
   readinessScore: row.readiness_score ?? 0,
-  gateNotes: row.gate_notes,
+  gateNotes: MILESTONE_COPY_OVERRIDES[row.slug]?.gateNotes || row.gate_notes,
 });
 
 export const normalizeLaunchTaskRow = (row) => ({

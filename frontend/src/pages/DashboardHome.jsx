@@ -29,14 +29,6 @@ const parseLines = (value) => (value || '')
   .map((line) => line.trim())
   .filter(Boolean);
 
-const compactMilestoneTitle = (title = '') => {
-  const stopWords = new Set(['a', 'an', 'the', 'of', 'for', 'to', 'and', 'or', 'with', 'in', 'on', 'into', 'enough', 'full', 'internal']);
-  const words = title.split(/\s+/).filter(Boolean);
-  const meaningfulWords = words.filter((word) => !stopWords.has(word.toLowerCase()));
-  const selectedWords = meaningfulWords.length >= 2 ? meaningfulWords : words;
-  return selectedWords.slice(0, 4).map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-};
-
 export const DashboardHome = () => {
   const { user } = useAuth();
   const [milestones, setMilestones] = useState([]);
@@ -87,7 +79,7 @@ export const DashboardHome = () => {
   const currentProgressPercent = currentMilestone
     ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
     : 0;
-  const currentMilestoneDisplayTitle = currentMilestone ? compactMilestoneTitle(currentMilestone.title) : '';
+  const currentMilestoneDisplayTitle = currentMilestone?.title || '';
 
   return (
     <DashboardLayout>
