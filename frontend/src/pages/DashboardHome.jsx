@@ -29,6 +29,14 @@ const parseLines = (value) => (value || '')
   .map((line) => line.trim())
   .filter(Boolean);
 
+const compactMilestoneTitle = (title = '') => {
+  const stopWords = new Set(['a', 'an', 'the', 'of', 'for', 'to', 'and', 'or', 'with', 'in', 'on', 'into', 'enough', 'full', 'internal']);
+  const words = title.split(/\s+/).filter(Boolean);
+  const meaningfulWords = words.filter((word) => !stopWords.has(word.toLowerCase()));
+  const selectedWords = meaningfulWords.length >= 2 ? meaningfulWords : words;
+  return selectedWords.slice(0, 4).map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
 export const DashboardHome = () => {
   const { user } = useAuth();
   const [milestones, setMilestones] = useState([]);
@@ -79,6 +87,7 @@ export const DashboardHome = () => {
   const currentProgressPercent = currentMilestone
     ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
     : 0;
+  const currentMilestoneDisplayTitle = currentMilestone ? compactMilestoneTitle(currentMilestone.title) : '';
 
   return (
     <DashboardLayout>
@@ -108,8 +117,11 @@ export const DashboardHome = () => {
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">Current milestone</p>
-              <h2 className="mt-2 text-2xl sm:text-3xl font-black text-gray-900 dark:text-gray-100 leading-tight">
-                {currentMilestone.title}
+              <h2
+                className="mt-2 text-2xl sm:text-3xl font-black text-gray-900 dark:text-gray-100 leading-tight"
+                title={currentMilestone.title}
+              >
+                {currentMilestoneDisplayTitle}
               </h2>
               <p className="mt-3 max-w-3xl text-sm sm:text-base text-gray-600 dark:text-gray-300 font-light leading-6">
                 {currentMilestone.description}
@@ -120,12 +132,6 @@ export const DashboardHome = () => {
                 </span>
                 <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
                   {currentReadiness ? `${currentReadiness.completedTasks}/${currentReadiness.totalTasks} tasks complete` : 'No readiness data yet'}
-                </span>
-                <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
-                  {thisWeekTasks.length} this week
-                </span>
-                <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
-                  {blockedTasks.length} blocked
                 </span>
               </div>
               {currentMilestone.gateNotes && (
@@ -159,7 +165,10 @@ export const DashboardHome = () => {
       ) : null}
 
       <div className={`${dashboardCard} p-5 mb-6`}>
-        <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Launch Gate Progress</h2>
+        <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Launch Gate Progress</h2>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+          Live milestone tracking: each bar reflects the tasks assigned to that milestone, and it updates as tasks are completed.
+        </p>
         <div className="space-y-4">
           {loading ? (
             <p className="text-sm text-gray-400 dark:text-gray-500">Loading launch milestones...</p>
