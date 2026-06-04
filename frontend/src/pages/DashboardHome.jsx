@@ -8,11 +8,7 @@ import {
   BarChart3,
   BookOpen,
   CheckCircle2,
-  Clock,
-  FolderOpen,
   Layers3,
-  Lock,
-  Rocket,
 } from 'lucide-react';
 import {
   dashboardCard,
@@ -80,29 +76,9 @@ export const DashboardHome = () => {
   const launchRisks = parseLines(agenda?.launchRisks);
   const decisionsNeeded = parseLines(agenda?.decisionsNeeded);
 
-  const stats = [
-    {
-      label: 'Active Milestone',
-      value: currentMilestone ? currentMilestone.title : '—',
-      sublabel: currentMilestone ? currentMilestone.status.replaceAll('_', ' ') : 'No active milestone',
-      icon: Layers3,
-      tone: 'text-primary',
-    },
-    {
-      label: 'This Week',
-      value: String(thisWeekTasks.length),
-      sublabel: 'Top-priority tasks',
-      icon: Clock,
-      tone: 'text-amber-600',
-    },
-    {
-      label: 'Blocked',
-      value: String(blockedTasks.length),
-      sublabel: 'Locked or blocked items',
-      icon: Lock,
-      tone: blockedTasks.length > 0 ? 'text-red-600' : 'text-gray-400 dark:text-gray-500',
-    },
-  ];
+  const currentProgressPercent = currentMilestone
+    ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
+    : 0;
 
   return (
     <DashboardLayout>
@@ -124,42 +100,63 @@ export const DashboardHome = () => {
           </div>
         </div>
       ) : currentMilestone ? (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
-          <Rocket className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
-          <div>
-            <p className="text-sm font-semibold text-amber-800">
-              Current gate: {currentMilestone.title}
-              {currentReadiness ? ` — ${currentReadiness.completedTasks}/${currentReadiness.totalTasks} tasks complete` : ''}
-            </p>
-            <p className="text-xs text-amber-600 font-light mt-1">
-              {currentMilestone.description}
-            </p>
-            {currentMilestone.gateNotes && (
-              <p className="text-xs text-amber-700 font-light mt-1">{currentMilestone.gateNotes}</p>
-            )}
-          </div>
-        </div>
-      ) : null}
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <div key={index} className={`${dashboardCard} p-4 flex items-center gap-4`}>
-              <div className="bg-primary/10 p-2.5 rounded-lg">
-                <Icon className="text-primary" size={20} />
+        <Link
+          to="/dashboard/tasks"
+          className={`${dashboardCardInteractive} mb-6 block p-6 border-amber-200 bg-amber-50/70 dark:bg-dark-surface/80 hover:border-amber-300`}
+          aria-label={`Open launch board for ${currentMilestone.title}`}
+        >
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="min-w-0">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">Current milestone</p>
+              <h2 className="mt-2 text-2xl sm:text-3xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+                {currentMilestone.title}
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm sm:text-base text-gray-600 dark:text-gray-300 font-light leading-6">
+                {currentMilestone.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-3 py-1 text-xs font-semibold">
+                  Status: {currentMilestone.status.replaceAll('_', ' ')}
+                </span>
+                <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
+                  {currentReadiness ? `${currentReadiness.completedTasks}/${currentReadiness.totalTasks} tasks complete` : 'No readiness data yet'}
+                </span>
+                <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
+                  {thisWeekTasks.length} this week
+                </span>
+                <span className="inline-flex items-center rounded-full bg-white/80 text-gray-700 px-3 py-1 text-xs font-semibold border border-amber-100">
+                  {blockedTasks.length} blocked
+                </span>
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{stat.label}</p>
-                <div className="flex items-baseline gap-1.5">
-                  <span className={`text-lg sm:text-xl font-bold ${stat.tone}`}>{stat.value}</span>
-                </div>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{stat.sublabel}</p>
+              {currentMilestone.gateNotes && (
+                <p className="mt-3 text-xs text-amber-700 font-light leading-5">
+                  {currentMilestone.gateNotes}
+                </p>
+              )}
+            </div>
+
+            <div className="w-full max-w-md shrink-0 rounded-2xl bg-white/70 dark:bg-dark-bg/60 border border-amber-100 dark:border-dark-border p-4">
+              <div className="flex items-baseline justify-between gap-3 mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Readiness</span>
+                <span className="text-sm font-bold text-primary">{currentProgressPercent}%</span>
+              </div>
+              <div className="w-full bg-gray-100 dark:bg-dark-bg rounded-full h-2 overflow-hidden">
+                <div
+                  className="h-2 rounded-full bg-primary transition-all"
+                  style={{ width: `${currentProgressPercent}%` }}
+                />
+              </div>
+              <p className="mt-3 text-xs text-gray-500 dark:text-gray-400 leading-5">
+                Click through to the launch board for the full task breakdown, blockers, and deeper milestone detail.
+              </p>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                <span>Open launch board</span>
+                <ArrowRight size={12} />
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </Link>
+      ) : null}
 
       <div className={`${dashboardCard} p-5 mb-6`}>
         <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Launch Gate Progress</h2>
