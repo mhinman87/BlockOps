@@ -14,7 +14,6 @@ import {
   dashboardCardInteractive,
   dashboardPageSubtitle,
   dashboardPageTitle,
-  dashboardSurfaceMuted,
 } from '../services/dashboardTheme.js';
 import {
   buildLaunchOpsSnapshot,
@@ -32,6 +31,12 @@ const parseLines = (value) => (value || '')
 const stripBulletPrefix = (value) => (value || '')
   .replace(/^\s*(?:[-•*]|\d+[.)])\s*/, '')
   .trim();
+
+const capitalizeFirst = (value) => {
+  const text = stripBulletPrefix(value);
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
 
 const taskPriorityRank = (priority) => {
   const normalized = (priority || '').toLowerCase();
@@ -242,28 +247,34 @@ export const DashboardHome = () => {
         <div className={`${dashboardCard} p-5`}>
           <div className="flex items-end justify-between gap-3 mb-4">
             <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Priority</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Operator view</p>
+              <h2 className="mt-1 text-base font-bold text-gray-900 dark:text-gray-100">Current Priority</h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 One live objective per person.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="space-y-3">
             {currentPriorities.map((person) => (
-              <div key={person.name} className={`rounded-xl border border-gray-100 dark:border-dark-border p-4 ${dashboardSurfaceMuted}`}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
+              <div
+                key={person.name}
+                className="rounded-2xl border border-gray-200/80 dark:border-dark-border bg-white/85 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
                     {person.name.slice(0, 1)}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
-                    <p className="text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500">Current priority</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
+                      <span className="text-[11px] uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">Current priority</span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-700 dark:text-gray-200 font-light leading-6">
+                      {capitalizeFirst(person.priority)}
+                    </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">
-                  {person.priority}
-                </p>
               </div>
             ))}
           </div>
@@ -272,24 +283,33 @@ export const DashboardHome = () => {
         <div className={`${dashboardCard} p-5`}>
           <div className="flex items-end justify-between gap-3 mb-4">
             <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Tasks</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Operator view</p>
+              <h2 className="mt-1 text-base font-bold text-gray-900 dark:text-gray-100">Current Tasks</h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Top three active tasks per person.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="space-y-3">
             {currentTasksByPerson.map((person) => (
-              <div key={person.name} className={`rounded-xl border border-gray-100 dark:border-dark-border p-4 ${dashboardSurfaceMuted}`}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold">
-                    {person.name.slice(0, 1)}
+              <div
+                key={person.name}
+                className="rounded-2xl border border-gray-200/80 dark:border-dark-border bg-white/85 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+              >
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
+                      {person.name.slice(0, 1)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">Top tasks</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
-                    <p className="text-[11px] uppercase tracking-wide text-gray-400 dark:text-gray-500">Top tasks</p>
-                  </div>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">
+                    {person.tasks.length}/3
+                  </span>
                 </div>
 
                 {person.tasks.length === 0 ? (
@@ -297,17 +317,16 @@ export const DashboardHome = () => {
                 ) : (
                   <ol className="space-y-2">
                     {person.tasks.map((task, index) => (
-                      <li key={task.id} className="rounded-lg bg-white/70 dark:bg-dark-bg/60 border border-white/70 dark:border-dark-border p-3">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
-                              {index + 1}. {task.title}
-                            </p>
-                          </div>
-                          <span className="flex-shrink-0 rounded-full bg-amber-100 text-amber-700 px-2 py-0.5 text-[11px] font-semibold capitalize">
-                            {task.priority}
-                          </span>
-                        </div>
+                      <li
+                        key={task.id}
+                        className="flex items-start gap-3 rounded-xl border border-gray-100 dark:border-dark-border bg-gray-50/70 dark:bg-dark-border/30 px-3 py-2.5"
+                      >
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-900 text-[11px] font-semibold text-white dark:bg-primary">
+                          {index + 1}
+                        </span>
+                        <p className="min-w-0 flex-1 text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
+                          {capitalizeFirst(task.title)}
+                        </p>
                       </li>
                     ))}
                   </ol>
@@ -322,17 +341,18 @@ export const DashboardHome = () => {
         <div className={`${dashboardCard} p-5`}>
           <div className="flex items-end justify-between gap-3 mb-4">
             <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Launch Risks</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Risk watch</p>
+              <h2 className="mt-1 text-base font-bold text-gray-900 dark:text-gray-100">Launch Risks</h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Keep this tight so it stays useful.</p>
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {launchRisks.length === 0 ? (
               <p className="text-sm text-gray-400 dark:text-gray-500">No launch risks loaded yet.</p>
             ) : launchRisks.map((item, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-red-50 dark:bg-dark-border/40 border border-red-100 dark:border-dark-border rounded-lg">
+              <div key={index} className="flex items-start gap-3 rounded-xl border border-red-100 dark:border-dark-border bg-red-50/80 dark:bg-dark-border/40 px-3 py-3">
                 <AlertTriangle size={14} className="text-red-500 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-red-800 dark:text-gray-200 font-light leading-6">{item}</p>
+                <p className="text-sm text-red-800 dark:text-gray-200 font-light leading-6">{capitalizeFirst(item)}</p>
               </div>
             ))}
           </div>
@@ -341,16 +361,17 @@ export const DashboardHome = () => {
         <div className={`${dashboardCard} p-5`}>
           <div className="flex items-end justify-between gap-3 mb-4">
             <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Decisions Needed</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Decision gate</p>
+              <h2 className="mt-1 text-base font-bold text-gray-900 dark:text-gray-100">Decisions Needed</h2>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Only the 3 biggest calls should live here.</p>
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {decisionsNeeded.length === 0 ? (
               <p className="text-sm text-gray-400 dark:text-gray-500">No pending decisions loaded yet.</p>
             ) : decisionsNeeded.map((item, index) => (
-              <div key={index} className={`p-3 ${dashboardSurfaceMuted}`}>
-                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">{item}</p>
+              <div key={index} className="rounded-xl border border-gray-100 dark:border-dark-border bg-gray-50/80 dark:bg-dark-border/30 px-3 py-3">
+                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">{capitalizeFirst(item)}</p>
               </div>
             ))}
           </div>
