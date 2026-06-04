@@ -1,17 +1,17 @@
 # Implementation Summary - Block Ops
 
-## Project Completion Status: Phase 1 & 2 ✅
+## Project Completion Status: Live Schema + Frontend Build Verified ✅
 
-This document summarizes what has been successfully implemented for Block Ops.
+This document summarizes what has been successfully implemented for Block Ops, including the live Supabase schema, seeded launch data, and the current frontend build state.
 
 ---
 
 ## What's Been Built
 
 ### Phase 1: Project Setup ✅
-- **Frontend**: React 18 + Vite + Tailwind CSS + React Router
-- **Backend**: FastAPI + SQLAlchemy + PostgreSQL-ready
-- **Development Environment**: SQLite for local testing
+- **Frontend**: React 19 + Vite + Tailwind CSS + React Router
+- **Backend/Data**: Supabase + PostgreSQL live schema
+- **Development Environment**: Vite dev server for local frontend testing
 - **Styling**: Dark theme dashboard, light theme landing page
 - **Icons**: Lucide React icon library integrated
 
@@ -36,24 +36,15 @@ Located at: `/frontend/src/pages/LandingPage.jsx`
 
 ### Phase 3: Authentication System ✅
 
-**Backend API Endpoints:**
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login (returns access & refresh tokens)
-- `POST /api/auth/refresh` - Token refresh
-- `GET /api/auth/me` - Get current user info
+**Frontend/Data Layer:**
+- Supabase client integration
+- Route-aware data services for tasks, sites, and content
+- Live database reads/writes against the seeded schema
 
-**Security Features:**
-- JWT tokens (access & refresh)
-- Bcrypt password hashing
-- Token expiration handling
-- Secure password verification
-
-**Frontend Authentication:**
-- Auth context for global state management
-- Protected routes component
-- Login/Register page with form validation
-- Automatic token refresh on 401 errors
-- Persistent user sessions using localStorage
+**Security/Access:**
+- RLS-enabled tables
+- Supabase anon-key based access for the frontend
+- Auth hooks and protected UI surfaces where applicable
 
 ### Phase 4: Client Dashboard ✅
 
@@ -65,30 +56,15 @@ Located at: `/frontend/src/pages/LandingPage.jsx`
 
 **Dashboard Home** (`/dashboard`)
 - Welcome message with user's name
-- Metric cards showing:
-  - Consultations (0)
-  - Team Members (0)
-  - Achievements (0)
-  - Growth (0%)
+- Metric cards showing live/system data
 - Recent Activity feed
 - Quick Actions buttons
 
-**Profile Page** (`/dashboard/profile`)
-- User information display
-- Edit mode with form validation
-- Profile banner and avatar
-- Member since date
-- Account status indicator
-- Email (non-editable)
-
-**Settings Page** (`/dashboard/settings`)
-- Notification preferences
-  - Email notifications
-  - SMS notifications
-- Privacy & Security
-  - Two-factor authentication toggle
-- Appearance
-  - Dark mode toggle (always enabled currently)
+**Live System Surfaces:**
+- Launch milestones board
+- Weekly agenda records
+- Site-aware content surfaces
+- Internal document viewer components
 
 ---
 
@@ -103,7 +79,7 @@ block-ops/
 │   │   │   ├── DashboardLayout.jsx # Dashboard wrapper
 │   │   │   └── ProtectedRoute.jsx  # Route protection
 │   │   ├── contexts/
-│   │   │   └── AuthContext.jsx     # Auth state management
+│   │   │   └── AuthContext.jsx     # App state management
 │   │   ├── pages/
 │   │   │   ├── LandingPage.jsx     # Public landing page
 │   │   │   ├── LoginPage.jsx       # Login/Register
@@ -111,25 +87,14 @@ block-ops/
 │   │   │   ├── ProfilePage.jsx     # User profile
 │   │   │   └── SettingsPage.jsx    # Settings
 │   │   ├── services/
-│   │   │   └── api.js              # API integration
+│   │   │   └── supabase.js         # Supabase client
 │   │   └── index.css               # Tailwind styles
 │   ├── tailwind.config.js
 │   ├── vite.config.js
 │   └── package.json
-├── backend/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── main.py                 # FastAPI app
-│   │   ├── database.py             # DB config
-│   │   ├── models.py               # SQLAlchemy models
-│   │   ├── schemas.py              # Pydantic schemas
-│   │   ├── auth.py                 # JWT utilities
-│   │   └── api/
-│   │       └── auth.py             # Auth routes
-│   └── requirements.txt
 ├── README.md                        # Full documentation
-├── QUICKSTART.md                   # 5-minute setup guide
-└── IMPLEMENTATION_SUMMARY.md       # This file
+├── QUICKSTART.md                    # 5-minute setup guide
+└── IMPLEMENTATION_SUMMARY.md        # This file
 ```
 
 ---
@@ -138,18 +103,14 @@ block-ops/
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| Frontend | React | 18 |
+| Frontend | React | 19 |
 | Build Tool | Vite | Latest |
-| Styling | Tailwind CSS | 3 |
-| Routing | React Router | 6 |
+| Styling | Tailwind CSS | 4 |
+| Routing | React Router | 7 |
 | Icons | Lucide React | Latest |
-| HTTP Client | Axios | Latest |
-| Backend | FastAPI | 0.120.1 |
-| Server | Uvicorn | 0.38.0 |
-| ORM | SQLAlchemy | 2.0.44 |
-| Database | PostgreSQL/SQLite | - |
-| Auth | JWT | - |
-| Password Hash | Bcrypt (passlib) | - |
+| Data Layer | Supabase | Latest |
+| Database | PostgreSQL | Live schema |
+| Access Control | RLS | - |
 
 ---
 
@@ -160,15 +121,6 @@ block-ops/
 See `QUICKSTART.md` for the fastest way to get started.
 
 ### Detailed Setup
-
-**Backend:**
-```bash
-cd backend
-source venv/bin/activate  # Windows: venv\Scripts\activate
-echo "DATABASE_URL=sqlite:///./test.db" > .env
-echo "SECRET_KEY=dev-key" >> .env
-uvicorn app.main:app --reload
-```
 
 **Frontend:**
 ```bash
@@ -206,8 +158,8 @@ npm run dev
 ## Next Steps & Future Features
 
 ### Immediate (Phase 5)
-- [ ] Deploy to Render (frontend & backend)
-- [ ] Set up PostgreSQL for production
+- [ ] Deploy to Render (frontend)
+- [ ] Set up production Supabase env vars
 - [ ] Implement email verification
 - [ ] Add password reset functionality
 - [ ] Create production environment docs
@@ -238,36 +190,29 @@ npm run dev
 
 Currently there are no automated tests. Before production, add:
 - Jest + React Testing Library (frontend)
-- Pytest (backend)
+- Supabase integration checks
 - E2E tests with Playwright or Cypress
 
 ---
 
 ## Environment Variables
 
-### Backend (.env)
-```env
-DATABASE_URL=sqlite:///./test.db  # Change to PostgreSQL for production
-SECRET_KEY=dev-key-change-this    # Generate a strong key for production
-JWT_EXPIRATION_HOURS=24
-FRONTEND_URL=http://localhost:5173
-```
-
 ### Frontend (.env)
 ```env
-VITE_API_URL=http://localhost:8000
+VITE_SUPABASE_URL=https://msnwupckhoomeiqxfbts.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
 ---
 
 ## Known Limitations
 
-1. **SQLite for Development**: Production must use PostgreSQL
+1. **Build-time env required**: The frontend needs `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
 2. **No Email Verification**: User registration doesn't verify email
 3. **No Password Reset**: Implement before production
-4. **Settings Not Persisted**: Settings page UI only, no backend integration yet
-5. **Profile Edit Not Functional**: UI ready, backend integration needed
-6. **Placeholder Metrics**: Dashboard shows 0 values (will populate with real data)
+4. **Settings Not Persisted**: Some UI surfaces still need data wiring
+5. **Profile Edit Not Functional**: UI ready, data integration needed
+6. **Placeholder Metrics**: Some dashboard metrics are still placeholders
 7. **No File Uploads**: User avatars are placeholders
 
 ---
@@ -275,20 +220,15 @@ VITE_API_URL=http://localhost:8000
 ## Deployment Readiness
 
 ### ✅ Ready for Render
-- Frontend: `npm run build` → serve static files
-- Backend: `uvicorn app.main:app --host 0.0.0.0`
-- CORS configured for cross-origin requests
-- Environment variables configurable
+- Frontend: `npm run build` → static output in `dist`
+- Supabase: live schema and seed data already applied
+- Render deployment uses the static frontend build
 
 ### ⚠️ Before Production
-- Set strong `SECRET_KEY` environment variable
-- Switch to PostgreSQL with proper credentials
-- Enable HTTPS
-- Set production `FRONTEND_URL`
-- Add rate limiting
-- Implement logging and monitoring
-- Set up database backups
-- Configure proper error handling
+- Set the production Supabase anon key in Render
+- Verify the live tables and seed data after deploy
+- Enable monitoring and backups
+- Add rate limiting or additional access controls if needed
 
 ---
 
@@ -306,10 +246,10 @@ VITE_API_URL=http://localhost:8000
 For issues or questions:
 1. Check `QUICKSTART.md` for common setup issues
 2. Review `README.md` for detailed documentation
-3. Check FastAPI auto-docs at `http://localhost:8000/docs`
-4. Verify backend `.env` file is properly configured
+3. Verify the Supabase env vars are configured correctly
+4. Check the browser console for Supabase/data errors
 
 ---
 
-**Last Updated**: October 29, 2025
-**Project Status**: Phase 1-4 Complete, Phase 5+ Pending
+**Last Updated**: June 2, 2026
+**Project Status**: Live Supabase schema applied, frontend build verified, deployment still to be finalized

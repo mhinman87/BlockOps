@@ -35,7 +35,11 @@ html.dark body {
 }
 
 .dark .bg-gray-50 {
-  background-color: #1a1d2e !important;
+  background-color: #20263a !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #2b3248 !important;
 }
 
 /* Table row alternating colors in dark mode */
@@ -51,10 +55,6 @@ html.dark body {
   background-color: rgba(66, 165, 179, 0.1) !important;
 }
 
-.dark .bg-gray-100 {
-  background-color: #2d3348 !important;
-}
-
 /* Borders */
 .dark .border-gray-200,
 .dark .border-gray-100,
@@ -68,36 +68,40 @@ html.dark body {
 
 /* Text colors */
 .dark .text-gray-900 {
-  color: #e8eaf0 !important;
+  color: #f3f5fb !important;
 }
 
 .dark .text-gray-800 {
-  color: #d0d4de !important;
+  color: #e3e7f0 !important;
 }
 
 .dark .text-gray-700 {
-  color: #b8bdcc !important;
+  color: #cbd3e1 !important;
 }
 
 .dark .text-gray-600 {
-  color: #9ca3b8 !important;
+  color: #b4bdd0 !important;
 }
 
 .dark .text-gray-500 {
-  color: #7c849c !important;
+  color: #99a4bb !important;
 }
 
 .dark .text-gray-400 {
-  color: #5e6680 !important;
+  color: #7f8aa3 !important;
+}
+
+.dark .text-gray-300 {
+  color: #d7ddea !important;
 }
 
 /* Hover states */
 .dark .hover\:bg-gray-50:hover {
-  background-color: #2d3348 !important;
+  background-color: #2d3650 !important;
 }
 
 .dark .hover\:bg-gray-100:hover {
-  background-color: #343a52 !important;
+  background-color: #343d58 !important;
 }
 
 /* Status banners */
@@ -153,6 +157,25 @@ html.dark body {
 
 .dark .bg-pink-100 {
   background-color: rgba(236, 72, 153, 0.15) !important;
+}
+
+.dark .text-green-800,
+.dark .text-green-700,
+.dark .text-green-600 {
+  color: #8de2a8 !important;
+}
+
+.dark .text-red-800,
+.dark .text-red-700,
+.dark .text-red-600 {
+  color: #f3a3a3 !important;
+}
+
+.dark .text-amber-900,
+.dark .text-amber-800,
+.dark .text-amber-700,
+.dark .text-amber-600 {
+  color: #f4cf7a !important;
 }
 
 /* Progress bars */

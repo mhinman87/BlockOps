@@ -196,13 +196,13 @@ export const LegalPage = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Legal</h1>
-            <p className="text-gray-500 mt-1">Contracts, compliance, protections, terms, and reference docs</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Legal</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Contracts, compliance, protections, terms, and reference docs</p>
           </div>
           <button
             onClick={fetchDocs}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-primary bg-white border border-gray-200 rounded-lg hover:border-primary/30 transition"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary bg-white border border-gray-200 dark:border-dark-border rounded-lg hover:border-primary/30 transition"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
             Refresh
@@ -210,24 +210,24 @@ export const LegalPage = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Documents</p>
-            <p className="text-2xl font-black text-gray-900">{totalDocs}</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Documents</p>
+            <p className="text-2xl font-black text-gray-900 dark:text-gray-100">{totalDocs}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Categories</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Categories</p>
             <p className="text-2xl font-black text-primary">{categories.length}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Source</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Source</p>
             <p className="text-2xl font-black text-green-500">Live</p>
           </div>
         </div>
 
         {loading && (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-12 text-center">
             <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
-            <p className="text-sm text-gray-500">Loading legal documents...</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Loading legal documents...</p>
           </div>
         )}
 
@@ -238,19 +238,19 @@ export const LegalPage = () => {
         )}
 
         {!loading && !error && categories.map((category) => (
-          <div key={category.name} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div key={category.name} className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border overflow-hidden">
             <button
               onClick={() => toggleCategory(category.name)}
-              className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition"
+              className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-dark-border/40 transition"
             >
               <div className="flex items-center gap-3 text-left">
                 <Scale size={18} className="text-red-400" />
                 <div>
-                  <p className="text-lg font-bold text-gray-900">{category.name}</p>
-                  <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{category.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
                 </div>
               </div>
-              {expandedCategories[category.name] ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
+              {expandedCategories[category.name] ? <ChevronDown size={16} className="text-gray-400 dark:text-gray-500" /> : <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />}
             </button>
 
             {expandedCategories[category.name] && (
@@ -262,11 +262,11 @@ export const LegalPage = () => {
                     className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== category.docs.length - 1 ? 'border-b border-gray-50' : ''}`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <FileText size={16} className="text-gray-400 flex-shrink-0" />
+                      <FileText size={16} className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{doc.title}</p>
                         {doc.lastUpdated && (
-                          <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 font-light">Updated {doc.lastUpdated}</p>
                         )}
                       </div>
                     </div>

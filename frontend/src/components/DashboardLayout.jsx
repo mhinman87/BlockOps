@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useUserRole } from '../hooks/useUserRole';
 import { useTheme } from '../contexts/ThemeContext';
+import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   Menu,
@@ -32,11 +33,12 @@ export const DashboardLayout = ({ children }) => {
   const { user, logout } = useAuth();
   const { isTeam } = useUserRole();
   const { dark, toggle } = useTheme();
+  const { sites, activeSiteId, activeSite, setActiveSiteId, isLoadingSites, sitesError, canSelectSites } = useActiveSite();
   const navigate = useNavigate();
   const location = useLocation();
 
   const mainMenuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
+    { icon: LayoutDashboard, label: 'Jarvis', path: '/dashboard' },
     { icon: BookOpen, label: 'Knowledge Library', path: '/dashboard/library' },
     { icon: FolderOpen, label: 'My Deliverables', path: '/dashboard/deliverables' },
     { icon: BarChart3, label: 'Analytics', path: '/dashboard/analytics' },
@@ -159,7 +161,30 @@ export const DashboardLayout = ({ children }) => {
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
             <Menu size={20} />
           </button>
-          <div className="hidden md:block"></div>
+          <div className="hidden md:flex items-center gap-3 min-w-0">
+            <div className="flex flex-col min-w-0">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Active Site</span>
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 truncate">{activeSite?.siteName || 'Select site'}</span>
+            </div>
+            <div className="min-w-[220px]">
+              <select
+                value={activeSiteId}
+                onChange={(event) => setActiveSiteId(event.target.value)}
+                disabled={isLoadingSites || !canSelectSites}
+                className="w-full rounded-lg border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card px-3 py-2 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-primary disabled:opacity-60"
+              >
+                {sites.map((site) => (
+                  <option key={site.siteId} value={site.siteId}>
+                    {site.siteName} · {site.clientAccountName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {sitesError && <span className="text-xs text-red-600">{sitesError}</span>}
+            {!isLoadingSites && !canSelectSites && (
+              <span className="text-xs text-amber-600">Using fallback demo site until the sites table is reachable.</span>
+            )}
+          </div>
 
           {/* Right Section */}
           <div className="relative">

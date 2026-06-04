@@ -1,0 +1,74 @@
+-- ============================================
+-- Block Ops — Example site configuration / exception seed
+-- Template only. Do not run until a real site_id exists.
+-- ============================================
+
+-- Example site object
+-- insert into content_objects (object_id, title, slug, object_type, package, owner)
+-- values (
+--   'foundation.block-bay-workflow-logic.site-asc-demo',
+--   'Block Bay Workflow Logic — ASC Demo Site',
+--   'block-bay-workflow-logic-site-asc-demo',
+--   'deliverable',
+--   'foundation',
+--   'block-ops'
+-- )
+-- on conflict (object_id) do nothing;
+
+-- Example site configuration representation
+-- insert into content_representations (
+--   object_id,
+--   representation_type,
+--   knowledge_layer,
+--   audience,
+--   workspace_visibility,
+--   review_status,
+--   scope_type,
+--   site_id,
+--   agent_facing,
+--   version,
+--   source_path,
+--   storage_path
+-- ) values (
+--   'foundation.block-bay-workflow-logic.site-asc-demo',
+--   'site_render',
+--   'layer3_site',
+--   'client',
+--   'client_visible',
+--   'draft',
+--   'site_configuration',
+--   'asc-demo',
+--   false,
+--   'v0.1',
+--   'sites/asc-demo/Block_Bay_Workflow_Logic.md',
+--   'sites/asc-demo/Block_Bay_Workflow_Logic.md'
+-- );
+
+-- Example exception representation
+-- insert into content_representations (
+--   object_id,
+--   representation_type,
+--   knowledge_layer,
+--   audience,
+--   workspace_visibility,
+--   review_status,
+--   scope_type,
+--   site_id,
+--   agent_facing,
+--   version,
+--   source_path,
+--   storage_path
+-- ) values (
+--   'foundation.block-bay-workflow-logic.site-asc-demo',
+--   'reference',
+--   'layer3_site',
+--   'internal',
+--   'internal_only',
+--   'draft',
+--   'exception',
+--   'asc-demo',
+--   false,
+--   'v0.1',
+--   'sites/asc-demo/exceptions/Block_Bay_Workflow_Logic_EXCEPTION.md',
+--   null
+-- );

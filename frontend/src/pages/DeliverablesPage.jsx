@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { DeliverableViewer } from '../components/DeliverableViewer';
+import { fetchFoundationDeliverableSections } from '../services/deliverableContentService.js';
+import { filterVisibleDeliverableItems } from '../services/contentVisibility.js';
+import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { 
   CheckCircle2, 
   Clock, 
@@ -67,12 +70,30 @@ export const DeliverablesPage = () => {
   const location = useLocation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
+  const [foundationSections, setFoundationSections] = useState([]);
+  const [foundationError, setFoundationError] = useState(null);
   const userRole = useUserRole();
+  const { activeSite, renderedSiteQuery } = useActiveSite();
   const { getStatus, updateStatus } = useDeliverableStatus();
 
   useEffect(() => {
     if (location.state?.reset) setSelectedItem(null);
   }, [location.state]);
+
+  useEffect(() => {
+    const loadFoundationSections = async () => {
+      try {
+        const sections = await fetchFoundationDeliverableSections(renderedSiteQuery);
+        setFoundationSections(sections);
+        setFoundationError(null);
+      } catch (error) {
+        console.error(error);
+        setFoundationError('Failed to load foundation deliverables metadata.');
+      }
+    };
+
+    loadFoundationSections();
+  }, [renderedSiteQuery]);
 
   const packages = [
     {
@@ -80,102 +101,7 @@ export const DeliverablesPage = () => {
       name: 'Foundation Package',
       status: 'in-progress',
       description: 'All block-agnostic infrastructure — safety, pharmacology, technique, sterile technique, physical setup, documentation, nursing competencies, patient materials, compliance, and governance.',
-      sections: [
-        {
-          name: 'Safety',
-          items: [
-            { name: 'Block Time-Out Checklist', status: 'draft', storagePath: STORAGE_PATHS['Block Time-Out Checklist'] },
-            { name: 'LAST Protocol Suite', status: 'draft', storagePath: STORAGE_PATHS['LAST Protocol Suite'] },
-            { name: 'Standardized Test Dose Protocol', status: 'draft', storagePath: STORAGE_PATHS['Standardized Test Dose Protocol'] },
-            { name: 'Weight-Based Max Dose Calculator', status: 'draft', storagePath: STORAGE_PATHS['Weight-Based Max Dose Calculator'] },
-            { name: 'High-Volume Dilution Chart', status: 'draft', storagePath: STORAGE_PATHS['High-Volume Dilution Chart'] },
-            { name: 'LAST Second Responder Nursing Competency', status: 'draft', storagePath: STORAGE_PATHS['LAST Second Responder Nursing Competency'] },
-          ]
-        },
-        {
-          name: 'Pharmacology',
-          items: [
-            { name: 'LA Selection Algorithm', status: 'draft', storagePath: STORAGE_PATHS['LA Selection Algorithm'] },
-            { name: 'Adjuvant Dosing Guide', status: 'draft', storagePath: STORAGE_PATHS['Adjuvant Dosing Guide'] },
-            { name: 'Exparel Utilization Criteria', status: 'draft', storagePath: STORAGE_PATHS['Exparel Utilization Criteria'] },
-          ]
-        },
-        {
-          name: 'Technical Fundamentals',
-          items: [
-            { name: 'Knobology Cheat Sheet', status: 'draft', storagePath: STORAGE_PATHS['Knobology Cheat Sheet'] },
-            { name: 'PART Maneuver Guide', status: 'draft', storagePath: STORAGE_PATHS['PART Maneuver Guide'] },
-            { name: 'Triangle of Success Setup Guide', status: 'draft', storagePath: STORAGE_PATHS['Triangle of Success Setup Guide'] },
-            { name: 'In-Plane Technique SOP', status: 'draft', storagePath: STORAGE_PATHS['In-Plane Technique SOP'] },
-            { name: 'Out-of-Plane Technique SOP', status: 'draft', storagePath: STORAGE_PATHS['Out-of-Plane Technique SOP'] },
-            { name: 'Hydrodissection & Opening Pressure Protocol', status: 'draft', storagePath: STORAGE_PATHS['Hydrodissection & Opening Pressure Protocol'] },
-            { name: 'Intraneural Injection Stop Criteria', status: 'draft', storagePath: STORAGE_PATHS['Intraneural Injection Stop Criteria'] },
-          ]
-        },
-        {
-          name: 'Sterile Technique',
-          items: [
-            { name: 'Clean vs Sterile Protocol', status: 'draft', storagePath: STORAGE_PATHS['Clean vs Sterile Protocol'] },
-            { name: 'Probe Cover & Gel Management Standard', status: 'draft', storagePath: STORAGE_PATHS['Probe Cover & Gel Management Standard'] },
-          ]
-        },
-        {
-          name: 'Physical Infrastructure',
-          items: [
-            { name: 'Block Cart Planogram', status: 'draft', storagePath: STORAGE_PATHS['Block Cart Planogram'] },
-            { name: 'Block Cart Par Level Guide', status: 'draft', storagePath: STORAGE_PATHS['Block Cart Par Level Guide'] },
-            { name: 'Daily Cart Restock Checklist', status: 'draft', storagePath: STORAGE_PATHS['Daily Cart Restock Checklist'] },
-            { name: 'Block Bay Workflow Logic', status: 'draft', storagePath: STORAGE_PATHS['Block Bay Workflow Logic'] },
-            { name: 'Machine Cleaning Checklist', status: 'draft', storagePath: STORAGE_PATHS['Machine Cleaning Checklist'] },
-            { name: 'Probe Cover Selection Guide', status: 'draft', storagePath: STORAGE_PATHS['Probe Cover Selection Guide'] },
-            { name: 'Gel Management SOP', status: 'draft', storagePath: STORAGE_PATHS['Gel Management SOP'] },
-          ]
-        },
-        {
-          name: 'Documentation & Digital',
-          items: [
-            { name: 'PreOp Nursing Smart Template', status: 'draft', storagePath: STORAGE_PATHS['PreOp Nursing Smart Template'] },
-            { name: 'PACU Block Assessment Smart Template', status: 'draft', storagePath: STORAGE_PATHS['PACU Block Assessment Smart Template'] },
-            { name: 'Block Status Tracking Board Guide', status: 'draft', storagePath: STORAGE_PATHS['Block Status Tracking Board Guide'] },
-            { name: 'Block Success/Failure Log', status: 'draft', storagePath: STORAGE_PATHS['Block Success/Failure Log'] },
-          ]
-        },
-        {
-          name: 'Nursing Competencies',
-          items: [
-            { name: 'Sedation Administration & Monitoring SOP', status: 'draft', storagePath: STORAGE_PATHS['Sedation Administration & Monitoring SOP'] },
-            { name: 'Sterile Setup & Assist Competency', status: 'draft', storagePath: STORAGE_PATHS['Sterile Setup & Assist Competency'] },
-            { name: 'Fall Risk Assessment', status: 'draft', storagePath: STORAGE_PATHS['Fall Risk Assessment'] },
-            { name: 'Red Flag Recognition Card', status: 'draft', storagePath: STORAGE_PATHS['Red Flag Recognition Card'] },
-            { name: 'Breakthrough Pain Protocol', status: 'draft', storagePath: STORAGE_PATHS['Breakthrough Pain Protocol'] },
-          ]
-        },
-        {
-          name: 'Patient Experience',
-          items: [
-            { name: 'Nerve Block Patient Brochure', status: 'draft', storagePath: STORAGE_PATHS['Nerve Block Patient Brochure'] },
-            { name: 'Regional Anesthesia Consent Form', status: 'draft', storagePath: STORAGE_PATHS['Regional Anesthesia Consent Form'] },
-            { name: 'Post-Block Sensory Guide', status: 'draft', storagePath: STORAGE_PATHS['Post-Block Sensory Guide'] },
-            { name: 'Patient Red Flag Card', status: 'draft', storagePath: STORAGE_PATHS['Patient Red Flag Card'] },
-          ]
-        },
-        {
-          name: 'Compliance & Billing',
-          items: [
-            { name: 'CPT/ICD-10 Crosswalk', status: 'draft', storagePath: STORAGE_PATHS['CPT/ICD-10 Crosswalk'] },
-            { name: 'Medical Necessity Phrases', status: 'draft', storagePath: STORAGE_PATHS['Medical Necessity Phrases'] },
-            { name: 'PACU Length-of-Stay Tracker', status: 'draft', storagePath: STORAGE_PATHS['PACU Length-of-Stay Tracker'] },
-            { name: 'MME Calculator Reference', status: 'draft', storagePath: STORAGE_PATHS['MME Calculator Reference'] },
-          ]
-        },
-        {
-          name: 'Governance',
-          items: [
-            { name: 'Block Champion Charter', status: 'draft', storagePath: STORAGE_PATHS['Block Champion Charter'] },
-            { name: 'Block Lead Nurse Responsibility List', status: 'draft', storagePath: STORAGE_PATHS['Block Lead Nurse Responsibility List'] },
-          ]
-        },
-      ],
+      sections: foundationSections,
     },
     {
       id: 'adductor-canal',
@@ -218,8 +144,8 @@ export const DeliverablesPage = () => {
       case 'approved': return { text: 'Approved', color: 'bg-green-100 text-green-700' };
       case 'needs_revision': return { text: 'Needs Revision', color: 'bg-red-100 text-red-700' };
       case 'draft': return { text: 'Draft — Pending Review', color: 'bg-amber-100 text-amber-700' };
-      case 'not-started': return { text: 'Not Started', color: 'bg-gray-100 text-gray-400' };
-      default: return { text: status, color: 'bg-gray-100 text-gray-400' };
+      case 'not-started': return { text: 'Not Started', color: 'bg-gray-100 text-gray-400 dark:text-gray-500' };
+      default: return { text: status, color: 'bg-gray-100 text-gray-400 dark:text-gray-500' };
     }
   };
 
@@ -229,7 +155,10 @@ export const DeliverablesPage = () => {
     return item.status;
   };
 
-  const getAllItems = (pkg) => pkg.sections.flatMap(s => s.items);
+  const getAllItems = (pkg) => {
+    const items = pkg.sections.flatMap((s) => s.items);
+    return filterVisibleDeliverableItems(items, userRole.isTeam);
+  };
   const allItems = packages.flatMap(pkg => getAllItems(pkg));
   const totalItems = allItems.length;
   const totalApproved = allItems.filter(i => getRealStatus(i) === 'approved').length;
@@ -245,6 +174,13 @@ export const DeliverablesPage = () => {
   // If viewing a deliverable, show the viewer
   if (selectedItem) {
     const status = selectedItem.storagePath ? getStatus(selectedItem.storagePath) : 'draft';
+    if (!userRole.isTeam && status !== 'approved') {
+      return (
+        <DashboardLayout>
+          <div className="p-6 text-sm text-red-600">This deliverable is not client-visible yet.</div>
+        </DashboardLayout>
+      );
+    }
     return (
       <DashboardLayout>
         <DeliverableViewer 
@@ -262,29 +198,36 @@ export const DeliverablesPage = () => {
     <DashboardLayout>
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Deliverables</h1>
-        <p className="text-gray-500 text-sm mt-1 font-light">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">My Deliverables</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 font-light">
           Foundation Package + Block Packs — track what's drafted, under review, and approved.
         </p>
+        <div className="mt-3 inline-flex flex-col gap-1 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+          <span className="font-semibold">Rendered site view</span>
+          <span className="font-light">{activeSite?.siteName || 'Loading site...'} · {activeSite?.clientAccountName || 'Loading client...'}</span>
+        </div>
+        {foundationError && (
+          <p className="text-sm text-red-600 mt-2">{foundationError}</p>
+        )}
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{totalItems}</p>
+        <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Total</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{totalItems}</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
           <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">Drafted</p>
           <p className="text-2xl font-bold text-amber-600 mt-1">{totalDrafts}</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
           <p className="text-xs font-semibold text-green-600 uppercase tracking-wider">Approved</p>
           <p className="text-2xl font-bold text-green-600 mt-1">{totalApproved}</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Not Started</p>
-          <p className="text-2xl font-bold text-gray-400 mt-1">{totalNotStarted}</p>
+        <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl p-4">
+          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Not Started</p>
+          <p className="text-2xl font-bold text-gray-400 dark:text-gray-500 mt-1">{totalNotStarted}</p>
         </div>
       </div>
 
@@ -301,7 +244,7 @@ export const DeliverablesPage = () => {
             key={f.id}
             onClick={() => setActiveFilter(f.id)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-              activeFilter === f.id ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 border border-gray-200 hover:border-gray-300'
+              activeFilter === f.id ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-dark-border hover:border-gray-300 dark:border-dark-border'
             }`}
           >
             {f.label}
@@ -318,7 +261,7 @@ export const DeliverablesPage = () => {
           const progress = allItems.length > 0 ? Math.round(((draftCount + approvedCount) / allItems.length) * 100) : 0;
 
           return (
-            <div key={pkg.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div key={pkg.id} className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl overflow-hidden">
               {/* Package Header */}
               <div className="px-5 py-4 border-b border-gray-100">
                 <div className="flex items-center justify-between mb-2">
@@ -327,8 +270,8 @@ export const DeliverablesPage = () => {
                       <Package className="text-primary" size={18} />
                     </div>
                     <div>
-                      <h2 className="text-base font-bold text-gray-900">{pkg.name}</h2>
-                      <p className="text-xs text-gray-400 font-light">{approvedCount} approved, {draftCount} drafted of {allItems.length} total</p>
+                      <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">{pkg.name}</h2>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 font-light">{approvedCount} approved, {draftCount} drafted of {allItems.length} total</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -341,7 +284,7 @@ export const DeliverablesPage = () => {
                     <span className="text-sm font-bold text-primary">{progress}%</span>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 font-light">{pkg.description}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-light">{pkg.description}</p>
               </div>
 
               {/* Sections */}
@@ -350,8 +293,8 @@ export const DeliverablesPage = () => {
                 if (filtered.length === 0 && activeFilter !== 'all') return null;
                 return (
                   <div key={sIdx}>
-                    <div className="px-5 py-2 bg-gray-50 border-y border-gray-200">
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{section.name} ({section.items.length})</p>
+                    <div className="px-5 py-2 bg-gray-50 dark:bg-dark-bg border-y border-gray-200 dark:border-dark-border">
+                      <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{section.name} ({section.items.length})</p>
                     </div>
                     <div>
                       {filtered.map((item, idx) => {
@@ -359,12 +302,12 @@ export const DeliverablesPage = () => {
                         return (
                           <div 
                             key={idx} 
-                            className={`px-5 py-2.5 flex items-center justify-between hover:bg-gray-50 transition ${item.storagePath ? 'cursor-pointer group' : ''}`}
+                            className={`px-5 py-2.5 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-border/40 transition ${item.storagePath ? 'cursor-pointer group' : ''}`}
                             onClick={() => item.storagePath && setSelectedItem({ title: item.name, description: section.name + ' — Foundation Package', storagePath: item.storagePath, categoryLabel: section.name })}
                           >
                             <div className="flex items-center gap-3">
                               {getStatusIcon(realStatus)}
-                              <span className={`text-sm ${realStatus === 'not-started' ? 'text-gray-400' : item.storagePath ? 'text-gray-900 group-hover:text-primary transition' : 'text-gray-900'}`}>
+                              <span className={`text-sm ${realStatus === 'not-started' ? 'text-gray-400 dark:text-gray-500' : item.storagePath ? 'text-gray-900 dark:text-gray-100 group-hover:text-primary transition' : 'text-gray-900 dark:text-gray-100'}`}>
                                 {item.name}
                               </span>
                             </div>

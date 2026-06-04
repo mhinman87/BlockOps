@@ -1,349 +1,400 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useUserRole } from '../hooks/useUserRole';
-import { supabase } from '../services/supabase';
-import { CheckCircle2, Circle, Plus, X, Filter, Search, User, Tag, Rocket, ChevronDown, Pencil, Save } from 'lucide-react';
+import { Layers3, Lock, Search, Users, AlertTriangle, CheckCircle2, Clock, Rocket, Sparkles } from 'lucide-react';
+import {
+  dashboardCard,
+  dashboardChip,
+  dashboardChipActive,
+  dashboardInput,
+  dashboardPageSubtitle,
+  dashboardPageTitle,
+  dashboardSurfaceMuted,
+} from '../services/dashboardTheme.js';
+import {
+  buildLaunchOpsSnapshot,
+  fetchLaunchMilestones,
+  fetchLaunchTasks,
+  fetchWeeklyAgenda,
+  recomputeLaunchOpsAfterTaskUpdate,
+  updateLaunchTask,
+} from '../services/launchOpsService.js';
 
-const OWNERS = ['Max', 'Samir', 'Adrian', 'Bloq'];
-const CATEGORIES = ['Legal', 'Website', 'Dashboard', 'Sales', 'Funding', 'Infrastructure', 'Content', 'Agent'];
+const OWNERS = ['All', 'Max', 'Samir', 'Adrian', 'Bloq'];
+const STATUS_ORDER = ['this_week', 'in_progress', 'ready', 'locked', 'blocked', 'waiting', 'review', 'done', 'dropped'];
+const MUTABLE_STATUSES = ['this_week', 'in_progress', 'ready', 'waiting', 'review', 'done', 'blocked', 'dropped'];
 
-const CATEGORY_COLORS = {
-  Legal: 'bg-purple-100 text-purple-700',
-  Website: 'bg-blue-100 text-blue-700',
-  Dashboard: 'bg-cyan-100 text-cyan-700',
-  Sales: 'bg-green-100 text-green-700',
-  Funding: 'bg-amber-100 text-amber-700',
-  Infrastructure: 'bg-gray-100 text-gray-700',
-  Content: 'bg-pink-100 text-pink-700',
-  Agent: 'bg-red-100 text-red-700',
+const statusTone = {
+  this_week: 'bg-amber-100 text-amber-700',
+  in_progress: 'bg-blue-100 text-blue-700',
+  ready: 'bg-green-100 text-green-700',
+  locked: 'bg-red-100 text-red-700',
+  blocked: 'bg-red-100 text-red-700',
+  waiting: 'bg-purple-100 text-purple-700',
+  review: 'bg-cyan-100 text-cyan-700',
+  done: 'bg-gray-100 text-gray-600',
+  dropped: 'bg-gray-100 text-gray-500',
 };
 
-const OWNER_COLORS = {
+const priorityTone = {
+  critical: 'bg-red-100 text-red-700',
+  high: 'bg-amber-100 text-amber-700',
+  medium: 'bg-blue-100 text-blue-700',
+  low: 'bg-gray-100 text-gray-600',
+};
+
+const ownerDot = {
   Max: 'bg-blue-500',
   Samir: 'bg-green-500',
   Adrian: 'bg-amber-500',
   Bloq: 'bg-primary',
 };
 
+const humanize = (value) => value.replaceAll('_', ' ');
+const parseLines = (value) => (value || '').split('\n').map((line) => line.trim()).filter(Boolean);
+
 export const TasksPage = () => {
   const { isTeam } = useUserRole();
+  const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [agenda, setAgenda] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [filterOwner, setFilterOwner] = useState('All');
-  const [filterCategory, setFilterCategory] = useState('All');
+  const [filterStatus, setFilterStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAdd, setShowAdd] = useState(false);
-  const [newTask, setNewTask] = useState({ title: '', description: '', owner: 'Max', category: 'Website' });
-  const [saving, setSaving] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [editData, setEditData] = useState({});
-  const [showCompleted, setShowCompleted] = useState(false);
-  const [completedTasks, setCompletedTasks] = useState([]);
+  const [updatingTaskId, setUpdatingTaskId] = useState('');
+  const [recentlyUnlocked, setRecentlyUnlocked] = useState([]);
+  const [milestoneReadinessMap, setMilestoneReadinessMap] = useState({});
 
-  const fetchTasks = async () => {
-    const { data, error } = await supabase
-      .from('launch_tasks')
-      .select('*')
-      .eq('done', false)
-      .order('sort_order', { ascending: true })
-      .order('created_at', { ascending: true });
-    
-    if (!error && data) setTasks(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    let active = true;
 
-  const fetchCompleted = async () => {
-    const { data, error } = await supabase
-      .from('launch_tasks')
-      .select('*')
-      .eq('done', true)
-      .order('updated_at', { ascending: false });
-    if (!error && data) setCompletedTasks(data);
-  };
+    const loadLaunchOps = async () => {
+      try {
+        setLoading(true);
+        setError('');
 
-  useEffect(() => { fetchTasks(); }, []);
-  useEffect(() => { if (showCompleted) fetchCompleted(); }, [showCompleted]);
+        const [loadedMilestones, loadedTasks, loadedAgenda] = await Promise.all([
+          fetchLaunchMilestones(),
+          fetchLaunchTasks(),
+          fetchWeeklyAgenda({ weekOf: '2026-06-01' }),
+        ]);
 
-  const startEdit = (task) => {
-    setEditingId(task.id);
-    setEditData({ title: task.title, description: task.description || '', owner: task.owner, category: task.category });
-  };
+        if (!active) return;
+        setMilestones(loadedMilestones);
+        setTasks(loadedTasks);
+        setAgenda(loadedAgenda);
+        setMilestoneReadinessMap(Object.fromEntries(
+          loadedMilestones.map((milestone) => [milestone.id, {
+            milestoneId: milestone.id,
+            slug: milestone.slug,
+            title: milestone.title,
+            totalTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id).length,
+            completedTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'done').length,
+            lockedTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'locked').length,
+            thisWeekTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'this_week').length,
+            readinessPercent: loadedTasks.filter((task) => task.milestoneId === milestone.id).length === 0
+              ? 0
+              : Math.round((loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'done').length / loadedTasks.filter((task) => task.milestoneId === milestone.id).length) * 100),
+          }]),
+        ));
+      } catch (err) {
+        if (!active) return;
+        setError(err?.message || 'Failed to load launch operating board.');
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
 
-  const saveEdit = async () => {
-    if (!editData.title.trim()) return;
-    await supabase.from('launch_tasks').update({
-      title: editData.title.trim(),
-      description: editData.description.trim() || null,
-      owner: editData.owner,
-      category: editData.category,
-      updated_at: new Date().toISOString(),
-    }).eq('id', editingId);
-    setTasks(prev => prev.map(t => t.id === editingId ? { ...t, ...editData } : t));
-    setEditingId(null);
-    setEditData({});
-  };
+    loadLaunchOps();
+    return () => { active = false; };
+  }, []);
 
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditData({});
-  };
+  const snapshot = useMemo(() => buildLaunchOpsSnapshot({ milestones, tasks, agenda }), [milestones, tasks, agenda]);
+  const currentMilestone = snapshot.currentMilestone;
+  const currentReadiness = currentMilestone ? snapshot.readinessBySlug[currentMilestone.slug] : null;
+  const blockedItems = parseLines(agenda?.blockedItems);
+  const decisionsNeeded = parseLines(agenda?.decisionsNeeded);
 
-  const toggleDone = async (id, currentDone) => {
-    await supabase.from('launch_tasks').update({ done: !currentDone, updated_at: new Date().toISOString() }).eq('id', id);
-    if (!currentDone) {
-      // Moving to done — remove from active, add to completed
-      const task = tasks.find(t => t.id === id);
-      setTasks(prev => prev.filter(t => t.id !== id));
-      if (task) setCompletedTasks(prev => [{ ...task, done: true }, ...prev]);
-    } else {
-      // Undoing — remove from completed, add back to active
-      const task = completedTasks.find(t => t.id === id);
-      setCompletedTasks(prev => prev.filter(t => t.id !== id));
-      if (task) setTasks(prev => [...prev, { ...task, done: false }]);
+  const dependencyMap = useMemo(() => Object.fromEntries(tasks.map((task) => [task.id, task.dependencies || []])), [tasks]);
+
+  const filteredTasks = useMemo(() => tasks.filter((task) => {
+    if (filterOwner !== 'All' && task.primaryOwner !== filterOwner) return false;
+    if (filterStatus !== 'All' && task.computedStatus !== filterStatus) return false;
+    if (searchQuery) {
+      const haystack = `${task.taskKey} ${task.title} ${task.description || ''}`.toLowerCase();
+      if (!haystack.includes(searchQuery.toLowerCase())) return false;
     }
-  };
-
-  const addTask = async () => {
-    if (!newTask.title.trim()) return;
-    setSaving(true);
-    const { data, error } = await supabase.from('launch_tasks').insert([{
-      title: newTask.title.trim(),
-      description: newTask.description.trim() || null,
-      owner: newTask.owner,
-      category: newTask.category,
-    }]).select();
-    
-    if (!error && data) {
-      setTasks(prev => [...prev, ...data]);
-      setNewTask({ title: '', description: '', owner: 'Max', category: 'Website' });
-      setShowAdd(false);
-    }
-    setSaving(false);
-  };
-
-  // Filter logic
-  const filtered = tasks.filter(t => {
-    if (filterOwner !== 'All' && t.owner !== filterOwner) return false;
-    if (filterCategory !== 'All' && t.category !== filterCategory) return false;
-    if (searchQuery && !t.title.toLowerCase().includes(searchQuery.toLowerCase()) && 
-        !(t.description || '').toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
-  });
+  }), [tasks, filterOwner, filterStatus, searchQuery]);
 
-  // Group by owner
-  const grouped = {};
-  OWNERS.forEach(o => { grouped[o] = []; });
-  filtered.forEach(t => {
-    if (grouped[t.owner]) grouped[t.owner].push(t);
-  });
+  const groupedTasks = useMemo(() => {
+    const groups = {};
+    OWNERS.filter((owner) => owner !== 'All').forEach((owner) => { groups[owner] = []; });
+    filteredTasks.forEach((task) => {
+      if (!groups[task.primaryOwner]) groups[task.primaryOwner] = [];
+      groups[task.primaryOwner].push(task);
+    });
+    return groups;
+  }, [filteredTasks]);
 
+  const milestoneById = useMemo(() => Object.fromEntries(milestones.map((milestone) => [milestone.id, milestone])), [milestones]);
+  const taskById = useMemo(() => Object.fromEntries(tasks.map((task) => [task.id, task])), [tasks]);
   const totalTasks = tasks.length;
-  const totalCompleted = completedTasks.length;
-  const ownerCounts = {};
-  OWNERS.forEach(o => { ownerCounts[o] = tasks.filter(t => t.owner === o).length; });
+  const thisWeekTasks = snapshot.thisWeekTasks.length;
+  const blockedTasks = snapshot.blockedTasks.length;
+
+  const handleStatusChange = async (task, nextStatus) => {
+    try {
+      setUpdatingTaskId(task.id);
+      setError('');
+      const updatedTask = await updateLaunchTask({ taskId: task.id, updates: { status: nextStatus } });
+      const recomputed = recomputeLaunchOpsAfterTaskUpdate({
+        previousTasks: tasks,
+        updatedTask,
+        dependencyMap,
+        milestones,
+      });
+
+      setTasks(recomputed.tasks);
+      setRecentlyUnlocked(recomputed.unlockedTaskIds.map((id) => taskById[id]?.taskKey || id));
+      setMilestoneReadinessMap(recomputed.milestoneReadinessMap);
+    } catch (err) {
+      setError(err?.message || 'Failed to update task status.');
+    } finally {
+      setUpdatingTaskId('');
+    }
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Launch Tracker</h1>
-            <p className="text-gray-500 mt-1">Everything we need before reaching our first client</p>
-          </div>
-          <button
-            onClick={() => setShowAdd(!showAdd)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition text-sm font-semibold"
-          >
-            <Plus size={16} />
-            Add Task
-          </button>
+        <div>
+          <h1 className={dashboardPageTitle}>Jarvis Launch Board</h1>
+          <p className={dashboardPageSubtitle}>
+            Adaptive milestone, task, blocker, and coordination system for Samir, Max, Adrian, and Hermes.
+          </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Remaining</p>
-            <p className="text-2xl font-black text-gray-900">{totalTasks}</p>
-          </div>
-          {OWNERS.map(o => (
-            <div key={o} className="bg-white rounded-xl border border-gray-200 p-4 cursor-pointer hover:border-primary/30 transition"
-              onClick={() => setFilterOwner(filterOwner === o ? 'All' : o)}>
-              <div className="flex items-center gap-2 mb-1">
-                <div className={`w-2 h-2 rounded-full ${OWNER_COLORS[o]}`}></div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-400">{o}</p>
-              </div>
-              <p className={`text-2xl font-black ${filterOwner === o ? 'text-primary' : 'text-gray-900'}`}>{ownerCounts[o]}</p>
-            </div>
-          ))}
-          <div className="bg-white rounded-xl border border-gray-200 p-4 cursor-pointer hover:border-green-300 transition"
-            onClick={() => setShowCompleted(!showCompleted)}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Done ✅</p>
-            <p className={`text-2xl font-black ${showCompleted ? 'text-green-500' : 'text-gray-900'}`}>{totalCompleted}</p>
-          </div>
-        </div>
-
-        {/* Add Task Form */}
-        {showAdd && (
-          <div className="bg-white rounded-xl border-2 border-primary/30 p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-bold text-gray-900">New Task</p>
-              <button onClick={() => setShowAdd(false)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
-            </div>
-            <input
-              type="text"
-              placeholder="Task title..."
-              value={newTask.title}
-              onChange={e => setNewTask(prev => ({ ...prev, title: e.target.value }))}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-              autoFocus
-            />
-            <input
-              type="text"
-              placeholder="Description (optional)..."
-              value={newTask.description}
-              onChange={e => setNewTask(prev => ({ ...prev, description: e.target.value }))}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-            />
-            <div className="flex items-center gap-3">
-              <select value={newTask.owner} onChange={e => setNewTask(prev => ({ ...prev, owner: e.target.value }))}
-                className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
-                {OWNERS.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
-              <select value={newTask.category} onChange={e => setNewTask(prev => ({ ...prev, category: e.target.value }))}
-                className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white">
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-              <button onClick={addTask} disabled={saving || !newTask.title.trim()}
-                className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
-                {saving ? 'Adding...' : 'Add'}
-              </button>
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="text-red-500 flex-shrink-0 mt-0.5" size={18} />
+            <div>
+              <p className="text-sm font-semibold text-red-800">Launch board failed to load</p>
+              <p className="text-xs text-red-600 font-light mt-1">{error}</p>
             </div>
           </div>
         )}
 
-        {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm w-64 focus:border-primary focus:ring-1 focus:ring-primary outline-none"
-            />
+        {recentlyUnlocked.length > 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
+            <Sparkles className="text-green-500 flex-shrink-0 mt-0.5" size={18} />
+            <div>
+              <p className="text-sm font-semibold text-green-800">Newly unlocked tasks</p>
+              <p className="text-xs text-green-700 font-light mt-1">{recentlyUnlocked.join(', ')}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-bold text-gray-400 uppercase">Owner:</span>
-            {['All', ...OWNERS].map(o => (
-              <button key={o} onClick={() => setFilterOwner(o)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${filterOwner === o ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                {o}
-              </button>
-            ))}
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div className={`${dashboardCard} p-4`}>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Current Gate</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{currentMilestone?.title || '—'}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{currentMilestone?.status ? humanize(currentMilestone.status) : 'No active milestone'}</p>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs font-bold text-gray-400 uppercase">Category:</span>
-            <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)}
-              className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white font-semibold">
-              <option value="All">All</option>
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
+          <div className={`${dashboardCard} p-4`}>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Total Tasks</p>
+            <p className="text-2xl font-black text-gray-900 dark:text-gray-100">{totalTasks}</p>
+          </div>
+          <div className={`${dashboardCard} p-4`}>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">This Week</p>
+            <p className="text-2xl font-black text-amber-600">{thisWeekTasks}</p>
+          </div>
+          <div className={`${dashboardCard} p-4`}>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Blocked / Locked</p>
+            <p className="text-2xl font-black text-red-600">{blockedTasks}</p>
           </div>
         </div>
 
-        {/* Task Lists by Owner */}
+        {currentMilestone && currentReadiness && (
+          <div className={`${dashboardCard} p-5`}>
+            <div className="flex items-center justify-between gap-4 mb-2">
+              <div>
+                <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Milestone Progress</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{currentMilestone.description}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-bold text-primary">{currentReadiness.completedTasks}/{currentReadiness.totalTasks}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">tasks complete</p>
+              </div>
+            </div>
+            <div className="w-full bg-gray-100 dark:bg-dark-bg rounded-full h-2 overflow-hidden">
+              <div className="h-2 rounded-full bg-primary transition-all" style={{ width: `${milestoneReadinessMap[currentMilestone.id]?.readinessPercent || currentMilestone.readinessScore || currentReadiness.readinessFromTasks}%` }}></div>
+            </div>
+            {currentMilestone.gateNotes && <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{currentMilestone.gateNotes}</p>}
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search adaptive tasks..."
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              className={`${dashboardInput} pl-9 w-72`}
+            />
+          </div>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Owner:</span>
+            {OWNERS.map((owner) => (
+              <button
+                key={owner}
+                onClick={() => setFilterOwner(owner)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${filterOwner === owner ? dashboardChipActive : dashboardChip}`}
+              >
+                {owner}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Status:</span>
+            {['All', ...STATUS_ORDER].map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${filterStatus === status ? dashboardChipActive : dashboardChip}`}
+              >
+                {status === 'All' ? status : humanize(status)}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {loading ? (
-          <div className="text-center py-12 text-gray-400">Loading tasks...</div>
-        ) : filtered.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-            <Rocket className="text-gray-300 mx-auto mb-3" size={32} />
-            <p className="text-sm font-semibold text-gray-900">No tasks found</p>
-            <p className="text-xs text-gray-500 mt-1">Add tasks or adjust your filters</p>
+          <div className={`${dashboardCard} p-12 text-center text-gray-400 dark:text-gray-500`}>Loading adaptive launch board...</div>
+        ) : filteredTasks.length === 0 ? (
+          <div className={`${dashboardCard} p-12 text-center`}>
+            <Rocket className="text-gray-300 dark:text-gray-500 mx-auto mb-3" size={32} />
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">No adaptive tasks found</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Adjust filters or seed more tasks into the new launch ops system.</p>
           </div>
         ) : (
-          OWNERS.filter(o => grouped[o].length > 0).map(owner => (
-            <div key={owner} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="px-5 py-3 border-b border-gray-100 flex items-center gap-2">
-                <div className={`w-3 h-3 rounded-full ${OWNER_COLORS[owner]}`}></div>
-                <span className="text-sm font-bold text-gray-900">{owner}</span>
-                <span className="text-xs text-gray-400 font-light">({grouped[owner].length})</span>
+          OWNERS.filter((owner) => owner !== 'All' && groupedTasks[owner]?.length > 0).map((owner) => (
+            <div key={owner} className={`${dashboardCard} overflow-hidden`}>
+              <div className="px-5 py-3 border-b border-gray-100 dark:border-dark-border flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${ownerDot[owner]}`}></div>
+                <span className="text-sm font-bold text-gray-900 dark:text-gray-100">{owner}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 font-light">({groupedTasks[owner].length})</span>
               </div>
-              {grouped[owner].map((task, idx) => (
-                <div key={task.id}
-                  className={`px-5 py-3.5 hover:bg-gray-50 transition ${idx !== grouped[owner].length - 1 ? 'border-b border-gray-50' : ''}`}>
-                  {editingId === task.id ? (
-                    <div className="space-y-2">
-                      <input type="text" value={editData.title} onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary outline-none" autoFocus />
-                      <input type="text" value={editData.description} onChange={e => setEditData(prev => ({ ...prev, description: e.target.value }))}
-                        placeholder="Description..." className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-primary outline-none" />
-                      <div className="flex items-center gap-2">
-                        <select value={editData.owner} onChange={e => setEditData(prev => ({ ...prev, owner: e.target.value }))}
-                          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white">
-                          {OWNERS.map(o => <option key={o} value={o}>{o}</option>)}
-                        </select>
-                        <select value={editData.category} onChange={e => setEditData(prev => ({ ...prev, category: e.target.value }))}
-                          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white">
-                          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                        <button onClick={saveEdit} className="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:opacity-90 flex items-center gap-1">
-                          <Save size={12} /> Save
-                        </button>
-                        <button onClick={cancelEdit} className="px-3 py-1.5 text-gray-500 hover:text-gray-700 text-xs font-semibold">Cancel</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-start gap-3">
-                      <button onClick={() => toggleDone(task.id, task.done)} className="mt-0.5 flex-shrink-0">
-                        <Circle size={18} className="text-gray-300 hover:text-primary transition" />
-                      </button>
+              {groupedTasks[owner].map((task, index) => {
+                const milestone = milestoneById[task.milestoneId];
+                return (
+                  <div
+                    key={task.id}
+                    className={`px-5 py-4 hover:bg-gray-50 dark:hover:bg-dark-border/30 transition ${index !== groupedTasks[owner].length - 1 ? 'border-b border-gray-50 dark:border-dark-border/40' : ''}`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm text-gray-900 font-medium">{task.title}</p>
-                        {task.description && <p className="text-xs text-gray-500 font-light mt-0.5">{task.description}</p>}
+                        <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                          <span className="text-xs font-bold text-primary uppercase tracking-wider">{task.taskKey}</span>
+                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusTone[task.computedStatus] || 'bg-gray-100 text-gray-600'}`}>
+                            {humanize(task.computedStatus)}
+                          </span>
+                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${priorityTone[task.priority] || 'bg-gray-100 text-gray-600'}`}>
+                            {task.priority}
+                          </span>
+                          {task.legalGateFlag && (
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">legal gate</span>
+                          )}
+                          {task.complianceFlag && (
+                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700">compliance</span>
+                          )}
+                        </div>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{task.title}</p>
+                        {task.description && (
+                          <p className="text-xs text-gray-500 dark:text-gray-400 font-light mt-1">{task.description}</p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
+                          <span>Milestone: {milestone?.slug || '—'}</span>
+                          <span>Workstream: {task.workstream}</span>
+                          {task.collaborators.length > 0 && (
+                            <span className="inline-flex items-center gap-1"><Users size={12} /> {task.collaborators.join(', ')}</span>
+                          )}
+                        </div>
+                        {(task.blockingTaskIds.length > 0 || task.softBlockedTaskIds.length > 0) && (
+                          <div className={`mt-3 p-3 ${dashboardSurfaceMuted}`}>
+                            {task.blockingTaskIds.length > 0 && (
+                              <p className="text-xs text-red-700 dark:text-red-300 font-medium">
+                                Blocking dependencies: {task.blockingTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}
+                              </p>
+                            )}
+                            {task.softBlockedTaskIds.length > 0 && (
+                              <p className="text-xs text-amber-700 dark:text-amber-300 font-medium mt-1">
+                                Soft blockers: {task.softBlockedTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${CATEGORY_COLORS[task.category] || 'bg-gray-100 text-gray-600'}`}>
-                          {task.category}
-                        </span>
-                        <button onClick={() => startEdit(task)} className="text-gray-300 hover:text-gray-500 transition">
-                          <Pencil size={14} />
-                        </button>
+                      <div className="flex-shrink-0">
+                        <select
+                          value={task.status}
+                          onChange={(event) => handleStatusChange(task, event.target.value)}
+                          disabled={updatingTaskId === task.id}
+                          className="px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-xs bg-white dark:bg-dark-card text-gray-700 dark:text-gray-200"
+                        >
+                          {MUTABLE_STATUSES.map((status) => (
+                            <option key={status} value={status}>{humanize(status)}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </div>
           ))
         )}
-        {/* Completed Tasks */}
-        {showCompleted && completedTasks.length > 0 && (
-          <div className="bg-white rounded-xl border border-green-200 overflow-hidden">
-            <div className="px-5 py-3 border-b border-green-100 bg-green-50 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-green-500" />
-                <span className="text-sm font-bold text-green-900">Completed ({completedTasks.length})</span>
-              </div>
-              <button onClick={() => setShowCompleted(false)} className="text-xs text-green-600 hover:text-green-800 font-semibold">Hide</button>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className={`${dashboardCard} p-5`}>
+            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Blocked Items</h2>
+            <div className="space-y-2">
+              {blockedItems.length === 0 ? (
+                <p className="text-sm text-gray-400 dark:text-gray-500">No blocked agenda items loaded.</p>
+              ) : blockedItems.map((item, index) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-red-50 dark:bg-dark-border/40 border border-red-100 dark:border-dark-border rounded-lg">
+                  <Lock size={14} className="text-red-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-red-800 dark:text-gray-200 font-light">{item}</p>
+                </div>
+              ))}
             </div>
-            {completedTasks.map((task, idx) => (
-              <div key={task.id}
-                className={`flex items-start gap-3 px-5 py-3 hover:bg-green-50/50 transition ${idx !== completedTasks.length - 1 ? 'border-b border-gray-50' : ''}`}>
-                <button onClick={() => toggleDone(task.id, task.done)} className="mt-0.5 flex-shrink-0">
-                  <CheckCircle2 size={18} className="text-green-500 hover:text-green-700 transition" />
-                </button>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-400 font-medium line-through">{task.title}</p>
-                  {task.description && <p className="text-xs text-gray-300 font-light mt-0.5 line-through">{task.description}</p>}
+          </div>
+
+          <div className={`${dashboardCard} p-5`}>
+            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Decisions Needed</h2>
+            <div className="space-y-2">
+              {decisionsNeeded.length === 0 ? (
+                <p className="text-sm text-gray-400 dark:text-gray-500">No pending decisions loaded.</p>
+              ) : decisionsNeeded.map((item, index) => (
+                <div key={index} className={`p-3 ${dashboardSurfaceMuted}`}>
+                  <p className="text-sm text-gray-700 dark:text-gray-200 font-light">{item}</p>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <div className={`w-2 h-2 rounded-full ${OWNER_COLORS[task.owner]}`}></div>
-                  <span className="text-xs text-gray-400">{task.owner}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {!isTeam && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
+            <div>
+              <p className="text-sm font-semibold text-amber-800">Internal launch operating board</p>
+              <p className="text-xs text-amber-600 font-light mt-1">This board is designed for internal team execution and may expose strategy, blockers, and legal/compliance gates.</p>
+            </div>
           </div>
         )}
       </div>

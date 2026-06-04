@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ActiveSiteProvider } from './contexts/ActiveSiteContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
@@ -27,6 +28,7 @@ function App() {
     <ThemeProvider>
     <Router>
       <AuthProvider>
+        <ActiveSiteProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -53,6 +55,7 @@ function App() {
           {/* Catch all */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </ActiveSiteProvider>
       </AuthProvider>
     </Router>
     </ThemeProvider>

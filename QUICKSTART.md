@@ -2,29 +2,15 @@
 
 Get Block Ops running locally in 5 minutes.
 
-## Terminal 1: Start the Backend
+## Terminal 1: Configure Supabase
 
 ```bash
-# Navigate to backend
-cd backend
-
-# Activate virtual environment
-source venv/bin/activate
-
-# Create .env file (use defaults for local development)
+cd frontend
 cat > .env << EOF
-DATABASE_URL=sqlite:///./test.db
-SECRET_KEY=dev-key-change-in-production
-JWT_EXPIRATION_HOURS=24
-FRONTEND_URL=http://localhost:5173
+VITE_SUPABASE_URL=https://msnwupckhoomeiqxfbts.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 EOF
-
-# Start the server
-uvicorn app.main:app --reload
 ```
-
-✅ Backend running at: `http://localhost:8000`
-📖 API docs available at: `http://localhost:8000/docs`
 
 ## Terminal 2: Start the Frontend
 
@@ -63,55 +49,41 @@ npm run dev
 ## What's Implemented
 
 ✅ Landing page with hero, services, team, and contact sections
-✅ User authentication (registration and login)
-✅ JWT-based authentication with refresh tokens
-✅ Protected routes and dashboard
-✅ User profile management
-✅ Settings page with preferences
+✅ Supabase-backed content/task tables in the live database
+✅ Launch milestone board and weekly agenda records
+✅ Site-aware metadata tables (`sites`, `content_objects`, `content_representations`)
+✅ Protected dashboard and internal content surfaces
 ✅ Responsive dark-themed dashboard
 ✅ Modern UI inspired by Modernize template
 
 ## Troubleshooting
 
-### Backend won't start
-- Make sure you're in the `backend` directory
-- Check that the virtual environment is activated
-- Run: `pip install -r requirements.txt` if packages are missing
-
-### Frontend won't start
+#### Frontend won't start
 - Make sure you're in the `frontend` directory
 - Run: `npm install` if node_modules is missing
 - Check that port 5173 is not in use
 
-### API connection errors
-- Make sure both backend and frontend are running
-- Check that `VITE_API_URL` in frontend `.env` matches your backend URL
-- Backend should be on `http://localhost:8000`
+#### Supabase connection errors
+- Make sure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set correctly
+- Confirm the project is reachable and the anon key is active
+- Check the browser console for Supabase auth/data errors
 
 ## Environment Variables
 
-### Backend (.env)
-```env
-DATABASE_URL=sqlite:///./test.db           # SQLite for dev, PostgreSQL for prod
-SECRET_KEY=dev-key-change-in-production    # Change in production!
-JWT_EXPIRATION_HOURS=24                    # Token expiration time
-FRONTEND_URL=http://localhost:5173         # Frontend URL for CORS
-```
-
 ### Frontend (.env)
 ```env
-VITE_API_URL=http://localhost:8000         # Backend API URL
+VITE_SUPABASE_URL=https://msnwupckhoomeiqxfbts.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
 ## Next Steps
 
-- [ ] Customize team member information
-- [ ] Add your company contact information
-- [ ] Set up PostgreSQL for production
-- [ ] Deploy to Render
+- [ ] Populate the app with the right Supabase anon key in production
+- [ ] Verify frontend deployment on Render
+- [ ] Keep expanding the launch milestone/task system
+- [ ] Add more site-aware content and launch reporting
 - [ ] Implement CRM features
 - [ ] Add consultation scheduling
-- [ ] Build mobile app with React Native
 
 ---
 

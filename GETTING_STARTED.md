@@ -2,6 +2,8 @@
 
 Welcome! Your Block Ops platform is ready to go. This guide will get you up and running in minutes.
 
+> Current live architecture: the frontend uses Supabase directly for data and launch ops tables; the old backend-oriented notes below are kept only for historical context.
+
 ## ⚡ Quick Start (Choose One)
 
 ### Option A: Fastest Way (5 minutes)
@@ -26,14 +28,14 @@ Follow the detailed setup in **README.md** → Getting Started section.
 - ⚙️ **Settings Page** - Notification and preference toggles
 - 📱 **Responsive Design** - Works on mobile, tablet, desktop
 
-**Backend (FastAPI)**
-- 🔑 **Authentication API** - Registration, login, token refresh
-- 🛡️ **JWT Security** - Access & refresh tokens with bcrypt hashing
-- 📦 **Database Ready** - SQLite for dev, PostgreSQL for production
-- 📝 **API Docs** - Auto-generated at `/docs` endpoint
-- 🔄 **CORS Configured** - Ready for frontend integration
+**Live Supabase Data Layer**
+- 🗂️ **Launch Ops Tables** - milestones, v2 tasks, weekly agendas
+- 🏗️ **Site-Aware Metadata** - sites, content_objects, content_representations
+- 📚 **Foundation Catalog** - seeded deliverables and representations
+- 🔒 **RLS Policies** - table-level access control for authenticated users
+- 🌐 **Frontend Integration** - Supabase client reads/writes directly from the browser
 
-**Design System**
+**Live Stack**
 - 🎨 Blue accent color (#5d87ff)
 - 🌙 Dark theme for dashboard
 - ☀️ Light theme for landing page
@@ -58,16 +60,10 @@ Follow the detailed setup in **README.md** → Getting Started section.
 
 ### To Run the Application
 
-**Terminal 1 - Backend:**
-```bash
-cd backend
-source venv/bin/activate
-uvicorn app.main:app --reload
-```
-
-**Terminal 2 - Frontend:**
+**Terminal 1 - Frontend:**
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
 
@@ -93,19 +89,9 @@ block-ops/
 │   │   ├── pages/              # LandingPage, LoginPage, Dashboard, Profile, Settings
 │   │   ├── components/         # DashboardLayout, ProtectedRoute
 │   │   ├── contexts/           # AuthContext (state management)
-│   │   ├── services/           # api.js (Axios client)
+│   │   ├── services/           # Supabase/data client
 │   │   └── App.jsx             # Main app with routing
-│   └── package.json
-├── backend/                     # FastAPI app
-│   ├── app/
-│   │   ├── main.py             # FastAPI entry point
-│   │   ├── models.py           # User database model
-│   │   ├── schemas.py          # Request/response schemas
-│   │   ├── auth.py             # JWT utilities
-│   │   ├── database.py         # Database config
-│   │   └── api/
-│   │       └── auth.py         # Auth routes
-│   └── requirements.txt
+│   ├── package.json
 ├── README.md                    # Full documentation
 ├── QUICKSTART.md               # 5-min setup guide
 ├── IMPLEMENTATION_SUMMARY.md   # What's built
@@ -118,40 +104,29 @@ block-ops/
 
 | Part | Technology | Why |
 |------|-----------|-----|
-| Frontend UI | React 18 | Industry standard, large ecosystem |
+| Frontend UI | React 19 | Industry standard, large ecosystem |
 | Frontend Build | Vite | Fast, modern, great DX |
 | Styling | Tailwind CSS | Utility-first, responsive design |
 | Routing | React Router | Standard for React SPAs |
-| Backend | FastAPI | Modern, fast, auto-docs |
-| Database | PostgreSQL/SQLite | SQLite for dev, PostgreSQL for prod |
-| Auth | JWT | Stateless, scalable |
-| Password | bcrypt | Industry standard hashing |
+| Data Layer | Supabase | Live backend and auth backbone |
+| Database | PostgreSQL | Live production schema |
+| Access Control | RLS | Table-level policy enforcement |
 
 ---
 
 ## 🔐 Security Features
 
-✅ **Password Hashing** - Using bcrypt via passlib
-✅ **JWT Tokens** - Access & refresh tokens
-✅ **CORS Protection** - Configured for frontend domain
-✅ **Secure Sessions** - Tokens stored in localStorage
-✅ **Protected Routes** - Dashboard requires authentication
-✅ **Password Requirements** - Enforced on registration
+✅ **RLS Policies** - Table-level access control
+✅ **Supabase Client** - Browser-side data access with anon key
+✅ **Seeded Live Schema** - Launch and site tables already in place
+✅ **Protected Routes** - Dashboard requires app-level checks
+✅ **Data Discipline** - Sensitive values stay out of the repo
 
 ---
 
-## 📊 API Endpoints
+## 📊 Legacy API Notes
 
-**All endpoints available at:** `http://localhost:8000`
-**API documentation:** `http://localhost:8000/docs`
-
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| POST | `/api/auth/register` | Create new user account |
-| POST | `/api/auth/login` | User login |
-| POST | `/api/auth/refresh` | Refresh access token |
-| GET | `/api/auth/me` | Get current user |
-| GET | `/health` | Health check |
+The old FastAPI-style endpoint list is kept only as historical context. The live app now uses Supabase directly from the frontend for data access and launch ops workflows.
 
 ---
 
@@ -179,27 +154,25 @@ colors: {
 }
 ```
 
-### Change Backend Settings
+### Live Architecture Notes
 
-Edit `/backend/.env`:
-```env
-SECRET_KEY=your-secure-key      # Change for production!
-JWT_EXPIRATION_HOURS=24         # Token lifetime
-DATABASE_URL=sqlite:///./test.db # Use PostgreSQL in production
-```
+The live app now uses Supabase directly from the frontend.
+
+What to edit now:
+- `frontend/.env` for `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+- `frontend/src/services/supabase.js` for the client wrapper
+- `README.md` / `QUICKSTART.md` for current setup and deployment notes
 
 ---
 
 ## 🚀 Deployment Checklist
 
 - [ ] Review **README.md** deployment section
-- [ ] Set up PostgreSQL database
-- [ ] Generate strong `SECRET_KEY`
+- [ ] Set production Supabase env vars in Render
+- [ ] Verify live tables and seed data
 - [ ] Create Render account
-- [ ] Deploy backend service
-- [ ] Deploy frontend service
-- [ ] Update frontend API URL
-- [ ] Test login flow
+- [ ] Deploy the frontend service
+- [ ] Test the live dashboard and content surfaces
 - [ ] Set up monitoring/logging
 
 See **README.md** for detailed deployment instructions.
@@ -211,8 +184,8 @@ See **README.md** for detailed deployment instructions.
 Before launching to production, implement:
 - [ ] Email verification for registration
 - [ ] Password reset functionality
-- [ ] Profile edit backend integration
 - [ ] Settings persistence
+- [ ] Profile edit wiring
 - [ ] Error logging & monitoring
 - [ ] Rate limiting
 - [ ] Automated tests
@@ -221,19 +194,19 @@ Before launching to production, implement:
 
 ## 💡 Pro Tips
 
-1. **Use the API Docs**: Visit `http://localhost:8000/docs` to test API endpoints
+1. **Inspect Supabase Data**: Use the browser console and Supabase dashboard
 2. **Check Browser Console**: Any errors will show in DevTools
-3. **Inspect Network**: Network tab shows all API calls
-4. **Clear Tokens**: Clear localStorage to force re-login
-5. **Hot Reload**: Both frontend and backend support hot reload during development
+3. **Inspect Network**: Network tab shows all data calls
+4. **Refresh Carefully**: Make sure the anon key is loaded correctly
+5. **Hot Reload**: Frontend supports hot reload during development
 
 ---
 
 ## 📞 Troubleshooting
 
 ### "Cannot GET /dashboard"
-- Backend not running? Start it in Terminal 1
-- API URL wrong? Check `.env` files
+- Frontend not running? Start it in Terminal 1
+- Env vars missing? Check `frontend/.env`
 
 ### "Invalid email or password"
 - Email already exists? Use a different email
@@ -244,7 +217,6 @@ Before launching to production, implement:
 - Or run: `npm run dev -- --port 5174`
 
 ### "Module not found"
-- For backend: Run `pip install -r requirements.txt`
 - For frontend: Run `npm install`
 
 ---
@@ -265,9 +237,9 @@ GETTING_STARTED.md (you are here)
 
 - **React**: https://react.dev/learn
 - **Tailwind**: https://tailwindcss.com/docs
-- **FastAPI**: https://fastapi.tiangolo.com/
-- **JWT**: https://jwt.io/
-- **SQLAlchemy**: https://docs.sqlalchemy.org/
+- **Supabase**: https://supabase.com/docs
+- **PostgreSQL**: https://www.postgresql.org/docs/
+- **RLS**: https://supabase.com/docs/guides/database/postgres/row-level-security
 
 ---
 
@@ -288,5 +260,5 @@ Questions? Check the docs or review the source code comments.
 ---
 
 **Created**: October 29, 2025
-**Status**: Ready to Run
-**Tech Stack**: React + FastAPI + Tailwind CSS
+**Status**: Supabase-first frontend live
+**Tech Stack**: React + Supabase + Tailwind CSS

@@ -13,7 +13,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useUserRole } from '../hooks/useUserRole';
-import { supabase } from '../services/supabase';
+import { fetchAgentKnowledgeItems } from '../services/contentObjects.js';
 
 const FILE_METADATA = {
   'Weight_Based_Max_Dose_Calculator.agent.md': { category: 'Safety', units: 10, qaPairs: 9 },
@@ -26,11 +26,6 @@ const FILE_METADATA = {
   'Block_Lead_Nurse_Responsibility_List.agent.md': { category: 'Governance', units: 9, qaPairs: 7 },
   'Block_Bay_Workflow_Logic.agent.md': { category: 'Operations', units: 9, qaPairs: 6 },
 };
-
-const humanizeFileName = (fileName) => fileName
-  .replace(/\.agent\.md$/i, '')
-  .replace(/_/g, ' ')
-  .replace(/\b\w/g, char => char.toUpperCase());
 
 export const AgentKnowledgePage = () => {
   const location = useLocation();
@@ -49,32 +44,11 @@ export const AgentKnowledgePage = () => {
     setError(null);
 
     try {
-      const { data, error: listError } = await supabase
-        .storage
-        .from('deliverables')
-        .list('agent-knowledge', { limit: 200, sortBy: { column: 'name', order: 'asc' } });
-
-      if (listError) throw listError;
-
-      const files = (data || [])
-        .filter((file) => file.name.endsWith('.agent.md'))
-        .map((file) => {
-          const meta = FILE_METADATA[file.name] || {};
-          return {
-            name: humanizeFileName(file.name),
-            path: `agent-knowledge/${file.name}`,
-            deliverable: humanizeFileName(file.name),
-            category: meta.category || 'General',
-            status: 'complete',
-            units: meta.units || 0,
-            qaPairs: meta.qaPairs || 0,
-          };
-        });
-
+      const files = await fetchAgentKnowledgeItems(FILE_METADATA);
       setAgentFiles(files);
     } catch (err) {
       console.error(err);
-      setError('Failed to load agent knowledge files from storage.');
+      setError('Failed to load agent knowledge metadata.');
     } finally {
       setLoading(false);
     }
