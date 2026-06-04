@@ -111,7 +111,7 @@ export const DashboardHome = () => {
           Welcome back{user?.full_name ? `, ${user.full_name.split(' ')[0]}` : ''}
         </h1>
         <p className={dashboardPageSubtitle}>
-          Jarvis internal workspace — live milestone, task, doc, and risk view.
+          Dashboard internal workspace — live milestone, task, doc, and risk view.
         </p>
       </div>
 

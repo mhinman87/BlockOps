@@ -171,7 +171,7 @@ export const TasksPage = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className={dashboardPageTitle}>Jarvis Launch Board</h1>
+          <h1 className={dashboardPageTitle}>Dashboard Launch Board</h1>
           <p className={dashboardPageSubtitle}>
             Adaptive milestone, task, blocker, and coordination system for Samir, Max, Adrian, and Hermes.
           </p>

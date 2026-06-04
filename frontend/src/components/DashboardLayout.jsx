@@ -38,7 +38,7 @@ export const DashboardLayout = ({ children }) => {
   const location = useLocation();
 
   const mainMenuItems = [
-    { icon: LayoutDashboard, label: 'Jarvis', path: '/dashboard' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: BookOpen, label: 'Knowledge Library', path: '/dashboard/library' },
     { icon: FolderOpen, label: 'My Deliverables', path: '/dashboard/deliverables' },
     { icon: BarChart3, label: 'Analytics', path: '/dashboard/analytics' },
