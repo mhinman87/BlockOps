@@ -51,6 +51,21 @@ const taskPriorityRank = (priority) => {
   return order[normalized] ?? 9;
 };
 
+const taskStatusRank = (status) => {
+  const normalized = (status || '').toLowerCase();
+  const order = {
+    in_progress: 0,
+    this_week: 1,
+    ready: 2,
+    review: 3,
+    done: 4,
+    blocked: 5,
+    locked: 6,
+  };
+
+  return order[normalized] ?? 9;
+};
+
 const people = [
   {
     name: 'Samir',
@@ -88,65 +103,47 @@ const launchStageDefinitions = [
   {
     key: 'm1',
     phase: 'M1',
-    title: 'Fake client through the system',
-    description: 'Complete when a fake client can move end-to-end through the workflow without major breaks. Everything before this is considered closed out.',
-    completion: 'Fake client can move from intake to closeout without the system breaking.',
+    title: 'Fake client through all the way',
+    description: 'Complete when a fake client can move end-to-end through the system without the flow breaking.',
+    completion: 'A fake client can move from intake to closeout without the system breaking.',
     owner: 'Max',
     milestoneSlugs: ['m1-mock-run-build-ready'],
   },
   {
     key: 'm2',
     phase: 'M2',
-    title: 'Repeat the fake-client run',
-    description: 'Complete when the fake-client run is repeatable, measured, and the obvious friction points are resolved.',
-    completion: 'The run can be repeated with clear benchmarks and known problem spots fixed.',
+    title: 'Client all the way through with finalized deliverables and quality testing',
+    description: 'Complete when the client run is clean, the deliverables are finalized, and quality testing is done.',
+    completion: 'The run is repeatable with finalized deliverables and quality testing complete.',
     owner: 'Max',
     milestoneSlugs: ['m2-mock-run-complete'],
   },
   {
     key: 'm3',
     phase: 'M3',
-    title: 'Trusted clinical validation complete',
-    description: 'Complete when trusted anesthesiologists have reviewed the workflow, called out gaps, and helped close the biggest risks.',
-    completion: 'Trusted reviewers have validated the system and the gaps are reduced to a manageable list.',
+    title: 'Passed the attendings tests',
+    description: 'Complete when attendings have pressure-tested the system and the biggest issues from that review are closed.',
+    completion: 'Attending tests are passed and the review loop is closed.',
     owner: 'Samir',
     milestoneSlugs: ['m3-trusted-anesthesiologist-validation', 'm4-validation-closed'],
   },
   {
     key: 'm4',
     phase: 'M4',
-    title: 'Founding partner ready',
-    description: 'Complete when the package is clear, safe, and ready for a real founding partner to review and sign.',
-    completion: 'The legal, clinical, and commercial package is ready for a founding partner.',
+    title: 'Successfully completed founding partners',
+    description: 'Complete when the founding partner motion is in place, signed, and live enough to count as finished.',
+    completion: 'Founding partner work is complete and the motion is stable.',
     owner: 'Adrian',
-    milestoneSlugs: ['m5-founding-partner-ready'],
+    milestoneSlugs: ['m5-founding-partner-ready', 'm6-first-founding-partner-signed', 'm7-first-founding-partner-live', 'm8-additional-founding-partners'],
   },
   {
     key: 'm5',
     phase: 'M5',
-    title: 'First founding partner live',
-    description: 'Complete when the first founding partner is signed, onboarded, and actively running in the system.',
-    completion: 'A founding partner is live in the working setup.',
+    title: 'Successfully completed first paid client',
+    description: 'Complete when the first paid client is signed, onboarded, and actively being delivered.',
+    completion: 'The first paid client is signed, onboarded, and in delivery.',
     owner: 'Adrian',
-    milestoneSlugs: ['m6-first-founding-partner-signed', 'm7-first-founding-partner-live'],
-  },
-  {
-    key: 'm6',
-    phase: 'M6',
-    title: 'Paid-client ready',
-    description: 'Complete when the system is stable enough to support a real paid client without improvising the process.',
-    completion: 'The system is ready for paid-client delivery.',
-    owner: 'Max',
-    milestoneSlugs: ['m8-additional-founding-partners', 'm9-paid-client-readiness'],
-  },
-  {
-    key: 'm7',
-    phase: 'M7',
-    title: 'First paid client',
-    description: 'Complete when the first real paid client is signed and fully enters delivery.',
-    completion: 'The first paid client is live and being delivered.',
-    owner: 'Adrian',
-    milestoneSlugs: ['m10-first-paid-client'],
+    milestoneSlugs: ['m9-paid-client-readiness', 'm10-first-paid-client'],
   },
 ];
 
@@ -228,17 +225,22 @@ export const DashboardHome = () => {
       const stageMilestoneIds = new Set(stageMilestones.map((milestone) => milestone.id));
       const stageTasks = tasks
         .filter((task) => stageMilestoneIds.has(task.milestoneId))
-        .sort((a, b) => taskPriorityRank(a.priority) - taskPriorityRank(b.priority)
+        .sort((a, b) => taskStatusRank(a.computedStatus) - taskStatusRank(b.computedStatus)
+          || taskPriorityRank(a.priority) - taskPriorityRank(b.priority)
           || (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
           || a.title.localeCompare(b.title));
       const doneCount = stageTasks.filter((task) => task.computedStatus === 'done').length;
       const blockedCount = stageTasks.filter((task) => task.computedStatus === 'locked' || task.computedStatus === 'blocked').length;
       const totalTasks = stageTasks.length;
+      const openTasks = stageTasks.filter((task) => task.computedStatus !== 'locked' && task.computedStatus !== 'blocked');
+      const lockedTasks = stageTasks.filter((task) => task.computedStatus === 'locked' || task.computedStatus === 'blocked');
 
       return {
         ...stage,
         milestones: stageMilestones,
         tasks: stageTasks,
+        openTasks,
+        lockedTasks,
         totalTasks,
         doneCount,
         blockedCount,
@@ -417,53 +419,46 @@ export const DashboardHome = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-gray-200 dark:border-dark-border bg-white/70 dark:bg-dark-bg/40 px-4 py-3 space-y-3">
-                    <div className="flex flex-wrap gap-2">
-                      {stage.milestones.map((milestone) => (
-                        <span
-                          key={milestone.id}
-                          className="inline-flex items-center rounded-full border border-gray-200 dark:border-dark-border bg-white/90 dark:bg-dark-card px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300"
-                        >
-                          {milestone.title}
-                        </span>
-                      ))}
+                  <div className="border-t border-gray-200 dark:border-dark-border bg-white/70 dark:bg-dark-bg/40 px-4 py-4 space-y-4">
+                    <div className="rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">Big task</p>
+                      <h4 className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100">{stage.title}</h4>
+                      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 leading-5">{stage.description}</p>
+                      <p className="mt-2 text-[11px] leading-5 text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold text-gray-700 dark:text-gray-200">Completion means:</span> {stage.completion}
+                      </p>
                     </div>
 
-                    <div className="space-y-2.5">
-                      {stage.milestones.map((milestone) => {
-                        const milestoneTasks = stage.tasks.filter((task) => task.milestoneId === milestone.id);
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">Subtasks</p>
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">
+                          {stage.tasks.length} total
+                        </span>
+                      </div>
 
-                        return (
-                          <div key={milestone.id} className="rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-3">
-                            <div className="flex items-center justify-between gap-3 mb-2.5">
-                              <div className="min-w-0">
-                                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{milestone.title}</p>
-                                <p className="text-[11px] text-gray-500 dark:text-gray-400">{milestoneTasks.length} task{milestoneTasks.length === 1 ? '' : 's'}</p>
-                              </div>
-                            </div>
-
-                            {milestoneTasks.length === 0 ? (
-                              <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No tasks loaded for this phase yet.</p>
-                            ) : (
+                      {stage.openTasks.length === 0 && stage.lockedTasks.length === 0 ? (
+                        <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No tasks loaded for this milestone yet.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {stage.openTasks.length > 0 && (
+                            <div className="space-y-1.5">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Open subtasks</p>
                               <ol className="space-y-1.5">
-                                {milestoneTasks.map((task) => {
+                                {stage.openTasks.map((task) => {
                                   const isDone = task.computedStatus === 'done';
-                                  const isLocked = stageState === 'locked' || task.computedStatus === 'locked';
-                                  const isBlocked = task.computedStatus === 'blocked';
 
                                   return (
                                     <li
                                       key={task.id}
                                       className={`rounded-xl border px-3 py-2.5 transition ${isDone
                                         ? 'border-emerald-200 bg-emerald-50/70 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100'
-                                        : isLocked || isBlocked
-                                          ? 'border-gray-200 bg-gray-50/90 text-gray-500 dark:border-dark-border dark:bg-dark-border/30 dark:text-gray-400 opacity-75'
-                                          : 'border-primary/15 bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 shadow-[0_1px_0_rgba(15,23,42,0.03)]'
+                                        : 'border-primary/15 bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 shadow-[0_1px_0_rgba(15,23,42,0.03)]'
                                         }`}>
 
                                       <div className="flex items-start justify-between gap-3">
                                         <div className="min-w-0">
-                                          <p className={`text-sm font-semibold leading-5 ${isDone ? 'text-emerald-900 dark:text-emerald-100' : isLocked || isBlocked ? 'text-gray-600 dark:text-gray-300' : 'text-gray-900 dark:text-gray-100'}`}>
+                                          <p className={`text-sm font-semibold leading-5 ${isDone ? 'text-emerald-900 dark:text-emerald-100' : 'text-gray-900 dark:text-gray-100'}`}>
                                             {capitalizeFirst(task.title)}
                                           </p>
                                           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -473,21 +468,53 @@ export const DashboardHome = () => {
                                         </div>
                                         <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${isDone
                                           ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/10 dark:text-emerald-200'
-                                          : isLocked || isBlocked
-                                            ? 'border-gray-200 bg-gray-100 text-gray-500 dark:border-dark-border dark:bg-dark-border/50 dark:text-gray-400'
-                                            : 'border-primary/20 bg-primary/5 text-primary'
+                                          : 'border-primary/20 bg-primary/5 text-primary'
                                           }`}>
-                                          {isDone ? 'Done' : isLocked ? 'Locked' : isBlocked ? 'Blocked' : 'Active'}
+                                          {isDone ? 'Done' : 'Active'}
                                         </span>
                                       </div>
                                     </li>
                                   );
                                 })}
                               </ol>
-                            )}
-                          </div>
-                        );
-                      })}
+                            </div>
+                          )}
+
+                          {stage.lockedTasks.length > 0 && (
+                            <div className="space-y-1.5">
+                              <div className="flex items-center justify-between gap-3">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Locked subtasks</p>
+                                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">
+                                  {stage.lockedTasks.length}
+                                </span>
+                              </div>
+                              <ol className="space-y-1.5">
+                                {stage.lockedTasks.map((task) => (
+                                  <li
+                                    key={task.id}
+                                    className="rounded-xl border border-gray-200 bg-gray-50/90 px-3 py-2.5 text-gray-500 dark:border-dark-border dark:bg-dark-border/30 dark:text-gray-400 opacity-80"
+                                  >
+                                    <div className="flex items-start justify-between gap-3">
+                                      <div className="min-w-0">
+                                        <p className="text-sm font-semibold leading-5 text-gray-600 dark:text-gray-300">
+                                          {capitalizeFirst(task.title)}
+                                        </p>
+                                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                          Owner: {task.primaryOwner}
+                                          {task.collaborators?.length ? ` • Collaborators: ${task.collaborators.join(', ')}` : ''}
+                                        </p>
+                                      </div>
+                                      <span className="shrink-0 rounded-full border border-gray-200 bg-gray-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:border-dark-border dark:bg-dark-border/50 dark:text-gray-400">
+                                        Locked
+                                      </span>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

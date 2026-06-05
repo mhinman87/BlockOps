@@ -5,16 +5,16 @@ begin;
 
 insert into launch_milestones (slug, title, description, status, owner, sort_order, readiness_score, gate_notes)
 values
-  ('m1-mock-run-build-ready', 'Ready for fake-client run', 'Get the system ready to run a fake client through it.', 'in_progress', 'Max', 1, 20, 'Current active milestone.'),
-  ('m2-mock-run-complete', 'Fake-client run, benchmarks, and standards', 'Run the fake client, benchmark the system, and define the board-exam and quality standards for the next stage.', 'locked', 'Max', 2, 0, 'Depends on M1.'),
-  ('m3-trusted-anesthesiologist-validation', 'Trusted anesthesiologist validation round', 'Take the system in person to 2-3 anesthesiologists already known to Samir and let them poke holes in it.', 'locked', 'Samir', 3, 0, 'Depends on M2.'),
-  ('m4-validation-closed', 'Clinical validation round closed / holes patched', 'Incorporate the review feedback and clean up the weaknesses that were exposed.', 'locked', 'Samir', 4, 0, 'Depends on M3.'),
-  ('m5-founding-partner-ready', 'Founding partner ready', 'The system, process, and legal/compliance base are strong enough to safely support a real founding partner.', 'locked', 'Adrian', 5, 0, 'Depends on M4 and legal/compliance readiness.'),
-  ('m6-first-founding-partner-signed', 'First founding partner signed', 'A real founding partner agreement is in place.', 'locked', 'Adrian', 6, 0, 'Depends on M5.'),
-  ('m7-first-founding-partner-live', 'First founding partner onboarded and live', 'The first founding partner has gone through onboarding and is live.', 'locked', 'Samir', 7, 0, 'Depends on M6.'),
-  ('m8-additional-founding-partners', 'Additional founding partners (controlled expansion)', 'Optionally add additional founding partners once the first one confirms readiness.', 'locked', 'Adrian', 8, 0, 'Depends on M7.'),
-  ('m9-paid-client-readiness', 'Paid client readiness', 'The team is operationally comfortable and the system is stable enough to begin accepting full paid clients.', 'locked', 'Max', 9, 0, 'Depends on M7 and likely M8.'),
-  ('m10-first-paid-client', 'First paid client', 'The first fully paid client is signed and enters delivery.', 'locked', 'Adrian', 10, 0, 'Depends on M9.')
+  ('m1-mock-run-build-ready', 'Fake client through all the way', 'Complete when a fake client can move end-to-end through the full system without the flow breaking.', 'in_progress', 'Max', 1, 20, 'Milestone 1.'),
+  ('m2-mock-run-complete', 'Client all the way through with finalized deliverables and quality testing', 'Complete when the client run is clean, the deliverables are finalized, and quality testing is done.', 'locked', 'Max', 2, 0, 'Milestone 2.'),
+  ('m3-trusted-anesthesiologist-validation', 'Passed the attendings tests', 'Complete when attendings have pressure-tested the system and the biggest issues from that review are closed.', 'locked', 'Samir', 3, 0, 'Milestone 3.'),
+  ('m4-validation-closed', 'Passed the attendings tests', 'Complete when the attending feedback loop is closed and the system is ready to move forward.', 'locked', 'Samir', 4, 0, 'Milestone 3.'),
+  ('m5-founding-partner-ready', 'Successfully completed founding partners', 'Complete when the founding partner motion is in place, signed, and live enough to count as finished.', 'locked', 'Adrian', 5, 0, 'Milestone 4.'),
+  ('m6-first-founding-partner-signed', 'Successfully completed founding partners', 'Complete when the first founding partner agreement is in place and active.', 'locked', 'Adrian', 6, 0, 'Milestone 4.'),
+  ('m7-first-founding-partner-live', 'Successfully completed founding partners', 'Complete when the first founding partner is onboarded and live.', 'locked', 'Samir', 7, 0, 'Milestone 4.'),
+  ('m8-additional-founding-partners', 'Successfully completed founding partners', 'Complete when the founding partner motion is stable enough to support additional partners.', 'locked', 'Adrian', 8, 0, 'Milestone 4.'),
+  ('m9-paid-client-readiness', 'Successfully completed first paid client', 'Complete when the team is stable and ready to take on the first paid client.', 'locked', 'Max', 9, 0, 'Milestone 5.'),
+  ('m10-first-paid-client', 'Successfully completed first paid client', 'Complete when the first paid client is signed, onboarded, and actively being delivered.', 'locked', 'Adrian', 10, 0, 'Milestone 5.')
 on conflict (slug) do update set
   title = excluded.title,
   description = excluded.description,

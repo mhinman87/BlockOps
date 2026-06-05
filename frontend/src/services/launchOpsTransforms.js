@@ -1,13 +1,53 @@
 const MILESTONE_COPY_OVERRIDES = {
   'm1-mock-run-build-ready': {
-    title: 'Ready for fake-client run',
-    description: 'Get the system ready to run a fake client through it.',
-    gateNotes: 'Current active milestone.',
+    title: 'Fake client through all the way',
+    description: 'Complete when a fake client can move end-to-end through the full system without the flow breaking.',
+    gateNotes: 'Milestone 1.',
   },
   'm2-mock-run-complete': {
-    title: 'Fake-client run, benchmarks, and standards',
-    description: 'Run the fake client, benchmark the system, and define the board-exam and quality standards for the next stage.',
-    gateNotes: 'Depends on M1.',
+    title: 'Client all the way through with finalized deliverables and quality testing',
+    description: 'Complete when the client run is clean, the deliverables are finalized, and quality testing is done.',
+    gateNotes: 'Milestone 2.',
+  },
+  'm3-trusted-anesthesiologist-validation': {
+    title: 'Passed the attendings tests',
+    description: 'Complete when attendings have pressure-tested the system and the biggest issues from that review are closed.',
+    gateNotes: 'Milestone 3.',
+  },
+  'm4-validation-closed': {
+    title: 'Passed the attendings tests',
+    description: 'Complete when the attending feedback loop is closed and the system is ready to move forward.',
+    gateNotes: 'Milestone 3.',
+  },
+  'm5-founding-partner-ready': {
+    title: 'Successfully completed founding partners',
+    description: 'Complete when the founding partner package is ready and the motion can run with real partners.',
+    gateNotes: 'Milestone 4.',
+  },
+  'm6-first-founding-partner-signed': {
+    title: 'Successfully completed founding partners',
+    description: 'Complete when the first founding partner agreement is in place and active.',
+    gateNotes: 'Milestone 4.',
+  },
+  'm7-first-founding-partner-live': {
+    title: 'Successfully completed founding partners',
+    description: 'Complete when the first founding partner is onboarded and live.',
+    gateNotes: 'Milestone 4.',
+  },
+  'm8-additional-founding-partners': {
+    title: 'Successfully completed founding partners',
+    description: 'Complete when the founding partner motion is stable enough to support additional partners.',
+    gateNotes: 'Milestone 4.',
+  },
+  'm9-paid-client-readiness': {
+    title: 'Successfully completed first paid client',
+    description: 'Complete when the team is stable and ready to take on the first paid client.',
+    gateNotes: 'Milestone 5.',
+  },
+  'm10-first-paid-client': {
+    title: 'Successfully completed first paid client',
+    description: 'Complete when the first paid client is signed, onboarded, and actively being delivered.',
+    gateNotes: 'Milestone 5.',
   },
 };
 

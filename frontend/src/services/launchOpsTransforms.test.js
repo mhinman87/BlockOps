@@ -26,14 +26,14 @@ test('normalizeLaunchMilestoneRow maps milestone records into frontend milestone
   }), {
     id: 'm1',
     slug: 'm1-mock-run-build-ready',
-    title: 'Ready for fake-client run',
-    description: 'Get the system ready to run a fake client through it.',
+    title: 'Fake client through all the way',
+    description: 'Complete when a fake client can move end-to-end through the full system without the flow breaking.',
     status: 'in_progress',
     owner: 'Max',
     targetDate: '2026-06-30',
     sortOrder: 1,
     readinessScore: 20,
-    gateNotes: 'Current active milestone.',
+    gateNotes: 'Milestone 1.',
   });
 });
 
