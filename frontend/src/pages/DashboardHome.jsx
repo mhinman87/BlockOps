@@ -148,6 +148,7 @@ export const DashboardHome = () => {
     ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
     : 0;
   const currentMilestoneDisplayTitle = currentMilestone?.title || '';
+  const launchGateReadiness = snapshot.readiness.slice(0, 5);
 
   return (
     <DashboardLayout>
@@ -227,12 +228,12 @@ export const DashboardHome = () => {
       <div className={`${dashboardCard} p-5 mb-6`}>
         <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Launch Gate Progress</h2>
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-          Live milestone tracking: each bar reflects the tasks assigned to that milestone, and it updates as tasks are completed.
+          Top 5 launch gates only. The full roadmap lives on the launch board.
         </p>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {loading ? (
             <p className="text-sm text-gray-400 dark:text-gray-500">Loading launch milestones...</p>
-          ) : snapshot.readiness.map((milestone) => {
+          ) : launchGateReadiness.map((milestone) => {
             const fullMilestone = milestones.find((item) => item.id === milestone.id);
             const progress = fullMilestone?.readinessScore || milestone.readinessFromTasks;
             const tone = fullMilestone?.status === 'done'
@@ -251,15 +252,15 @@ export const DashboardHome = () => {
                   : 'bg-gray-300 dark:bg-dark-border';
 
             return (
-              <div key={milestone.id}>
-                <div className="flex items-center justify-between mb-1.5 gap-3">
-                  <div>
-                    <span className={`text-sm font-semibold ${tone}`}>{milestone.title}</span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 ml-2 font-light">
+              <div key={milestone.id} className="space-y-1.5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className={`block text-sm font-semibold truncate ${tone}`}>{milestone.title}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 font-light">
                       {milestone.completedTasks}/{milestone.totalTasks} tasks complete
                     </span>
                   </div>
-                  <span className={`text-sm font-bold ${tone}`}>{progress}%</span>
+                  <span className={`text-sm font-bold shrink-0 ${tone}`}>{progress}%</span>
                 </div>
                 <div className="w-full bg-gray-100 dark:bg-dark-bg rounded-full h-2 overflow-hidden">
                   <div className={`h-2 rounded-full transition-all ${barTone}`} style={{ width: `${progress}%` }}></div>
@@ -269,6 +270,7 @@ export const DashboardHome = () => {
           })}
         </div>
       </div>
+
 
       <div className="grid grid-cols-1 gap-4 mb-6">
         <div className={`${dashboardCard} p-5`}>
