@@ -7,6 +7,7 @@ import {
   ArrowRight,
   BarChart3,
   BookOpen,
+  ChevronDown,
   Layers3,
 } from 'lucide-react';
 import {
@@ -50,38 +51,67 @@ const taskPriorityRank = (priority) => {
   return order[normalized] ?? 9;
 };
 
-const people = [
+const launchStageDefinitions = [
   {
-    name: 'Samir',
-    focusKey: 'samirFocus',
-    accent: 'cyan',
-    accentText: 'text-cyan-700 dark:text-cyan-300',
-    accentBg: 'bg-cyan-50 dark:bg-cyan-500/10',
-    accentRing: 'ring-cyan-200/70 dark:ring-cyan-400/30',
-    accentBorder: 'border-cyan-200/70 dark:border-cyan-400/30',
-    accentDot: 'bg-cyan-500',
+    key: 'm1',
+    phase: 'M1',
+    title: 'Internal mock-run ready',
+    description: 'The system is built enough to simulate a real client from start to finish without breaking.',
+    owner: 'Max',
+    milestoneSlugs: ['m1-mock-run-build-ready'],
   },
   {
-    name: 'Max',
-    focusKey: 'maxFocus',
-    accent: 'indigo',
-    accentText: 'text-indigo-700 dark:text-indigo-300',
-    accentBg: 'bg-indigo-50 dark:bg-indigo-500/10',
-    accentRing: 'ring-indigo-200/70 dark:ring-indigo-400/30',
-    accentBorder: 'border-indigo-200/70 dark:border-indigo-400/30',
-    accentDot: 'bg-indigo-500',
+    key: 'm2',
+    phase: 'M2',
+    title: 'Internal mock client run complete',
+    description: 'The fake client actually runs through the system and the obvious problems get fixed.',
+    owner: 'Max',
+    milestoneSlugs: ['m2-mock-run-complete'],
   },
   {
-    name: 'Adrian',
-    focusKey: 'adrianFocus',
-    accent: 'amber',
-    accentText: 'text-amber-700 dark:text-amber-300',
-    accentBg: 'bg-amber-50 dark:bg-amber-500/10',
-    accentRing: 'ring-amber-200/70 dark:ring-amber-400/30',
-    accentBorder: 'border-amber-200/70 dark:border-amber-400/30',
-    accentDot: 'bg-amber-500',
+    key: 'm3',
+    phase: 'M3',
+    title: 'Trusted clinical validation complete',
+    description: 'Known anesthesiologists review the system, point out holes, and help stress-test it.',
+    owner: 'Samir',
+    milestoneSlugs: ['m3-trusted-anesthesiologist-validation', 'm4-validation-closed'],
+  },
+  {
+    key: 'm4',
+    phase: 'M4',
+    title: 'Founding partner ready',
+    description: 'The legal, clinical, and commercial package is safe and clear enough for a real founding partner.',
+    owner: 'Adrian',
+    milestoneSlugs: ['m5-founding-partner-ready'],
+  },
+  {
+    key: 'm5',
+    phase: 'M5',
+    title: 'First founding partner live',
+    description: 'The first founding partner is signed and actively onboarded in a working setup.',
+    owner: 'Adrian',
+    milestoneSlugs: ['m6-first-founding-partner-signed', 'm7-first-founding-partner-live'],
+  },
+  {
+    key: 'm6',
+    phase: 'M6',
+    title: 'Paid-client ready',
+    description: 'The system has proven enough that it can support a real paid client safely.',
+    owner: 'Max',
+    milestoneSlugs: ['m8-additional-founding-partners', 'm9-paid-client-readiness'],
+  },
+  {
+    key: 'm7',
+    phase: 'M7',
+    title: 'First paid client',
+    description: 'The first real paid client is signed and enters delivery.',
+    owner: 'Adrian',
+    milestoneSlugs: ['m10-first-paid-client'],
   },
 ];
+
+const formatStatusLabel = (value) => (value || '').replaceAll('_', ' ');
+
 
 export const DashboardHome = () => {
   const { user } = useAuth();
@@ -90,6 +120,8 @@ export const DashboardHome = () => {
   const [agenda, setAgenda] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [openStageKeys, setOpenStageKeys] = useState([]);
+  const [hasSeededAccordion, setHasSeededAccordion] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -148,7 +180,43 @@ export const DashboardHome = () => {
     ? (currentMilestone.readinessScore || currentReadiness?.readinessFromTasks || 0)
     : 0;
   const currentMilestoneDisplayTitle = currentMilestone?.title || '';
-  const launchGateReadiness = snapshot.readiness.slice(0, 5);
+  const launchStages = useMemo(() => {
+    const milestonesBySlug = Object.fromEntries(milestones.map((milestone) => [milestone.slug, milestone]));
+
+    return launchStageDefinitions.map((stage) => {
+      const stageMilestones = stage.milestoneSlugs
+        .map((slug) => milestonesBySlug[slug])
+        .filter(Boolean);
+      const stageMilestoneIds = new Set(stageMilestones.map((milestone) => milestone.id));
+      const stageTasks = tasks
+        .filter((task) => stageMilestoneIds.has(task.milestoneId))
+        .sort((a, b) => taskPriorityRank(a.priority) - taskPriorityRank(b.priority)
+          || (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
+          || a.title.localeCompare(b.title));
+      const doneCount = stageTasks.filter((task) => task.computedStatus === 'done').length;
+      const blockedCount = stageTasks.filter((task) => task.computedStatus === 'locked' || task.computedStatus === 'blocked').length;
+      const totalTasks = stageTasks.length;
+
+      return {
+        ...stage,
+        milestones: stageMilestones,
+        tasks: stageTasks,
+        totalTasks,
+        doneCount,
+        blockedCount,
+        progress: totalTasks === 0 ? 0 : Math.round((doneCount / totalTasks) * 100),
+      };
+    });
+  }, [milestones, tasks]);
+  const currentStageKey = launchStages.find((stage) => stage.milestoneSlugs.includes(currentMilestone?.slug))?.key
+    || launchStages[0]?.key
+    || '';
+
+  useEffect(() => {
+    if (hasSeededAccordion || !currentStageKey) return;
+    setOpenStageKeys([currentStageKey]);
+    setHasSeededAccordion(true);
+  }, [currentStageKey, hasSeededAccordion]);
 
   return (
     <DashboardLayout>
@@ -226,50 +294,139 @@ export const DashboardHome = () => {
       ) : null}
 
       <div className={`${dashboardCard} p-5 mb-6`}>
-        <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Launch Gate Progress</h2>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-          Top 5 launch gates only. The full roadmap lives on the launch board.
-        </p>
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Launch Gate Progress</h2>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              7 stages. Expand each one to see the tasks, owners, and milestone details.
+            </p>
+          </div>
+          <span className="inline-flex items-center rounded-full border border-gray-200 dark:border-dark-border bg-white/80 dark:bg-dark-bg/70 px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400">
+            {launchStages.length} stages
+          </span>
+        </div>
+
         <div className="space-y-3">
           {loading ? (
             <p className="text-sm text-gray-400 dark:text-gray-500">Loading launch milestones...</p>
-          ) : launchGateReadiness.map((milestone) => {
-            const fullMilestone = milestones.find((item) => item.id === milestone.id);
-            const progress = fullMilestone?.readinessScore || milestone.readinessFromTasks;
-            const tone = fullMilestone?.status === 'done'
-              ? 'text-green-700'
-              : fullMilestone?.status === 'in_progress'
-                ? 'text-primary'
-                : fullMilestone?.status === 'blocked'
-                  ? 'text-red-600'
-                  : 'text-gray-500 dark:text-gray-400';
-            const barTone = fullMilestone?.status === 'done'
-              ? 'bg-green-500'
-              : fullMilestone?.status === 'in_progress'
-                ? 'bg-primary'
-                : fullMilestone?.status === 'blocked'
-                  ? 'bg-red-400'
-                  : 'bg-gray-300 dark:bg-dark-border';
+          ) : launchStages.map((stage) => {
+            const isOpen = openStageKeys.includes(stage.key);
 
             return (
-              <div key={milestone.id} className="space-y-1.5">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <span className={`block text-sm font-semibold truncate ${tone}`}>{milestone.title}</span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 font-light">
-                      {milestone.completedTasks}/{milestone.totalTasks} tasks complete
-                    </span>
+              <div
+                key={stage.key}
+                className={`overflow-hidden rounded-2xl border bg-white dark:bg-dark-card transition ${isOpen ? 'border-primary/30 shadow-sm' : 'border-gray-200 dark:border-dark-border'}`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenStageKeys((current) => (
+                    current.includes(stage.key)
+                      ? current.filter((key) => key !== stage.key)
+                      : [...current, stage.key]
+                  ))}
+                  className="flex w-full items-start justify-between gap-4 p-4 text-left hover:bg-gray-50/80 dark:hover:bg-dark-border/30 transition"
+                  aria-expanded={isOpen}
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em]">
+                        {stage.phase}
+                      </span>
+                      <h3 className="min-w-0 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        {stage.title}
+                      </h3>
+                    </div>
+                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 leading-5">
+                      {stage.description}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                        Lead: {stage.owner}
+                      </span>
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                        {stage.totalTasks} tasks
+                      </span>
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                        {stage.doneCount} done
+                      </span>
+                      {stage.blockedCount > 0 && (
+                        <span className="inline-flex items-center rounded-full bg-red-50 text-red-700 border border-red-100 px-2.5 py-1 text-[11px] font-semibold">
+                          {stage.blockedCount} blocked
+                        </span>
+                      )}
+                      <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-1 text-[11px] font-semibold">
+                        {stage.progress}% complete
+                      </span>
+                    </div>
                   </div>
-                  <span className={`text-sm font-bold shrink-0 ${tone}`}>{progress}%</span>
-                </div>
-                <div className="w-full bg-gray-100 dark:bg-dark-bg rounded-full h-2 overflow-hidden">
-                  <div className={`h-2 rounded-full transition-all ${barTone}`} style={{ width: `${progress}%` }}></div>
-                </div>
+                  <div className="flex shrink-0 items-center gap-2 pt-1">
+                    <span className="text-sm font-bold text-primary">{stage.progress}%</span>
+                    <ChevronDown size={16} className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="border-t border-gray-200 dark:border-dark-border bg-gray-50/70 dark:bg-dark-bg/40 p-4 space-y-3">
+                    <div className="flex flex-wrap gap-2">
+                      {stage.milestones.map((milestone) => (
+                        <span
+                          key={milestone.id}
+                          className="inline-flex items-center rounded-full border border-gray-200 dark:border-dark-border bg-white/90 dark:bg-dark-card px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300"
+                        >
+                          {milestone.title}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="space-y-3">
+                      {stage.milestones.map((milestone) => {
+                        const milestoneTasks = stage.tasks.filter((task) => task.milestoneId === milestone.id);
+
+                        return (
+                          <div key={milestone.id} className="rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-3">
+                            <div className="flex items-center justify-between gap-3 mb-3">
+                              <div className="min-w-0">
+                                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{milestone.title}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{milestoneTasks.length} task{milestoneTasks.length === 1 ? '' : 's'}</p>
+                              </div>
+                            </div>
+
+                            {milestoneTasks.length === 0 ? (
+                              <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No tasks loaded for this phase yet.</p>
+                            ) : (
+                              <ol className="space-y-2">
+                                {milestoneTasks.map((task) => (
+                                  <li key={task.id} className="rounded-xl border border-gray-100 dark:border-dark-border bg-gray-50/80 dark:bg-dark-border/30 px-3 py-3">
+                                    <div className="flex items-start justify-between gap-3">
+                                      <div className="min-w-0">
+                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
+                                          {capitalizeFirst(task.title)}
+                                        </p>
+                                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                          Owner: {task.primaryOwner}
+                                          {task.collaborators?.length ? ` • Collaborators: ${task.collaborators.join(', ')}` : ''}
+                                        </p>
+                                      </div>
+                                      <span className="shrink-0 rounded-full border border-gray-200 dark:border-dark-border bg-white/90 dark:bg-dark-card px-2.5 py-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+                                        {formatStatusLabel(task.computedStatus || task.status)}
+                                      </span>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ol>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
       </div>
+
 
 
       <div className="grid grid-cols-1 gap-4 mb-6">
