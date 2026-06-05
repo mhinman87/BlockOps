@@ -51,6 +51,39 @@ const taskPriorityRank = (priority) => {
   return order[normalized] ?? 9;
 };
 
+const people = [
+  {
+    name: 'Samir',
+    focusKey: 'samirFocus',
+    accent: 'cyan',
+    accentText: 'text-cyan-700 dark:text-cyan-300',
+    accentBg: 'bg-cyan-50 dark:bg-cyan-500/10',
+    accentRing: 'ring-cyan-200/70 dark:ring-cyan-400/30',
+    accentBorder: 'border-cyan-200/70 dark:border-cyan-400/30',
+    accentDot: 'bg-cyan-500',
+  },
+  {
+    name: 'Max',
+    focusKey: 'maxFocus',
+    accent: 'indigo',
+    accentText: 'text-indigo-700 dark:text-indigo-300',
+    accentBg: 'bg-indigo-50 dark:bg-indigo-500/10',
+    accentRing: 'ring-indigo-200/70 dark:ring-indigo-400/30',
+    accentBorder: 'border-indigo-200/70 dark:border-indigo-400/30',
+    accentDot: 'bg-indigo-500',
+  },
+  {
+    name: 'Adrian',
+    focusKey: 'adrianFocus',
+    accent: 'amber',
+    accentText: 'text-amber-700 dark:text-amber-300',
+    accentBg: 'bg-amber-50 dark:bg-amber-500/10',
+    accentRing: 'ring-amber-200/70 dark:ring-amber-400/30',
+    accentBorder: 'border-amber-200/70 dark:border-amber-400/30',
+    accentDot: 'bg-amber-500',
+  },
+];
+
 const launchStageDefinitions = [
   {
     key: 'm1',
