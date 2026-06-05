@@ -51,9 +51,36 @@ const taskPriorityRank = (priority) => {
 };
 
 const people = [
-  { name: 'Samir', focusKey: 'samirFocus' },
-  { name: 'Max', focusKey: 'maxFocus' },
-  { name: 'Adrian', focusKey: 'adrianFocus' },
+  {
+    name: 'Samir',
+    focusKey: 'samirFocus',
+    accent: 'cyan',
+    accentText: 'text-cyan-700 dark:text-cyan-300',
+    accentBg: 'bg-cyan-50 dark:bg-cyan-500/10',
+    accentRing: 'ring-cyan-200/70 dark:ring-cyan-400/30',
+    accentBorder: 'border-cyan-200/70 dark:border-cyan-400/30',
+    accentDot: 'bg-cyan-500',
+  },
+  {
+    name: 'Max',
+    focusKey: 'maxFocus',
+    accent: 'indigo',
+    accentText: 'text-indigo-700 dark:text-indigo-300',
+    accentBg: 'bg-indigo-50 dark:bg-indigo-500/10',
+    accentRing: 'ring-indigo-200/70 dark:ring-indigo-400/30',
+    accentBorder: 'border-indigo-200/70 dark:border-indigo-400/30',
+    accentDot: 'bg-indigo-500',
+  },
+  {
+    name: 'Adrian',
+    focusKey: 'adrianFocus',
+    accent: 'amber',
+    accentText: 'text-amber-700 dark:text-amber-300',
+    accentBg: 'bg-amber-50 dark:bg-amber-500/10',
+    accentRing: 'ring-amber-200/70 dark:ring-amber-400/30',
+    accentBorder: 'border-amber-200/70 dark:border-amber-400/30',
+    accentDot: 'bg-amber-500',
+  },
 ];
 
 export const DashboardHome = () => {
@@ -255,26 +282,31 @@ export const DashboardHome = () => {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
             {currentPriorities.map((person) => (
               <div
                 key={person.name}
-                className="rounded-2xl border border-gray-200/80 dark:border-dark-border bg-white/85 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+                className={`rounded-2xl border ${person.accentBorder} bg-white/90 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]`}
               >
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
-                    {person.name.slice(0, 1)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
-                      <span className="text-[11px] uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">Current priority</span>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${person.accentBg} ${person.accentText} text-sm font-bold`}>
+                      {person.name.slice(0, 1)}
                     </div>
-                    <p className="mt-2 text-sm text-gray-700 dark:text-gray-200 font-light leading-6">
-                      {capitalizeFirst(person.priority)}
-                    </p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
+                      <div className="mt-1 h-1.5 w-16 rounded-full bg-gray-100 dark:bg-dark-border overflow-hidden">
+                        <div className={`h-full w-full rounded-full ${person.accentDot}`} />
+                      </div>
+                    </div>
                   </div>
+                  <span className={`text-[11px] font-semibold uppercase tracking-[0.16em] ${person.accentText}`}>
+                    Priority
+                  </span>
                 </div>
+                <p className="text-sm text-gray-700 dark:text-gray-200 font-light leading-6">
+                  {capitalizeFirst(person.priority)}
+                </p>
               </div>
             ))}
           </div>
@@ -291,20 +323,20 @@ export const DashboardHome = () => {
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
             {currentTasksByPerson.map((person) => (
               <div
                 key={person.name}
-                className="rounded-2xl border border-gray-200/80 dark:border-dark-border bg-white/85 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+                className={`rounded-2xl border ${person.accentBorder} bg-white/90 dark:bg-dark-bg/70 px-4 py-4 shadow-[0_1px_0_rgba(15,23,42,0.03)]`}
               >
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
+                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${person.accentBg} ${person.accentText} text-sm font-bold`}>
                       {person.name.slice(0, 1)}
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{person.name}</p>
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-gray-400 dark:text-gray-500">Top tasks</p>
+                      <p className={`text-[11px] uppercase tracking-[0.16em] ${person.accentText}`}>Top tasks</p>
                     </div>
                   </div>
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">
@@ -321,7 +353,7 @@ export const DashboardHome = () => {
                         key={task.id}
                         className="flex items-start gap-3 rounded-xl border border-gray-100 dark:border-dark-border bg-gray-50/70 dark:bg-dark-border/30 px-3 py-2.5"
                       >
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-900 text-[11px] font-semibold text-white dark:bg-primary">
+                        <span className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${person.accentDot} text-[11px] font-semibold text-white`}>
                           {index + 1}
                         </span>
                         <p className="min-w-0 flex-1 text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
