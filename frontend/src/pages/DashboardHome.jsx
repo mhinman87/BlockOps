@@ -104,6 +104,14 @@ const othersOwnerLabel = 'Others';
 const ownerBucketOrder = [...knownOwners, othersOwnerLabel];
 const isLockedTask = (task) => task.computedStatus === 'locked' || task.computedStatus === 'blocked';
 const getTaskOwnerBucket = (task) => (knownOwners.includes(task.primaryOwner) ? task.primaryOwner : othersOwnerLabel);
+const getOwnerAccentStyles = (owner) => people.find((person) => person.name === owner) || {
+  name: othersOwnerLabel,
+  accentText: 'text-slate-700 dark:text-slate-300',
+  accentBg: 'bg-slate-50 dark:bg-slate-500/10',
+  accentRing: 'ring-slate-200/70 dark:ring-slate-400/20',
+  accentBorder: 'border-slate-200/70 dark:border-slate-400/20',
+  accentDot: 'bg-slate-400',
+};
 const getTaskStatusLabel = (task) => {
   switch (task.computedStatus) {
     case 'done':
@@ -453,103 +461,96 @@ export const DashboardHome = () => {
 
                 {isOpen && (
                   <div className="border-t border-gray-200 dark:border-dark-border bg-white/70 dark:bg-dark-bg/40 px-4 py-4 space-y-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">By owner</p>
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 dark:text-gray-500">
-                        {stage.tasks.length} total
-                      </span>
-                    </div>
-
                     {stage.ownerBuckets.length === 0 ? (
                       <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No tasks loaded for this milestone yet.</p>
                     ) : (
                       <div className="space-y-3">
-                        {stage.ownerBuckets.map((bucket) => (
-                          <div key={bucket.owner} className="rounded-xl border border-gray-200 dark:border-dark-border bg-white/80 dark:bg-dark-card p-4">
-                            <div className="flex items-start justify-between gap-3">
-                              <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">{bucket.owner}</p>
-                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-5">Open tasks first, then locked tasks.</p>
-                              </div>
-                              <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-600 dark:text-gray-300">
-                                {bucket.total} items
-                              </span>
-                            </div>
+                        {stage.ownerBuckets.map((bucket) => {
+                          const ownerStyle = getOwnerAccentStyles(bucket.owner);
 
-                            <div className="mt-3 space-y-3">
-                              {bucket.openTasks.length > 0 && (
-                                <div className="space-y-1.5">
-                                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Tasks</p>
-                                  <ol className="space-y-1.5">
-                                    {bucket.openTasks.map((task) => {
-                                      const taskIsDone = task.computedStatus === 'done';
-                                      const taskStatusLabel = getTaskStatusLabel(task);
-
-                                      return (
-                                        <li
-                                          key={task.id}
-                                          className={`rounded-xl border px-3 py-2.5 transition ${taskIsDone
-                                            ? 'border-emerald-200 bg-emerald-50/70 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100'
-                                            : 'border-primary/15 bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 shadow-[0_1px_0_rgba(15,23,42,0.03)]'
-                                            }`}
-                                        >
-                                          <div className="flex items-start justify-between gap-3">
-                                            <div className="min-w-0">
-                                              <p className={`text-sm font-semibold leading-5 ${taskIsDone ? 'text-emerald-900 dark:text-emerald-100' : 'text-gray-900 dark:text-gray-100'}`}>
-                                                {capitalizeFirst(task.title)}
-                                              </p>
-                                              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                                <span className="font-semibold text-gray-600 dark:text-gray-300">Status:</span> {taskStatusLabel}
-                                                {task.priority ? ` • Priority: ${task.priority}` : ''}
-                                                {task.collaborators?.length ? ` • With: ${task.collaborators.join(', ')}` : ''}
-                                              </p>
-                                            </div>
-                                            <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${taskIsDone
-                                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/10 dark:text-emerald-200'
-                                              : 'border-primary/20 bg-primary/5 text-primary'
-                                              }`}>
-                                              {taskStatusLabel}
-                                            </span>
-                                          </div>
-                                        </li>
-                                      );
-                                    })}
-                                  </ol>
+                          return (
+                            <div key={bucket.owner} className={`overflow-hidden rounded-xl border ${ownerStyle.accentBorder} bg-white/80 dark:bg-dark-card`}>
+                              <div className={`h-1.5 w-full ${ownerStyle.accentDot}`} />
+                              <div className="p-4">
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-2">
+                                      <span className={`h-2.5 w-2.5 rounded-full ${ownerStyle.accentDot}`} />
+                                      <p className={`text-sm font-semibold ${ownerStyle.accentText}`}>{bucket.owner}</p>
+                                    </div>
+                                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-5">{bucket.total} item{bucket.total === 1 ? '' : 's'}</p>
+                                  </div>
+                                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${ownerStyle.accentBg} ${ownerStyle.accentText}`}>
+                                    {bucket.total} items
+                                  </span>
                                 </div>
-                              )}
 
-                              {bucket.lockedTasks.length > 0 && (
-                                <div className="space-y-1.5">
-                                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">Locked tasks</p>
-                                  <ol className="space-y-1.5">
-                                    {bucket.lockedTasks.map((task) => (
+                                <div className="mt-3 space-y-3">
+                                  {bucket.openTasks.map((task) => {
+                                    const taskIsDone = task.computedStatus === 'done';
+                                    const taskStatusLabel = getTaskStatusLabel(task);
+
+                                    return (
                                       <li
                                         key={task.id}
-                                        className="rounded-xl border border-gray-200 bg-gray-50/90 px-3 py-2.5 text-gray-500 dark:border-dark-border dark:bg-dark-border/30 dark:text-gray-400 opacity-80"
+                                        className={`rounded-xl border px-3 py-2.5 transition ${taskIsDone
+                                          ? 'border-emerald-200 bg-emerald-50/70 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100'
+                                          : 'border-primary/15 bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 shadow-[0_1px_0_rgba(15,23,42,0.03)]'
+                                          }`}
                                       >
                                         <div className="flex items-start justify-between gap-3">
                                           <div className="min-w-0">
-                                            <p className="text-sm font-semibold leading-5 text-gray-600 dark:text-gray-300">
+                                            <p className={`text-sm font-semibold leading-5 ${taskIsDone ? 'text-emerald-900 dark:text-emerald-100' : 'text-gray-900 dark:text-gray-100'}`}>
                                               {capitalizeFirst(task.title)}
                                             </p>
                                             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                              <span className="font-semibold text-gray-500 dark:text-gray-300">Status:</span> {getTaskStatusLabel(task)}
+                                              <span className="font-semibold text-gray-600 dark:text-gray-300">Status:</span> {taskStatusLabel}
                                               {task.priority ? ` • Priority: ${task.priority}` : ''}
                                               {task.collaborators?.length ? ` • With: ${task.collaborators.join(', ')}` : ''}
                                             </p>
                                           </div>
-                                          <span className="shrink-0 rounded-full border border-gray-200 bg-gray-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:border-dark-border dark:bg-dark-border/50 dark:text-gray-400">
-                                            Locked
+                                          <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${taskIsDone
+                                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/10 dark:text-emerald-200'
+                                            : 'border-primary/20 bg-primary/5 text-primary'
+                                            }`}>
+                                            {taskStatusLabel}
                                           </span>
                                         </div>
                                       </li>
-                                    ))}
-                                  </ol>
+                                    );
+                                  })}
+
+                                  {bucket.openTasks.length > 0 && bucket.lockedTasks.length > 0 && (
+                                    <div className="border-t border-dashed border-gray-200 dark:border-dark-border/70 pt-3" />
+                                  )}
+
+                                  {bucket.lockedTasks.map((task) => (
+                                    <li
+                                      key={task.id}
+                                      className="rounded-xl border border-gray-200 bg-gray-50/90 px-3 py-2.5 text-gray-500 dark:border-dark-border dark:bg-dark-border/30 dark:text-gray-400 opacity-80"
+                                    >
+                                      <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                          <p className="text-sm font-semibold leading-5 text-gray-600 dark:text-gray-300">
+                                            {capitalizeFirst(task.title)}
+                                          </p>
+                                          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold text-gray-500 dark:text-gray-300">Status:</span> {getTaskStatusLabel(task)}
+                                            {task.priority ? ` • Priority: ${task.priority}` : ''}
+                                            {task.collaborators?.length ? ` • With: ${task.collaborators.join(', ')}` : ''}
+                                          </p>
+                                        </div>
+                                        <span className="shrink-0 rounded-full border border-gray-200 bg-gray-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500 dark:border-dark-border dark:bg-dark-border/50 dark:text-gray-400">
+                                          Locked
+                                        </span>
+                                      </div>
+                                    </li>
+                                  ))}
                                 </div>
-                              )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
