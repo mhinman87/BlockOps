@@ -88,16 +88,18 @@ const launchStageDefinitions = [
   {
     key: 'm1',
     phase: 'M1',
-    title: 'Internal mock-run ready',
-    description: 'The system is built enough to simulate a real client from start to finish without breaking.',
+    title: 'Fake client through the system',
+    description: 'Complete when a fake client can move end-to-end through the workflow without major breaks. Everything before this is considered closed out.',
+    completion: 'Fake client can move from intake to closeout without the system breaking.',
     owner: 'Max',
     milestoneSlugs: ['m1-mock-run-build-ready'],
   },
   {
     key: 'm2',
     phase: 'M2',
-    title: 'Internal mock client run complete',
-    description: 'The fake client actually runs through the system and the obvious problems get fixed.',
+    title: 'Repeat the fake-client run',
+    description: 'Complete when the fake-client run is repeatable, measured, and the obvious friction points are resolved.',
+    completion: 'The run can be repeated with clear benchmarks and known problem spots fixed.',
     owner: 'Max',
     milestoneSlugs: ['m2-mock-run-complete'],
   },
@@ -105,7 +107,8 @@ const launchStageDefinitions = [
     key: 'm3',
     phase: 'M3',
     title: 'Trusted clinical validation complete',
-    description: 'Known anesthesiologists review the system, point out holes, and help stress-test it.',
+    description: 'Complete when trusted anesthesiologists have reviewed the workflow, called out gaps, and helped close the biggest risks.',
+    completion: 'Trusted reviewers have validated the system and the gaps are reduced to a manageable list.',
     owner: 'Samir',
     milestoneSlugs: ['m3-trusted-anesthesiologist-validation', 'm4-validation-closed'],
   },
@@ -113,7 +116,8 @@ const launchStageDefinitions = [
     key: 'm4',
     phase: 'M4',
     title: 'Founding partner ready',
-    description: 'The legal, clinical, and commercial package is safe and clear enough for a real founding partner.',
+    description: 'Complete when the package is clear, safe, and ready for a real founding partner to review and sign.',
+    completion: 'The legal, clinical, and commercial package is ready for a founding partner.',
     owner: 'Adrian',
     milestoneSlugs: ['m5-founding-partner-ready'],
   },
@@ -121,7 +125,8 @@ const launchStageDefinitions = [
     key: 'm5',
     phase: 'M5',
     title: 'First founding partner live',
-    description: 'The first founding partner is signed and actively onboarded in a working setup.',
+    description: 'Complete when the first founding partner is signed, onboarded, and actively running in the system.',
+    completion: 'A founding partner is live in the working setup.',
     owner: 'Adrian',
     milestoneSlugs: ['m6-first-founding-partner-signed', 'm7-first-founding-partner-live'],
   },
@@ -129,7 +134,8 @@ const launchStageDefinitions = [
     key: 'm6',
     phase: 'M6',
     title: 'Paid-client ready',
-    description: 'The system has proven enough that it can support a real paid client safely.',
+    description: 'Complete when the system is stable enough to support a real paid client without improvising the process.',
+    completion: 'The system is ready for paid-client delivery.',
     owner: 'Max',
     milestoneSlugs: ['m8-additional-founding-partners', 'm9-paid-client-readiness'],
   },
@@ -137,13 +143,12 @@ const launchStageDefinitions = [
     key: 'm7',
     phase: 'M7',
     title: 'First paid client',
-    description: 'The first real paid client is signed and enters delivery.',
+    description: 'Complete when the first real paid client is signed and fully enters delivery.',
+    completion: 'The first paid client is live and being delivered.',
     owner: 'Adrian',
     milestoneSlugs: ['m10-first-paid-client'],
   },
 ];
-
-const formatStatusLabel = (value) => (value || '').replaceAll('_', ' ');
 
 
 export const DashboardHome = () => {
@@ -244,6 +249,7 @@ export const DashboardHome = () => {
   const currentStageKey = launchStages.find((stage) => stage.milestoneSlugs.includes(currentMilestone?.slug))?.key
     || launchStages[0]?.key
     || '';
+  const currentStageIndex = launchStages.findIndex((stage) => stage.key === currentStageKey);
 
   useEffect(() => {
     if (hasSeededAccordion || !currentStageKey) return;
@@ -329,9 +335,9 @@ export const DashboardHome = () => {
       <div className={`${dashboardCard} p-5 mb-6`}>
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Launch Gate Progress</h2>
+            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-1">Milestones</h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              7 stages. Expand each one to see the tasks, owners, and milestone details.
+              Completion moves us toward the next milestone. Expand each one for tasks, owners, and completion criteria.
             </p>
           </div>
           <span className="inline-flex items-center rounded-full border border-gray-200 dark:border-dark-border bg-white/80 dark:bg-dark-bg/70 px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400">
@@ -342,13 +348,19 @@ export const DashboardHome = () => {
         <div className="space-y-3">
           {loading ? (
             <p className="text-sm text-gray-400 dark:text-gray-500">Loading launch milestones...</p>
-          ) : launchStages.map((stage) => {
+          ) : launchStages.map((stage, index) => {
             const isOpen = openStageKeys.includes(stage.key);
+            const stageState = index < currentStageIndex ? 'complete' : index === currentStageIndex ? 'active' : 'locked';
+            const stageStyles = stageState === 'active'
+              ? 'border-primary/30 bg-primary/5 shadow-sm'
+              : stageState === 'complete'
+                ? 'border-emerald-200 bg-emerald-50/50 dark:bg-emerald-950/10'
+                : 'border-gray-200 dark:border-dark-border bg-gray-50/60 dark:bg-dark-bg/50 opacity-80';
 
             return (
               <div
                 key={stage.key}
-                className={`overflow-hidden rounded-2xl border bg-white dark:bg-dark-card transition ${isOpen ? 'border-primary/30 shadow-sm' : 'border-gray-200 dark:border-dark-border'}`}
+                className={`overflow-hidden rounded-2xl border transition ${stageStyles}`}
               >
                 <button
                   type="button"
@@ -357,49 +369,55 @@ export const DashboardHome = () => {
                       ? current.filter((key) => key !== stage.key)
                       : [...current, stage.key]
                   ))}
-                  className="flex w-full items-start justify-between gap-4 p-4 text-left hover:bg-gray-50/80 dark:hover:bg-dark-border/30 transition"
+                  className="flex w-full items-start justify-between gap-3 px-4 py-3 text-left transition hover:bg-black/3 dark:hover:bg-white/5"
                   aria-expanded={isOpen}
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em]">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${stageState === 'locked' ? 'bg-gray-200 text-gray-600 dark:bg-dark-border dark:text-gray-400' : stageState === 'complete' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}`}>
                         {stage.phase}
                       </span>
                       <h3 className="min-w-0 text-sm font-semibold text-gray-900 dark:text-gray-100">
                         {stage.title}
                       </h3>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] ${stageState === 'locked' ? 'bg-gray-100 text-gray-500 dark:bg-dark-border dark:text-gray-400' : stageState === 'complete' ? 'bg-emerald-100 text-emerald-700' : 'bg-primary/10 text-primary'}`}>
+                        {stageState}
+                      </span>
                     </div>
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 leading-5">
+                    <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400 leading-5">
                       {stage.description}
                     </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                    <p className="mt-2 text-[11px] leading-5 text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Completion means:</span> {stage.completion}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2 py-0.5 text-[10px] font-semibold text-gray-600 dark:text-gray-300">
                         Lead: {stage.owner}
                       </span>
-                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2 py-0.5 text-[10px] font-semibold text-gray-600 dark:text-gray-300">
                         {stage.totalTasks} tasks
                       </span>
-                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2.5 py-1 text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                      <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2 py-0.5 text-[10px] font-semibold text-gray-600 dark:text-gray-300">
                         {stage.doneCount} done
                       </span>
                       {stage.blockedCount > 0 && (
-                        <span className="inline-flex items-center rounded-full bg-red-50 text-red-700 border border-red-100 px-2.5 py-1 text-[11px] font-semibold">
+                        <span className="inline-flex items-center rounded-full bg-red-50 text-red-700 border border-red-100 px-2 py-0.5 text-[10px] font-semibold">
                           {stage.blockedCount} blocked
                         </span>
                       )}
-                      <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-1 text-[11px] font-semibold">
+                      <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 px-2 py-0.5 text-[10px] font-semibold">
                         {stage.progress}% complete
                       </span>
                     </div>
                   </div>
-                  <div className="flex shrink-0 items-center gap-2 pt-1">
+                  <div className="flex shrink-0 items-center gap-2 pt-0.5">
                     <span className="text-sm font-bold text-primary">{stage.progress}%</span>
                     <ChevronDown size={16} className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="border-t border-gray-200 dark:border-dark-border bg-gray-50/70 dark:bg-dark-bg/40 p-4 space-y-3">
+                  <div className="border-t border-gray-200 dark:border-dark-border bg-white/70 dark:bg-dark-bg/40 px-4 py-3 space-y-3">
                     <div className="flex flex-wrap gap-2">
                       {stage.milestones.map((milestone) => (
                         <span
@@ -411,41 +429,60 @@ export const DashboardHome = () => {
                       ))}
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2.5">
                       {stage.milestones.map((milestone) => {
                         const milestoneTasks = stage.tasks.filter((task) => task.milestoneId === milestone.id);
 
                         return (
                           <div key={milestone.id} className="rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-3">
-                            <div className="flex items-center justify-between gap-3 mb-3">
+                            <div className="flex items-center justify-between gap-3 mb-2.5">
                               <div className="min-w-0">
                                 <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{milestone.title}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">{milestoneTasks.length} task{milestoneTasks.length === 1 ? '' : 's'}</p>
+                                <p className="text-[11px] text-gray-500 dark:text-gray-400">{milestoneTasks.length} task{milestoneTasks.length === 1 ? '' : 's'}</p>
                               </div>
                             </div>
 
                             {milestoneTasks.length === 0 ? (
                               <p className="text-sm text-gray-400 dark:text-gray-500 font-light">No tasks loaded for this phase yet.</p>
                             ) : (
-                              <ol className="space-y-2">
-                                {milestoneTasks.map((task) => (
-                                  <li key={task.id} className="rounded-xl border border-gray-100 dark:border-dark-border bg-gray-50/80 dark:bg-dark-border/30 px-3 py-3">
-                                    <div className="flex items-start justify-between gap-3">
-                                      <div className="min-w-0">
-                                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-5">
-                                          {capitalizeFirst(task.title)}
-                                        </p>
-                                        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                          Owner: {task.primaryOwner}
-                                          {task.collaborators?.length ? ` • Collaborators: ${task.collaborators.join(', ')}` : ''}
-                                        </p>
+                              <ol className="space-y-1.5">
+                                {milestoneTasks.map((task) => {
+                                  const isDone = task.computedStatus === 'done';
+                                  const isLocked = stageState === 'locked' || task.computedStatus === 'locked';
+                                  const isBlocked = task.computedStatus === 'blocked';
+
+                                  return (
+                                    <li
+                                      key={task.id}
+                                      className={`rounded-xl border px-3 py-2.5 transition ${isDone
+                                        ? 'border-emerald-200 bg-emerald-50/70 text-emerald-900 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-100'
+                                        : isLocked || isBlocked
+                                          ? 'border-gray-200 bg-gray-50/90 text-gray-500 dark:border-dark-border dark:bg-dark-border/30 dark:text-gray-400 opacity-75'
+                                          : 'border-primary/15 bg-white dark:bg-dark-card text-gray-900 dark:text-gray-100 shadow-[0_1px_0_rgba(15,23,42,0.03)]'
+                                        }`}>
+
+                                      <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                          <p className={`text-sm font-semibold leading-5 ${isDone ? 'text-emerald-900 dark:text-emerald-100' : isLocked || isBlocked ? 'text-gray-600 dark:text-gray-300' : 'text-gray-900 dark:text-gray-100'}`}>
+                                            {capitalizeFirst(task.title)}
+                                          </p>
+                                          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                            Owner: {task.primaryOwner}
+                                            {task.collaborators?.length ? ` • Collaborators: ${task.collaborators.join(', ')}` : ''}
+                                          </p>
+                                        </div>
+                                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${isDone
+                                          ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/10 dark:text-emerald-200'
+                                          : isLocked || isBlocked
+                                            ? 'border-gray-200 bg-gray-100 text-gray-500 dark:border-dark-border dark:bg-dark-border/50 dark:text-gray-400'
+                                            : 'border-primary/20 bg-primary/5 text-primary'
+                                          }`}>
+                                          {isDone ? 'Done' : isLocked ? 'Locked' : isBlocked ? 'Blocked' : 'Active'}
+                                        </span>
                                       </div>
-                                      <span className="shrink-0 rounded-full border border-gray-200 dark:border-dark-border bg-white/90 dark:bg-dark-card px-2.5 py-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
-                                        {formatStatusLabel(task.computedStatus || task.status)}
-                                      </span>
-                                    </div>
-                                  </li>
-                                ))}
+                                    </li>
+                                  );
+                                })}
                               </ol>
                             )}
                           </div>
