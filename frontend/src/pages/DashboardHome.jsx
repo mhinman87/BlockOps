@@ -270,7 +270,7 @@ export const DashboardHome = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 gap-4 mb-6">
         <div className={`${dashboardCard} p-5`}>
           <div className="flex items-end justify-between gap-3 mb-4">
             <div>
@@ -282,7 +282,7 @@ export const DashboardHome = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 items-stretch">
             {currentPriorities.map((person) => (
               <div
                 key={person.name}
@@ -323,7 +323,7 @@ export const DashboardHome = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
+          <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 items-stretch">
             {currentTasksByPerson.map((person) => (
               <div
                 key={person.name}
