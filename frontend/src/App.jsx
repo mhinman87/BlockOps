@@ -6,6 +6,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { CompanyPage } from './pages/CompanyPage';
+import { ContactPage } from './pages/ContactPage';
 import { DashboardHome } from './pages/DashboardHome';
 import { KnowledgeLibraryPage } from './pages/KnowledgeLibraryPage';
 import { DeliverablesPage } from './pages/DeliverablesPage';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/company" element={<CompanyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
 
