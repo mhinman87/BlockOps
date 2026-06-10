@@ -13,6 +13,9 @@ export default function BlockOpsChatWidget() {
 
     return () => {
       if (document.body.contains(script)) document.body.removeChild(script);
+      document
+        .querySelectorAll(`iframe[src^="${CHATBOT_URL}/widget-frame"]`)
+        .forEach((iframe) => iframe.remove());
       delete window.IceCapChatConfig;
     };
   }, []);
