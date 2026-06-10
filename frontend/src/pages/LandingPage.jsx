@@ -29,6 +29,45 @@ export const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
+  // ── Free-assessment lead form ──────────────────────────────
+  const LEAD_ENDPOINT = 'https://admin.blockops.consulting/api/inbound/website-lead';
+  const emptyLead = {
+    name: '', title: '', email: '', phone: '',
+    facilityName: '', facilityType: '', message: '',
+    company_website: '', // honeypot — leave blank
+  };
+  const [lead, setLead] = useState(emptyLead);
+  const [leadStatus, setLeadStatus] = useState('idle'); // idle | submitting | success | error
+  const [leadError, setLeadError] = useState('');
+  const onLeadChange = (e) => setLead((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const submitLead = async (e) => {
+    e.preventDefault();
+    if (!lead.name.trim() || !lead.email.trim()) {
+      setLeadError('Please enter your name and email.');
+      setLeadStatus('error');
+      return;
+    }
+    setLeadStatus('submitting');
+    setLeadError('');
+    try {
+      const res = await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(lead),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Submission failed.');
+      }
+      setLeadStatus('success');
+      setLead(emptyLead);
+    } catch (err) {
+      setLeadError(err.message || 'Something went wrong. Please try again.');
+      setLeadStatus('error');
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -804,47 +843,102 @@ export const LandingPage = () => {
             {/* Right — Contact Form */}
             <div className="bg-white rounded-xl p-6 sm:p-8 shadow-2xl">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Schedule Your Free Assessment</h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Title / Role"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
-                  />
+
+              {leadStatus === 'success' ? (
+                <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-center">
+                  <p className="text-base font-bold text-green-800">Thank you — we've got it.</p>
+                  <p className="text-sm text-green-700 font-light mt-2">
+                    A member of our team will reach out shortly to schedule your free assessment. Check your inbox for a confirmation.
+                  </p>
                 </div>
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
-                />
-                <input
-                  type="text"
-                  placeholder="Facility Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
-                />
-                <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm text-gray-500 normal-case tracking-normal bg-white">
-                  <option value="">Facility Type</option>
-                  <option value="hospital">Hospital</option>
-                  <option value="asc">Ambulatory Surgery Center</option>
-                  <option value="other">Other</option>
-                </select>
-                <textarea
-                  placeholder="Tell us about your current anesthesia program and goals (optional)"
-                  rows="3"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
-                ></textarea>
-                <button
-                  type="submit"
-                  className="w-full bg-gray-900 text-white py-3.5 rounded-lg hover:bg-gray-800 transition font-bold text-sm shadow-lg"
-                >
-                  Request Free Assessment
-                </button>
-              </form>
+              ) : (
+                <form className="space-y-4" onSubmit={submitLead}>
+                  {/* Honeypot — hidden from real users */}
+                  <input
+                    type="text"
+                    name="company_website"
+                    value={lead.company_website}
+                    onChange={onLeadChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="name"
+                      value={lead.name}
+                      onChange={onLeadChange}
+                      placeholder="Your Name *"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                    />
+                    <input
+                      type="text"
+                      name="title"
+                      value={lead.title}
+                      onChange={onLeadChange}
+                      placeholder="Title / Role"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="email"
+                      name="email"
+                      value={lead.email}
+                      onChange={onLeadChange}
+                      placeholder="Email Address *"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                    />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={lead.phone}
+                      onChange={onLeadChange}
+                      placeholder="Phone (optional)"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    name="facilityName"
+                    value={lead.facilityName}
+                    onChange={onLeadChange}
+                    placeholder="Facility Name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                  />
+                  <select
+                    name="facilityType"
+                    value={lead.facilityType}
+                    onChange={onLeadChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm text-gray-500 normal-case tracking-normal bg-white"
+                  >
+                    <option value="">Facility Type</option>
+                    <option value="hospital">Hospital</option>
+                    <option value="asc">Ambulatory Surgery Center</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <textarea
+                    name="message"
+                    value={lead.message}
+                    onChange={onLeadChange}
+                    placeholder="Tell us about your current anesthesia program and goals (optional)"
+                    rows="3"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                  ></textarea>
+                  {leadStatus === 'error' && (
+                    <p className="text-sm text-red-600 font-light">{leadError}</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={leadStatus === 'submitting'}
+                    className="w-full bg-gray-900 text-white py-3.5 rounded-lg hover:bg-gray-800 transition font-bold text-sm shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {leadStatus === 'submitting' ? 'Sending…' : 'Request Free Assessment'}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
