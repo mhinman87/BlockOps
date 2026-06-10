@@ -312,20 +312,23 @@ export const LandingPage = () => {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              <a href="#approach" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <a href="#approach" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
                 Approach
               </a>
-              <a href="#results" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <a href="#results" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
                 Results
               </a>
-              <a href="#who-we-serve" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <a href="#who-we-serve" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
                 Who We Serve
               </a>
-              <a href="#about" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <a href="#about" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
                 About
               </a>
-              <Link to="/blog" className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm">
+              <Link to="/blog" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
                 Blog
+              </Link>
+              <Link to="/contact" className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm">
+                Contact
               </Link>
               <Link
                 to="/login"
@@ -354,11 +357,12 @@ export const LandingPage = () => {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-200">
               <div className="flex flex-col space-y-4">
-                <a href="#approach" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Approach</a>
-                <a href="#results" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Results</a>
-                <a href="#who-we-serve" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Who We Serve</a>
-                <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">About</a>
-                <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 hover:text-primary transition font-bold uppercase tracking-wide text-sm px-4 py-2">Blog</Link>
+                <a href="#approach" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">Approach</a>
+                <a href="#results" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">Results</a>
+                <a href="#who-we-serve" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">Who We Serve</a>
+                <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">About</a>
+                <Link to="/blog" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">Blog</Link>
+                <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="text-primary hover:opacity-70 transition font-bold uppercase tracking-wide text-sm px-4 py-2">Contact</Link>
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mx-4 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-bold uppercase tracking-wide text-sm text-center">Client Login</Link>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="mx-4 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-bold uppercase tracking-wide text-sm text-center">Free Consultation</a>
               </div>

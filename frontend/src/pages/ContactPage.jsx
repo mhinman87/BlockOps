@@ -86,12 +86,12 @@ export const ContactPage = () => {
         </div>
       </nav>
 
-      {/* ── Hero band ───────────────────────────────── */}
-      <section className="pt-28 sm:pt-32 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 bg-gray-900">
+      {/* ── Hero band (light) ───────────────────────── */}
+      <section className="pt-28 sm:pt-32 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-primary font-bold uppercase tracking-[0.12em] text-xs sm:text-sm mb-4">Contact</p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight mb-5">Let's Talk</h1>
-          <p className="max-w-2xl mx-auto text-base sm:text-lg text-gray-300 font-light leading-relaxed normal-case tracking-normal">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-gray-900 uppercase tracking-tight mb-5">Let's Talk</h1>
+          <p className="max-w-2xl mx-auto text-base sm:text-lg text-gray-600 font-light leading-relaxed normal-case tracking-normal">
             Tell us about your facility and where you want your regional anesthesia program to go. We'll get back to you within one business day.
           </p>
         </div>
