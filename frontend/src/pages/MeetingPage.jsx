@@ -107,13 +107,13 @@ export const MeetingPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Weekly Meeting</h1>
-            <p className="text-gray-500 mt-1">Team agenda, action items, and progress tracking</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Weekly Meeting</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Team agenda, action items, and progress tracking</p>
           </div>
           <button
             onClick={fetchMeetings}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-primary bg-white border border-gray-200 rounded-lg hover:border-primary/30 transition"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary bg-white border border-gray-200 dark:border-dark-border rounded-lg hover:border-primary/30 transition"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
             Refresh
@@ -122,9 +122,9 @@ export const MeetingPage = () => {
 
         {/* Loading */}
         {loading && (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-12 text-center">
             <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
-            <p className="text-sm text-gray-500">Loading meetings...</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Loading meetings...</p>
           </div>
         )}
 
@@ -143,11 +143,11 @@ export const MeetingPage = () => {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="text-lg font-bold text-gray-900">{latestMeeting.title}</p>
+                        <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{latestMeeting.title}</p>
                         <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">LATEST</span>
                       </div>
                       {latestMeeting.subtitle && (
-                        <p className="text-sm text-gray-500 font-light mt-0.5">{latestMeeting.subtitle}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-light mt-0.5">{latestMeeting.subtitle}</p>
                       )}
                     </div>
                   </div>
@@ -157,10 +157,10 @@ export const MeetingPage = () => {
             )}
 
             {/* Meeting History */}
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border overflow-hidden">
               <div className="p-5 border-b border-gray-100">
-                <p className="text-lg font-bold text-gray-900">Meeting History</p>
-                <p className="text-xs text-gray-500">{meetings.length} document{meetings.length !== 1 ? 's' : ''}</p>
+                <p className="text-lg font-bold text-gray-900 dark:text-gray-100">Meeting History</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{meetings.length} document{meetings.length !== 1 ? 's' : ''}</p>
               </div>
               {meetings.length > 0 ? (
                 meetings.map((doc, idx) => (
@@ -170,17 +170,17 @@ export const MeetingPage = () => {
                     className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== meetings.length - 1 ? 'border-b border-gray-50' : ''}`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <FileText size={16} className="text-gray-400 flex-shrink-0" />
+                      <FileText size={16} className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{doc.title}</p>
                         {doc.subtitle && (
-                          <p className="text-xs text-gray-400 font-light truncate">{doc.subtitle}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 font-light truncate">{doc.subtitle}</p>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                       {doc.date && (
-                        <span className="text-xs text-gray-400 font-light">{doc.date}</span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500 font-light">{doc.date}</span>
                       )}
                       <ChevronRight size={14} className="text-gray-300" />
                     </div>
@@ -188,7 +188,7 @@ export const MeetingPage = () => {
                 ))
               ) : (
                 <div className="p-8 text-center">
-                  <p className="text-sm text-gray-400">No meeting documents found</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-500">No meeting documents found</p>
                 </div>
               )}
             </div>

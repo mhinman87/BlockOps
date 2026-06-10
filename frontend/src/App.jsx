@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { ActiveSiteProvider } from './contexts/ActiveSiteContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
@@ -15,6 +17,8 @@ import { LeadsPage } from './pages/LeadsPage';
 import { OperationsPage } from './pages/OperationsPage';
 import { TasksPage } from './pages/TasksPage';
 import { BusinessPage } from './pages/BusinessPage';
+import { LegalPage } from './pages/LegalPage';
+import { AgentKnowledgePage } from './pages/AgentKnowledgePage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -22,8 +26,10 @@ import { ChatbotPage } from './pages/ChatbotPage';
 
 function App() {
   return (
+    <ThemeProvider>
     <Router>
       <AuthProvider>
+        <ActiveSiteProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -45,12 +51,16 @@ function App() {
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
           <Route path="/dashboard/chatbot" element={<ProtectedRoute><ChatbotPage /></ProtectedRoute>} />
+          <Route path="/dashboard/legal" element={<ProtectedRoute><LegalPage /></ProtectedRoute>} />
+          <Route path="/dashboard/agent-knowledge" element={<ProtectedRoute><AgentKnowledgePage /></ProtectedRoute>} />
 
           {/* Catch all */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </ActiveSiteProvider>
       </AuthProvider>
     </Router>
+    </ThemeProvider>
   );
 }
 

@@ -233,7 +233,7 @@ export const LandingPage = () => {
       description: 'Board-certified anesthesiologist specializing in regional anesthesia techniques. Leads all clinical architecture, protocol development, and on-site implementation.',
     },
     {
-      name: 'Adrian',
+      name: 'Adrian Gonzales',
       role: 'Medical Sales',
       description: 'Dedicated to connecting healthcare facilities with the right solutions and guiding them through the engagement process.',
     },

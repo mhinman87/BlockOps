@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { TeamDocViewer } from '../components/TeamDocViewer';
 import { useUserRole } from '../hooks/useUserRole';
-import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Scale, Briefcase, TrendingUp, Eye } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, FolderOpen, RefreshCw, Loader2, Briefcase, TrendingUp, Eye } from 'lucide-react';
 import { supabase } from '../services/supabase';
 
 const parseMarkdownHeader = (text) => {
@@ -35,7 +36,6 @@ const categorizeFile = (fileName) => {
   const lower = fileName.toLowerCase();
   if (lower.includes('strategic') || lower.includes('vision') || lower.includes('operating_model')) return 'Strategy';
   if (lower.includes('pricing') || lower.includes('revenue')) return 'Pricing & Revenue';
-  if (lower.includes('legal') || lower.includes('compliance')) return 'Legal & Compliance';
   if (lower.includes('pitch') || lower.includes('sales') || lower.includes('elevator')) return 'Sales & Outreach';
   return 'Other';
 };
@@ -44,13 +44,19 @@ const CATEGORY_CONFIG = {
   'Strategy': { icon: Eye, color: 'text-primary', order: 0 },
   'Pricing & Revenue': { icon: TrendingUp, color: 'text-green-500', order: 1 },
   'Sales & Outreach': { icon: Briefcase, color: 'text-purple-500', order: 2 },
-  'Legal & Compliance': { icon: Scale, color: 'text-red-400', order: 3 },
-  'Other': { icon: FolderOpen, color: 'text-gray-500', order: 4 },
+  'Other': { icon: FolderOpen, color: 'text-gray-500 dark:text-gray-400', order: 3 },
 };
 
 export const BusinessPage = () => {
   const { isTeam } = useUserRole();
+  const location = useLocation();
   const [openDoc, setOpenDoc] = useState(null);
+
+  useEffect(() => {
+    if (location.state?.reset) {
+      setOpenDoc(null);
+    }
+  }, [location.state]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -168,13 +174,13 @@ export const BusinessPage = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">Business</h1>
-            <p className="text-gray-500 mt-1">Strategy, pricing, legal, and sales materials</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Business</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Strategy, pricing, business development, and operating materials</p>
           </div>
           <button
             onClick={fetchDocs}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-primary bg-white border border-gray-200 rounded-lg hover:border-primary/30 transition"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary bg-white border border-gray-200 dark:border-dark-border rounded-lg hover:border-primary/30 transition"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
             Refresh
@@ -182,24 +188,24 @@ export const BusinessPage = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Documents</p>
-            <p className="text-2xl font-black text-gray-900">{totalDocs}</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Documents</p>
+            <p className="text-2xl font-black text-gray-900 dark:text-gray-100">{totalDocs}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Categories</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Categories</p>
             <p className="text-2xl font-black text-primary">{categories.length}</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Source</p>
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Source</p>
             <p className="text-2xl font-black text-green-500">Live</p>
           </div>
         </div>
 
         {loading && (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+          <div className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border p-12 text-center">
             <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
-            <p className="text-sm text-gray-500">Loading documents from storage...</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Loading documents from storage...</p>
           </div>
         )}
 
@@ -214,16 +220,16 @@ export const BusinessPage = () => {
           const isExpanded = expandedCategories[category.name];
 
           return (
-            <div key={category.name} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div key={category.name} className="bg-white dark:bg-dark-card rounded-xl border border-gray-200 dark:border-dark-border overflow-hidden">
               <button
                 onClick={() => toggleCategory(category.name)}
-                className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition"
+                className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-dark-border/40 transition"
               >
                 <div className="text-left">
-                  <p className="text-lg font-bold text-gray-900">{category.name}</p>
-                  <p className="text-xs text-gray-500">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{category.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{category.docs.length} document{category.docs.length !== 1 ? 's' : ''}</p>
                 </div>
-                {isExpanded ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
+                {isExpanded ? <ChevronDown size={16} className="text-gray-400 dark:text-gray-500" /> : <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />}
               </button>
 
               {isExpanded && (
@@ -235,11 +241,11 @@ export const BusinessPage = () => {
                       className={`w-full flex items-center justify-between px-5 py-4 hover:bg-primary/5 transition text-left ${idx !== category.docs.length - 1 ? 'border-b border-gray-50' : ''}`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <FileText size={16} className="text-gray-400 flex-shrink-0" />
+                        <FileText size={16} className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold text-gray-900 truncate">{doc.title}</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{doc.title}</p>
                           {doc.lastUpdated && (
-                            <p className="text-xs text-gray-400 font-light">Updated {doc.lastUpdated}</p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 font-light">Updated {doc.lastUpdated}</p>
                           )}
                         </div>
                       </div>

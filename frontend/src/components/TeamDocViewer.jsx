@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import MDEditor from '@uiw/react-md-editor';
 import { FileText, Edit3, Save, X, Loader2, CheckCircle2, AlertTriangle, Shield, Tag, Eye } from 'lucide-react';
 import { supabase } from '../services/supabase';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SUPABASE_URL = 'https://msnwupckhoomeiqxfbts.supabase.co';
 
@@ -13,46 +14,46 @@ const MarkdownComponents = {
     <div className="mb-8 mt-10 first:mt-0">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-1.5 h-8 bg-primary rounded-full flex-shrink-0"></div>
-        <h1 className="text-2xl font-bold text-gray-900 leading-tight">{children}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 leading-tight">{children}</h1>
       </div>
-      <div className="h-px bg-gray-200 mt-3"></div>
+      <div className="h-px bg-gray-200 dark:bg-dark-border mt-3"></div>
     </div>
   ),
   h2: ({ children }) => (
     <div className="mb-5 mt-8">
-      <h2 className="text-xl font-bold text-gray-800 pb-2 border-b border-gray-100">{children}</h2>
+      <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 pb-2 border-b border-gray-100 dark:border-dark-border">{children}</h2>
     </div>
   ),
   h3: ({ children }) => (
-    <h3 className="text-lg font-bold text-gray-800 mt-6 mb-3">{children}</h3>
+    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mt-6 mb-3">{children}</h3>
   ),
   h4: ({ children }) => (
-    <h4 className="text-base font-bold text-gray-700 mt-5 mb-2">{children}</h4>
+    <h4 className="text-base font-bold text-gray-700 dark:text-gray-300 mt-5 mb-2">{children}</h4>
   ),
   p: ({ children }) => (
-    <p className="text-sm text-gray-700 font-light leading-relaxed mb-3">{children}</p>
+    <p className="text-sm text-gray-700 dark:text-gray-300 font-light leading-relaxed mb-3">{children}</p>
   ),
   blockquote: ({ children }) => (
-    <div className="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg px-5 py-4 my-5">
-      <div className="text-sm font-semibold text-amber-900 leading-relaxed [&>p]:mb-0 [&>p]:text-amber-900 [&>p]:font-semibold">{children}</div>
+    <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 rounded-r-lg px-5 py-4 my-5">
+      <div className="text-sm font-semibold text-amber-900 dark:text-amber-300 leading-relaxed [&>p]:mb-0 [&>p]:text-amber-900 [&>p]:dark:text-amber-300 [&>p]:font-semibold">{children}</div>
     </div>
   ),
   table: ({ children }) => (
-    <div className="my-5 overflow-x-auto rounded-lg border border-gray-200">
+    <div className="my-5 overflow-x-auto rounded-lg border border-gray-200 dark:border-dark-border">
       <table className="w-full text-sm">{children}</table>
     </div>
   ),
   thead: ({ children }) => (
-    <thead className="bg-gray-800 text-white">{children}</thead>
+    <thead className="bg-gray-800 dark:bg-gray-900 text-white">{children}</thead>
   ),
   th: ({ children }) => (
     <th className="px-4 py-2.5 text-left text-xs font-bold uppercase tracking-wider">{children}</th>
   ),
   tr: ({ children }) => (
-    <tr className="border-b border-gray-100 even:bg-gray-50 hover:bg-primary/5 transition">{children}</tr>
+    <tr className="border-b border-gray-100 dark:border-dark-border even:bg-gray-50 dark:even:bg-[#1e2235] hover:bg-primary/5 dark:hover:bg-primary/10 transition">{children}</tr>
   ),
   td: ({ children }) => (
-    <td className="px-4 py-2.5 text-sm text-gray-700 font-light">{children}</td>
+    <td className="px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 font-light">{children}</td>
   ),
   ul: ({ children }) => (
     <ul className="space-y-1.5 my-3 ml-1">{children}</ul>
@@ -66,31 +67,31 @@ const MarkdownComponents = {
       const checked = text.startsWith('☑') || text.includes('[x]');
       return (
         <li className="flex items-start gap-3 py-1.5 px-3 bg-gray-50 rounded-lg">
-          <div className={`w-5 h-5 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${checked ? 'bg-green-500 border-green-500' : 'border-gray-300 bg-white'}`}>
+          <div className={`w-5 h-5 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${checked ? 'bg-green-500 border-green-500' : 'border-gray-300 dark:border-dark-border bg-white dark:bg-dark-card'}`}>
             {checked && <CheckCircle2 size={14} className="text-white" />}
           </div>
-          <span className="text-sm text-gray-700 font-light leading-relaxed">{children}</span>
+          <span className="text-sm text-gray-700 dark:text-gray-300 font-light leading-relaxed">{children}</span>
         </li>
       );
     }
     return (
       <li className="flex items-start gap-2 text-sm">
         <span className="text-primary font-bold flex-shrink-0 mt-1">•</span>
-        <span className="text-gray-700 font-light leading-relaxed">{children}</span>
+        <span className="text-gray-700 dark:text-gray-300 font-light leading-relaxed">{children}</span>
       </li>
     );
   },
   strong: ({ children }) => (
-    <strong className="font-semibold text-gray-900">{children}</strong>
+    <strong className="font-semibold text-gray-900 dark:text-gray-100">{children}</strong>
   ),
   em: ({ children }) => (
-    <em className="text-gray-500 italic">{children}</em>
+    <em className="text-gray-500 dark:text-gray-400 italic">{children}</em>
   ),
   hr: () => (
     <div className="my-8 flex items-center gap-3">
-      <div className="flex-1 h-px bg-gray-200"></div>
+      <div className="flex-1 h-px bg-gray-200 dark:bg-dark-border"></div>
       <div className="w-2 h-2 bg-primary/30 rounded-full"></div>
-      <div className="flex-1 h-px bg-gray-200"></div>
+      <div className="flex-1 h-px bg-gray-200 dark:bg-dark-border"></div>
     </div>
   ),
   code: ({ children, className }) => {
@@ -106,6 +107,7 @@ const MarkdownComponents = {
 };
 
 export const TeamDocViewer = ({ storagePath, title, description, version, isTeam }) => {
+  const { dark } = useTheme();
   const [content, setContent] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [loading, setLoading] = useState(true);
@@ -172,7 +174,7 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-xl overflow-hidden">
       {/* Document Header */}
       <div className="bg-gray-900 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -194,16 +196,16 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
       </div>
 
       {/* Title Area */}
-      <div className="px-6 py-5 border-b border-gray-200">
+      <div className="px-6 py-5 border-b border-gray-200 dark:border-dark-border">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">{title}</h1>
-            {description && <p className="text-sm text-gray-500 font-light mt-1">{description}</p>}
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
+            {description && <p className="text-sm text-gray-500 dark:text-gray-400 font-light mt-1">{description}</p>}
           </div>
           {isTeam && !editing && (
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-semibold"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-dark-card text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-dark-border rounded-lg hover:bg-gray-50 dark:hover:bg-dark-border/40 transition text-sm font-semibold"
             >
               <Edit3 size={16} />
               Edit
@@ -213,7 +215,7 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
             <div className="flex items-center gap-2">
               <button
                 onClick={handleCancel}
-                className="inline-flex items-center gap-2 px-4 py-2 text-gray-500 hover:text-gray-700 transition text-sm font-semibold"
+                className="inline-flex items-center gap-2 px-4 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition text-sm font-semibold"
               >
                 <X size={16} />
                 Cancel
@@ -233,8 +235,8 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
 
       {/* Error Banner */}
       {error && (
-        <div className="px-6 py-2 bg-red-50 border-b border-red-200">
-          <span className="text-xs font-semibold text-red-700">{error}</span>
+        <div className="px-6 py-2 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/40">
+          <span className="text-xs font-semibold text-red-700 dark:text-red-300">{error}</span>
         </div>
       )}
 
@@ -245,7 +247,7 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
             <Loader2 className="animate-spin text-primary" size={32} />
           </div>
         ) : editing ? (
-          <div data-color-mode="light">
+          <div data-color-mode={dark ? 'dark' : 'light'}>
             <MDEditor
               value={editContent}
               onChange={setEditContent}
@@ -265,12 +267,12 @@ export const TeamDocViewer = ({ storagePath, title, description, version, isTeam
       </div>
 
       {/* Footer */}
-      <div className="border-t border-gray-200 px-6 py-4 bg-gray-50 flex items-center justify-between">
+      <div className="border-t border-gray-200 dark:border-dark-border px-6 py-4 bg-gray-50 dark:bg-dark-bg flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Shield className="text-gray-400" size={14} />
-          <span className="text-xs text-gray-400 font-light">Block Ops © {new Date().getFullYear()}</span>
+          <Shield className="text-gray-400 dark:text-gray-500" size={14} />
+          <span className="text-xs text-gray-400 dark:text-gray-500 font-light">Block Ops © {new Date().getFullYear()}</span>
         </div>
-        <span className="text-xs text-gray-400 font-light">Internal — Team Only</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500 font-light">Internal — Team Only</span>
       </div>
     </div>
   );
