@@ -12,15 +12,12 @@ export const ThemeProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (dark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    // The `.dark` class is applied per-route (dashboard only) by ThemeRouteSync
+    // in App.jsx, so the public marketing site stays light regardless of this
+    // preference. Here we only persist the choice.
     try {
       localStorage.setItem('blockops_theme', dark ? 'dark' : 'light');
-    } catch {}
+    } catch { /* ignore */ }
   }, [dark]);
 
   const toggle = () => setDark(prev => !prev);
