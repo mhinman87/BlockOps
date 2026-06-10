@@ -2,31 +2,33 @@
 
 @config "../tailwind.config.js";
 
-/* Global reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer base {
+  /* Global reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-/* Remove all height constraints to allow scrolling */
-html {
-  width: 100%;
-  overflow-x: hidden;
-}
+  /* Remove all height constraints to allow scrolling */
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
 
-body {
-  width: 100%;
-  overflow-x: hidden;
-  background-color: white;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-}
+  body {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
 
-/* Dark mode body */
-.dark body,
-html.dark body {
-  background-color: #1a1d2e;
+  /* Dark mode body */
+  .dark body,
+  html.dark body {
+    background-color: #1a1d2e;
+  }
 }
 
 /* ===== DARK MODE OVERRIDES FOR DASHBOARD ===== */
@@ -249,38 +251,40 @@ html.dark body {
   border-color: rgba(234, 179, 8, 0.3) !important;
 }
 
-#root {
-  width: 100%;
-  overflow-x: hidden;
-}
+@layer base {
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
-h1 {
-  font-weight: 900;
-}
+  h1 {
+    font-weight: 900;
+  }
 
-p, span, div {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
-}
+  p, span, div {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+  }
 
-a {
-  text-decoration: none;
-  font-family: 'Montserrat', sans-serif;
-}
+  a {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+  }
 
-button {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 }
 
 /* Hide default cursor site-wide — custom hex cursor replaces it */
