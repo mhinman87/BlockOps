@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Clock, CheckCircle, Loader2, ArrowRight } from 'lucide-react';
 import MarketingNav from '../components/MarketingNav';
+import BookingWidget from '../components/scheduler/BookingWidget';
 
 const LEAD_ENDPOINT = 'https://admin.blockops.consulting/api/inbound/website-lead';
 
@@ -61,6 +62,20 @@ export const ContactPage = () => {
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-gray-600 font-light leading-relaxed normal-case tracking-normal">
             Tell us about your facility and where you want your regional anesthesia program to go. We'll get back to you within one business day.
           </p>
+        </div>
+      </section>
+
+      {/* ── Book a call (scheduler widget) ──────────── */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
+        <div className="max-w-xl mx-auto text-center mb-8">
+          <p className="text-primary font-bold uppercase tracking-[0.12em] text-xs sm:text-sm mb-3">Book a Call</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 uppercase tracking-tight mb-4">Schedule a Discovery Call</h2>
+          <p className="max-w-lg mx-auto text-base text-gray-600 font-light leading-relaxed normal-case tracking-normal">
+            Pick a time that works for you — 30 minutes, no pitch deck, just a real conversation about your program.
+          </p>
+        </div>
+        <div className="max-w-xl mx-auto">
+          <BookingWidget />
         </div>
       </section>
 
