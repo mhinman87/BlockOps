@@ -23,9 +23,16 @@ const errorClass = 'text-red-500 text-xs mt-1';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Optional lead-qualification options (regional anesthesia consulting).
+const FACILITY_TYPES = ['ASC (Ambulatory Surgery Center)', 'Hospital', 'Hospital system', 'Anesthesia group', 'Physician practice', 'Office-based surgery', 'Other'];
+const ROLES = ['Anesthesiologist', 'CRNA', 'Perioperative / OR director', 'Administrator', 'Chief / Medical director', 'Surgeon', 'Other'];
+const OR_COUNTS = ['1–2', '3–5', '6–10', '11+'];
+const TIMELINES = ['Just exploring', 'Next few months', 'Actively planning'];
+
 export default function DetailsForm({ date, slot, format, period, onBack, onSubmit }) {
   const [form, setForm] = useState({
-    name: '', businessName: '', email: '', phone: '', businessAddress: '', projectDescription: '',
+    name: '', businessName: '', email: '', phone: '', businessAddress: '',
+    facilityType: '', role: '', orCount: '', timeline: '', note: '',
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -36,7 +43,7 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
   const emailOk = EMAIL_RE.test(form.email);
   const isValid =
     form.name.trim() && form.businessName.trim() && emailOk && form.phone.trim() &&
-    form.projectDescription.trim() && (format !== 'in-person' || form.businessAddress.trim());
+    (format !== 'in-person' || form.businessAddress.trim());
 
   function validate() {
     const e = {};
@@ -46,7 +53,6 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
     else if (!emailOk) e.email = 'Invalid email';
     if (!form.phone.trim()) e.phone = 'Required';
     if (format === 'in-person' && !form.businessAddress.trim()) e.businessAddress = 'Required for in-person meetings';
-    if (!form.projectDescription.trim()) e.projectDescription = 'Required';
     return e;
   }
 
@@ -73,7 +79,11 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
           email: form.email,
           phone: form.phone,
           businessAddress: form.businessAddress || undefined,
-          projectDescription: form.projectDescription,
+          facilityType: form.facilityType || undefined,
+          role: form.role || undefined,
+          orCount: form.orCount || undefined,
+          timeline: form.timeline || undefined,
+          note: form.note || undefined,
         }),
       });
       const json = await res.json().catch(() => ({}));
@@ -146,16 +156,51 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
           </div>
         )}
 
-        <div>
-          <label className={labelClass}>What are you looking to build? *</label>
-          <textarea
-            value={form.projectDescription}
-            onChange={update('projectDescription')}
-            rows={4}
-            placeholder="Brief description of what you need — the more detail the better"
-            className={`${inputClass} resize-none leading-relaxed`}
-          />
-          {errors.projectDescription && <p className={errorClass}>{errors.projectDescription}</p>}
+        {/* Facility qualification — all optional */}
+        <div className="pt-2 border-t border-gray-100">
+          <p className="text-gray-700 text-sm font-medium mb-3">Tell us a bit about your facility <span className="text-gray-400 font-normal">(optional)</span></p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>Facility type</label>
+              <select value={form.facilityType} onChange={update('facilityType')} className={`${inputClass} cursor-pointer`}>
+                <option value="">Select…</option>
+                {FACILITY_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Your role</label>
+              <select value={form.role} onChange={update('role')} className={`${inputClass} cursor-pointer`}>
+                <option value="">Select…</option>
+                {ROLES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className={labelClass}>ORs / procedure rooms</label>
+              <select value={form.orCount} onChange={update('orCount')} className={`${inputClass} cursor-pointer`}>
+                <option value="">Select…</option>
+                {OR_COUNTS.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Timeline</label>
+              <select value={form.timeline} onChange={update('timeline')} className={`${inputClass} cursor-pointer`}>
+                <option value="">Select…</option>
+                {TIMELINES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="mt-4">
+            <label className={labelClass}>Anything else?</label>
+            <textarea
+              value={form.note}
+              onChange={update('note')}
+              rows={3}
+              placeholder="What you're hoping to improve, or anything we should know — optional"
+              className={`${inputClass} resize-none leading-relaxed`}
+            />
+          </div>
         </div>
 
         {submitError && (
