@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CRM_API } from './bookingApi';
+import HexSpinner from './HexSpinner';
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = [
@@ -102,10 +103,9 @@ export default function CalendarStep({ onSelect }) {
 
       {/* Calendar grid */}
       {loading ? (
-        <div className="grid grid-cols-7 gap-1">
-          {Array(35).fill(null).map((_, i) => (
-            <div key={i} className="h-10 rounded-lg bg-gray-100 animate-pulse" />
-          ))}
+        <div className="flex flex-col items-center justify-center gap-3 py-14">
+          <HexSpinner />
+          <p className="text-gray-400 text-xs">Finding open dates…</p>
         </div>
       ) : (
         <div className="grid grid-cols-7 gap-1">

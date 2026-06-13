@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CRM_API } from './bookingApi';
+import HexSpinner from './HexSpinner';
 
 function formatDateDisplay(dateStr) {
   const [year, month, day] = dateStr.split('-').map(Number);
@@ -44,10 +45,9 @@ export default function TimeSlotsStep({ date, period, onBack, onSelect }) {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-3 gap-2">
-          {Array(6).fill(null).map((_, i) => (
-            <div key={i} className="h-12 rounded-xl bg-gray-100 animate-pulse" />
-          ))}
+        <div className="flex flex-col items-center justify-center gap-3 py-12">
+          <HexSpinner />
+          <p className="text-gray-400 text-xs">Finding open times…</p>
         </div>
       ) : slots.length === 0 ? (
         <div className="py-8 text-center">
