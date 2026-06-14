@@ -12,6 +12,7 @@ import {
   buildUnlockedTaskIds,
   recomputeTaskStatuses,
 } from './launchOpsIntelligence.js';
+import { mergeBoardWithCanonical } from './launchOpsMerge.js';
 
 const getDefaultClient = async () => {
   const module = await import('./supabase.js');
@@ -98,9 +99,25 @@ export const fetchLaunchTasks = async ({ client } = {}) => {
   });
 };
 
-export const updateLaunchTask = async ({ client, taskId, updates } = {}) => {
-  if (!taskId) throw new Error('taskId is required');
+// Resolve which column/value identifies the row to update. Accepts an explicit
+// taskId, a full task object, or a taskKey — so callers can update by task key
+// (stable) and not just the raw row id. Canonical-only ids (no live row yet)
+// fall back to the task key.
+const resolveTaskMatcher = ({ taskId, task, taskKey } = {}) => {
+  if (taskId) return { column: 'id', value: taskId };
+  if (task) {
+    if (task.id && !String(task.id).startsWith('canonical:')) return { column: 'id', value: task.id };
+    if (task.taskKey) return { column: 'task_key', value: task.taskKey };
+  }
+  if (taskKey) return { column: 'task_key', value: taskKey };
+  return null;
+};
+
+export const updateLaunchTask = async ({ client, taskId, task, taskKey, updates } = {}) => {
   if (!updates || typeof updates !== 'object') throw new Error('updates are required');
+
+  const matcher = resolveTaskMatcher({ taskId, task, taskKey });
+  if (!matcher) throw new Error('taskId, task, or taskKey is required');
 
   const resolvedClient = client || await getDefaultClient();
   const payload = {
@@ -119,12 +136,36 @@ export const updateLaunchTask = async ({ client, taskId, updates } = {}) => {
   const { data, error } = await resolvedClient
     .from('launch_tasks_v2')
     .update(payload)
-    .eq('id', taskId)
+    .eq(matcher.column, matcher.value)
     .select();
 
   if (error) throw error;
 
   return normalizeLaunchTaskRow((data || [])[0] || {});
+};
+
+// Loads the full board (milestones + tasks + agenda) and merges canonical
+// structure on top of live rows. Resilient: if a live source fails, the board
+// still renders the canonical structure so the UI is never empty.
+export const fetchLaunchBoard = async ({ client, weekOf = '2026-06-01' } = {}) => {
+  const resolvedClient = client || await getDefaultClient();
+  const errors = {};
+
+  const liveMilestones = await fetchLaunchMilestones({ client: resolvedClient })
+    .catch((err) => { errors.milestones = err?.message || 'Failed to load milestones'; return []; });
+  const liveTasks = await fetchLaunchTasks({ client: resolvedClient })
+    .catch((err) => { errors.tasks = err?.message || 'Failed to load tasks'; return []; });
+  const agenda = await fetchWeeklyAgenda({ client: resolvedClient, weekOf })
+    .catch((err) => { errors.agenda = err?.message || 'Failed to load weekly agenda'; return null; });
+
+  const { milestones, tasks } = mergeBoardWithCanonical({ liveMilestones, liveTasks });
+
+  return {
+    milestones,
+    tasks,
+    agenda,
+    errors: Object.keys(errors).length ? errors : null,
+  };
 };
 
 export const recomputeLaunchOpsAfterTaskUpdate = ({ previousTasks = [], updatedTask, dependencyMap = {}, milestones = [] } = {}) => {

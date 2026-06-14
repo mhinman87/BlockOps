@@ -1,68 +1,38 @@
-const MILESTONE_COPY_OVERRIDES = {
-  'm1-mock-run-build-ready': {
-    title: 'Fake Client Ready',
-    description: 'The system can run a fake client end to end without breaking.',
-    gateNotes: 'M1.',
-  },
-  'm2-mock-run-complete': {
-    title: 'Fake Client Complete',
-    description: 'The fake client run is clean, with final deliverables and quality checks done.',
-    gateNotes: 'M2.',
-  },
-  'm3-trusted-anesthesiologist-validation': {
-    title: 'Attendings Approved',
-    description: 'Attendings have pressure-tested the system and the main issues are closed.',
-    gateNotes: 'M3.',
-  },
-  'm4-validation-closed': {
-    title: 'Attendings Approved',
-    description: 'Attending review is finished and the main fixes are closed.',
-    gateNotes: 'M3.',
-  },
-  'm5-founding-partner-ready': {
-    title: 'Founding Partners Live',
-    description: 'Founding partner setup is signed, running, and stable.',
-    gateNotes: 'M4.',
-  },
-  'm6-first-founding-partner-signed': {
-    title: 'Founding Partners Live',
-    description: 'Founding partner setup is signed, running, and stable.',
-    gateNotes: 'M4.',
-  },
-  'm7-first-founding-partner-live': {
-    title: 'Founding Partners Live',
-    description: 'Founding partner setup is signed, running, and stable.',
-    gateNotes: 'M4.',
-  },
-  'm8-additional-founding-partners': {
-    title: 'Founding Partners Live',
-    description: 'Founding partner setup is signed, running, and stable.',
-    gateNotes: 'M4.',
-  },
-  'm9-paid-client-readiness': {
-    title: 'First Paid Client',
-    description: 'The first paid client is signed, onboarded, and being delivered.',
-    gateNotes: 'M5.',
-  },
-  'm10-first-paid-client': {
-    title: 'First Paid Client',
-    description: 'The first paid client is signed, onboarded, and being delivered.',
-    gateNotes: 'M5.',
-  },
+import { CANONICAL_MILESTONES } from './launchOpsCanonicalSeed.js';
+
+// Approved milestone copy (M1–M10) lives in the canonical seed so naming stays
+// in one place. We override live rows by slug so the board always reads with the
+// current language even if the database copy is stale.
+const MILESTONE_COPY_OVERRIDES = Object.fromEntries(
+  CANONICAL_MILESTONES.map((milestone) => [milestone.slug, {
+    code: milestone.code,
+    title: milestone.title,
+    description: milestone.description,
+    gateNotes: milestone.gateNotes,
+  }]),
+);
+
+const milestoneCodeFromSlug = (slug = '') => {
+  const match = /^m(\d+)-/i.exec(slug);
+  return match ? `M${match[1]}` : '';
 };
 
-export const normalizeLaunchMilestoneRow = (row) => ({
-  id: row.id,
-  slug: row.slug,
-  title: MILESTONE_COPY_OVERRIDES[row.slug]?.title || row.title,
-  description: MILESTONE_COPY_OVERRIDES[row.slug]?.description || row.description,
-  status: row.status,
-  owner: row.owner,
-  targetDate: row.target_date,
-  sortOrder: row.sort_order ?? 0,
-  readinessScore: row.readiness_score ?? 0,
-  gateNotes: MILESTONE_COPY_OVERRIDES[row.slug]?.gateNotes || row.gate_notes,
-});
+export const normalizeLaunchMilestoneRow = (row) => {
+  const override = MILESTONE_COPY_OVERRIDES[row.slug] || {};
+  return {
+    id: row.id,
+    slug: row.slug,
+    code: override.code || milestoneCodeFromSlug(row.slug),
+    title: override.title || row.title,
+    description: override.description || row.description,
+    status: row.status,
+    owner: row.owner,
+    targetDate: row.target_date,
+    sortOrder: row.sort_order ?? 0,
+    readinessScore: row.readiness_score ?? 0,
+    gateNotes: override.gateNotes || row.gate_notes,
+  };
+};
 
 export const normalizeLaunchTaskRow = (row) => ({
   id: row.id,

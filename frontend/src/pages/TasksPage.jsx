@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useUserRole } from '../hooks/useUserRole';
-import { Layers3, Lock, Search, Users, AlertTriangle, CheckCircle2, Clock, Rocket, Sparkles } from 'lucide-react';
+import {
+  Lock, Search, Users, AlertTriangle, ChevronDown, X, Layers3, ShieldAlert, Scale,
+} from 'lucide-react';
 import {
   dashboardCard,
   dashboardChip,
-  dashboardChipActive,
   dashboardInput,
   dashboardPageSubtitle,
   dashboardPageTitle,
@@ -13,27 +14,37 @@ import {
 } from '../services/dashboardTheme.js';
 import {
   buildLaunchOpsSnapshot,
-  fetchLaunchMilestones,
-  fetchLaunchTasks,
-  fetchWeeklyAgenda,
+  fetchLaunchBoard,
   recomputeLaunchOpsAfterTaskUpdate,
   updateLaunchTask,
 } from '../services/launchOpsService.js';
+import { CANONICAL_WORKFLOWS } from '../services/launchOpsCanonicalSeed.js';
 
 const OWNERS = ['All', 'Max', 'Samir', 'Adrian', 'Bloq'];
-const STATUS_ORDER = ['this_week', 'in_progress', 'ready', 'locked', 'blocked', 'waiting', 'review', 'done', 'dropped'];
+const STATUSES = ['this_week', 'in_progress', 'ready', 'review', 'waiting', 'locked', 'blocked', 'done', 'dropped'];
+const PRIORITIES = ['critical', 'high', 'medium', 'low'];
 const MUTABLE_STATUSES = ['this_week', 'in_progress', 'ready', 'waiting', 'review', 'done', 'blocked', 'dropped'];
+
+// Tasks sort within a workflow: active → ready → blocked → done.
+const STATUS_BUCKET = {
+  this_week: 'active', in_progress: 'active', review: 'active', waiting: 'active',
+  ready: 'ready',
+  locked: 'blocked', blocked: 'blocked',
+  done: 'done', dropped: 'done',
+};
+const BUCKET_RANK = { active: 0, ready: 1, blocked: 2, done: 3 };
+const PRIORITY_RANK = { critical: 0, high: 1, medium: 2, low: 3 };
 
 const statusTone = {
   this_week: 'bg-amber-100 text-amber-700',
   in_progress: 'bg-blue-100 text-blue-700',
   ready: 'bg-green-100 text-green-700',
-  locked: 'bg-red-100 text-red-700',
+  locked: 'bg-gray-200 text-gray-600',
   blocked: 'bg-red-100 text-red-700',
   waiting: 'bg-purple-100 text-purple-700',
   review: 'bg-cyan-100 text-cyan-700',
-  done: 'bg-gray-100 text-gray-600',
-  dropped: 'bg-gray-100 text-gray-500',
+  done: 'bg-gray-100 text-gray-500',
+  dropped: 'bg-gray-100 text-gray-400',
 };
 
 const priorityTone = {
@@ -44,14 +55,23 @@ const priorityTone = {
 };
 
 const ownerDot = {
-  Max: 'bg-blue-500',
-  Samir: 'bg-green-500',
+  Max: 'bg-indigo-500',
+  Samir: 'bg-cyan-500',
   Adrian: 'bg-amber-500',
   Bloq: 'bg-primary',
 };
 
-const humanize = (value) => value.replaceAll('_', ' ');
-const parseLines = (value) => (value || '').split('\n').map((line) => line.trim()).filter(Boolean);
+const humanize = (value) => (value || '').replaceAll('_', ' ');
+const isLocked = (task) => task.computedStatus === 'locked';
+
+const selectClass = 'px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-xs font-semibold bg-white dark:bg-dark-card text-gray-700 dark:text-gray-200 focus:outline-none focus:border-primary cursor-pointer';
+
+const sortTasks = (tasks) => [...tasks].sort((a, b) => (
+  (BUCKET_RANK[STATUS_BUCKET[a.computedStatus] || 'active'] - BUCKET_RANK[STATUS_BUCKET[b.computedStatus] || 'active'])
+  || ((PRIORITY_RANK[a.priority] ?? 9) - (PRIORITY_RANK[b.priority] ?? 9))
+  || ((a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+  || a.title.localeCompare(b.title)
+));
 
 export const TasksPage = () => {
   const { isTeam } = useUserRole();
@@ -60,344 +80,366 @@ export const TasksPage = () => {
   const [agenda, setAgenda] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [syncNote, setSyncNote] = useState('');
+
   const [filterOwner, setFilterOwner] = useState('All');
+  const [filterMilestone, setFilterMilestone] = useState('All');
+  const [filterWorkflow, setFilterWorkflow] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
+  const [filterPriority, setFilterPriority] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [openMilestones, setOpenMilestones] = useState([]);
+  const [hasSeededOpen, setHasSeededOpen] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState('');
   const [updatingTaskId, setUpdatingTaskId] = useState('');
-  const [recentlyUnlocked, setRecentlyUnlocked] = useState([]);
-  const [milestoneReadinessMap, setMilestoneReadinessMap] = useState({});
 
   useEffect(() => {
     let active = true;
-
-    const loadLaunchOps = async () => {
+    const load = async () => {
       try {
         setLoading(true);
         setError('');
-
-        const [loadedMilestones, loadedTasks, loadedAgenda] = await Promise.all([
-          fetchLaunchMilestones(),
-          fetchLaunchTasks(),
-          fetchWeeklyAgenda({ weekOf: '2026-06-01' }),
-        ]);
-
+        const board = await fetchLaunchBoard({ weekOf: '2026-06-01' });
         if (!active) return;
-        setMilestones(loadedMilestones);
-        setTasks(loadedTasks);
-        setAgenda(loadedAgenda);
-        setMilestoneReadinessMap(Object.fromEntries(
-          loadedMilestones.map((milestone) => [milestone.id, {
-            milestoneId: milestone.id,
-            slug: milestone.slug,
-            title: milestone.title,
-            totalTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id).length,
-            completedTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'done').length,
-            lockedTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'locked').length,
-            thisWeekTasks: loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'this_week').length,
-            readinessPercent: loadedTasks.filter((task) => task.milestoneId === milestone.id).length === 0
-              ? 0
-              : Math.round((loadedTasks.filter((task) => task.milestoneId === milestone.id && task.computedStatus === 'done').length / loadedTasks.filter((task) => task.milestoneId === milestone.id).length) * 100),
-          }]),
-        ));
+        setMilestones(board.milestones);
+        setTasks(board.tasks);
+        setAgenda(board.agenda);
+        setSyncNote(board.errors ? 'Showing the canonical structure — live sync was partial.' : '');
       } catch (err) {
         if (!active) return;
-        setError(err?.message || 'Failed to load launch operating board.');
+        setError(err?.message || 'Failed to load Mission Control.');
       } finally {
         if (active) setLoading(false);
       }
     };
-
-    loadLaunchOps();
+    load();
     return () => { active = false; };
   }, []);
 
   const snapshot = useMemo(() => buildLaunchOpsSnapshot({ milestones, tasks, agenda }), [milestones, tasks, agenda]);
   const currentMilestone = snapshot.currentMilestone;
-  const currentReadiness = currentMilestone ? snapshot.readinessBySlug[currentMilestone.slug] : null;
-  const blockedItems = parseLines(agenda?.blockedItems);
-  const decisionsNeeded = parseLines(agenda?.decisionsNeeded);
 
-  const dependencyMap = useMemo(() => Object.fromEntries(tasks.map((task) => [task.id, task.dependencies || []])), [tasks]);
+  useEffect(() => {
+    if (hasSeededOpen || !currentMilestone) return;
+    setOpenMilestones([currentMilestone.id]);
+    setHasSeededOpen(true);
+  }, [currentMilestone, hasSeededOpen]);
+
+  const dependencyMap = useMemo(
+    () => Object.fromEntries(tasks.map((task) => [task.id, task.dependencies || []])),
+    [tasks],
+  );
+  const taskById = useMemo(() => Object.fromEntries(tasks.map((task) => [task.id, task])), [tasks]);
+  const selectedTask = selectedTaskId ? taskById[selectedTaskId] : null;
+
+  const workflowOptions = useMemo(() => {
+    const extra = tasks.map((task) => task.workstream).filter(Boolean);
+    return Array.from(new Set([...CANONICAL_WORKFLOWS, ...extra]));
+  }, [tasks]);
 
   const filteredTasks = useMemo(() => tasks.filter((task) => {
     if (filterOwner !== 'All' && task.primaryOwner !== filterOwner) return false;
+    if (filterMilestone !== 'All' && task.milestoneId !== filterMilestone) return false;
+    if (filterWorkflow !== 'All' && task.workstream !== filterWorkflow) return false;
     if (filterStatus !== 'All' && task.computedStatus !== filterStatus) return false;
+    if (filterPriority !== 'All' && task.priority !== filterPriority) return false;
     if (searchQuery) {
-      const haystack = `${task.taskKey} ${task.title} ${task.description || ''}`.toLowerCase();
+      const haystack = `${task.taskKey} ${task.title} ${task.description || ''} ${task.workstream || ''}`.toLowerCase();
       if (!haystack.includes(searchQuery.toLowerCase())) return false;
     }
     return true;
-  }), [tasks, filterOwner, filterStatus, searchQuery]);
+  }), [tasks, filterOwner, filterMilestone, filterWorkflow, filterStatus, filterPriority, searchQuery]);
 
-  const groupedTasks = useMemo(() => {
-    const groups = {};
-    OWNERS.filter((owner) => owner !== 'All').forEach((owner) => { groups[owner] = []; });
-    filteredTasks.forEach((task) => {
-      if (!groups[task.primaryOwner]) groups[task.primaryOwner] = [];
-      groups[task.primaryOwner].push(task);
-    });
-    return groups;
-  }, [filteredTasks]);
+  const hasActiveFilters = filterOwner !== 'All' || filterMilestone !== 'All' || filterWorkflow !== 'All'
+    || filterStatus !== 'All' || filterPriority !== 'All' || Boolean(searchQuery);
 
-  const milestoneById = useMemo(() => Object.fromEntries(milestones.map((milestone) => [milestone.id, milestone])), [milestones]);
-  const taskById = useMemo(() => Object.fromEntries(tasks.map((task) => [task.id, task])), [tasks]);
-  const totalTasks = tasks.length;
-  const thisWeekTasks = snapshot.thisWeekTasks.length;
-  const blockedTasks = snapshot.blockedTasks.length;
+  // milestone -> workflow -> tasks
+  const milestoneGroups = useMemo(() => milestones.map((milestone) => {
+    const milestoneTasks = filteredTasks.filter((task) => task.milestoneId === milestone.id);
+    const workflowOrder = Array.from(new Set([...CANONICAL_WORKFLOWS, ...milestoneTasks.map((t) => t.workstream)]));
+    const workflows = workflowOrder
+      .map((workflow) => ({ workflow, tasks: sortTasks(milestoneTasks.filter((task) => task.workstream === workflow)) }))
+      .filter((group) => group.tasks.length > 0);
+    const doneCount = milestoneTasks.filter((task) => task.computedStatus === 'done').length;
+    const lockedCount = milestoneTasks.filter(isLocked).length;
+    return {
+      milestone,
+      workflows,
+      total: milestoneTasks.length,
+      doneCount,
+      lockedCount,
+      progress: milestoneTasks.length === 0 ? 0 : Math.round((doneCount / milestoneTasks.length) * 100),
+    };
+  }), [milestones, filteredTasks]);
+
+  const visibleGroups = milestoneGroups.filter((group) => group.total > 0 || (!hasActiveFilters));
 
   const handleStatusChange = async (task, nextStatus) => {
+    setUpdatingTaskId(task.id);
+    setError('');
+    const updatedTask = { ...task, status: nextStatus, computedStatus: nextStatus };
+    const recomputed = recomputeLaunchOpsAfterTaskUpdate({ previousTasks: tasks, updatedTask, dependencyMap, milestones });
+    setTasks(recomputed.tasks);
     try {
-      setUpdatingTaskId(task.id);
-      setError('');
-      const updatedTask = await updateLaunchTask({ taskId: task.id, updates: { status: nextStatus } });
-      const recomputed = recomputeLaunchOpsAfterTaskUpdate({
-        previousTasks: tasks,
-        updatedTask,
-        dependencyMap,
-        milestones,
-      });
-
-      setTasks(recomputed.tasks);
-      setRecentlyUnlocked(recomputed.unlockedTaskIds.map((id) => taskById[id]?.taskKey || id));
-      setMilestoneReadinessMap(recomputed.milestoneReadinessMap);
+      await updateLaunchTask({ task, updates: { status: nextStatus } });
     } catch (err) {
-      setError(err?.message || 'Failed to update task status.');
+      setError(err?.message || 'Saved locally, but the live update failed.');
     } finally {
       setUpdatingTaskId('');
     }
   };
 
+  const resetFilters = () => {
+    setFilterOwner('All'); setFilterMilestone('All'); setFilterWorkflow('All');
+    setFilterStatus('All'); setFilterPriority('All'); setSearchQuery('');
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className={dashboardPageTitle}>Dashboard Launch Board</h1>
-          <p className={dashboardPageSubtitle}>
-            Adaptive milestone, task, blocker, and coordination system for Samir, Max, Adrian, and Hermes.
-          </p>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h1 className={dashboardPageTitle}>Mission Control</h1>
+            <p className={dashboardPageSubtitle}>
+              The working board — every milestone, workflow, task, dependency, and gate for Samir, Max, Adrian, and Hermes.
+            </p>
+          </div>
+          {currentMilestone && (
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              Current: {currentMilestone.code ? `${currentMilestone.code} — ` : ''}{currentMilestone.title}
+            </span>
+          )}
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
             <AlertTriangle className="text-red-500 flex-shrink-0 mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-semibold text-red-800">Launch board failed to load</p>
+              <p className="text-sm font-semibold text-red-800">Mission Control hit an error</p>
               <p className="text-xs text-red-600 font-light mt-1">{error}</p>
             </div>
           </div>
         )}
-
-        {recentlyUnlocked.length > 0 && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
-            <Sparkles className="text-green-500 flex-shrink-0 mt-0.5" size={18} />
-            <div>
-              <p className="text-sm font-semibold text-green-800">Newly unlocked tasks</p>
-              <p className="text-xs text-green-700 font-light mt-1">{recentlyUnlocked.join(', ')}</p>
-            </div>
+        {syncNote && !error && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-2">
+            <AlertTriangle className="text-amber-500 flex-shrink-0" size={15} />
+            <p className="text-xs text-amber-700 font-medium">{syncNote}</p>
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className={`${dashboardCard} p-4`}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Current Gate</p>
-            <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{currentMilestone?.title || '—'}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{currentMilestone?.status ? humanize(currentMilestone.status) : 'No active milestone'}</p>
-          </div>
-          <div className={`${dashboardCard} p-4`}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Total Tasks</p>
-            <p className="text-2xl font-black text-gray-900 dark:text-gray-100">{totalTasks}</p>
-          </div>
-          <div className={`${dashboardCard} p-4`}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">This Week</p>
-            <p className="text-2xl font-black text-amber-600">{thisWeekTasks}</p>
-          </div>
-          <div className={`${dashboardCard} p-4`}>
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">Blocked / Locked</p>
-            <p className="text-2xl font-black text-red-600">{blockedTasks}</p>
-          </div>
-        </div>
-
-        {currentMilestone && currentReadiness && (
-          <div className={`${dashboardCard} p-5`}>
-            <div className="flex items-center justify-between gap-4 mb-2">
-              <div>
-                <h2 className="text-base font-bold text-gray-900 dark:text-gray-100">Current Milestone Progress</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{currentMilestone.description}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm font-bold text-primary">{currentReadiness.completedTasks}/{currentReadiness.totalTasks}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">tasks complete</p>
-              </div>
-            </div>
-            <div className="w-full bg-gray-100 dark:bg-dark-bg rounded-full h-2 overflow-hidden">
-              <div className="h-2 rounded-full bg-primary transition-all" style={{ width: `${milestoneReadinessMap[currentMilestone.id]?.readinessPercent || currentMilestone.readinessScore || currentReadiness.readinessFromTasks}%` }}></div>
-            </div>
-            {currentMilestone.gateNotes && <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{currentMilestone.gateNotes}</p>}
-          </div>
-        )}
-
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Filters */}
+        <div className={`${dashboardCard} p-4 flex flex-wrap items-center gap-2.5`}>
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
-              placeholder="Search adaptive tasks..."
+              placeholder="Search tasks..."
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              className={`${dashboardInput} pl-9 w-72`}
+              className={`${dashboardInput} pl-9 w-56`}
             />
           </div>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Owner:</span>
-            {OWNERS.map((owner) => (
-              <button
-                key={owner}
-                onClick={() => setFilterOwner(owner)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${filterOwner === owner ? dashboardChipActive : dashboardChip}`}
-              >
-                {owner}
-              </button>
+          <select value={filterOwner} onChange={(e) => setFilterOwner(e.target.value)} className={selectClass}>
+            {OWNERS.map((owner) => <option key={owner} value={owner}>{owner === 'All' ? 'All owners' : owner}</option>)}
+          </select>
+          <select value={filterMilestone} onChange={(e) => setFilterMilestone(e.target.value)} className={selectClass}>
+            <option value="All">All milestones</option>
+            {milestones.map((milestone) => (
+              <option key={milestone.id} value={milestone.id}>{milestone.code ? `${milestone.code} — ` : ''}{milestone.title}</option>
             ))}
-          </div>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Status:</span>
-            {['All', ...STATUS_ORDER].map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilterStatus(status)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition ${filterStatus === status ? dashboardChipActive : dashboardChip}`}
-              >
-                {status === 'All' ? status : humanize(status)}
-              </button>
-            ))}
-          </div>
+          </select>
+          <select value={filterWorkflow} onChange={(e) => setFilterWorkflow(e.target.value)} className={selectClass}>
+            <option value="All">All workflows</option>
+            {workflowOptions.map((workflow) => <option key={workflow} value={workflow}>{workflow}</option>)}
+          </select>
+          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className={selectClass}>
+            <option value="All">All statuses</option>
+            {STATUSES.map((status) => <option key={status} value={status}>{humanize(status)}</option>)}
+          </select>
+          <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)} className={selectClass}>
+            <option value="All">All priorities</option>
+            {PRIORITIES.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
+          </select>
+          {hasActiveFilters && (
+            <button onClick={resetFilters} className={`${dashboardChip} px-3 py-1.5 rounded-full text-xs font-semibold`}>Clear</button>
+          )}
         </div>
 
         {loading ? (
-          <div className={`${dashboardCard} p-12 text-center text-gray-400 dark:text-gray-500`}>Loading adaptive launch board...</div>
-        ) : filteredTasks.length === 0 ? (
+          <div className={`${dashboardCard} p-12 text-center text-gray-400 dark:text-gray-500`}>Loading Mission Control...</div>
+        ) : visibleGroups.length === 0 ? (
           <div className={`${dashboardCard} p-12 text-center`}>
-            <Rocket className="text-gray-300 dark:text-gray-500 mx-auto mb-3" size={32} />
-            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">No adaptive tasks found</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Adjust filters or seed more tasks into the new launch ops system.</p>
+            <Layers3 className="text-gray-300 dark:text-gray-500 mx-auto mb-3" size={32} />
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">No tasks match these filters</p>
+            <button onClick={resetFilters} className="text-xs text-primary font-semibold mt-2">Clear filters</button>
           </div>
         ) : (
-          OWNERS.filter((owner) => owner !== 'All' && groupedTasks[owner]?.length > 0).map((owner) => (
-            <div key={owner} className={`${dashboardCard} overflow-hidden`}>
-              <div className="px-5 py-3 border-b border-gray-100 dark:border-dark-border flex items-center gap-2">
-                <div className={`w-3 h-3 rounded-full ${ownerDot[owner]}`}></div>
-                <span className="text-sm font-bold text-gray-900 dark:text-gray-100">{owner}</span>
-                <span className="text-xs text-gray-400 dark:text-gray-500 font-light">({groupedTasks[owner].length})</span>
-              </div>
-              {groupedTasks[owner].map((task, index) => {
-                const milestone = milestoneById[task.milestoneId];
-                return (
-                  <div
-                    key={task.id}
-                    className={`px-5 py-4 hover:bg-gray-50 dark:hover:bg-dark-border/30 transition ${index !== groupedTasks[owner].length - 1 ? 'border-b border-gray-50 dark:border-dark-border/40' : ''}`}
+          <div className="space-y-3">
+            {visibleGroups.map(({ milestone, workflows, total, doneCount, lockedCount, progress }) => {
+              const isOpen = openMilestones.includes(milestone.id);
+              const isCurrent = currentMilestone?.id === milestone.id;
+              return (
+                <div key={milestone.id} className={`${dashboardCard} overflow-hidden ${isCurrent ? 'ring-1 ring-primary/30' : ''}`}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenMilestones((current) => (
+                      current.includes(milestone.id) ? current.filter((id) => id !== milestone.id) : [...current, milestone.id]
+                    ))}
+                    className="flex w-full items-start justify-between gap-3 px-5 py-4 text-left hover:bg-black/[0.02] dark:hover:bg-white/5 transition"
+                    aria-expanded={isOpen}
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                          <span className="text-xs font-bold text-primary uppercase tracking-wider">{task.taskKey}</span>
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusTone[task.computedStatus] || 'bg-gray-100 text-gray-600'}`}>
-                            {humanize(task.computedStatus)}
-                          </span>
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${priorityTone[task.priority] || 'bg-gray-100 text-gray-600'}`}>
-                            {task.priority}
-                          </span>
-                          {task.legalGateFlag && (
-                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">legal gate</span>
-                          )}
-                          {task.complianceFlag && (
-                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700">compliance</span>
-                          )}
-                        </div>
-                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{task.title}</p>
-                        {task.description && (
-                          <p className="text-xs text-gray-500 dark:text-gray-400 font-light mt-1">{task.description}</p>
-                        )}
-                        <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
-                          <span>Milestone: {milestone?.slug || '—'}</span>
-                          <span>Workstream: {task.workstream}</span>
-                          {task.collaborators.length > 0 && (
-                            <span className="inline-flex items-center gap-1"><Users size={12} /> {task.collaborators.join(', ')}</span>
-                          )}
-                        </div>
-                        {(task.blockingTaskIds.length > 0 || task.softBlockedTaskIds.length > 0) && (
-                          <div className={`mt-3 p-3 ${dashboardSurfaceMuted}`}>
-                            {task.blockingTaskIds.length > 0 && (
-                              <p className="text-xs text-red-700 dark:text-red-300 font-medium">
-                                Blocking dependencies: {task.blockingTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}
-                              </p>
-                            )}
-                            {task.softBlockedTaskIds.length > 0 && (
-                              <p className="text-xs text-amber-700 dark:text-amber-300 font-medium mt-1">
-                                Soft blockers: {task.softBlockedTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}
-                              </p>
-                            )}
-                          </div>
-                        )}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] ${isCurrent ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500 dark:bg-dark-border dark:text-gray-400'}`}>
+                          {milestone.code || '—'}
+                        </span>
+                        <h3 className="min-w-0 text-sm font-bold text-gray-900 dark:text-gray-100">{milestone.title}</h3>
+                        {isCurrent && <span className="rounded-full bg-amber-100 text-amber-800 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">Current</span>}
                       </div>
-                      <div className="flex-shrink-0">
-                        <select
-                          value={task.status}
-                          onChange={(event) => handleStatusChange(task, event.target.value)}
-                          disabled={updatingTaskId === task.id}
-                          className="px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-xs bg-white dark:bg-dark-card text-gray-700 dark:text-gray-200"
-                        >
-                          {MUTABLE_STATUSES.map((status) => (
-                            <option key={status} value={status}>{humanize(status)}</option>
-                          ))}
-                        </select>
+                      <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-5">{milestone.description}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                        <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2 py-0.5 text-[10px] font-semibold text-gray-600 dark:text-gray-300">Owner: {milestone.owner || '—'}</span>
+                        <span className="inline-flex items-center rounded-full bg-gray-100 dark:bg-dark-border/60 px-2 py-0.5 text-[10px] font-semibold text-gray-600 dark:text-gray-300">{total} tasks</span>
+                        <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[10px] font-semibold">{doneCount} done</span>
+                        {lockedCount > 0 && <span className="inline-flex items-center rounded-full bg-gray-100 text-gray-500 px-2 py-0.5 text-[10px] font-semibold">{lockedCount} locked</span>}
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ))
+                    <div className="flex shrink-0 items-center gap-2 pt-0.5">
+                      <span className="text-sm font-bold text-primary">{progress}%</span>
+                      <ChevronDown size={16} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="border-t border-gray-100 dark:border-dark-border px-4 py-4 space-y-4">
+                      {workflows.length === 0 ? (
+                        <p className="text-sm text-gray-400 dark:text-gray-500 font-light px-1">No tasks in this milestone yet.</p>
+                      ) : workflows.map(({ workflow, tasks: workflowTasks }) => (
+                        <div key={workflow}>
+                          <div className="flex items-center gap-2 mb-2 px-1">
+                            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-500 dark:text-gray-400">{workflow}</span>
+                            <span className="text-[11px] text-gray-400 dark:text-gray-500">{workflowTasks.length}</span>
+                          </div>
+                          <div className="space-y-1.5">
+                            {workflowTasks.map((task) => {
+                              const locked = isLocked(task);
+                              return (
+                                <button
+                                  key={task.id}
+                                  onClick={() => setSelectedTaskId(task.id)}
+                                  className={`w-full text-left rounded-xl border px-3 py-2.5 transition hover:border-primary/40 ${locked
+                                    ? 'border-gray-200 dark:border-dark-border bg-gray-50/70 dark:bg-dark-border/20 opacity-70'
+                                    : 'border-gray-100 dark:border-dark-border bg-white dark:bg-dark-card'}`}
+                                >
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="text-[11px] font-bold text-primary uppercase tracking-wider">{task.taskKey}</span>
+                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${statusTone[task.computedStatus] || 'bg-gray-100 text-gray-600'}`}>{humanize(task.computedStatus)}</span>
+                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${priorityTone[task.priority] || 'bg-gray-100 text-gray-600'}`}>{task.priority}</span>
+                                        {task.legalGateFlag && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">legal gate</span>}
+                                        {task.complianceFlag && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700">compliance</span>}
+                                      </div>
+                                      <p className={`mt-1 text-sm font-semibold leading-5 ${locked ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-gray-100'}`}>{task.title}</p>
+                                      <div className="mt-1.5 flex flex-wrap items-center gap-2.5 text-[11px] text-gray-500 dark:text-gray-400">
+                                        <span className="inline-flex items-center gap-1"><span className={`h-2 w-2 rounded-full ${ownerDot[task.primaryOwner] || 'bg-gray-400'}`} />{task.primaryOwner}</span>
+                                        {task.collaborators?.length > 0 && <span className="inline-flex items-center gap-1"><Users size={11} /> {task.collaborators.join(', ')}</span>}
+                                        {locked && task.blockingTaskIds?.length > 0 && (
+                                          <span className="inline-flex items-center gap-1 text-gray-500"><Lock size={11} /> waiting on {task.blockingTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className={`${dashboardCard} p-5`}>
-            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Blocked Items</h2>
-            <div className="space-y-2">
-              {blockedItems.length === 0 ? (
-                <p className="text-sm text-gray-400 dark:text-gray-500">No blocked agenda items loaded.</p>
-              ) : blockedItems.map((item, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-red-50 dark:bg-dark-border/40 border border-red-100 dark:border-dark-border rounded-lg">
-                  <Lock size={14} className="text-red-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-red-800 dark:text-gray-200 font-light">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className={`${dashboardCard} p-5`}>
-            <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mb-4">Decisions Needed</h2>
-            <div className="space-y-2">
-              {decisionsNeeded.length === 0 ? (
-                <p className="text-sm text-gray-400 dark:text-gray-500">No pending decisions loaded.</p>
-              ) : decisionsNeeded.map((item, index) => (
-                <div key={index} className={`p-3 ${dashboardSurfaceMuted}`}>
-                  <p className="text-sm text-gray-700 dark:text-gray-200 font-light">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {!isTeam && (
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
             <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
             <div>
-              <p className="text-sm font-semibold text-amber-800">Internal launch operating board</p>
-              <p className="text-xs text-amber-600 font-light mt-1">This board is designed for internal team execution and may expose strategy, blockers, and legal/compliance gates.</p>
+              <p className="text-sm font-semibold text-amber-800">Internal working board</p>
+              <p className="text-xs text-amber-600 font-light mt-1">Mission Control is for the internal team and may expose strategy, blockers, and legal/compliance gates.</p>
             </div>
           </div>
         )}
       </div>
+
+      {/* Task detail side panel */}
+      {selectedTask && (
+        <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setSelectedTaskId('')} />
+          <div className="relative h-full w-full max-w-md overflow-y-auto bg-white dark:bg-dark-card shadow-2xl border-l border-gray-200 dark:border-dark-border">
+            <div className="flex items-start justify-between gap-3 border-b border-gray-100 dark:border-dark-border p-5">
+              <div className="min-w-0">
+                <span className="text-[11px] font-bold text-primary uppercase tracking-wider">{selectedTask.taskKey}</span>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight mt-0.5">{selectedTask.title}</h2>
+              </div>
+              <button onClick={() => setSelectedTaskId('')} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"><X size={18} /></button>
+            </div>
+
+            <div className="p-5 space-y-5">
+              <div className="flex flex-wrap gap-2">
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusTone[selectedTask.computedStatus] || 'bg-gray-100 text-gray-600'}`}>{humanize(selectedTask.computedStatus)}</span>
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${priorityTone[selectedTask.priority] || 'bg-gray-100 text-gray-600'}`}>{selectedTask.priority}</span>
+                {selectedTask.legalGateFlag && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-700 inline-flex items-center gap-1"><Scale size={12} /> legal gate</span>}
+                {selectedTask.complianceFlag && <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-cyan-100 text-cyan-700 inline-flex items-center gap-1"><ShieldAlert size={12} /> compliance</span>}
+              </div>
+
+              {selectedTask.description && (
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-6">{selectedTask.description}</p>
+              )}
+
+              <dl className="space-y-2 text-sm">
+                <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">Owner</dt><dd className="font-semibold text-gray-900 dark:text-gray-100">{selectedTask.primaryOwner}</dd></div>
+                <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">Workflow</dt><dd className="font-semibold text-gray-900 dark:text-gray-100 text-right">{selectedTask.workstream}</dd></div>
+                <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">Milestone</dt><dd className="font-semibold text-gray-900 dark:text-gray-100 text-right">{milestones.find((m) => m.id === selectedTask.milestoneId)?.code || ''} {milestones.find((m) => m.id === selectedTask.milestoneId)?.title || '—'}</dd></div>
+                {selectedTask.collaborators?.length > 0 && (
+                  <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">With</dt><dd className="font-semibold text-gray-900 dark:text-gray-100 text-right">{selectedTask.collaborators.join(', ')}</dd></div>
+                )}
+              </dl>
+
+              {(selectedTask.blockingTaskIds?.length > 0 || selectedTask.softBlockedTaskIds?.length > 0) && (
+                <div className={`p-3 rounded-lg ${dashboardSurfaceMuted}`}>
+                  {selectedTask.blockingTaskIds?.length > 0 && (
+                    <p className="text-xs font-medium text-gray-700 dark:text-gray-300 inline-flex items-center gap-1.5"><Lock size={12} className="text-gray-500" /> Blocked until done: {selectedTask.blockingTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}</p>
+                  )}
+                  {selectedTask.softBlockedTaskIds?.length > 0 && (
+                    <p className="text-xs font-medium text-amber-700 dark:text-amber-300 mt-1">Soft blockers: {selectedTask.softBlockedTaskIds.map((id) => taskById[id]?.taskKey || id).join(', ')}</p>
+                  )}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">Update status</label>
+                <select
+                  value={selectedTask.status}
+                  onChange={(event) => handleStatusChange(selectedTask, event.target.value)}
+                  disabled={updatingTaskId === selectedTask.id}
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm bg-white dark:bg-dark-card text-gray-700 dark:text-gray-200"
+                >
+                  {MUTABLE_STATUSES.map((status) => <option key={status} value={status}>{humanize(status)}</option>)}
+                </select>
+                {isLocked(selectedTask) && (
+                  <p className="text-xs text-gray-400 mt-1.5">This task is locked by dependencies — its live status is “{humanize(selectedTask.status)}”.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 };
