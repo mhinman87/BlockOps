@@ -31,7 +31,7 @@ const TIMELINES = ['Just exploring', 'Next few months', 'Actively planning'];
 
 export default function DetailsForm({ date, slot, format, period, onBack, onSubmit }) {
   const [form, setForm] = useState({
-    name: '', businessName: '', email: '', phone: '', businessAddress: '',
+    firstName: '', lastName: '', businessName: '', email: '', phone: '', businessAddress: '',
     facilityType: '', role: '', orCount: '', timeline: '', note: '',
   });
   const [errors, setErrors] = useState({});
@@ -42,12 +42,13 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
 
   const emailOk = EMAIL_RE.test(form.email);
   const isValid =
-    form.name.trim() && form.businessName.trim() && emailOk && form.phone.trim() &&
+    form.firstName.trim() && form.lastName.trim() && form.businessName.trim() && emailOk && form.phone.trim() &&
     (format !== 'in-person' || form.businessAddress.trim());
 
   function validate() {
     const e = {};
-    if (!form.name.trim()) e.name = 'Required';
+    if (!form.firstName.trim()) e.firstName = 'Required';
+    if (!form.lastName.trim()) e.lastName = 'Required';
     if (!form.businessName.trim()) e.businessName = 'Required';
     if (!form.email.trim()) e.email = 'Required';
     else if (!emailOk) e.email = 'Invalid email';
@@ -74,7 +75,8 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
           endTime: slot.end,
           period,
           format,
-          name: form.name,
+          first_name: form.firstName,
+          last_name: form.lastName,
           businessName: form.businessName,
           email: form.email,
           phone: form.phone,
@@ -122,9 +124,14 @@ export default function DetailsForm({ date, slot, format, period, onBack, onSubm
       <form onSubmit={onBook} className="space-y-4" noValidate>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>Full Name *</label>
-            <input value={form.name} onChange={update('name')} placeholder="Your name" className={inputClass} />
-            {errors.name && <p className={errorClass}>{errors.name}</p>}
+            <label className={labelClass}>First Name *</label>
+            <input value={form.firstName} onChange={update('firstName')} placeholder="First name" className={inputClass} />
+            {errors.firstName && <p className={errorClass}>{errors.firstName}</p>}
+          </div>
+          <div>
+            <label className={labelClass}>Last Name *</label>
+            <input value={form.lastName} onChange={update('lastName')} placeholder="Last name" className={inputClass} />
+            {errors.lastName && <p className={errorClass}>{errors.lastName}</p>}
           </div>
           <div>
             <label className={labelClass}>Business Name *</label>

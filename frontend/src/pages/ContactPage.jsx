@@ -8,7 +8,7 @@ const LEAD_ENDPOINT = 'https://admin.blockops.consulting/api/inbound/website-lea
 
 export const ContactPage = () => {
   const emptyLead = {
-    name: '', email: '', phone: '',
+    first_name: '', last_name: '', email: '', phone: '',
     facilityName: '', message: '',
     company_website: '', // honeypot — leave blank
   };
@@ -21,8 +21,8 @@ export const ContactPage = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!lead.name.trim() || !lead.email.trim() || !lead.message.trim()) {
-      setError('Please enter your name, email, and a message.');
+    if (!lead.first_name.trim() || !lead.last_name.trim() || !lead.email.trim() || !lead.message.trim()) {
+      setError('Please enter your first and last name, email, and a message.');
       setStatus('error');
       return;
     }
@@ -144,7 +144,8 @@ export const ContactPage = () => {
                     style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
                   />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input type="text" name="name" value={lead.name} onChange={onChange} placeholder="Your Name *" className={inputCls} />
+                    <input type="text" name="first_name" value={lead.first_name} onChange={onChange} placeholder="First Name *" className={inputCls} />
+                    <input type="text" name="last_name" value={lead.last_name} onChange={onChange} placeholder="Last Name *" className={inputCls} />
                     <input type="email" name="email" value={lead.email} onChange={onChange} placeholder="Email Address *" className={inputCls} />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

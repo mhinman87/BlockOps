@@ -30,7 +30,7 @@ export const LandingPage = () => {
   // ── Free-assessment lead form ──────────────────────────────
   const LEAD_ENDPOINT = 'https://admin.blockops.consulting/api/inbound/website-lead';
   const emptyLead = {
-    name: '', title: '', email: '', phone: '',
+    first_name: '', last_name: '', title: '', email: '', phone: '',
     facilityName: '', facilityType: '', message: '',
     company_website: '', // honeypot — leave blank
   };
@@ -41,8 +41,8 @@ export const LandingPage = () => {
 
   const submitLead = async (e) => {
     e.preventDefault();
-    if (!lead.name.trim() || !lead.email.trim()) {
-      setLeadError('Please enter your name and email.');
+    if (!lead.first_name.trim() || !lead.last_name.trim() || !lead.email.trim()) {
+      setLeadError('Please enter your first and last name and email.');
       setLeadStatus('error');
       return;
     }
@@ -802,10 +802,18 @@ export const LandingPage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                       type="text"
-                      name="name"
-                      value={lead.name}
+                      name="first_name"
+                      value={lead.first_name}
                       onChange={onLeadChange}
-                      placeholder="Your Name *"
+                      placeholder="First Name *"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
+                    />
+                    <input
+                      type="text"
+                      name="last_name"
+                      value={lead.last_name}
+                      onChange={onLeadChange}
+                      placeholder="Last Name *"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm normal-case tracking-normal"
                     />
                     <input
