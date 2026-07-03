@@ -28,13 +28,13 @@ test('normalizeLaunchMilestoneRow maps milestone records into frontend milestone
     slug: 'm1-mock-run-build-ready',
     code: 'M1',
     title: 'Mock Client Lead-to-Live Run',
-    description: 'Run a mock client from first contact all the way to live without the system breaking.',
+    description: 'M1 proves the full customer path by running a mock client from lead capture through CRM entry, follow-up, proposal, contract, go-live prep, and launch board organization.',
     status: 'in_progress',
     owner: 'Max',
     targetDate: '2026-06-30',
     sortOrder: 1,
     readinessScore: 20,
-    gateNotes: 'M1 — the system can carry a client end to end.',
+    gateNotes: 'M1 is the end-to-end mock client rehearsal: lead pipelines, CRM, workflows, and Mission Control organization all have to work together.',
   });
 });
 
