@@ -3,6 +3,7 @@ import { DashboardLayout } from '../components/DashboardLayout';
 import { DeliverableViewer } from '../components/DeliverableViewer';
 import { fetchKnowledgeLibraryItems } from '../services/knowledgeLibraryContentService.js';
 import { filterVisibleLibraryItems } from '../services/contentVisibility.js';
+import { WIKI_LIBRARY_ITEMS } from '../services/wikiLibraryItems.js';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { 
   Search, 
@@ -239,13 +240,14 @@ export const KnowledgeLibraryPage = () => {
   const [libraryError, setLibraryError] = useState(null);
   const userRole = useUserRole();
   const { activeSite, renderedSiteQuery } = useActiveSite();
-  const { statuses, getStatus, getStatusInfo, updateStatus } = useDeliverableStatus();
+  const { statuses, getStatus, updateStatus } = useDeliverableStatus();
 
   useEffect(() => {
     const loadLibraryItems = async () => {
       try {
         const items = await fetchKnowledgeLibraryItems(renderedSiteQuery);
-        setLibraryItems(items);
+        const internalWikiItems = userRole.isTeam ? WIKI_LIBRARY_ITEMS : [];
+        setLibraryItems([...internalWikiItems, ...items]);
         setLibraryError(null);
       } catch (error) {
         console.error(error);
@@ -254,7 +256,7 @@ export const KnowledgeLibraryPage = () => {
     };
 
     loadLibraryItems();
-  }, [renderedSiteQuery]);
+  }, [renderedSiteQuery, userRole.isTeam]);
 
   const categories = [
     { id: 'safety', icon: Shield, label: 'Safety', color: 'bg-red-500' },
@@ -267,6 +269,13 @@ export const KnowledgeLibraryPage = () => {
     { id: 'patient', icon: Users, label: 'Patient Experience', color: 'bg-rose-500' },
     { id: 'compliance', icon: BarChart3, label: 'Compliance & Billing', color: 'bg-cyan-500' },
     { id: 'governance', icon: Shield, label: 'Governance', color: 'bg-orange-500' },
+    { id: 'wiki-foundation', icon: BookOpen, label: 'Wiki: Foundation', color: 'bg-slate-700' },
+    { id: 'wiki-sales', icon: BookOpen, label: 'Wiki: Sales', color: 'bg-emerald-600' },
+    { id: 'wiki-operating', icon: BookOpen, label: 'Wiki: Operating Model', color: 'bg-blue-700' },
+    { id: 'wiki-platform', icon: BookOpen, label: 'Wiki: Platform', color: 'bg-violet-600' },
+    { id: 'wiki-delivery', icon: BookOpen, label: 'Wiki: Delivery', color: 'bg-amber-600' },
+    { id: 'wiki-risk', icon: BookOpen, label: 'Wiki: Risk / Legal', color: 'bg-red-600' },
+    { id: 'wiki-readiness', icon: BookOpen, label: 'Wiki: Readiness', color: 'bg-primary' },
   ];
 
   // Foundation library items now load from the metadata model.
@@ -289,7 +298,7 @@ export const KnowledgeLibraryPage = () => {
   // If viewing a deliverable, show the viewer
   if (selectedItem) {
     const catInfo = getCategoryInfo(selectedItem.category);
-    const status = selectedItem.storagePath ? getStatus(selectedItem.storagePath) : 'draft';
+    const status = selectedItem.storagePath ? getStatus(selectedItem.storagePath) : selectedItem.status || 'draft';
     return (
       <DashboardLayout>
         <DeliverableViewer 
@@ -310,14 +319,23 @@ export const KnowledgeLibraryPage = () => {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Knowledge Library</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 font-light">
           {(() => {
-            const total = libraryItems.length || 44;
+            const wikiCount = libraryItems.filter((item) => item.kind === 'wiki-page').length;
+            const foundationCount = libraryItems.filter((item) => item.kind !== 'wiki-page').length;
             const all = Object.values(statuses || {});
             const approved = all.filter(s => s.status === 'approved').length;
+            if (wikiCount > 0) return `${wikiCount} internal Block Ops Wiki pages + ${foundationCount || 44} Foundation Package deliverables — Wiki pages are internal draft/review content.`;
+            const total = foundationCount || 44;
             if (approved === 0) return `${total} Foundation Package deliverables — all drafts pending clinical review.`;
             if (approved === total) return `${total} Foundation Package deliverables — all approved.`;
             return `${total} Foundation Package deliverables — ${approved} approved, ${total - approved} pending review.`;
           })()}
         </p>
+        {userRole.isTeam && (
+          <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <span className="font-semibold">Internal Wiki draft mode:</span>{' '}
+            Block Ops Wiki pages are visible here for team review only. They are not client-facing or approved-final content.
+          </div>
+        )}
         <div className="mt-3 inline-flex flex-col gap-1 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
           <span className="font-semibold">Rendered site view</span>
           <span className="font-light">{activeSite?.siteName || 'Loading site...'} · {activeSite?.clientAccountName || 'Loading client...'}</span>
@@ -385,7 +403,7 @@ export const KnowledgeLibraryPage = () => {
 
       {/* Results Count */}
       <p className="text-xs text-gray-400 dark:text-gray-500 mb-4 font-semibold">
-        {roleFilteredItems.length} {roleFilteredItems.length === 1 ? 'deliverable' : 'deliverables'}
+        {roleFilteredItems.length} {roleFilteredItems.length === 1 ? 'item' : 'items'}
       </p>
 
       {/* Content Grid / List */}
@@ -401,8 +419,8 @@ export const KnowledgeLibraryPage = () => {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${catInfo.color}`}></div>
-                    <span className="text-xs font-semibold text-gray-400 dark:text-gray-500">{catInfo.label}</span>
+                    <div className={`w-2 h-2 rounded-full ${catInfo?.color || 'bg-gray-400'}`}></div>
+                    <span className="text-xs font-semibold text-gray-400 dark:text-gray-500">{catInfo?.label || 'Knowledge'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     {item.hasContent && (
@@ -412,6 +430,7 @@ export const KnowledgeLibraryPage = () => {
                     )}
                     {(() => {
                       const s = item.storagePath ? getStatus(item.storagePath) : 'draft';
+                      if (item.kind === 'wiki-page') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Internal Wiki</span>;
                       if (s === 'approved') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Approved</span>;
                       if (s === 'needs_revision') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Needs Revision</span>;
                       return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>;
@@ -445,16 +464,17 @@ export const KnowledgeLibraryPage = () => {
                 className={`bg-white border border-gray-200 dark:border-dark-border rounded-lg px-5 py-3 transition flex items-center gap-4 group ${item.hasContent ? 'hover:border-primary/40 hover:shadow-sm cursor-pointer' : 'cursor-default opacity-80'}`}
                 onClick={() => item.hasContent && setSelectedItem(item)}
               >
-                <div className={`w-2 h-8 rounded-full ${catInfo.color} flex-shrink-0`}></div>
+                <div className={`w-2 h-8 rounded-full ${catInfo?.color || 'bg-gray-400'} flex-shrink-0`}></div>
                 <div className="flex-1 min-w-0">
                   <h3 className={`text-sm font-bold transition truncate ${item.hasContent ? 'text-gray-900 dark:text-gray-100 group-hover:text-primary' : 'text-gray-900 dark:text-gray-100'}`}>{item.title}</h3>
                   <p className="text-xs text-gray-400 dark:text-gray-500 font-light truncate">{item.description}</p>
                 </div>
                 <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
-                  <span className="text-xs font-semibold text-gray-400 dark:text-gray-500">{catInfo.label}</span>
+                  <span className="text-xs font-semibold text-gray-400 dark:text-gray-500">{catInfo?.label || 'Knowledge'}</span>
                   {item.hasContent && <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">View</span>}
                   {(() => {
                     const s = item.storagePath ? getStatus(item.storagePath) : 'draft';
+                    if (item.kind === 'wiki-page') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Internal Wiki</span>;
                     if (s === 'approved') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Approved</span>;
                     if (s === 'needs_revision') return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Revision</span>;
                     return <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>;

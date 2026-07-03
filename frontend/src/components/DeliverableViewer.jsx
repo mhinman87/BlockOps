@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowLeft, FileText, Tag, Loader2, CheckCircle2, AlertTriangle, X, Shield } from 'lucide-react';
@@ -74,7 +74,7 @@ const MarkdownComponents = {
   th: ({ children }) => (
     <th className="px-4 py-2.5 text-left text-xs font-bold uppercase tracking-wider">{children}</th>
   ),
-  tr: ({ children, ...props }) => (
+  tr: ({ children }) => (
     <tr className="border-b border-gray-100 dark:border-dark-border even:bg-gray-50 dark:even:bg-[#1e2235] hover:bg-primary/5 dark:hover:bg-primary/10 transition">{children}</tr>
   ),
   td: ({ children }) => {
@@ -91,7 +91,7 @@ const MarkdownComponents = {
   ol: ({ children }) => (
     <ol className="space-y-2 my-3 ml-1 list-none counter-reset-step">{children}</ol>
   ),
-  li: ({ children, ordered, index }) => {
+  li: ({ children }) => {
     const text = String(children);
     // Detect checklist items
     if (text.startsWith('☐ ') || text.startsWith('☑ ')) {
@@ -157,6 +157,13 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
 
   useEffect(() => {
     const fetchContent = async () => {
+      if (deliverable?.content) {
+        setContent(deliverable.content);
+        setLoading(false);
+        setError(null);
+        return;
+      }
+
       if (!deliverable?.storagePath) {
         setError('No file path configured for this deliverable.');
         setLoading(false);
@@ -173,7 +180,7 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
         if (!response.ok) throw new Error('Failed to fetch document');
         const text = await response.text();
         setContent(text);
-      } catch (err) {
+      } catch {
         setError('Could not load this document. It may not have been uploaded yet.');
       } finally {
         setLoading(false);
@@ -260,7 +267,7 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
           </div>
 
           {/* Reviewer Actions */}
-          {userRole?.isReviewer && currentStatus !== 'approved' && (
+          {deliverable.storagePath && userRole?.isReviewer && currentStatus !== 'approved' && (
             <div className="px-6 py-3 bg-gray-50 dark:bg-dark-bg border-t border-gray-200 dark:border-dark-border flex gap-3">
               <button
                 onClick={handleApprove}
@@ -281,7 +288,7 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
             </div>
           )}
 
-          {userRole?.isReviewer && currentStatus === 'approved' && (
+          {deliverable.storagePath && userRole?.isReviewer && currentStatus === 'approved' && (
           <div className="px-6 py-3 bg-green-50 dark:bg-green-900/20 border-t border-green-200 dark:border-green-800/40 flex items-center gap-2">
             <CheckCircle2 className="text-green-600" size={16} />
             <span className="text-sm text-green-800 dark:text-green-300 font-semibold">This deliverable has been approved.</span>
@@ -332,7 +339,11 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
         {/* Draft watermark banner */}
         {currentStatus !== 'approved' && (
           <div className="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800/40 px-6 py-2 text-center">
-            <span className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">⚠ Draft Document — Not for Clinical Use — Pending Review</span>
+            <span className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">
+              {deliverable.kind === 'wiki-page'
+                ? '⚠ Internal Wiki Draft — Not Client-Facing — Pending Review'
+                : '⚠ Draft Document — Not for Clinical Use — Pending Review'}
+            </span>
           </div>
         )}
         
