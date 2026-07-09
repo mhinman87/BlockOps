@@ -18,7 +18,11 @@ create table if not exists launch_tasks_v2 (
     'Founding Partner Motion',
     'Proof / Data / Reporting',
     'Operating System / Execution Management',
-    'Block Ops Wiki Buildout'
+    'Block Ops Wiki Buildout',
+    'Operating Model',
+    'Final Review / Approvals',
+    'Client-Facing Leak Audit',
+    'Wiki / Obsidian Operating System'
   )),
   milestone_id uuid references launch_milestones(id) on delete set null,
   due_date date,
