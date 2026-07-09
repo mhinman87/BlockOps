@@ -228,7 +228,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-09",
     "title": "Define the follow-up workflow and schedule",
-    "description": "Drafted in Obsidian Outreach Sequence page: first touch within 1 business day, second touch Day 2\u20133, third touch Day 5\u20137, close-loop/nurture/recycle Day 10\u201314. Needs Adrian validation.",
+    "description": "Adrian-approved M1 follow-up workflow: first touch Day 0–2, follow-up 1 after 3–4 business days, default no-response cadence through business day 10, and 7-business-day fast lane for warm/referral/high-intent leads. Remaining follow-up: materials by touchpoint and finer channel-use details.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "critical",
@@ -283,8 +283,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-OS-06",
-    "title": "Define follow-up Day 2\u20133 touch",
-    "description": "Drafted in Obsidian Outreach Sequence page: if no response after 2\u20133 business days, send follow-up email/text and optionally call if phone exists and warmth/value justifies it. Needs Adrian validation.",
+    "title": "Define follow-up 3–4 business-day touch",
+    "description": "Adrian-approved baseline: if no response 3–4 business days after first touch, send follow-up by the best available channel and optionally call when phone exists and lead warmth/value justifies it.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
@@ -297,8 +297,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-OS-07",
-    "title": "Define follow-up Day 5\u20137 touch",
-    "description": "Drafted in Obsidian Outreach Sequence page: if still no response, send final value-focused nudge and optionally call high-value/warm leads. Needs Adrian validation.",
+    "title": "Define final nudge timing",
+    "description": "Adrian-approved baseline: default final nudge occurs around business day 7–8, or business day 5 for warm/referral/high-intent fast-lane leads; final close-loop is email-only by default.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
@@ -311,8 +311,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-OS-08",
-    "title": "Define Day 10\u201314 close-loop / nurture rule",
-    "description": "Drafted in Obsidian Outreach Sequence page: after no response to final nudge, move to No Response/Stalled, Nurture/Recycle Later, Future Market/Geography Hold, or Closed/No Response. Needs Samir/Adrian validation.",
+    "title": "Define Day 10 close-loop / nurture rule",
+    "description": "Adrian-approved outreach cadence moves default no-response/stalled review to around business day 10, with a business day 7 fast lane. Samir still owns final not-fit, nurture, future-market, and close/no-response business rules.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
@@ -326,7 +326,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-09",
     "title": "Define call attempt rule",
-    "description": "Drafted in Obsidian Outreach Sequence page: calls depend on source, warmth, phone availability, and lead value; website/AI-chat is email-first unless high-intent, network/referral can justify call/text. Needs Adrian validation.",
+    "description": "Adrian-approved channel baseline: website/contact/AI-chat leads are call-first when phone exists and email-first when no phone exists; Adrian/network leads use relationship judgment; referral/manual text-first is not default unless warm or permissioned.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
