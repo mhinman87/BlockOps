@@ -5,8 +5,8 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "description": "M1 proves the full customer path by running a mock client from lead capture through CRM entry, follow-up, proposal, contract, go-live prep, and launch board organization.",
     "status": "in_progress",
     "owner": "Max",
-    "sortOrder": "1",
-    "readinessScore": "20",
+    "sortOrder": 1,
+    "readinessScore": 20,
     "gateNotes": "M1 is the end-to-end mock client rehearsal: lead pipelines, CRM, workflows, and Mission Control organization all have to work together."
   },
   {
@@ -15,8 +15,8 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "description": "The team can responsibly accept a real foundational client with finalized deliverables, legal readiness, portal readiness, data intake solved, support readiness, and no major improvisation.",
     "status": "locked",
     "owner": "Max",
-    "sortOrder": "2",
-    "readinessScore": "0",
+    "sortOrder": 2,
+    "readinessScore": 0,
     "gateNotes": "M2 is the real-client readiness gate: final deliverables, legal, portal, data, support, and operating cadence are all in place."
   },
   {
@@ -25,8 +25,8 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "description": "Outside attending anesthesiologists have reviewed the system, the test is passed, and the validation loop is complete.",
     "status": "locked",
     "owner": "Samir",
-    "sortOrder": "3",
-    "readinessScore": "0",
+    "sortOrder": 3,
+    "readinessScore": 0,
     "gateNotes": "M3 is the external validation gate: the attending review is complete and the system passed the test."
   },
   {
@@ -35,8 +35,8 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "description": "The first foundational client has been onboarded and delivered successfully with the core operating system proven in practice.",
     "status": "locked",
     "owner": "Samir",
-    "sortOrder": "4",
-    "readinessScore": "0",
+    "sortOrder": 4,
+    "readinessScore": 0,
     "gateNotes": "M4 closes the foundational client loop and proves the system can run end to end."
   },
   {
@@ -45,8 +45,8 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "description": "A paid client has been onboarded successfully and the system is operating in real delivery.",
     "status": "locked",
     "owner": "Adrian",
-    "sortOrder": "5",
-    "readinessScore": "0",
+    "sortOrder": 5,
+    "readinessScore": 0,
     "gateNotes": "M5 is the paid client onboarding gate: real delivery is now underway."
   }
 ];
@@ -69,7 +69,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "30"
+    "sortOrder": 30
   },
   {
     "taskKey": "M1-04",
@@ -83,7 +83,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "40"
+    "sortOrder": 40
   },
   {
     "taskKey": "M1-05",
@@ -97,7 +97,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "50"
+    "sortOrder": 50
   },
   {
     "taskKey": "M1-06",
@@ -111,7 +111,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "60"
+    "sortOrder": 60
   },
   {
     "taskKey": "M1-07",
@@ -125,7 +125,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "70"
+    "sortOrder": 70
   },
   {
     "taskKey": "M1-LC-06",
@@ -139,7 +139,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "75"
+    "sortOrder": 75
   },
   {
     "taskKey": "M1-LC-07",
@@ -153,7 +153,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "76"
+    "sortOrder": 76
   },
   {
     "taskKey": "M1-LC-08",
@@ -167,7 +167,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "77"
+    "sortOrder": 77
   },
   {
     "taskKey": "M1-LC-09",
@@ -181,7 +181,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "78"
+    "sortOrder": 78
   },
   {
     "taskKey": "M1-LC-10",
@@ -195,7 +195,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "79"
+    "sortOrder": 79
   },
   {
     "taskKey": "M1-LC-11",
@@ -209,7 +209,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "80"
+    "sortOrder": 80
   },
   {
     "taskKey": "M1-08",
@@ -223,7 +223,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "81"
+    "sortOrder": 81
   },
   {
     "taskKey": "M1-09",
@@ -237,7 +237,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "90"
+    "sortOrder": 90
   },
   {
     "taskKey": "M1-OS-03",
@@ -251,7 +251,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "91"
+    "sortOrder": 91
   },
   {
     "taskKey": "M1-OS-04",
@@ -265,7 +265,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "92"
+    "sortOrder": 92
   },
   {
     "taskKey": "M1-OS-05",
@@ -279,7 +279,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "93"
+    "sortOrder": 93
   },
   {
     "taskKey": "M1-OS-06",
@@ -293,7 +293,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "94"
+    "sortOrder": 94
   },
   {
     "taskKey": "M1-OS-07",
@@ -307,7 +307,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "95"
+    "sortOrder": 95
   },
   {
     "taskKey": "M1-OS-08",
@@ -321,7 +321,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "96"
+    "sortOrder": 96
   },
   {
     "taskKey": "M1-OS-09",
@@ -335,7 +335,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "97"
+    "sortOrder": 97
   },
   {
     "taskKey": "M1-OS-10",
@@ -349,7 +349,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "98"
+    "sortOrder": 98
   },
   {
     "taskKey": "M1-OS-11",
@@ -363,7 +363,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "99"
+    "sortOrder": 99
   },
   {
     "taskKey": "M1-OS-12",
@@ -377,7 +377,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "100"
+    "sortOrder": 100
   },
   {
     "taskKey": "M1-CL-01",
@@ -391,7 +391,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "110"
+    "sortOrder": 110
   },
   {
     "taskKey": "M1-CL-02",
@@ -405,7 +405,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "111"
+    "sortOrder": 111
   },
   {
     "taskKey": "M1-CL-03",
@@ -419,7 +419,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "112"
+    "sortOrder": 112
   },
   {
     "taskKey": "M1-CL-04",
@@ -433,7 +433,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "113"
+    "sortOrder": 113
   },
   {
     "taskKey": "M1-QD-01",
@@ -447,7 +447,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "120"
+    "sortOrder": 120
   },
   {
     "taskKey": "M1-QD-02",
@@ -461,7 +461,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "121"
+    "sortOrder": 121
   },
   {
     "taskKey": "M1-QD-03",
@@ -475,7 +475,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "122"
+    "sortOrder": 122
   },
   {
     "taskKey": "M1-QD-04",
@@ -489,7 +489,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "123"
+    "sortOrder": 123
   },
   {
     "taskKey": "M1-QD-05",
@@ -503,7 +503,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "124"
+    "sortOrder": 124
   },
   {
     "taskKey": "M1-PW-01",
@@ -517,7 +517,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "130"
+    "sortOrder": 130
   },
   {
     "taskKey": "M1-PW-02",
@@ -531,7 +531,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "131"
+    "sortOrder": 131
   },
   {
     "taskKey": "M1-PW-03",
@@ -545,7 +545,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "132"
+    "sortOrder": 132
   },
   {
     "taskKey": "M1-PW-04",
@@ -559,7 +559,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "133"
+    "sortOrder": 133
   },
   {
     "taskKey": "M1-SMS-01",
@@ -573,7 +573,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "140"
+    "sortOrder": 140
   },
   {
     "taskKey": "M1-SMS-02",
@@ -587,7 +587,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "141"
+    "sortOrder": 141
   },
   {
     "taskKey": "M1-SMS-03",
@@ -601,7 +601,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "142"
+    "sortOrder": 142
   },
   {
     "taskKey": "M1-SMS-04",
@@ -615,7 +615,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "143"
+    "sortOrder": 143
   },
   {
     "taskKey": "M1-OM-01",
@@ -629,7 +629,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "150"
+    "sortOrder": 150
   },
   {
     "taskKey": "M1-OM-02",
@@ -643,7 +643,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "151"
+    "sortOrder": 151
   },
   {
     "taskKey": "M1-OM-03",
@@ -657,7 +657,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "152"
+    "sortOrder": 152
   },
   {
     "taskKey": "M1-OM-04",
@@ -671,7 +671,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "153"
+    "sortOrder": 153
   },
   {
     "taskKey": "M1-OM-05",
@@ -685,7 +685,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "154"
+    "sortOrder": 154
   },
   {
     "taskKey": "M1-OM-06",
@@ -699,7 +699,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "155"
+    "sortOrder": 155
   },
   {
     "taskKey": "M1-OM-07",
@@ -713,7 +713,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "156"
+    "sortOrder": 156
   },
   {
     "taskKey": "M1-DP-01",
@@ -727,7 +727,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "160"
+    "sortOrder": 160
   },
   {
     "taskKey": "M1-DP-02",
@@ -741,7 +741,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "161"
+    "sortOrder": 161
   },
   {
     "taskKey": "M1-DP-03",
@@ -755,7 +755,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "162"
+    "sortOrder": 162
   },
   {
     "taskKey": "M1-DP-04",
@@ -769,7 +769,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "163"
+    "sortOrder": 163
   },
   {
     "taskKey": "M1-DP-05",
@@ -783,7 +783,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "164"
+    "sortOrder": 164
   },
   {
     "taskKey": "M1-DP-06",
@@ -797,7 +797,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "165"
+    "sortOrder": 165
   },
   {
     "taskKey": "M1-DP-07",
@@ -811,7 +811,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "166"
+    "sortOrder": 166
   },
   {
     "taskKey": "M1-DP-08",
@@ -825,7 +825,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "167"
+    "sortOrder": 167
   },
   {
     "taskKey": "M1-WIKI-01",
@@ -839,7 +839,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "168"
+    "sortOrder": 168
   },
   {
     "taskKey": "M1-WIKI-02",
@@ -853,7 +853,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "169"
+    "sortOrder": 169
   },
   {
     "taskKey": "M1-WIKI-03",
@@ -867,35 +867,35 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "176"
+    "sortOrder": 176
   },
   {
     "taskKey": "M1-WIKI-04",
     "title": "QA Company Identity Wiki pages",
-    "description": "Review Mission, Vision, Positioning and Core Story, Pillar Model / Gold Standard Tree, and Implementation Bundles. Mark each page current internal, needs review, hold, or archive/reference.",
+    "description": "Completed 2026-07-08: reviewed and re-synced Company Identity pages into the live admin Wiki as current internal drafts with explicit non-client-facing review gates: Mission, Vision, Positioning/Core Story, Pillar Model / Gold Standard Tree, and Implementation Bundles.",
     "primaryOwner": "Samir",
-    "status": "this_week",
+    "status": "done",
     "priority": "critical",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "177"
+    "sortOrder": 177
   },
   {
     "taskKey": "M1-WIKI-05",
     "title": "QA Sales and Client Pipeline Wiki pages",
     "description": "Review lead capture, outreach sequence, CRM pipeline stages, communication log, qualification/discovery, proposal workflow, and sales materials/scripts. Validate Adrian-facing sales language and remove unsupported claims.",
     "primaryOwner": "Adrian",
-    "status": "ready",
+    "status": "this_week",
     "priority": "critical",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "178"
+    "sortOrder": 178
   },
   {
     "taskKey": "M1-WIKI-06",
@@ -909,7 +909,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "179"
+    "sortOrder": 179
   },
   {
     "taskKey": "M1-WIKI-07",
@@ -923,7 +923,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "180"
+    "sortOrder": 180
   },
   {
     "taskKey": "M1-WIKI-08",
@@ -937,7 +937,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "181"
+    "sortOrder": 181
   },
   {
     "taskKey": "M1-WIKI-09",
@@ -951,7 +951,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "182"
+    "sortOrder": 182
   },
   {
     "taskKey": "M1-WIKI-10",
@@ -965,7 +965,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "183"
+    "sortOrder": 183
   },
   {
     "taskKey": "M1-WIKI-11",
@@ -979,7 +979,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "184"
+    "sortOrder": 184
   },
   {
     "taskKey": "M1-WIKI-12",
@@ -993,7 +993,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "185"
+    "sortOrder": 185
   },
   {
     "taskKey": "M1-WIKI-13",
@@ -1007,7 +1007,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "186"
+    "sortOrder": 186
   },
   {
     "taskKey": "M1-WIKI-14",
@@ -1021,7 +1021,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "187"
+    "sortOrder": 187
   },
   {
     "taskKey": "M1-DCK-01",
@@ -1035,7 +1035,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "170"
+    "sortOrder": 170
   },
   {
     "taskKey": "M1-DCK-02",
@@ -1049,7 +1049,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "171"
+    "sortOrder": 171
   },
   {
     "taskKey": "M1-DCK-03",
@@ -1063,7 +1063,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "172"
+    "sortOrder": 172
   },
   {
     "taskKey": "M1-DCK-04",
@@ -1077,7 +1077,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "173"
+    "sortOrder": 173
   },
   {
     "taskKey": "M1-DCK-05",
@@ -1091,7 +1091,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "174"
+    "sortOrder": 174
   },
   {
     "taskKey": "M1-DCK-06",
@@ -1105,7 +1105,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "175"
+    "sortOrder": 175
   },
   {
     "taskKey": "M1-29",
@@ -1119,7 +1119,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "290"
+    "sortOrder": 290
   },
   {
     "taskKey": "M1-30",
@@ -1133,7 +1133,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "300"
+    "sortOrder": 300
   },
   {
     "taskKey": "M1-31",
@@ -1147,7 +1147,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "310"
+    "sortOrder": 310
   },
   {
     "taskKey": "M1-32",
@@ -1161,7 +1161,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "320"
+    "sortOrder": 320
   },
   {
     "taskKey": "M1-33",
@@ -1175,7 +1175,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "330"
+    "sortOrder": 330
   },
   {
     "taskKey": "M1-34",
@@ -1189,7 +1189,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "340"
+    "sortOrder": 340
   },
   {
     "taskKey": "M1-35",
@@ -1203,7 +1203,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "350"
+    "sortOrder": 350
   },
   {
     "taskKey": "M1-36",
@@ -1217,7 +1217,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "360"
+    "sortOrder": 360
   },
   {
     "taskKey": "M1-37",
@@ -1231,7 +1231,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "370"
+    "sortOrder": 370
   },
   {
     "taskKey": "M1-38",
@@ -1245,7 +1245,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "380"
+    "sortOrder": 380
   },
   {
     "taskKey": "M1-39",
@@ -1259,7 +1259,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "390"
+    "sortOrder": 390
   },
   {
     "taskKey": "M1-40",
@@ -1273,7 +1273,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "400"
+    "sortOrder": 400
   },
   {
     "taskKey": "M1-FST-01",
@@ -1287,7 +1287,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "410"
+    "sortOrder": 410
   },
   {
     "taskKey": "M1-FST-02",
@@ -1301,7 +1301,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "420"
+    "sortOrder": 420
   },
   {
     "taskKey": "M1-FST-03",
@@ -1315,7 +1315,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "430"
+    "sortOrder": 430
   },
   {
     "taskKey": "M1-FST-04",
@@ -1329,7 +1329,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "440"
+    "sortOrder": 440
   },
   {
     "taskKey": "M1-FST-05",
@@ -1343,7 +1343,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "450"
+    "sortOrder": 450
   },
   {
     "taskKey": "M1-FST-06",
@@ -1357,7 +1357,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "460"
+    "sortOrder": 460
   },
   {
     "taskKey": "M1-SOP-01",
@@ -1371,7 +1371,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "470"
+    "sortOrder": 470
   },
   {
     "taskKey": "M1-DASH-01",
@@ -1385,7 +1385,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "480"
+    "sortOrder": 480
   },
   {
     "taskKey": "M1-CAL-01",
@@ -1399,7 +1399,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "490"
+    "sortOrder": 490
   },
   {
     "taskKey": "M1-CAL-02",
@@ -1413,7 +1413,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "500"
+    "sortOrder": 500
   },
   {
     "taskKey": "M1-CAL-03",
@@ -1427,7 +1427,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "510"
+    "sortOrder": 510
   },
   {
     "taskKey": "M1-CAL-04",
@@ -1441,7 +1441,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "520"
+    "sortOrder": 520
   },
   {
     "taskKey": "M1-PA-01",
@@ -1455,7 +1455,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "530"
+    "sortOrder": 530
   },
   {
     "taskKey": "M1-PA-02",
@@ -1469,7 +1469,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "540"
+    "sortOrder": 540
   },
   {
     "taskKey": "M1-PA-03",
@@ -1483,7 +1483,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "550"
+    "sortOrder": 550
   },
   {
     "taskKey": "M2-01",
@@ -1497,7 +1497,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "10"
+    "sortOrder": 10
   },
   {
     "taskKey": "M2-02",
@@ -1511,7 +1511,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "20"
+    "sortOrder": 20
   },
   {
     "taskKey": "M2-03",
@@ -1525,7 +1525,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "30"
+    "sortOrder": 30
   },
   {
     "taskKey": "M2-04",
@@ -1539,7 +1539,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": false,
-    "sortOrder": "40"
+    "sortOrder": 40
   },
   {
     "taskKey": "M2-LRA-01",
@@ -1553,7 +1553,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "41"
+    "sortOrder": 41
   },
   {
     "taskKey": "M2-LRA-02",
@@ -1567,7 +1567,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "42"
+    "sortOrder": 42
   },
   {
     "taskKey": "M2-LRA-03",
@@ -1581,7 +1581,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "43"
+    "sortOrder": 43
   },
   {
     "taskKey": "M2-LRA-04",
@@ -1595,7 +1595,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "44"
+    "sortOrder": 44
   },
   {
     "taskKey": "M2-LRA-05",
@@ -1609,7 +1609,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": true,
-    "sortOrder": "45"
+    "sortOrder": 45
   },
   {
     "taskKey": "M2-LRA-06",
@@ -1623,7 +1623,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": true,
-    "sortOrder": "46"
+    "sortOrder": 46
   },
   {
     "taskKey": "M2-05",
@@ -1637,7 +1637,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "50"
+    "sortOrder": 50
   },
   {
     "taskKey": "M2-06",
@@ -1651,7 +1651,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "60"
+    "sortOrder": 60
   },
   {
     "taskKey": "M2-07",
@@ -1665,7 +1665,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "70"
+    "sortOrder": 70
   },
   {
     "taskKey": "M2-08",
@@ -1679,7 +1679,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "80"
+    "sortOrder": 80
   },
   {
     "taskKey": "M2-09",
@@ -1693,7 +1693,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": false,
-    "sortOrder": "90"
+    "sortOrder": 90
   },
   {
     "taskKey": "M2-10",
@@ -1707,7 +1707,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "100"
+    "sortOrder": 100
   },
   {
     "taskKey": "M2-11",
@@ -1721,7 +1721,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "110"
+    "sortOrder": 110
   },
   {
     "taskKey": "M2-12",
@@ -1735,7 +1735,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "120"
+    "sortOrder": 120
   },
   {
     "taskKey": "M2-13",
@@ -1749,7 +1749,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "130"
+    "sortOrder": 130
   },
   {
     "taskKey": "M2-14",
@@ -1763,7 +1763,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "140"
+    "sortOrder": 140
   },
   {
     "taskKey": "M2-15",
@@ -1777,7 +1777,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "150"
+    "sortOrder": 150
   },
   {
     "taskKey": "M2-16",
@@ -1791,7 +1791,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "160"
+    "sortOrder": 160
   },
   {
     "taskKey": "M3-01",
@@ -1805,7 +1805,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "10"
+    "sortOrder": 10
   },
   {
     "taskKey": "M3-02",
@@ -1819,7 +1819,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": true,
     "changedByNewInfo": false,
-    "sortOrder": "20"
+    "sortOrder": 20
   },
   {
     "taskKey": "M3-03",
@@ -1833,7 +1833,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "30"
+    "sortOrder": 30
   },
   {
     "taskKey": "M3-04",
@@ -1847,7 +1847,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "40"
+    "sortOrder": 40
   },
   {
     "taskKey": "M3-05",
@@ -1861,7 +1861,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "50"
+    "sortOrder": 50
   },
   {
     "taskKey": "M3-06",
@@ -1875,7 +1875,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "60"
+    "sortOrder": 60
   },
   {
     "taskKey": "M3-07",
@@ -1889,7 +1889,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "70"
+    "sortOrder": 70
   },
   {
     "taskKey": "M3-08",
@@ -1903,7 +1903,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "80"
+    "sortOrder": 80
   },
   {
     "taskKey": "M3-09",
@@ -1917,7 +1917,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "90"
+    "sortOrder": 90
   },
   {
     "taskKey": "M3-10",
@@ -1931,7 +1931,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "100"
+    "sortOrder": 100
   },
   {
     "taskKey": "M3-11",
@@ -1945,7 +1945,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "110"
+    "sortOrder": 110
   },
   {
     "taskKey": "M3-12",
@@ -1959,7 +1959,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "120"
+    "sortOrder": 120
   },
   {
     "taskKey": "M3-13",
@@ -1973,7 +1973,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "130"
+    "sortOrder": 130
   },
   {
     "taskKey": "M3-14",
@@ -1987,7 +1987,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "140"
+    "sortOrder": 140
   },
   {
     "taskKey": "M3-15",
@@ -2001,7 +2001,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "150"
+    "sortOrder": 150
   },
   {
     "taskKey": "M3-16",
@@ -2015,7 +2015,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "160"
+    "sortOrder": 160
   },
   {
     "taskKey": "M4-01",
@@ -2029,7 +2029,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "10"
+    "sortOrder": 10
   },
   {
     "taskKey": "M4-02",
@@ -2043,7 +2043,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "20"
+    "sortOrder": 20
   },
   {
     "taskKey": "M4-03",
@@ -2057,7 +2057,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": true,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "30"
+    "sortOrder": 30
   },
   {
     "taskKey": "M4-04",
@@ -2071,7 +2071,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "40"
+    "sortOrder": 40
   },
   {
     "taskKey": "M4-05",
@@ -2085,7 +2085,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "complianceFlag": false,
     "legalGateFlag": false,
     "changedByNewInfo": false,
-    "sortOrder": "50"
+    "sortOrder": 50
   }
 ];
 
