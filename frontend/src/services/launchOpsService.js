@@ -201,6 +201,6 @@ export const buildLaunchOpsSnapshot = ({ milestones = [], tasks = [], agenda = n
       return acc;
     }, {}),
     blockedTasks: tasks.filter((task) => task.computedStatus === 'locked' || task.computedStatus === 'blocked'),
-    thisWeekTasks: tasks.filter((task) => task.computedStatus === 'this_week'),
+    activeTasks: tasks.filter((task) => ['in_progress', 'ready', 'review', 'waiting'].includes(task.computedStatus)),
   };
 };

@@ -21,13 +21,13 @@ import {
 import { CANONICAL_WORKFLOWS } from '../services/launchOpsCanonicalSeed.js';
 
 const OWNERS = ['All', 'Max', 'Samir', 'Adrian', 'Bloq'];
-const STATUSES = ['this_week', 'in_progress', 'ready', 'review', 'waiting', 'locked', 'blocked', 'done', 'dropped'];
+const STATUSES = ['in_progress', 'ready', 'review', 'waiting', 'locked', 'blocked', 'done', 'dropped'];
 const PRIORITIES = ['critical', 'high', 'medium', 'low'];
-const MUTABLE_STATUSES = ['this_week', 'in_progress', 'ready', 'waiting', 'review', 'done', 'blocked', 'dropped'];
+const MUTABLE_STATUSES = ['in_progress', 'ready', 'waiting', 'review', 'done', 'blocked', 'dropped'];
 
 // Tasks sort within a workflow: active → ready → blocked → done.
 const STATUS_BUCKET = {
-  this_week: 'active', in_progress: 'active', review: 'active', waiting: 'active',
+  in_progress: 'active', review: 'active', waiting: 'active',
   ready: 'ready',
   locked: 'blocked', blocked: 'blocked',
   done: 'done', dropped: 'done',
@@ -36,7 +36,6 @@ const BUCKET_RANK = { active: 0, ready: 1, blocked: 2, done: 3 };
 const PRIORITY_RANK = { critical: 0, high: 1, medium: 2, low: 3 };
 
 const statusTone = {
-  this_week: 'bg-amber-100 text-amber-700',
   in_progress: 'bg-blue-100 text-blue-700',
   ready: 'bg-green-100 text-green-700',
   locked: 'bg-gray-200 text-gray-600',

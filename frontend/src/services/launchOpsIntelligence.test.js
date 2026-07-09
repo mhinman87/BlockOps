@@ -11,7 +11,7 @@ test('recomputeTaskStatuses locks tasks with incomplete hard dependencies and pr
   const tasks = [
     { id: 't1', status: 'done' },
     { id: 't2', status: 'ready' },
-    { id: 't3', status: 'this_week' },
+    { id: 't3', status: 'ready' },
   ];
   const dependencyMap = {
     t2: [{ dependsOnTaskId: 't1', dependencyType: 'finish_to_start' }],
@@ -41,7 +41,7 @@ test('buildUnlockedTaskIds returns tasks newly unlocked by a completed upstream 
   assert.deepEqual(buildUnlockedTaskIds({ previousTasks, nextTasks }), ['b']);
 });
 
-test('buildMilestoneReadinessMap summarizes completion, locked count, and this-week count by milestone', () => {
+test('buildMilestoneReadinessMap summarizes completion, locked count, and actionable count by milestone', () => {
   const milestones = [
     { id: 'm1', slug: 'm1', title: 'Milestone 1' },
     { id: 'm2', slug: 'm2', title: 'Milestone 2' },
@@ -49,7 +49,7 @@ test('buildMilestoneReadinessMap summarizes completion, locked count, and this-w
   const tasks = [
     { id: 't1', milestoneId: 'm1', computedStatus: 'done' },
     { id: 't2', milestoneId: 'm1', computedStatus: 'locked' },
-    { id: 't3', milestoneId: 'm1', computedStatus: 'this_week' },
+    { id: 't3', milestoneId: 'm1', computedStatus: 'ready' },
     { id: 't4', milestoneId: 'm2', computedStatus: 'done' },
   ];
 
@@ -61,7 +61,7 @@ test('buildMilestoneReadinessMap summarizes completion, locked count, and this-w
       totalTasks: 3,
       completedTasks: 1,
       lockedTasks: 1,
-      thisWeekTasks: 1,
+      actionableTasks: 1,
       readinessPercent: 33,
     },
     m2: {
@@ -71,7 +71,7 @@ test('buildMilestoneReadinessMap summarizes completion, locked count, and this-w
       totalTasks: 1,
       completedTasks: 1,
       lockedTasks: 0,
-      thisWeekTasks: 0,
+      actionableTasks: 0,
       readinessPercent: 100,
     },
   });

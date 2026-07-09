@@ -45,7 +45,7 @@ test('normalizeLaunchTaskRow maps task records into frontend task objects', () =
     title: 'Define mock-client minimum clinical deliverable set',
     description: 'desc',
     primary_owner: 'Samir',
-    status: 'this_week',
+    status: 'ready',
     priority: 'critical',
     workstream: 'Clinical Standard & Deliverables',
     milestone_id: 'm1',
@@ -62,7 +62,7 @@ test('normalizeLaunchTaskRow maps task records into frontend task objects', () =
     title: 'Define mock-client minimum clinical deliverable set',
     description: 'desc',
     primaryOwner: 'Samir',
-    status: 'this_week',
+    status: 'ready',
     priority: 'critical',
     workstream: 'Clinical Standard & Deliverables',
     milestoneId: 'm1',
@@ -162,14 +162,14 @@ test('deriveTaskState preserves active statuses when hard dependencies are satis
 
   assert.deepEqual(
     deriveTaskState({
-      task: { id: 't1', status: 'this_week' },
+      task: { id: 't1', status: 'ready' },
       dependencyMap: {
         t1: [{ dependsOnTaskId: 't0', dependencyType: 'finish_to_start' }],
       },
       tasksById,
     }),
     {
-      computedStatus: 'this_week',
+      computedStatus: 'ready',
       blockingTaskIds: [],
       softBlockedTaskIds: [],
       hasBlockingDependencies: false,

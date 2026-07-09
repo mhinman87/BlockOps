@@ -57,7 +57,7 @@ export const buildMilestoneReadinessMap = ({ milestones = [], tasks = [] } = {})
     const totalTasks = milestoneTasks.length;
     const completedTasks = milestoneTasks.filter((task) => task.computedStatus === DONE_STATUS).length;
     const lockedTasks = milestoneTasks.filter((task) => task.computedStatus === 'locked').length;
-    const thisWeekTasks = milestoneTasks.filter((task) => task.computedStatus === 'this_week').length;
+    const actionableTasks = milestoneTasks.filter((task) => ['in_progress', 'ready', 'review', 'waiting'].includes(task.computedStatus)).length;
     const readinessPercent = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
     return [milestone.id, {
@@ -67,7 +67,7 @@ export const buildMilestoneReadinessMap = ({ milestones = [], tasks = [] } = {})
       totalTasks,
       completedTasks,
       lockedTasks,
-      thisWeekTasks,
+      actionableTasks,
       readinessPercent,
     }];
   }),

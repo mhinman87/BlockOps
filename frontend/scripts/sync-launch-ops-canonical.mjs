@@ -117,7 +117,7 @@ const verify = async (client) => {
       wikiDoneThrough07: wikiTasks
         .filter((task) => /^M1-WIKI-0[1-7]$/.test(task.task_key))
         .every((task) => task.status === 'done'),
-      wiki08ThisWeek: wikiTasks.some((task) => task.task_key === 'M1-WIKI-08' && task.status === 'this_week'),
+      wiki08Ready: wikiTasks.some((task) => task.task_key === 'M1-WIKI-08' && task.status === 'ready'),
     },
   };
 

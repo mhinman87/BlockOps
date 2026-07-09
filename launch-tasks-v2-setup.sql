@@ -7,7 +7,7 @@ create table if not exists launch_tasks_v2 (
   title text not null,
   description text,
   primary_owner text not null check (primary_owner in ('Max', 'Samir', 'Adrian', 'Bloq')),
-  status text not null check (status in ('locked', 'ready', 'this_week', 'in_progress', 'waiting', 'blocked', 'review', 'done', 'dropped')),
+  status text not null check (status in ('locked', 'ready', 'in_progress', 'waiting', 'blocked', 'review', 'done', 'dropped')),
   priority text not null check (priority in ('critical', 'high', 'medium', 'low')),
   workstream text not null check (workstream in (
     'Clinical Standard & Deliverables',

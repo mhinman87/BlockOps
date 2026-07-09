@@ -329,7 +329,7 @@ test('buildLaunchOpsSnapshot returns current milestone, readiness, and grouped t
   ];
   const tasks = [
     { id: 't1', primaryOwner: 'Samir', milestoneId: 'm1', status: 'done', computedStatus: 'done' },
-    { id: 't2', primaryOwner: 'Samir', milestoneId: 'm1', status: 'this_week', computedStatus: 'this_week' },
+    { id: 't2', primaryOwner: 'Samir', milestoneId: 'm1', status: 'ready', computedStatus: 'ready' },
     { id: 't3', primaryOwner: 'Max', milestoneId: 'm1', status: 'blocked', computedStatus: 'blocked' },
   ];
   const agenda = { currentMilestoneSlug: 'm1' };
@@ -337,7 +337,7 @@ test('buildLaunchOpsSnapshot returns current milestone, readiness, and grouped t
   const snapshot = buildLaunchOpsSnapshot({ milestones, tasks, agenda });
 
   assert.equal(snapshot.currentMilestone.slug, 'm1');
-  assert.equal(snapshot.thisWeekTasks.length, 1);
+  assert.equal(snapshot.activeTasks.length, 1);
   assert.equal(snapshot.blockedTasks.length, 1);
   assert.equal(snapshot.tasksByOwner.Samir.length, 2);
   assert.equal(snapshot.readiness[0].readinessFromTasks, 33);
