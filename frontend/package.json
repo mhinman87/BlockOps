@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "launch:sync": "node scripts/sync-launch-ops-canonical.mjs",
+    "launch:verify": "VERIFY_ONLY=1 node scripts/sync-launch-ops-canonical.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
