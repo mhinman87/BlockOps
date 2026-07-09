@@ -928,14 +928,14 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-WIKI-08",
     "title": "QA Delivery and Clinical Knowledge Wiki pages",
-    "description": "Review client onboarding, implementation bundle delivery, training day readiness, go-live verification, and clinical/block program knowledge index. Keep clinical and deliverable content fact-review gated.",
+    "description": "Completed 2026-07-09: reviewed and re-synced Client Onboarding, Implementation Bundle Delivery, Training Day Readiness, Go-Live Verification, and Clinical / Block Program Knowledge Index as current internal drafts. Standardized implementation-bundle terminology, the universal foundation baseline, current M3/M4/M5 milestone framing, approved-final-only client visibility, qualified clinical fact review, lawyer approval, and role-based evidence gates.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "critical",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
     "complianceFlag": true,
-    "legalGateFlag": false,
+    "legalGateFlag": true,
     "changedByNewInfo": true,
     "sortOrder": 181
   },
