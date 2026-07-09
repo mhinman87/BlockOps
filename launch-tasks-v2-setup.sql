@@ -22,7 +22,8 @@ create table if not exists launch_tasks_v2 (
     'Operating Model',
     'Final Review / Approvals',
     'Client-Facing Leak Audit',
-    'Wiki / Obsidian Operating System'
+    'Wiki / Obsidian Operating System',
+    'Wiki Cross-Linking'
   )),
   milestone_id uuid references launch_milestones(id) on delete set null,
   due_date date,
