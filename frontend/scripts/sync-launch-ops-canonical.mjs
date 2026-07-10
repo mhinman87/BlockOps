@@ -114,10 +114,10 @@ const verify = async (client) => {
     },
     matches: {
       canonicalTasksPresent: liveCanonicalTasks.length === CANONICAL_LAUNCH_TASKS.length,
-      wikiDoneThrough10: wikiTasks
-        .filter((task) => /^M1-WIKI-(0[1-9]|10)$/.test(task.task_key))
+      wikiDoneThrough11: wikiTasks
+        .filter((task) => /^M1-WIKI-(0[1-9]|1[01])$/.test(task.task_key))
         .every((task) => task.status === 'done'),
-      wiki11Ready: wikiTasks.some((task) => task.task_key === 'M1-WIKI-11' && task.status === 'ready'),
+      wiki12Ready: wikiTasks.some((task) => task.task_key === 'M1-WIKI-12' && task.status === 'ready'),
     },
   };
 

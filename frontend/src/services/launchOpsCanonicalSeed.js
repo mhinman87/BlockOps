@@ -970,9 +970,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-WIKI-11",
     "title": "Map reviewed Wiki pages to the six-pillar spine",
-    "description": "After page QA, map pages from the current 12 admin/backend sections into the official six-pillar Wiki spine without rushing a visible category rename.",
+    "description": "Completed 2026-07-09: audited 41 existing live Wiki pages, preserved five legitimate live-only pages, created the governed six-pillar page map as the 42nd live page, and assigned every page exactly one primary official pillar with optional secondary pillars. Added fail-closed canonical metadata for 37 repository Wiki items while retaining the current 12-section backend/admin structure. No visible category rename, review completion, content promotion, or client-facing publication occurred; durable live pillar fields/navigation remain Max implementation work.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
