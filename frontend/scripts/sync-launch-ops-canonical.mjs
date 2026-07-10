@@ -137,10 +137,10 @@ const verify = async (client) => {
     },
     matches: {
       canonicalTasksPresent: liveCanonicalTasks.length === CANONICAL_LAUNCH_TASKS.length,
-      wikiDoneThrough13: wikiTasks
-        .filter((task) => /^M1-WIKI-(0[1-9]|1[0-3])$/.test(task.task_key))
+      wikiDoneThrough14: wikiTasks
+        .filter((task) => /^M1-WIKI-(0[1-9]|1[0-4])$/.test(task.task_key))
         .every((task) => task.status === 'done'),
-      wiki14Ready: wikiTasks.some((task) => task.task_key === 'M1-WIKI-14' && task.status === 'ready'),
+      wiki14Done: wikiTasks.some((task) => task.task_key === 'M1-WIKI-14' && task.status === 'done'),
       allM1TasksHaveCorrectPrimaryWikiContext: m1Tasks.length > 0 && mismatchedM1WikiLinks.length === 0,
     },
   };

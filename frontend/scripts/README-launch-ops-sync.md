@@ -66,10 +66,7 @@ The report checks:
 ## Current expected Wiki state
 
 ```txt
-M1-WIKI-01 through M1-WIKI-07 — done
-M1-WIKI-08 — ready
-M1-WIKI-09 through M1-WIKI-12 — ready
-M1-WIKI-13 through M1-WIKI-14 — locked
+M1-WIKI-01 through M1-WIKI-14 — done
 ```
 
 ## Safety notes

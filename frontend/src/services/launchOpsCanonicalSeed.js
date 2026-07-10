@@ -1012,9 +1012,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-WIKI-14",
     "title": "Run Wiki buildout acceptance check",
-    "description": "Confirm the admin Wiki is visible, searchable enough for internal use, review labels are applied, Mission Control links exist, Obsidian logs are synced, and no draft content is exposed as client-facing final.",
+    "description": "Completed 2026-07-09: accepted the first governed Wiki buildout after verifying 43 live governed pages, internal title/description/tag/body search coverage, conservative review labels, 43 of 43 pillar assignments, correct primary Wiki context for all 328 live M1 tasks, synchronized Obsidian operating records, and zero draft Wiki items returned to client library results. Added fail-closed acceptance regression tests. This closes the buildout pass without promoting any page or claiming that future final-review, schema/UI enforcement, or client-leak workflows are complete.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "done",
     "priority": "critical",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
