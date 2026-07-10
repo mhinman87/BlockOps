@@ -942,9 +942,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-WIKI-09",
     "title": "QA Legal Risk Archive and Growth Wiki pages",
-    "description": "Review legal review index, compliance and risk controls, acquisition/growth strategy, backup and continuity, and decision log/archive rules. Keep legal/compliance items review-gated.",
+    "description": "Completed 2026-07-09: reviewed and re-synced Legal Review Index, Compliance / Risk Controls, Acquisition / Growth Strategy, Backup and Continuity, and Decision Log / Historical Archive as current internal drafts. Added qualified-lawyer finalization, control evidence, client-leak/privilege/retention safeguards, M3/M4/M5 framing, Supabase live-data authority, seed/live reconciliation, and domain-specific final-state rules.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "critical",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
