@@ -956,9 +956,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-WIKI-10",
     "title": "Define Wiki promotion and review labels",
-    "description": "Lock the operating labels for imported Wiki pages: current internal, needs Samir review, needs Adrian review, needs Max review, legal/clinical hold, archive/reference, and client-facing candidate.",
+    "description": "Completed 2026-07-09: defined the canonical Wiki governance model separating eight promotion states, multi-select qualified review gates, and five visibility labels. Added fail-closed defaults, exact-version client-release approval, leak-path verification, rollback/incident rules, one accountable owner, and conservative handling of legacy draft buckets. No content was promoted to client-facing candidate or final; durable Supabase/UI enforcement remains Max implementation work.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Block Ops Wiki Buildout",
     "milestoneSlug": "m1-mock-run-build-ready",
