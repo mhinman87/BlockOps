@@ -15,6 +15,7 @@ const mapping = {
   'Block Ops Positioning and Core Story': ['Stakeholder Integration', ['Physical Operations', 'Human Capital', 'Value Intelligence']],
   'Block Ops Vision': ['Human Capital', ['Physical Operations', 'Digital Platform', 'Implementation Bundles', 'Value Intelligence']],
   'Block Ops Wiki / Compendium': ['Digital Platform', ['Human Capital']],
+  'Block Ops Wiki Client-Facing Candidate Register': ['Stakeholder Integration', ['Digital Platform', 'Human Capital', 'Value Intelligence']],
   'Block Ops Wiki Content Migration': ['Digital Platform', ['Human Capital', 'Value Intelligence']],
   'Block Ops Wiki Go-Live Readiness Matrix': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
   'Block Ops Wiki Six-Pillar Page Map': ['Digital Platform', ['Human Capital']],

@@ -83,7 +83,7 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
   'M1-WIKI-10': 'Block Ops Wiki Go-Live Readiness Matrix',
   'M1-WIKI-11': 'Block Ops Wiki Six-Pillar Page Map',
   'M1-WIKI-12': 'Mission Control',
-  'M1-WIKI-13': 'Block Ops Wiki Go-Live Readiness Matrix',
+  'M1-WIKI-13': 'Block Ops Wiki Client-Facing Candidate Register',
   'M1-WIKI-14': 'Block Ops Wiki Go-Live Readiness Matrix',
 
   'M1-FINAL-REVIEW-01': 'Block Ops Wiki Go-Live Readiness Matrix',

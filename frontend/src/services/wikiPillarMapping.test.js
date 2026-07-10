@@ -12,7 +12,7 @@ import {
 const pillarSet = new Set(WIKI_PILLARS);
 
 test('the six-pillar map covers all audited live Wiki pages', () => {
-  assert.equal(Object.keys(WIKI_PILLAR_MAP).length, 42);
+  assert.equal(Object.keys(WIKI_PILLAR_MAP).length, 43);
 
   for (const [title, metadata] of Object.entries(WIKI_PILLAR_MAP)) {
     assert.ok(pillarSet.has(metadata.primaryPillar), `${title} has an invalid primary pillar`);
@@ -23,7 +23,7 @@ test('the six-pillar map covers all audited live Wiki pages', () => {
 });
 
 test('every canonical Wiki library page receives pillar metadata', () => {
-  assert.equal(WIKI_LIBRARY_ITEMS.length, 37);
+  assert.equal(WIKI_LIBRARY_ITEMS.length, 38);
   assert.deepEqual(WIKI_LIBRARY_ITEMS.filter((item) => !item.primaryPillar), []);
   assert.ok(WIKI_LIBRARY_ITEMS.every((item) => Array.isArray(item.secondaryPillars)));
 });
