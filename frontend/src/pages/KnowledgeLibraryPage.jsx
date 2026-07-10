@@ -4,6 +4,7 @@ import { DeliverableViewer } from '../components/DeliverableViewer';
 import { fetchKnowledgeLibraryItems } from '../services/knowledgeLibraryContentService.js';
 import { filterVisibleLibraryItems } from '../services/contentVisibility.js';
 import { WIKI_LIBRARY_ITEMS } from '../services/wikiLibraryItems.js';
+import { canTraverseWikiLink } from '../services/wikiCrossLinks.js';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
 import { 
   Search, 
@@ -304,6 +305,12 @@ export const KnowledgeLibraryPage = () => {
         <DeliverableViewer 
           deliverable={{ ...selectedItem, categoryLabel: catInfo?.label }} 
           onBack={() => setSelectedItem(null)}
+          onWikiNavigate={(title) => {
+            const target = libraryItems.find((item) => item.title === title);
+            if (canTraverseWikiLink({ source: selectedItem, target, isTeam: userRole.isTeam })) {
+              setSelectedItem(target);
+            }
+          }}
           userRole={userRole}
           currentStatus={status}
           onStatusUpdate={updateStatus}

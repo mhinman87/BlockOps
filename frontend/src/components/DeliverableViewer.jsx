@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowLeft, FileText, Tag, Loader2, CheckCircle2, AlertTriangle, X, Shield } from 'lucide-react';
 import { supabase } from '../services/supabase';
+import { parseWikiHref } from '../services/wikiCrossLinks.js';
 
 // Custom renderers for clinical document styling
 const MarkdownComponents = {
@@ -147,7 +148,7 @@ const MarkdownComponents = {
   },
 };
 
-export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdate, currentStatus }) => {
+export const DeliverableViewer = ({ deliverable, onBack, onWikiNavigate, userRole, onStatusUpdate, currentStatus }) => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -359,7 +360,24 @@ export const DeliverableViewer = ({ deliverable, onBack, userRole, onStatusUpdat
           ) : (
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
-              components={MarkdownComponents}
+              components={{
+                ...MarkdownComponents,
+                a: ({ href, children }) => {
+                  const wikiTitle = parseWikiHref(href);
+                  if (wikiTitle) {
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => onWikiNavigate?.(wikiTitle)}
+                        className="font-semibold text-primary underline decoration-primary/30 underline-offset-2 hover:decoration-primary"
+                      >
+                        {children}
+                      </button>
+                    );
+                  }
+                  return <a href={href} className="font-semibold text-primary underline" target="_blank" rel="noreferrer">{children}</a>;
+                },
+              }}
             >
               {content}
             </ReactMarkdown>

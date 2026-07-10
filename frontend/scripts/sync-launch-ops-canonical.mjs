@@ -141,6 +141,12 @@ const verify = async (client) => {
         .filter((task) => /^M1-WIKI-(0[1-9]|1[0-4])$/.test(task.task_key))
         .every((task) => task.status === 'done'),
       wiki14Done: wikiTasks.some((task) => task.task_key === 'M1-WIKI-14' && task.status === 'done'),
+      wikiCrossLinksDone: wikiTasks
+        .filter((task) => /^M1-WIKI-LINK-0[1-5]$/.test(task.task_key))
+        .length === 5
+        && wikiTasks
+          .filter((task) => /^M1-WIKI-LINK-0[1-5]$/.test(task.task_key))
+          .every((task) => task.status === 'done'),
       allM1TasksHaveCorrectPrimaryWikiContext: m1Tasks.length > 0 && mismatchedM1WikiLinks.length === 0,
     },
   };

@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "launch:sync": "node scripts/sync-launch-ops-canonical.mjs",
-    "launch:verify": "VERIFY_ONLY=1 node scripts/sync-launch-ops-canonical.mjs"
+    "launch:verify": "VERIFY_ONLY=1 node scripts/sync-launch-ops-canonical.mjs",
+    "wiki-links:sync": "node scripts/sync-wiki-cross-links.mjs",
+    "wiki-links:verify": "VERIFY_ONLY=1 node scripts/sync-wiki-cross-links.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",

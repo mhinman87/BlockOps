@@ -2,6 +2,7 @@
 // Internal-only: do not expose to client users unless approved separately.
 
 import { attachWikiPillarMetadata } from './wikiPillarMapping.js';
+import { enrichWikiItemsWithLinks } from './wikiCrossLinks.js';
 
 const RAW_WIKI_LIBRARY_ITEMS = [
   {
@@ -748,4 +749,6 @@ const RAW_WIKI_LIBRARY_ITEMS = [
   }
 ];
 
-export const WIKI_LIBRARY_ITEMS = RAW_WIKI_LIBRARY_ITEMS.map(attachWikiPillarMetadata);
+export const WIKI_LIBRARY_ITEMS = enrichWikiItemsWithLinks(
+  RAW_WIKI_LIBRARY_ITEMS.map(attachWikiPillarMetadata),
+);
