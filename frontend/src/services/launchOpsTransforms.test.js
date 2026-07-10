@@ -56,6 +56,7 @@ test('normalizeLaunchTaskRow maps task records into frontend task objects', () =
     changed_by_new_info: true,
     sort_order: 10,
     completed_at: null,
+    primary_wiki_page_id: 'wiki-1',
   }), {
     id: 't1',
     taskKey: 'S1',
@@ -73,6 +74,7 @@ test('normalizeLaunchTaskRow maps task records into frontend task objects', () =
     changedByNewInfo: true,
     sortOrder: 10,
     completedAt: null,
+    primaryWikiPageId: 'wiki-1',
   });
 });
 

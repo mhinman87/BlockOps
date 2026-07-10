@@ -5,6 +5,7 @@ import {
   CANONICAL_COLLABORATORS,
 } from './launchOpsCanonicalSeed.js';
 import { recomputeTaskStatuses } from './launchOpsIntelligence.js';
+import { attachPrimaryWikiPage } from './missionControlWikiLinks.js';
 
 // Derive a milestone code (M1..) from its slug when one isn't supplied.
 export const milestoneCodeFromSlug = (slug = '') => {
@@ -89,6 +90,7 @@ export const mergeTasksWithCanonical = ({ liveTasks = [], milestones = [] } = {}
       changedByNewInfo: live?.changedByNewInfo ?? false,
       sortOrder: canonical.sortOrder ?? live?.sortOrder ?? 0,
       completedAt: live?.completedAt ?? null,
+      primaryWikiPageId: live?.primaryWikiPageId ?? null,
       collaborators,
       isCanonicalOnly: !live,
     };
@@ -104,7 +106,7 @@ export const mergeTasksWithCanonical = ({ liveTasks = [], milestones = [] } = {}
       isLiveOnly: true,
     }));
 
-  const allTasks = [...mergedFromCanonical, ...liveOnly];
+  const allTasks = [...mergedFromCanonical, ...liveOnly].map(attachPrimaryWikiPage);
   const idByKey = new Map(allTasks.filter((task) => task.taskKey).map((task) => [task.taskKey, task.id]));
 
   const dependencyMap = {};

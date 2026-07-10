@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useUserRole } from '../hooks/useUserRole';
 import {
-  Lock, Search, Users, AlertTriangle, ChevronDown, X, Layers3, ShieldAlert, Scale,
+  Lock, Search, Users, AlertTriangle, ChevronDown, X, Layers3, ShieldAlert, Scale, BookOpen,
 } from 'lucide-react';
 import {
   dashboardCard,
@@ -144,7 +144,7 @@ export const TasksPage = () => {
     if (filterStatus !== 'All' && task.computedStatus !== filterStatus) return false;
     if (filterPriority !== 'All' && task.priority !== filterPriority) return false;
     if (searchQuery) {
-      const haystack = `${task.taskKey} ${task.title} ${task.description || ''} ${task.workstream || ''}`.toLowerCase();
+      const haystack = `${task.taskKey} ${task.title} ${task.description || ''} ${task.workstream || ''} ${task.primaryWikiPageTitle || ''}`.toLowerCase();
       if (!haystack.includes(searchQuery.toLowerCase())) return false;
     }
     return true;
@@ -407,6 +407,9 @@ export const TasksPage = () => {
                 <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">Milestone</dt><dd className="font-semibold text-gray-900 dark:text-gray-100 text-right">{milestones.find((m) => m.id === selectedTask.milestoneId)?.code || ''} {milestones.find((m) => m.id === selectedTask.milestoneId)?.title || '—'}</dd></div>
                 {selectedTask.collaborators?.length > 0 && (
                   <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500">With</dt><dd className="font-semibold text-gray-900 dark:text-gray-100 text-right">{selectedTask.collaborators.join(', ')}</dd></div>
+                )}
+                {selectedTask.primaryWikiPageTitle && (
+                  <div className="flex justify-between gap-3"><dt className="text-gray-400 dark:text-gray-500 inline-flex items-center gap-1"><BookOpen size={13} /> Wiki context</dt><dd className="font-semibold text-primary text-right">{selectedTask.primaryWikiPageTitle}</dd></div>
                 )}
               </dl>
 

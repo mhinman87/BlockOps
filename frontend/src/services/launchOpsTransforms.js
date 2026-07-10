@@ -51,6 +51,7 @@ export const normalizeLaunchTaskRow = (row) => ({
   changedByNewInfo: Boolean(row.changed_by_new_info),
   sortOrder: row.sort_order ?? 0,
   completedAt: row.completed_at ?? null,
+  primaryWikiPageId: row.primary_wiki_page_id ?? null,
 });
 
 export const normalizeWeeklyAgendaRow = (row) => ({

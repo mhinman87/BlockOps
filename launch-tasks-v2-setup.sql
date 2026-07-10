@@ -34,8 +34,27 @@ create table if not exists launch_tasks_v2 (
   sort_order integer default 0,
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
-  completed_at timestamptz
+  completed_at timestamptz,
+  primary_wiki_page_id uuid
 );
+
+alter table launch_tasks_v2
+  add column if not exists primary_wiki_page_id uuid;
+
+-- The Wiki tables may be installed by a separate admin migration. Add the
+-- referential guard when that table is present; otherwise the UUID field stays
+-- available for the later Wiki migration to constrain.
+do $$
+begin
+  if to_regclass('public.wiki_pages') is not null
+    and not exists (
+      select 1 from pg_constraint where conname = 'launch_tasks_v2_primary_wiki_page_id_fkey'
+    ) then
+    alter table launch_tasks_v2
+      add constraint launch_tasks_v2_primary_wiki_page_id_fkey
+      foreign key (primary_wiki_page_id) references wiki_pages(id) on delete set null;
+  end if;
+end $$;
 
 create table if not exists launch_task_collaborators (
   id uuid default gen_random_uuid() primary key,
@@ -85,6 +104,7 @@ create index if not exists launch_tasks_v2_owner_idx on launch_tasks_v2(primary_
 create index if not exists launch_tasks_v2_status_idx on launch_tasks_v2(status);
 create index if not exists launch_tasks_v2_priority_idx on launch_tasks_v2(priority);
 create index if not exists launch_tasks_v2_milestone_idx on launch_tasks_v2(milestone_id);
+create index if not exists launch_tasks_v2_primary_wiki_page_idx on launch_tasks_v2(primary_wiki_page_id);
 create index if not exists launch_task_dependencies_task_idx on launch_task_dependencies(task_id);
 create index if not exists launch_task_dependencies_depends_idx on launch_task_dependencies(depends_on_task_id);
 create index if not exists launch_task_collaborators_task_idx on launch_task_collaborators(task_id);
