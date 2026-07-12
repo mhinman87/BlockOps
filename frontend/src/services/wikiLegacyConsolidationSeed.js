@@ -64,7 +64,7 @@ The exact recurring cadence, response times, participants, and service levels re
 
 ## Boundaries
 
-- Do not represent draft dashboards, automated alerts, protocol pushes, or agent behavior as implemented until Max verifies them.
+- Do not represent draft dashboards, automated alerts, protocol pushes, or agent behavior as implemented until the accountable platform owner verifies the exact capability and records evidence.
 - Do not place PHI or client-sensitive information in general Wiki pages.
 - Do not treat a support meeting as clinical supervision or transfer of site authority.
 - Do not publish pricing, outcome targets, or response guarantees from legacy planning documents.
@@ -122,7 +122,7 @@ Expansion should be considered only when:
 
 ## Expansion workflow
 
-1. Capture the need and source in the CRM/client record.
+1. Capture the need and source in the canonical Supabase-backed client record.
 2. Validate operational, stakeholder, platform, clinical-governance, and value fit.
 3. Define the proposed implementation-bundle scope and exclusions.
 4. Resolve required internal reviews.
@@ -283,13 +283,13 @@ This page preserves the approved launch-gate vocabulary after consolidation of m
 
 - **M1 — Mock Client Lead-to-Live Run:** prove that the built process can move realistic mock clients through the operating path and expose friction.
 - **M2 — Foundational Client Ready:** establish the operational, QA, document, platform, legal-review, automation, and support foundation needed to begin responsibly.
-- **M3 — External Validation Completed:** complete the external attending review/test and capture the resulting decisions and remediation.
-- **M4 — Foundational Client Successfully Completed:** deliver the foundational-client engagement successfully and record the operating lessons.
-- **M5 — Paid Client Successfully Onboarded:** successfully onboard a paid client through the approved process.
+- **M3 — External Validation Completed:** complete external validation, including the required attending review/test, and capture resulting decisions and remediation.
+- **M4 — Foundational Client Completed:** complete the foundational-client engagement and record the operating lessons and evidence.
+- **M5 — Paid Client Onboarded:** onboard a paid client through the approved process and record the supporting evidence.
 
-## Historical status
+## Status authority
 
-M3, M4, and M5 are recorded as completed in the current approved operating context. Exact completion evidence, tasks, owners, dependencies, and dates must be read from Mission Control and the associated decision records rather than reconstructed from legacy Markdown plans.
+This page does not assert current milestone completion. Exact status, completion evidence, tasks, owners, dependencies, and dates must be read from Mission Control and the associated decision records rather than reconstructed from legacy Markdown plans.
 
 ## Superseded structures
 

@@ -3,7 +3,10 @@
 
 import { attachWikiPillarMetadata } from './wikiPillarMapping.js';
 import { enrichWikiItemsWithLinks } from './wikiCrossLinks.js';
-import { LEGACY_CONSOLIDATION_NEW_PAGES } from './wikiLegacyConsolidationSeed.js';
+import {
+  LEGACY_CONSOLIDATION_NEW_PAGES,
+  LEGACY_CONSOLIDATION_VERSION,
+} from './wikiLegacyConsolidationSeed.js';
 
 const RAW_WIKI_LIBRARY_ITEMS = [
   {
@@ -758,7 +761,17 @@ const CONSOLIDATED_WIKI_LIBRARY_ITEMS = LEGACY_CONSOLIDATION_NEW_PAGES.map((page
   category: 'wiki-legacy-consolidation',
   status: page.status,
   publishBucket: 'internal-draft',
+  promotionState: 'internal-draft',
+  visibility: 'internal-only',
+  owner: page.owner,
   reviewer: page.owner,
+  requiredGates: ['owner-review', 'domain-review'],
+  completedGates: [],
+  exactVersionApproved: false,
+  representationType: 'internal-wiki-page',
+  provenance: page.source,
+  sectionSlug: page.sectionSlug,
+  version: LEGACY_CONSOLIDATION_VERSION,
   tags: ['Block Ops Wiki', 'legacy-consolidation', 'internal-only', page.owner],
   hasContent: true,
   storagePath: null,
