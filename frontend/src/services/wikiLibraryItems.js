@@ -7,6 +7,10 @@ import {
   LEGACY_CONSOLIDATION_NEW_PAGES,
   LEGACY_CONSOLIDATION_VERSION,
 } from './wikiLegacyConsolidationSeed.js';
+import {
+  FOUNDATIONAL_STRUCTURE_PAGES,
+  FOUNDATIONAL_STRUCTURE_VERSION,
+} from './wikiFoundationalStructureSeed.js';
 
 const RAW_WIKI_LIBRARY_ITEMS = [
   {
@@ -779,6 +783,36 @@ const CONSOLIDATED_WIKI_LIBRARY_ITEMS = LEGACY_CONSOLIDATION_NEW_PAGES.map((page
   kind: 'wiki-page',
 }));
 
+const FOUNDATIONAL_STRUCTURE_LIBRARY_ITEMS = FOUNDATIONAL_STRUCTURE_PAGES.map((page) => ({
+  id: `wiki.${page.slug}`,
+  objectId: `wiki.${page.slug}`,
+  title: page.title,
+  description: page.summary,
+  category: 'wiki-foundational-structure',
+  status: page.status,
+  publishBucket: 'internal-draft',
+  promotionState: 'internal-draft',
+  visibility: 'internal-only',
+  owner: page.owner,
+  reviewer: page.owner,
+  requiredGates: ['owner-review', 'domain-review'],
+  completedGates: [],
+  exactVersionApproved: false,
+  representationType: 'internal-wiki-page',
+  provenance: page.source,
+  sectionSlug: page.sectionSlug,
+  version: FOUNDATIONAL_STRUCTURE_VERSION,
+  tags: ['Block Ops Wiki', 'foundational-structure', 'milestone-built', 'internal-only', page.owner],
+  hasContent: true,
+  storagePath: null,
+  content: page.bodyMd,
+  kind: 'wiki-page',
+}));
+
 export const WIKI_LIBRARY_ITEMS = enrichWikiItemsWithLinks(
-  [...RAW_WIKI_LIBRARY_ITEMS, ...CONSOLIDATED_WIKI_LIBRARY_ITEMS].map(attachWikiPillarMetadata),
+  [
+    ...RAW_WIKI_LIBRARY_ITEMS,
+    ...CONSOLIDATED_WIKI_LIBRARY_ITEMS,
+    ...FOUNDATIONAL_STRUCTURE_LIBRARY_ITEMS,
+  ].map(attachWikiPillarMetadata),
 );

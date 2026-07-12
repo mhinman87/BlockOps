@@ -28,7 +28,7 @@ const EXPLICIT_LINKS = Object.freeze({
   'Client Portal': ['Dashboard', 'Final Review / Approvals', 'Client-Facing Leak Audit', 'Block Ops Wiki Go-Live Readiness Matrix'],
   Dashboard: ['Client Portal', 'Digital Platform Overview', 'Supabase Data Model'],
   'Digital Platform Overview': ['Client Portal', 'Dashboard', 'Supabase Data Model', 'Backup and Continuity'],
-  'Implementation Bundles': ['Implementation Bundle Delivery', 'Clinical / Block Program Knowledge Index', 'Pillar Model / Gold Standard Tree'],
+  'Implementation Bundles': ['Implementation Bundle Delivery', 'Clinical / Block Program Knowledge Index', 'Pillar Model / Gold Standard Tree', 'M2 Modular Pillar Offering Strategy'],
   'Implementation Bundle Delivery': ['Client Onboarding', 'Training Day Readiness', 'Go-Live Verification', 'Implementation Bundles'],
   'Client Onboarding': ['Client Portal', 'Implementation Bundle Delivery', 'Training Day Readiness'],
   'Client Offboarding and Access Closure': ['Client Portal', 'Supabase Data Model', 'Legal Review Index', 'Compliance / Risk Controls', 'Decision Log / Historical Archive'],
@@ -44,6 +44,14 @@ const EXPLICIT_LINKS = Object.freeze({
   'Block Ops Wiki Client-Facing Candidate Register': ['Block Ops Wiki Go-Live Readiness Matrix', 'Client-Facing Leak Audit', 'Final Review / Approvals'],
   'Compliance / Risk Controls': ['Legal Review Index', 'Block Ops Wiki Go-Live Readiness Matrix', 'Backup and Continuity'],
   'Legal Review Index': ['Compliance / Risk Controls', 'Final Review / Approvals'],
+  'Foundational Client Readiness and Completion Matrix': ['Client Onboarding', 'Site Readiness Assessment', 'Implementation Bundle Delivery', 'Training Day Readiness', 'Go-Live Verification', 'Recurring Client Support'],
+  'Site Readiness Assessment': ['Foundational Client Readiness and Completion Matrix', 'Equipment, Cart, Supply, and Restocking Standard', 'Client Onboarding', 'Training Day Readiness', 'Go-Live Verification'],
+  'Foundation Implementation Bundle Manifest and Completion Standard': ['Implementation Bundles', 'Implementation Bundle Delivery', 'Controlled Implementation Bundle Release and Versioning', 'Foundational Client Readiness and Completion Matrix'],
+  'Measurement Framework and Minimum Dataset': ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention'],
+  'Equipment, Cart, Supply, and Restocking Standard': ['Site Readiness Assessment', 'Foundation Implementation Bundle Manifest and Completion Standard', 'Training Day Readiness', 'Go-Live Verification'],
+  'KPI Dictionary and Data Ownership': ['Measurement Framework and Minimum Dataset', 'Evidence and Claims Governance', 'Dashboard', 'Supabase Data Model'],
+  'Evidence and Claims Governance': ['Measurement Framework and Minimum Dataset', 'KPI Dictionary and Data Ownership', 'Legal Review Index', 'Compliance / Risk Controls', 'Proposal Workflow'],
+  'Controlled Implementation Bundle Release and Versioning': ['Foundation Implementation Bundle Manifest and Completion Standard', 'Implementation Bundles', 'Implementation Bundle Delivery', 'Supabase Data Model', 'Client Portal'],
 });
 
 const PILLAR_HUBS = Object.freeze({
