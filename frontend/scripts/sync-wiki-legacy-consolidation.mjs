@@ -5,6 +5,7 @@ import { writeFileSync } from 'node:fs';
 import {
   LEGACY_CONSOLIDATION_NEW_PAGES,
   LEGACY_CONSOLIDATION_PAGE_ADDITIONS,
+  LEGACY_CONSOLIDATION_TEXT_REPLACEMENTS,
   LEGACY_CONSOLIDATION_VERSION,
 } from '../src/services/wikiLegacyConsolidationSeed.js';
 
@@ -79,7 +80,11 @@ if (!verifyOnly) {
 
   for (const [title, addition] of Object.entries(LEGACY_CONSOLIDATION_PAGE_ADDITIONS)) {
     const page = byTitle.get(title);
-    const nextBody = replaceAddition(page.body_md, addition);
+    const normalizedBody = (LEGACY_CONSOLIDATION_TEXT_REPLACEMENTS[title] || []).reduce(
+      (body, [legacyText, canonicalText]) => body.replaceAll(legacyText, canonicalText),
+      String(page.body_md || ''),
+    );
+    const nextBody = replaceAddition(normalizedBody, addition);
     const { error } = await client.from('wiki_pages')
       .update({ body_md: nextBody, updated_at: new Date().toISOString() })
       .eq('id', page.id);

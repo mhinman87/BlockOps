@@ -402,3 +402,16 @@ No backend section was renamed and no page was promoted to client-visible.`),
   'Wiki Cross-Linking Map': block('2026-07-10 graph extension', `The governed graph now covers **48 pages** and **246 related-page links** across six indexes. Verification found no broken links, orphan pages, pages without outbound links, client-leak paths, or status changes.`),
   'Block Ops Wiki Client-Facing Candidate Register': block('2026-07-10 candidate-register extension', `Five internal-draft pages were added during the legacy consolidation: [[Recurring Client Support]], [[Renewal and Expansion]], [[Client Health and Retention]], [[Client Offboarding and Access Closure]], and [[Launch History — M1 through M5]]. All five are classified **permanent-internal** for this pass. They were not nominated, promoted, or exposed to clients. The original 42-page M1-WIKI-13 table remains the historical audit baseline; this extension brings the governed live Wiki to 48 pages including this register.`),
 });
+
+export const LEGACY_CONSOLIDATION_TEXT_REPLACEMENTS = Object.freeze({
+  'Block Ops Operating System': Object.freeze([
+    Object.freeze([
+      '**M4 — Foundational Client Successfully Completed:** complete the first foundational client successfully.',
+      '**M4 — Foundational Client Completed:** complete the foundational-client engagement and record the operating lessons and evidence.',
+    ]),
+    Object.freeze([
+      '**M5 — Paid Client Successfully Onboarded:** onboard a paid client successfully.',
+      '**M5 — Paid Client Onboarded:** onboard a paid client through the approved process and record supporting evidence.',
+    ]),
+  ]),
+});
