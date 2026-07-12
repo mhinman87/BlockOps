@@ -66,3 +66,29 @@ test('unknown M1 workflows fail closed while non-M1 tasks remain unlinked', () =
     primaryWikiPageTitle: null,
   });
 });
+
+test('precise post-M1 task overrides resolve while broad future work stays fail-closed', () => {
+  assert.equal(getPrimaryWikiPageTitle({
+    taskKey: 'M2-XR-PORTAL-04',
+    workstream: 'Mixed Reality — Portal & Data Integration',
+  }), 'Supabase Data Model');
+  assert.equal(getPrimaryWikiPageTitle({
+    taskKey: 'M4-XR-PROD-03',
+    workstream: 'Mixed Reality — Production Platform',
+  }), 'Backup and Continuity');
+  assert.equal(getPrimaryWikiPageTitle({
+    taskKey: 'M2-XR-APP-01',
+    workstream: 'Mixed Reality — Mixed-Reality Application',
+  }), null);
+});
+
+test('first metrics tasks resolve to metric governance instead of go-live verification', () => {
+  assert.equal(getPrimaryWikiPageTitle({
+    taskKey: 'M1-197',
+    workstream: 'First Metrics Capture',
+  }), 'KPI Dictionary and Data Ownership');
+  assert.equal(getPrimaryWikiPageTitle({
+    taskKey: 'M1-202',
+    workstream: 'First Metrics Capture',
+  }), 'Measurement Framework and Minimum Dataset');
+});

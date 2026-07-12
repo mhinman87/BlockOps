@@ -111,6 +111,50 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
 
   'M1-223': 'Mission Control',
   'M1-235': 'Digital Platform Overview',
+
+  // First Metrics Capture tasks use metric-definition/measurement knowledge,
+  // not the broader go-live verification page.
+  'M1-GR-025': 'KPI Dictionary and Data Ownership',
+  'M1-GR-026': 'KPI Dictionary and Data Ownership',
+  'M1-197': 'KPI Dictionary and Data Ownership',
+  'M1-198': 'KPI Dictionary and Data Ownership',
+  'M1-200': 'KPI Dictionary and Data Ownership',
+  'M1-201': 'KPI Dictionary and Data Ownership',
+  'M1-205': 'KPI Dictionary and Data Ownership',
+  'M1-199': 'Measurement Framework and Minimum Dataset',
+  'M1-202': 'Measurement Framework and Minimum Dataset',
+  'M1-203': 'Measurement Framework and Minimum Dataset',
+  'M1-204': 'Measurement Framework and Minimum Dataset',
+  'M1-207': 'Measurement Framework and Minimum Dataset',
+
+  // Safe interim links for post-M1 tasks that already have a precise governed
+  // Wiki destination. Broader M2–M4 work remains fail-closed until its
+  // dedicated knowledge hubs are built.
+  'M2-XR-PORTAL-04': 'Supabase Data Model',
+  'M2-XR-PORTAL-05': 'Supabase Data Model',
+  'M2-XR-RISK-02': 'Legal Review Index',
+  'M2-XR-RISK-05': 'Legal Review Index',
+  'M2-08': 'Training Day Readiness',
+  'M4-XR-PROD-01': 'Supabase Data Model',
+  'M4-XR-PROD-03': 'Backup and Continuity',
+  'M4-XR-PROD-04': 'Compliance / Risk Controls',
+  'M4-XR-PROD-05': 'Supabase Data Model',
+  'M4-XR-COMM-01': 'Sales Materials and Scripts',
+  'M4-XR-COMM-02': 'M2 Modular Pillar Offering Strategy',
+  'M4-XR-COMM-03': 'Sales Materials and Scripts',
+  'M4-XR-COMM-06': 'Foundational Client Readiness and Completion Matrix',
+  'M2-LRA-03': 'Acquisition / Growth Strategy',
+  'M2-LRA-04': 'Backup and Continuity',
+  'M2-06': 'Client Portal',
+  'M2-XR-PORTAL-01': 'Supabase Data Model',
+  'M2-09': 'Block Ops Operating System',
+  'M2-LRA-05': 'Decision Log / Historical Archive',
+  'M2-15': 'Recurring Client Support',
+  'M2-13': 'Weekly Ops Review',
+  'M2-14': 'Go-Live Verification',
+  'M2-CLAIMS-01': 'Evidence and Claims Governance',
+  'M2-DELIV-REVIEW-01': 'Foundation Implementation Bundle Manifest and Completion Standard',
+  'M2-07': 'Measurement Framework and Minimum Dataset',
 });
 
 export const isM1Task = (task = {}) => (
@@ -119,12 +163,12 @@ export const isM1Task = (task = {}) => (
 );
 
 export const getPrimaryWikiPageTitle = (task = {}) => {
-  if (!isM1Task(task)) return null;
   const taskKey = task.taskKey || task.task_key;
+  const explicitTaskPage = M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES[taskKey];
+  if (explicitTaskPage) return explicitTaskPage;
+  if (!isM1Task(task)) return null;
   const workstream = task.workstream;
-  return M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES[taskKey]
-    || M1_WORKSTREAM_PRIMARY_WIKI_PAGE[workstream]
-    || null;
+  return M1_WORKSTREAM_PRIMARY_WIKI_PAGE[workstream] || null;
 };
 
 export const attachPrimaryWikiPage = (task = {}) => {
