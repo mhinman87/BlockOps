@@ -1782,8 +1782,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-05",
-    "title": "Define the client personal-agent experience",
-    "description": "Decide what the client-facing agent does, how it behaves, and how it hands off to humans.",
+    "title": "Define and validate the governed client-agent experience",
+    "description": "Build from the locked starting boundaries: the agent layer sits beneath the Dashboard, uses only entitled approved sources and permitted client data, cites source/version, labels drafts, logs actions, escalates to humans, fails closed, and never independently publishes, changes global standards, makes clinical decisions, finalizes regulated conclusions, alters KPIs, declares completion, contacts patients, or crosses tenants.",
     "primaryOwner": "Adrian",
     "status": "locked",
     "priority": "high",
