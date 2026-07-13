@@ -14,12 +14,12 @@ export const CANONICAL_LAUNCH_MILESTONES = [
   {
     "slug": "m2-mock-run-complete",
     "title": "Foundational Client Ready",
-    "description": "The team can responsibly accept a real foundational client with finalized deliverables, legal readiness, portal readiness, data intake solved, support readiness, and no major improvisation.",
+    "description": "The team can responsibly accept a real foundational client with finalized deliverables, legal readiness, portal readiness, data intake solved, support readiness, governed agent capabilities, and M2-ready starter offerings for Mixed Reality training, patient education/experience, and payer intelligence/documentation guidance.",
     "status": "locked",
     "owner": "Max",
     "sortOrder": 2,
     "readinessScore": 0,
-    "gateNotes": "M2 is the real-client readiness gate: final deliverables, legal, portal, data, support, and operating cadence are all in place."
+    "gateNotes": "M2 is the real-client readiness gate: final deliverables, legal, portal, data, support, governed agents, the Mixed Reality working starter package, the patient education/experience foundation, and the payer intelligence/documentation-guidance foundation must be built and internally/mock validated. Real-patient foundational-client validation remains M4 evidence; a live payer-integration pilot remains M5 evidence."
   },
   {
     "slug": "m3-trusted-anesthesiologist-validation",
