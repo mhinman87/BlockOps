@@ -1643,7 +1643,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M2-02",
     "title": "Finalize the Foundation Library and modular product catalog",
-    "description": "Review, approve, and finalize the complete Foundation Library; classify each item into the Platform and Safety Core, Capability Packs, Block Packs, internal knowledge, or Premium Modules; and prove each minimum pack has implementation logic and two to three meaningful KPIs.",
+    "description": "Review, approve, and finalize the complete Foundation Library; classify each item into the Platform and Safety Core, Capability Packs, Block Packs, internal knowledge, or Premium Modules; and apply the locked Universal Pack Contract: scope, approved deliverables, implementation, two to three KPIs, Dashboard experience, recurring service, governance/evidence, and expansion map.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
