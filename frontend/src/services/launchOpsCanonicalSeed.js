@@ -1810,8 +1810,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-07",
-    "title": "Solve the EMR data intake path",
-    "description": "Define how client data is collected from the EMR and made usable downstream.",
+    "title": "Implement the tiered KPI data-intake model",
+    "description": "Implement the locked three-level model: every pack works with structured aggregate Dashboard entry, improves through validated de-identified file import, and may automate through premium system integrations. Show each KPI as not configured, baseline collecting, tracking, data-quality concern, or verified for reporting.",
     "primaryOwner": "Max",
     "status": "locked",
     "priority": "critical",
