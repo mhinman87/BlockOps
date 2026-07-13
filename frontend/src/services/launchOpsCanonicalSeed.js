@@ -1922,8 +1922,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-15",
-    "title": "Confirm support readiness and handoffs",
-    "description": "Make sure support can be delivered responsibly after launch without confusion.",
+    "title": "Operationalize the recurring pack-service promise",
+    "description": "Prove Block Ops can maintain every active pack through continuous Dashboard access, KPI history, approved updates, material notices, standard support, evidence-based recommendations, monthly data refresh where practical, quarterly performance review, and annual configuration review. Define boundaries, handoffs, response times, and premium service tiers before sale.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "high",
