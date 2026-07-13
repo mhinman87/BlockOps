@@ -1669,6 +1669,20 @@ export const CANONICAL_LAUNCH_TASKS = [
     "sortOrder": 30
   },
   {
+    "taskKey": "M2-DOC-001",
+    "title": "Finalize the Documentation and Billing Capability Pack",
+    "description": "During M2, refine and approve the saved pack draft: assessment, documentation standard, provider note template, coding/medical-necessity references, charge reconciliation, audit and denial workflows, training, Dashboard reporting, three KPIs, data pathway, review gates, and site-validation boundaries.",
+    "primaryOwner": "Samir",
+    "status": "locked",
+    "priority": "high",
+    "workstream": "Deliverables and Content",
+    "milestoneSlug": "m2-mock-run-complete",
+    "complianceFlag": true,
+    "legalGateFlag": true,
+    "changedByNewInfo": true,
+    "sortOrder": 31
+  },
+  {
     "taskKey": "M2-04",
     "title": "Lock the legal package and ownership structure",
     "description": "Finalize the legal docs, review path, and ownership / equity planning.",

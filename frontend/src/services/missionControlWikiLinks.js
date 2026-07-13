@@ -154,6 +154,7 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
   'M2-14': 'Go-Live Verification',
   'M2-CLAIMS-01': 'Evidence and Claims Governance',
   'M2-DELIV-REVIEW-01': 'Foundation Implementation Bundle Manifest and Completion Standard',
+  'M2-DOC-001': 'Commercial Product and Pack Architecture',
   'M2-07': 'Measurement Framework and Minimum Dataset',
 });
 
