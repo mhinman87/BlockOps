@@ -15,7 +15,9 @@
     "wiki-legacy:sync": "node scripts/sync-wiki-legacy-consolidation.mjs",
     "wiki-legacy:verify": "VERIFY_ONLY=1 node scripts/sync-wiki-legacy-consolidation.mjs",
     "wiki-foundation:sync": "node scripts/sync-wiki-foundational-structure.mjs",
-    "wiki-foundation:verify": "VERIFY_ONLY=1 node scripts/sync-wiki-foundational-structure.mjs"
+    "wiki-foundation:verify": "VERIFY_ONLY=1 node scripts/sync-wiki-foundational-structure.mjs",
+    "mission-notes:sync": "node scripts/sync-mission-control-action-notes.mjs",
+    "mission-notes:verify": "VERIFY_ONLY=1 node scripts/sync-mission-control-action-notes.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
