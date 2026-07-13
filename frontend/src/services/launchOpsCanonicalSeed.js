@@ -18,7 +18,7 @@ export const CANONICAL_LAUNCH_MILESTONES = [
     "status": "locked",
     "owner": "Max",
     "sortOrder": 2,
-    "readinessScore": 0,
+    "readinessScore": 2,
     "gateNotes": "M2 is the real-client readiness gate: final deliverables, legal, portal, data, support, governed agents, the Mixed Reality working starter package, the patient education/experience foundation, and the payer intelligence/documentation-guidance foundation must be built and internally/mock validated. Real-patient foundational-client validation remains M4 evidence; a live payer-integration pilot remains M5 evidence."
   },
   {

@@ -1,9 +1,9 @@
-const makeTask = ({ taskKey, title, description, owner, workstream, milestoneSlug, sortOrder, compliance = false, legal = false }) => ({
+const makeTask = ({ taskKey, title, description, owner, workstream, milestoneSlug, sortOrder, compliance = false, legal = false, status = 'locked' }) => ({
   taskKey,
   title,
   description,
   primaryOwner: owner,
-  status: 'locked',
+  status,
   priority: 'medium',
   workstream,
   milestoneSlug,
@@ -30,8 +30,8 @@ export const FUTURE_PRODUCT_TASKS = [
   makeTask({ taskKey: 'M4-PAT-011', title: 'Pilot the patient education experience with an approved foundational client', description: 'Run a controlled site pilot only after all review gates pass; record adoption, workflow impact, approved survey results, incidents, and limitations.', owner: 'Samir', workstream: patientWorkstream, milestoneSlug: 'm4-validation-closed', sortOrder: 1111, compliance: true, legal: true }),
   makeTask({ taskKey: 'M4-PAT-012', title: 'Complete patient-platform evidence review and scale decision', description: 'Analyze the pilot without overstating causality and decide to scale, revise, pause, or stop with owners and evidence.', owner: 'Samir', workstream: patientWorkstream, milestoneSlug: 'm4-validation-closed', sortOrder: 1112, compliance: true }),
 
-  makeTask({ taskKey: 'M2-PAY-001', title: 'Define payer-intelligence scope and regulated-advice boundaries', description: 'Separate source-linked documentation guidance from patient-specific advice, coding decisions, coverage determinations, and reimbursement promises.', owner: 'Samir', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1201, compliance: true, legal: true }),
-  makeTask({ taskKey: 'M2-PAY-002', title: 'Define canonical payer-policy and applicability data model', description: 'Model payer, plan, policy, procedure/context, site of service, geography, effective dates, requirements, source, review state, supersession, and uncertainty.', owner: 'Max', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1202, compliance: true }),
+  makeTask({ taskKey: 'M2-PAY-001', title: 'Define payer-intelligence scope and regulated-advice boundaries', description: 'Separate source-linked documentation guidance from patient-specific advice, coding decisions, coverage determinations, and reimbursement promises.', owner: 'Samir', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1201, compliance: true, legal: true, status: 'done' }),
+  makeTask({ taskKey: 'M2-PAY-002', title: 'Define canonical payer-policy and applicability data model', description: 'Model payer, plan, policy, procedure/context, site of service, geography, effective dates, requirements, source, review state, supersession, and uncertainty.', owner: 'Max', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1202, compliance: true, status: 'done' }),
   makeTask({ taskKey: 'M2-PAY-003', title: 'Define payer primary-source hierarchy and governance', description: 'Define acceptable sources, provenance, qualified reviewers, review cadence, conflict handling, stale-policy behavior, and retirement rules.', owner: 'Samir', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1203, compliance: true, legal: true }),
   makeTask({ taskKey: 'M2-PAY-004', title: 'Select initial payer, site, and jurisdiction cohort', description: 'Select a narrow commercially relevant cohort based on client mix, data availability, complexity, update burden, and validation access.', owner: 'Adrian', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1204 }),
   makeTask({ taskKey: 'M2-PAY-005', title: 'Acquire, normalize, version, and review initial payer policies', description: 'Build the initial governed corpus with policy identifiers, primary-source links, effective dates, applicability limits, extracted requirements, and reviewer state.', owner: 'Bloq', workstream: payerWorkstream, milestoneSlug: 'm2-mock-run-complete', sortOrder: 1205, compliance: true, legal: true }),

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { FUTURE_PRODUCT_DEPENDENCIES, FUTURE_PRODUCT_TASKS } from './futureProductTaskSeed.js';
+import { XR_TRAINING_TASKS } from './xrTrainingProjectSeed.js';
 
 test('patient and payer starter products are M2 scope while real-world pilots remain later evidence', () => {
   const byKey = new Map(FUTURE_PRODUCT_TASKS.map((task) => [task.taskKey, task]));
@@ -25,4 +26,14 @@ test('future-product dependencies reference existing tasks across milestone gate
 
   assert.ok(FUTURE_PRODUCT_DEPENDENCIES.some((item) => item.taskKey === 'M4-PAT-011' && item.dependsOnTaskKey === 'M2-PAT-010'));
   assert.ok(FUTURE_PRODUCT_DEPENDENCIES.some((item) => item.taskKey === 'M5-PAY-012' && item.dependsOnTaskKey === 'M2-PAY-011'));
+});
+
+test('approved M2 definition work remains marked complete in canonical seeds', () => {
+  const futureByKey = new Map(FUTURE_PRODUCT_TASKS.map((task) => [task.taskKey, task]));
+  const xrByKey = new Map(XR_TRAINING_TASKS.map((task) => [task.taskKey, task]));
+
+  assert.equal(futureByKey.get('M2-PAY-001')?.status, 'done');
+  assert.equal(futureByKey.get('M2-PAY-002')?.status, 'done');
+  assert.equal(xrByKey.get('M2-XR-CLIN-01')?.status, 'done');
+  assert.equal(xrByKey.get('M2-XR-CLIN-05')?.status, 'done');
 });
