@@ -23,6 +23,7 @@ const mapping = {
   'Client Health and Retention': ['Stakeholder Integration', ['Value Intelligence', 'Digital Platform', 'Human Capital']],
   'Client Onboarding': ['Stakeholder Integration', ['Digital Platform', 'Implementation Bundles', 'Human Capital']],
   'Client Offboarding and Access Closure': ['Stakeholder Integration', ['Digital Platform', 'Value Intelligence', 'Human Capital']],
+  'Commercial Product and Pack Architecture': ['Implementation Bundles', ['Digital Platform', 'Stakeholder Integration', 'Value Intelligence', 'Human Capital', 'Physical Operations']],
   'Controlled Implementation Bundle Release and Versioning': ['Implementation Bundles', ['Digital Platform', 'Human Capital', 'Physical Operations', 'Stakeholder Integration', 'Value Intelligence']],
   'Client Portal': ['Digital Platform', ['Stakeholder Integration', 'Implementation Bundles']],
   'Client Touchpoint Naming Taxonomy': ['Stakeholder Integration', ['Digital Platform', 'Human Capital']],

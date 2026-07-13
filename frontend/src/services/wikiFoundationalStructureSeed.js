@@ -1,4 +1,4 @@
-export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-12-v1';
+export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-12-v2';
 
 const notice = `> **Internal scaffold — ${FOUNDATIONAL_STRUCTURE_VERSION}**  
 > This page establishes governed structure before every operating decision is complete. Sections marked **Milestone-built** must be completed and verified through Mission Control evidence. This scaffold does not create a clinical protocol, legal conclusion, contractual promise, billing rule, performance claim, or verified platform capability.`;
@@ -47,6 +47,19 @@ ${page.related.map((title) => `- [[${title}]]`).join('\n')}
 const definitions = [
   {
     sectionSlug: 'client-delivery-system',
+    slug: 'commercial-product-pack-architecture',
+    title: 'Commercial Product and Pack Architecture',
+    summary: 'Locked modular, land-and-expand product model connecting Block Ops intellectual property, client packs, platform access, metrics, implementation, and premium growth paths.',
+    owner: 'Samir',
+    primaryPillar: 'Implementation Bundles',
+    secondaryPillars: ['Digital Platform', 'Stakeholder Integration', 'Value Intelligence', 'Human Capital', 'Physical Operations'],
+    purpose: 'Define how Block Ops can sell a focused client solution or a complete regional-anesthesia program while keeping every purchase inside one measurable, extensible operating platform.',
+    scope: ['The Foundation Library is Block Ops’ complete approved source of universal standards and intellectual property; it is not an all-or-nothing client purchase.', 'Every client receives a small Platform and Safety Core plus the Capability Packs, Block Packs, and Premium Modules they purchase.', 'Each minimum purchasable pack includes approved deliverables, implementation workflow, Dashboard access, recurring feedback, an expansion path, and two to three meaningful KPIs.', 'Implementation Bundles are the site-specific deployment method rather than a clinical product category.', 'Value Intelligence is both a shared measurement layer and an advanced purchasable analytics, interpretation, financial-modeling, and advisory function.', 'Only the architecture above is locked; final pack names, contents, KPI definitions, collection methods, recurring-service terms, agent boundaries, and Mixed Reality packaging remain milestone-built decisions.'],
+    sections: ['Locked product-layer definitions', 'Capability Pack catalog and boundaries', 'Block Pack catalog and inheritance rules', 'Platform and Safety Core', 'Implementation Bundle delivery model', 'Two-to-three-KPI contract for every pack', 'Value Intelligence shared and premium functions', 'Client portal progressive-disclosure and expansion model', 'Premium Module roadmap', 'Open architecture decisions and M2 completion evidence'],
+    related: ['Foundation Implementation Bundle Manifest and Completion Standard', 'Measurement Framework and Minimum Dataset', 'KPI Dictionary and Data Ownership', 'Client Portal', 'Implementation Bundle Delivery', 'Foundational Client Readiness and Completion Matrix'],
+  },
+  {
+    sectionSlug: 'client-delivery-system',
     slug: 'foundational-client-readiness-completion-matrix',
     title: 'Foundational Client Readiness and Completion Matrix',
     summary: 'Lifecycle control matrix connecting foundational-client entry gates, owners, evidence, exceptions, and completion standards.',
@@ -69,20 +82,20 @@ const definitions = [
   },
   {
     sectionSlug: 'client-delivery-system', slug: 'foundation-implementation-bundle-manifest-completion-standard', title: 'Foundation Implementation Bundle Manifest and Completion Standard',
-    summary: 'Canonical manifest and completion framework for the universal foundation implementation bundle.', owner: 'Samir',
+    summary: 'Canonical manifest and completion framework for the complete Foundation Library and its controlled use in modular client products.', owner: 'Samir',
     primaryPillar: 'Implementation Bundles', secondaryPillars: ['Physical Operations', 'Human Capital', 'Digital Platform', 'Stakeholder Integration', 'Value Intelligence'],
-    purpose: 'Define what belongs in the universal foundation implementation bundle and what evidence proves each component is complete, reviewed, configured, and ready for controlled use.',
-    scope: ['Foundation deliverables are the universal baseline.', 'Block-specific modules and site adaptations remain separately identified.', 'A listed artifact is not complete until its required evidence and review gates are satisfied.'],
-    sections: ['Foundation component manifest', 'Required artifact and representation types', 'Owner and reviewer matrix', 'Global, block-specific, and site-specific boundaries', 'Version and source requirements', 'Completion evidence by component', 'Client-safe derivative rules', 'Open gaps and milestone build sequence'],
-    related: ['Implementation Bundles', 'Implementation Bundle Delivery', 'Controlled Implementation Bundle Release and Versioning', 'Foundational Client Readiness and Completion Matrix', 'Clinical / Block Program Knowledge Index'],
+    purpose: 'Define what belongs in the complete Foundation Library and what evidence proves each component is complete, reviewed, approved, and ready to be assembled into modular client solutions.',
+    scope: ['The Foundation Library is the complete approved source of universal standards and intellectual property, not a mandatory all-or-nothing client package.', 'Client solutions combine the Platform and Safety Core with purchased Capability Packs, Block Packs, and Premium Modules.', 'Block-specific modules and site adaptations remain separately identified.', 'A listed artifact is not complete until its required evidence and review gates are satisfied.'],
+    sections: ['Foundation Library component manifest', 'Platform and Safety Core classification', 'Capability Pack assignment', 'Block Pack inheritance and reuse', 'Internal-only and premium classification', 'Required artifact and representation types', 'Owner and reviewer matrix', 'Global, block-specific, and site-specific boundaries', 'Version and source requirements', 'Completion evidence by component', 'Client-safe derivative rules', 'Open gaps and milestone build sequence'],
+    related: ['Commercial Product and Pack Architecture', 'Implementation Bundles', 'Implementation Bundle Delivery', 'Controlled Implementation Bundle Release and Versioning', 'Foundational Client Readiness and Completion Matrix', 'Clinical / Block Program Knowledge Index'],
   },
   {
     sectionSlug: 'proof-metrics-value', slug: 'measurement-framework-minimum-dataset', title: 'Measurement Framework and Minimum Dataset',
     summary: 'Governed structure for approved measures, minimum data collection, provenance, interpretation, and site-specific constraints.', owner: 'Samir',
     primaryPillar: 'Value Intelligence', secondaryPillars: ['Digital Platform', 'Stakeholder Integration', 'Physical Operations', 'Implementation Bundles'],
     purpose: 'Define the smallest defensible data structure needed to understand implementation activity and value without inventing automated collection, clinical outcomes, ROI, or universal reporting commitments.',
-    scope: ['Measures must have approved definitions, purpose, source, owner, and limitations.', 'PHI and sensitive data follow approved privacy, security, and site controls.', 'Unavailable or low-quality data must be shown as unknown rather than inferred.'],
-    sections: ['Measurement objectives and audiences', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data sources and collection methods', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Milestone validation plan'],
+    scope: ['Every minimum purchasable pack must define two to three meaningful client-visible KPIs, generally spanning adoption, performance, and value without forcing artificial measures.', 'At least one core KPI must measure performance or value rather than activity alone.', 'Measures must have approved definitions, purpose, source, owner, and limitations.', 'PHI and sensitive data follow approved privacy, security, and site controls.', 'Unavailable or low-quality data must be shown as unknown rather than inferred.'],
+    sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data sources and collection methods', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
   {

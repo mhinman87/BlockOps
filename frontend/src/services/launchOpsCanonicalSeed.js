@@ -1629,7 +1629,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M2-01",
     "title": "Confirm the M2 readiness definition",
-    "description": "Lock M2 as foundational client ready and write the plain-English readiness statement.",
+    "description": "Lock M2 as foundational-client ready: the complete Foundation Library and M2 client-product architecture are reviewed, approved, finalized, measurable, and operable without major improvisation.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
@@ -1642,8 +1642,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-02",
-    "title": "Finalize the deliverables set",
-    "description": "Lock every deliverable that can be shown, sent, or used in a real client run.",
+    "title": "Finalize the Foundation Library and modular product catalog",
+    "description": "Review, approve, and finalize the complete Foundation Library; classify each item into the Platform and Safety Core, Capability Packs, Block Packs, internal knowledge, or Premium Modules; and prove each minimum pack has implementation logic and two to three meaningful KPIs.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
@@ -1656,8 +1656,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-03",
-    "title": "Configure the starter block pack catalog",
-    "description": "Set the reusable foundation block packs and make sure they can be assigned cleanly.",
+    "title": "Configure the modular pack catalog",
+    "description": "Configure Capability Packs and block-specific Block Packs as independently assignable client products that inherit approved Foundation Library content, include two to three pack KPIs, and expand cleanly through the shared platform.",
     "primaryOwner": "Max",
     "status": "locked",
     "priority": "high",
