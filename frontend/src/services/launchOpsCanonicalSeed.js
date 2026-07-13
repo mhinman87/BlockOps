@@ -1,3 +1,5 @@
+import { FUTURE_PRODUCT_DEPENDENCIES, FUTURE_PRODUCT_TASKS } from './futureProductTaskSeed.js';
+
 export const CANONICAL_LAUNCH_MILESTONES = [
   {
     "slug": "m1-mock-run-build-ready",
@@ -2241,7 +2243,8 @@ export const CANONICAL_LAUNCH_TASKS = [
     "legalGateFlag": false,
     "changedByNewInfo": false,
     "sortOrder": 50
-  }
+  },
+  ...FUTURE_PRODUCT_TASKS
 ];
 
 export const CANONICAL_TASKS = CANONICAL_LAUNCH_TASKS;
@@ -2540,6 +2543,8 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
     "dependencyType": "finish_to_start"
   }
 ];
+
+CANONICAL_LAUNCH_DEPENDENCIES.push(...FUTURE_PRODUCT_DEPENDENCIES);
 
 export const CANONICAL_DEPENDENCIES = CANONICAL_LAUNCH_DEPENDENCIES;
 

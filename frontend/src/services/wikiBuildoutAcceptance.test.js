@@ -13,7 +13,7 @@ test('internal Wiki search finds title, description, tags, and body text', () =>
 
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
-    liveWikiPageCount: 57,
+    liveWikiPageCount: 59,
     liveM1TaskCount: 328,
     liveCorrectWikiLinkCount: 328,
   });

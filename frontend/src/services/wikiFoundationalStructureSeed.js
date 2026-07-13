@@ -134,6 +134,24 @@ const definitions = [
     sections: ['Bundle identity and scope', 'Representation inventory', 'Version and provenance model', 'Required review gates', 'Site configuration and inheritance', 'Release authorization and evidence', 'Notification and training impact', 'Update and change-control workflow', 'Rollback, withdrawal, and supersession', 'Audit trail and periodic review'],
     related: ['Foundation Implementation Bundle Manifest and Completion Standard', 'Implementation Bundles', 'Implementation Bundle Delivery', 'Supabase Data Model', 'Client Portal', 'Backup and Continuity'],
   },
+  {
+    sectionSlug: 'client-delivery-system', slug: 'preoperative-patient-education-experience-platform', title: 'Preoperative Patient Education and Experience Platform',
+    summary: 'Future patient-facing education and survey platform for governed nerve-block expectations, accessibility, experience measurement, and approved aggregate Dashboard reporting.', owner: 'Samir',
+    primaryPillar: 'Stakeholder Integration', secondaryPillars: ['Digital Platform', 'Value Intelligence', 'Human Capital', 'Implementation Bundles'],
+    purpose: 'Define a future patient-facing tablet, kiosk, QR, or mobile experience that uses otherwise idle check-in and pre-op time to provide approved nerve-block education, set expectations, and collect governed experience measures.',
+    scope: ['The patient-facing surface is distinct from the facility client Dashboard.', 'Education does not replace informed consent, clinical discussion, diagnosis, treatment, or patient-specific advice.', 'Any satisfaction, understanding, or outcome claim requires validated evidence.', 'Content, survey, privacy, accessibility, device, infection-control, and site-workflow requirements remain governed future-build work.'],
+    sections: ['Intended patient and facility outcomes', 'Patient journey and clinical handoff boundaries', 'Approved education content and representations', 'Tablet, kiosk, QR, and mobile delivery options', 'Accessibility, language, captions, and health-literacy standards', 'Consent, privacy, PHI, retention, and aggregate-reporting controls', 'Survey instrument and KPI definitions', 'Device security, kiosk mode, MDM, cleaning, charging, storage, and loss procedures', 'Dashboard configuration and aggregate reporting', 'Usability, workflow, accessibility, privacy, and security validation', 'Foundational-client pilot and evidence review', 'Scale, revise, or stop decision gate'],
+    related: ['Commercial Product and Pack Architecture', 'Client Portal', 'Measurement Framework and Minimum Dataset', 'KPI Dictionary and Data Ownership', 'Evidence and Claims Governance'],
+  },
+  {
+    sectionSlug: 'proof-metrics-value', slug: 'payer-intelligence-documentation-guidance-platform', title: 'Payer Intelligence and Documentation Guidance Platform',
+    summary: 'Future governed payer-policy intelligence, documentation guidance, policy-change monitoring, client configuration, and carefully gated integration platform.', owner: 'Samir',
+    primaryPillar: 'Value Intelligence', secondaryPillars: ['Digital Platform', 'Stakeholder Integration', 'Implementation Bundles'],
+    purpose: 'Define a future payer-intelligence capability that helps clients understand applicable documentation and reimbursement requirements without promising coverage, coding correctness, reimbursement, or payment.',
+    scope: ['This payer-product concept is separate from Block Ops business-insurance and risk-transfer work.', 'Primary sources, effective dates, payer/plan/jurisdiction/site applicability, version history, and qualified review are mandatory.', 'Patient-specific or ambiguous cases require human review.', 'Direct payer or clearinghouse integrations require separate contract, privacy, security, technical, and unit-economic approval.'],
+    sections: ['Product scope and regulated-advice boundaries', 'Canonical payer-policy and applicability data model', 'Primary-source hierarchy and provenance', 'Initial payer, site, and jurisdiction cohort', 'Policy acquisition, normalization, versioning, and retirement', 'Qualified coding, billing, compliance, and legal review', 'Documentation-requirement mapping', 'Client/site/payer configuration', 'Change monitoring, alerts, stale-data detection, and fail-closed behavior', 'Dashboard guidance and source-linked explanations', 'Accuracy and real-world validation plan', 'Direct integration discovery and contract/security gates', 'Approved integration pilot', 'Recurring operations and commercialization'],
+    related: ['Commercial Product and Pack Architecture', 'Measurement Framework and Minimum Dataset', 'KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Compliance / Risk Controls'],
+  },
 ];
 
 export const FOUNDATIONAL_STRUCTURE_PAGES = Object.freeze(definitions.map((page) => Object.freeze({
