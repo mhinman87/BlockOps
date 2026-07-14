@@ -454,9 +454,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-QD-02",
     "title": "Define qualification scoring and disqualifiers",
-    "description": "Drafted in Obsidian Qualification and Discovery page using the provisional 8-point rubric plus hard-stop rules: no champion, active surgeon hostility, expects clinical staffing, unsafe clinical concern, no authority path, or protocols-only ask. Needs Samir/Adrian review.",
+    "description": "Approved hybrid qualification model: confirmed hard stops are screened first; eight fit factors are rated 0–2 with Unknown kept separate; the 16-point score guides but does not determine Advance, Advance with Conditions, Need More Information, Nurture, or Pass. Material overrides require a short rationale.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Qualification and Discovery",
     "milestoneSlug": "m1-mock-run-build-ready",
