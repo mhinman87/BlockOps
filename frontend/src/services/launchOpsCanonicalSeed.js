@@ -146,7 +146,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-LC-07",
     "title": "Define minimum required lead fields",
-    "description": "Drafted in Obsidian Lead Capture page: facility/contact, contact info, source, owner, current status, next action, next follow-up due date, and notes/context, with optional fit fields. Needs Max review for CRM schema.",
+    "description": "M1 rule locked: a lead may be saved with at least one identity (contact or facility), source, owner, status, next action, and next follow-up date. Contact details and context are captured when known but are not save blockers; incomplete legitimate leads route to Needs Review. Max must verify live CRM behavior.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
