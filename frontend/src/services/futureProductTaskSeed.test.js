@@ -32,6 +32,7 @@ test('approved M2 definition work remains marked complete in canonical seeds', (
   const futureByKey = new Map(FUTURE_PRODUCT_TASKS.map((task) => [task.taskKey, task]));
   const xrByKey = new Map(XR_TRAINING_TASKS.map((task) => [task.taskKey, task]));
 
+  assert.equal(futureByKey.get('M2-PAT-001')?.status, 'done');
   assert.equal(futureByKey.get('M2-PAY-001')?.status, 'done');
   assert.equal(futureByKey.get('M2-PAY-002')?.status, 'done');
   assert.equal(xrByKey.get('M2-XR-CLIN-01')?.status, 'done');
