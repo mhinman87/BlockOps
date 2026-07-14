@@ -64,7 +64,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "title": "Map the two lead pipelines",
     "description": "Document the AI chat lead path and Adrian's network lead path from first touch to intake.",
     "primaryOwner": "Adrian",
-    "status": "ready",
+    "status": "done",
     "priority": "critical",
     "workstream": "Lead Capture",
     "milestoneSlug": "m1-mock-run-build-ready",
