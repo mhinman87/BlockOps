@@ -132,7 +132,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-LC-06",
     "title": "Define lead source categories",
-    "description": "Drafted in Obsidian Lead Capture page: website/contact page, AI chat, Adrian network, Samir network, referral, ASC directory/research dossier, conference/event, LinkedIn, phone line, manual entry, other. Needs Max/Samir review before live CRM lock.",
+    "description": "Samir approved the M1 taxonomy: website/contact form, AI chat, Adrian network, Samir network, referral, manual entry, and other. Later-use categories may remain available but do not expand the M1 test gate. Max must verify the live CRM options and stored values before closeout.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
