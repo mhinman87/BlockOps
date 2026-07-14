@@ -342,9 +342,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-10",
     "title": "Define interested-lead handoff",
-    "description": "Drafted in Obsidian Qualification and Discovery page: positive outreach response can move to Initial Fit Call / Meeting Discovery Scheduled, then Discovery Completed, Proposal Needed, Nurture, Needs Review, or Not Fit. Needs Samir/Adrian validation.",
+    "description": "Approved: Adrian remains the relationship owner after a positive response and decides when the lead is ready to include Samir. Samir is not automatically added to every Initial Fit Call, and interest alone does not bypass qualification/discovery or trigger a proposal.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
