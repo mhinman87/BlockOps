@@ -167,6 +167,7 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
   'M2-PAY-010': 'Payer Intelligence and Documentation Guidance Platform',
   'M2-PAY-011': 'Payer Intelligence and Documentation Guidance Platform',
   'M5-PAY-012': 'Payer Intelligence and Documentation Guidance Platform',
+  'M2-FND-006': 'Foundation Implementation Bundle Manifest and Completion Standard',
   'M2-FND-024': 'Foundation Implementation Bundle Manifest and Completion Standard',
   'M2-LRA-03': 'Acquisition / Growth Strategy',
   'M2-LRA-04': 'Backup and Continuity',
