@@ -1,36 +1,21 @@
-import { CANONICAL_MILESTONES } from './launchOpsCanonicalSeed.js';
-
-// Approved milestone copy (M1–M10) lives in the canonical seed so naming stays
-// in one place. We override live rows by slug so the board always reads with the
-// current language even if the database copy is stale.
-const MILESTONE_COPY_OVERRIDES = Object.fromEntries(
-  CANONICAL_MILESTONES.map((milestone) => [milestone.slug, {
-    code: milestone.code,
-    title: milestone.title,
-    description: milestone.description,
-    gateNotes: milestone.gateNotes,
-  }]),
-);
-
 const milestoneCodeFromSlug = (slug = '') => {
   const match = /^m(\d+)-/i.exec(slug);
   return match ? `M${match[1]}` : '';
 };
 
 export const normalizeLaunchMilestoneRow = (row) => {
-  const override = MILESTONE_COPY_OVERRIDES[row.slug] || {};
   return {
     id: row.id,
     slug: row.slug,
-    code: override.code || milestoneCodeFromSlug(row.slug),
-    title: override.title || row.title,
-    description: override.description || row.description,
+    code: milestoneCodeFromSlug(row.slug),
+    title: row.title,
+    description: row.description,
     status: row.status,
     owner: row.owner,
     targetDate: row.target_date,
     sortOrder: row.sort_order ?? 0,
     readinessScore: row.readiness_score ?? 0,
-    gateNotes: override.gateNotes || row.gate_notes,
+    gateNotes: row.gate_notes,
   };
 };
 

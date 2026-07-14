@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserRole } from '../hooks/useUserRole';
 import {
   AlertTriangle,
   ArrowRight,
@@ -31,6 +32,7 @@ const isDone = (task) => task.computedStatus === 'done';
 
 export const DashboardHome = () => {
   const { user } = useAuth();
+  const { isTeam, loading: roleLoading } = useUserRole();
   const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [agenda, setAgenda] = useState(null);
@@ -38,6 +40,12 @@ export const DashboardHome = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (roleLoading) return undefined;
+    if (!isTeam) {
+      setLoading(false);
+      return undefined;
+    }
+
     let active = true;
     const load = async () => {
       try {
@@ -57,7 +65,7 @@ export const DashboardHome = () => {
     };
     load();
     return () => { active = false; };
-  }, []);
+  }, [isTeam, roleLoading]);
 
   const snapshot = useMemo(() => buildLaunchOpsSnapshot({ milestones, tasks, agenda }), [milestones, tasks, agenda]);
   const currentMilestone = snapshot.currentMilestone;
@@ -88,6 +96,38 @@ export const DashboardHome = () => {
   const currentPercent = currentMilestone
     ? (currentReadiness?.readinessFromTasks ?? currentMilestone.readinessScore ?? 0)
     : 0;
+
+  if (!roleLoading && !isTeam) {
+    return (
+      <DashboardLayout>
+        <div className="mb-6">
+          <h1 className={dashboardPageTitle}>
+            Welcome back{user?.full_name ? `, ${user.full_name.split(' ')[0]}` : ''}
+          </h1>
+          <p className={dashboardPageSubtitle}>
+            Your Block Ops workspace for approved deliverables, resources, and program reporting.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Link to="/dashboard/deliverables" className={`${dashboardCardInteractive} p-5`}>
+            <Target className="mb-3 text-primary" size={22} />
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">Deliverables</h2>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Open approved final materials for your program.</p>
+          </Link>
+          <Link to="/dashboard/library" className={`${dashboardCardInteractive} p-5`}>
+            <BookOpen className="mb-3 text-primary" size={22} />
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">Resources</h2>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Browse client-approved references and resources.</p>
+          </Link>
+          <Link to="/dashboard/analytics" className={`${dashboardCardInteractive} p-5`}>
+            <ArrowRight className="mb-3 text-primary" size={22} />
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">Program reporting</h2>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Review available value and quality reporting.</p>
+          </Link>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

@@ -18,7 +18,7 @@ import {
   recomputeLaunchOpsAfterTaskUpdate,
   updateLaunchTask,
 } from '../services/launchOpsService.js';
-import { CANONICAL_WORKFLOWS } from '../services/launchOpsCanonicalSeed.js';
+
 
 const OWNERS = ['All', 'Max', 'Samir', 'Adrian', 'Bloq'];
 const STATUSES = ['in_progress', 'ready', 'review', 'waiting', 'locked', 'blocked', 'done', 'dropped'];
@@ -133,8 +133,7 @@ export const TasksPage = () => {
   const selectedTask = selectedTaskId ? taskById[selectedTaskId] : null;
 
   const workflowOptions = useMemo(() => {
-    const extra = tasks.map((task) => task.workstream).filter(Boolean);
-    return Array.from(new Set([...CANONICAL_WORKFLOWS, ...extra]));
+    return Array.from(new Set(tasks.map((task) => task.workstream).filter(Boolean)));
   }, [tasks]);
 
   const filteredTasks = useMemo(() => tasks.filter((task) => {
@@ -156,7 +155,7 @@ export const TasksPage = () => {
   // milestone -> workflow -> tasks
   const milestoneGroups = useMemo(() => milestones.map((milestone) => {
     const milestoneTasks = filteredTasks.filter((task) => task.milestoneId === milestone.id);
-    const workflowOrder = Array.from(new Set([...CANONICAL_WORKFLOWS, ...milestoneTasks.map((t) => t.workstream)]));
+    const workflowOrder = Array.from(new Set(milestoneTasks.map((task) => task.workstream).filter(Boolean)));
     const workflows = workflowOrder
       .map((workflow) => ({ workflow, tasks: sortTasks(milestoneTasks.filter((task) => task.workstream === workflow)) }))
       .filter((group) => group.tasks.length > 0);

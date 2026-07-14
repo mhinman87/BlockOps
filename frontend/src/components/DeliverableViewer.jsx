@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArrowLeft, FileText, Tag, Loader2, CheckCircle2, AlertTriangle, X, Shield } from 'lucide-react';
 import { supabase } from '../services/supabase';
-import { parseWikiHref } from '../services/wikiCrossLinks.js';
+import { parseWikiHref } from '../services/wikiHref.js';
 
 // Custom renderers for clinical document styling
 const MarkdownComponents = {

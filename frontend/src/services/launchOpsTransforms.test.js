@@ -11,7 +11,7 @@ import {
   buildMilestoneReadinessSummary,
 } from './launchOpsTransforms.js';
 
-test('normalizeLaunchMilestoneRow maps milestone records into frontend milestone objects', () => {
+test('normalizeLaunchMilestoneRow maps live milestone records without browser-bundled overrides', () => {
   assert.deepEqual(normalizeLaunchMilestoneRow({
     id: 'm1',
     slug: 'm1-mock-run-build-ready',
@@ -27,14 +27,14 @@ test('normalizeLaunchMilestoneRow maps milestone records into frontend milestone
     id: 'm1',
     slug: 'm1-mock-run-build-ready',
     code: 'M1',
-    title: 'Mock Client Lead-to-Live Run',
-    description: 'M1 proves the full customer path by running a mock client from lead capture through CRM entry, follow-up, proposal, contract, go-live prep, and launch board organization.',
+    title: 'Build complete enough for full internal mock run',
+    description: 'Mock readiness',
     status: 'in_progress',
     owner: 'Max',
     targetDate: '2026-06-30',
     sortOrder: 1,
     readinessScore: 20,
-    gateNotes: 'M1 is the end-to-end mock client rehearsal: lead pipelines, CRM, workflows, and Mission Control organization all have to work together.',
+    gateNotes: 'Current active milestone',
   });
 });
 

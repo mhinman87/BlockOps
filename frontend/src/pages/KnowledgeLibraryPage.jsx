@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { DeliverableViewer } from '../components/DeliverableViewer';
 import { fetchKnowledgeLibraryItems } from '../services/knowledgeLibraryContentService.js';
+import { fetchInternalWikiItems } from '../services/internalWikiService.js';
 import { filterVisibleLibraryItems } from '../services/contentVisibility.js';
-import { WIKI_LIBRARY_ITEMS } from '../services/wikiLibraryItems.js';
-import { canTraverseWikiLink } from '../services/wikiCrossLinks.js';
 import { useActiveSite } from '../contexts/ActiveSiteContext';
+import { useUserRole } from '../hooks/useUserRole';
 import { 
   Search, 
   BookOpen, 
@@ -72,164 +72,7 @@ const STORAGE_PATHS = {
   'Block_Lead_Nurse_Responsibility_List': 'foundation/Block_Lead_Nurse_Responsibility_List.md',
 };
 
-// Legacy — keeping for reference but no longer used inline
-const LAST_PROTOCOL_CONTENT_UNUSED = `# BLOCK OPS — Local Anesthetic Systemic Toxicity (LAST) Protocol Suite
-## Foundation Package | Safety | Version: DRAFT v0.1 — Pending Clinical Review
 
----
-
-# PART 1: PREVENTION & MONITORING
-
-### What is LAST?
-Local anesthetic systemic toxicity (LAST) is a rare but life-threatening complication that occurs when local anesthetic reaches supratherapeutic plasma concentrations. This may result from inadvertent intravascular injection, excessive dosing, or delayed tissue absorption. LAST affects the central nervous system and cardiovascular system, and can progress rapidly from prodromal symptoms to seizures, cardiac arrhythmias, and cardiac arrest.
-
-### Incidence
-- Estimated incidence: 0.03-0.2% of peripheral nerve blocks
-- Higher risk with high-volume fascial plane blocks (TAP, PECS, QL, ESP)
-- Ultrasound guidance has reduced but not eliminated the incidence
-- Up to 50% of cases may present atypically — without classic CNS excitation
-
-### Risk Factors
-**Patient Factors:**
-- Extremes of age (pediatric, elderly)
-- Low muscle mass / low body weight
-- Cardiac disease (reduced cardiac output slows LA redistribution)
-- Hepatic disease (impaired LA metabolism)
-- Renal disease
-- Pregnancy (increased sensitivity, decreased protein binding)
-- Hypoalbuminemia (increased free drug fraction)
-- Acidosis (increases unbound LA fraction)
-
-**Procedural Factors:**
-- High-volume blocks (TAP, PECS) — large total LA dose
-- Highly vascular injection sites
-- Use of long-acting, more cardiotoxic agents (bupivacaine > ropivacaine > lidocaine)
-- Absence of ultrasound guidance
-- Absence of epinephrine as intravascular marker
-- Multiple blocks in same session (cumulative dosing)
-
-### Prevention Strategies
-
-#### 1. Weight-Based Dosing
-Always calculate maximum allowable dose based on lean body weight:
-
-| Local Anesthetic | Max Dose (without Epi) | Max Dose (with Epi) |
-|---|---|---|
-| Bupivacaine | 2.5 mg/kg | 3 mg/kg |
-| Ropivacaine | 3 mg/kg | 3.5 mg/kg |
-| Lidocaine | 4.5 mg/kg | 7 mg/kg |
-| Mepivacaine | 5 mg/kg | 7 mg/kg |
-
-#### 2. Aspirate Before Injecting
-- Aspirate before **every** injection increment
-
-#### 3. Incremental Injection
-- Inject in **3-5 mL aliquots**, pausing 15-30 seconds between increments
-- This is the single most important technique for preventing large-bolus intravascular injection
-
-#### 4. Epinephrine as Intravascular Marker
-- Add epinephrine 1:400,000 (2.5 mcg/mL) to the LA solution
-- Intravascular injection produces: HR increase ≥10 bpm, BP increase ≥15 mmHg systolic
-
-#### 5. Ultrasound Guidance
-- Use ultrasound for all peripheral nerve blocks (Block Ops standard)
-
-#### 6. Monitor After Injection
-- Continue monitoring for **30-45 minutes after injection** of large volumes
-
----
-
-# PART 2: RECOGNITION — Signs & Symptoms
-
-### Typical Presentation (Classic Progression)
-
-**Stage 1: Prodromal / Early CNS Excitation**
-- Perioral numbness/tingling
-- Metallic taste
-- Tinnitus (ringing in ears)
-- Lightheadedness / dizziness
-- Agitation, anxiety, restlessness
-
-**Stage 2: CNS Excitation → Depression**
-- Seizures (occur in ~70% of LAST cases)
-- Loss of consciousness
-- Respiratory depression / apnea
-
-**Stage 3: Cardiovascular Toxicity**
-- Hypotension, Bradycardia
-- Conduction abnormalities (prolonged PR, wide QRS, AV block)
-- Ventricular arrhythmias (VT, VF)
-- Cardiac arrest / asystole
-
-### ⚠️ Atypical Presentations
-- Up to **50% of cases may not follow the classic progression**
-- ~40% present as sudden-onset seizure without prodromal symptoms
-- ~11% present with cardiovascular toxicity as the first sign
-- Delayed onset up to 60 minutes post-injection
-
-> **Any neurological or cardiovascular change occurring within 60 minutes of LA administration should be considered LAST until proven otherwise.**
-
----
-
-# PART 3: CRISIS RESPONSE — Treatment Protocol
-*Based on: ASRA LAST Checklist (Neal JM, Neal EJ, Weinberg GL, 2020)*
-
-### IMMEDIATE ACTIONS (First 60 Seconds)
-
-1. **STOP** the injection immediately
-2. **CALL** for help — get the LAST rescue kit (20% Intralipid)
-3. **AIRWAY** — 100% oxygen, secure airway if needed
-4. **SEIZURES** — Midazolam 2-4 mg IV (avoid large-dose propofol)
-
-### INTRALIPID 20% — DO NOT DELAY
-
-| Step | Dose | 70 kg Example |
-|---|---|---|
-| **BOLUS** | 1.5 mL/kg over 1 min | **105 mL** |
-| **INFUSION** | 0.25 mL/kg/min | **17.5 mL/min** |
-| **If unstable** | Repeat bolus × 1-2 (q3-5 min) | 105 mL again |
-| **If still unstable** | Double infusion to 0.5 mL/kg/min | 35 mL/min |
-| **MAX DOSE** | ~12 mL/kg in first 30 min | **840 mL** |
-
-**Continue infusion ≥15 min after hemodynamically stable.**
-
-### IF CARDIAC ARREST — Modified ACLS
-- CPR — high quality
-- **Epinephrine ≤1 mcg/kg** (NOT standard 1 mg ACLS dose)
-- **Amiodarone** for ventricular arrhythmias
-- **AVOID:** vasopressin, lidocaine, calcium channel blockers, beta-blockers
-- **Continue Intralipid** throughout resuscitation
-- **Consider ECMO** early if refractory
-
-### POST-EVENT
-- ICU transfer — monitor 4-6 hours minimum (12 hours if severe/bupivacaine)
-- Serial labs: lipid panel, troponin, amylase/lipase, ABG
-- Complete documentation and root cause analysis
-- Report to facility risk management
-
----
-
-# PART 4: INTRALIPID STOCKING
-
-### Requirements
-- **Minimum stock:** 1,000 mL of 20% Intralipid per block location
-- Stored in a **clearly labeled, dedicated location** known to all team members
-- **Not locked** — must be accessible without keys or codes
-- Include IV tubing with the Intralipid
-- Check expiration dates monthly
-
----
-
-## Evidence Base & References
-1. Neal JM, Neal EJ, Weinberg GL. ASRA LAST Checklist: 2020 Version. Reg Anesth Pain Med. 2021;46(1):81-82.
-2. Neal JM, Barrington MJ, et al. Third ASRA Practice Advisory on LAST. Reg Anesth Pain Med. 2018;43(2):113-123.
-3. Macfarlane AJR, et al. Updates in our understanding of LAST. Anaesthesia. 2021;76(S1):27-39.
-4. Shalaby M, et al. Atypical and delayed presentations of LAST. Clin Exp Emerg Med. 2024.
-5. El-Boghdadly K, et al. LAST: current perspectives. Local Reg Anesth. 2018;11:35-44.
-
-*Block Ops © 2025 — DRAFT: Not for clinical use until approved by Dr. Bhakta*`;
-
-import { useUserRole } from '../hooks/useUserRole';
 import { useDeliverableStatus } from '../hooks/useDeliverableStatus';
 
 export const KnowledgeLibraryPage = () => {
@@ -247,7 +90,9 @@ export const KnowledgeLibraryPage = () => {
     const loadLibraryItems = async () => {
       try {
         const items = await fetchKnowledgeLibraryItems(renderedSiteQuery);
-        const internalWikiItems = userRole.isTeam ? WIKI_LIBRARY_ITEMS : [];
+        const internalWikiItems = userRole.isTeam
+          ? await fetchInternalWikiItems()
+          : [];
         setLibraryItems([...internalWikiItems, ...items]);
         setLibraryError(null);
       } catch (error) {
@@ -307,7 +152,7 @@ export const KnowledgeLibraryPage = () => {
           onBack={() => setSelectedItem(null)}
           onWikiNavigate={(title) => {
             const target = libraryItems.find((item) => item.title === title);
-            if (canTraverseWikiLink({ source: selectedItem, target, isTeam: userRole.isTeam })) {
+            if (userRole.isTeam && target?.kind === 'wiki-page') {
               setSelectedItem(target);
             }
           }}

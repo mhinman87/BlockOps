@@ -12,7 +12,7 @@ import {
   buildUnlockedTaskIds,
   recomputeTaskStatuses,
 } from './launchOpsIntelligence.js';
-import { mergeBoardWithCanonical } from './launchOpsMerge.js';
+
 
 const getDefaultClient = async () => {
   const module = await import('./supabase.js');
@@ -144,27 +144,22 @@ export const updateLaunchTask = async ({ client, taskId, task, taskKey, updates 
   return normalizeLaunchTaskRow((data || [])[0] || {});
 };
 
-// Loads the full board (milestones + tasks + agenda) and merges canonical
-// structure on top of live rows. Resilient: if a live source fails, the board
-// still renders the canonical structure so the UI is never empty.
+// Loads the governed board from Supabase. Internal Mission Control content must
+// never fall back to browser-bundled seed data: authorization is enforced by
+// live RLS and an empty/error response must fail closed.
 export const fetchLaunchBoard = async ({ client, weekOf = '2026-06-01' } = {}) => {
   const resolvedClient = client || await getDefaultClient();
-  const errors = {};
-
-  const liveMilestones = await fetchLaunchMilestones({ client: resolvedClient })
-    .catch((err) => { errors.milestones = err?.message || 'Failed to load milestones'; return []; });
-  const liveTasks = await fetchLaunchTasks({ client: resolvedClient })
-    .catch((err) => { errors.tasks = err?.message || 'Failed to load tasks'; return []; });
-  const agenda = await fetchWeeklyAgenda({ client: resolvedClient, weekOf })
-    .catch((err) => { errors.agenda = err?.message || 'Failed to load weekly agenda'; return null; });
-
-  const { milestones, tasks } = mergeBoardWithCanonical({ liveMilestones, liveTasks });
+  const [milestones, tasks, agenda] = await Promise.all([
+    fetchLaunchMilestones({ client: resolvedClient }),
+    fetchLaunchTasks({ client: resolvedClient }),
+    fetchWeeklyAgenda({ client: resolvedClient, weekOf }),
+  ]);
 
   return {
     milestones,
     tasks,
     agenda,
-    errors: Object.keys(errors).length ? errors : null,
+    errors: null,
   };
 };
 

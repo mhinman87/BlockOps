@@ -4,6 +4,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import ThemeRouteSync from './components/ThemeRouteSync';
 import { ActiveSiteProvider } from './contexts/ActiveSiteContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { InternalRoute } from './components/InternalRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { CompanyPage } from './pages/CompanyPage';
@@ -51,7 +52,7 @@ function App() {
           <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
           <Route path="/dashboard/meeting" element={<ProtectedRoute><MeetingPage /></ProtectedRoute>} />
           <Route path="/dashboard/leads" element={<ProtectedRoute><LeadsPage /></ProtectedRoute>} />
-          <Route path="/dashboard/tasks" element={<ProtectedRoute><TasksPage /></ProtectedRoute>} />
+          <Route path="/dashboard/tasks" element={<ProtectedRoute><InternalRoute><TasksPage /></InternalRoute></ProtectedRoute>} />
           <Route path="/dashboard/operations" element={<ProtectedRoute><OperationsPage /></ProtectedRoute>} />
           <Route path="/dashboard/business" element={<ProtectedRoute><BusinessPage /></ProtectedRoute>} />
           <Route path="/dashboard/chatbot" element={<ProtectedRoute><ChatbotPage /></ProtectedRoute>} />
