@@ -482,9 +482,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-QD-04",
     "title": "Define Scope Assessment Call question banks",
-    "description": "Drafted in Obsidian Qualification and Discovery page: pain/current-state, champion/clinical readiness, operational fit, decision authority, and timeline/urgency question banks. Needs Samir/Adrian review.",
+    "description": "Approved: the Scope Assessment Call is required before proposal work; all five discovery areas must be answered or explicitly unresolved, and material unknowns block proposal creation until resolved.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Qualification and Discovery",
     "milestoneSlug": "m1-mock-run-build-ready",
