@@ -566,8 +566,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-SMS-01",
     "title": "Define approved sales positioning spine",
-    "description": "Drafted in Obsidian Sales Materials and Scripts page: Block Ops turns regional anesthesia from person-dependent skill into a repeatable site-level program, with strict no-clinical-care boundary. Needs Samir/Adrian review.",
-    "primaryOwner": "Samir",
+    "description": "Samir approved the internal positioning spine: Block Ops turns regional anesthesia from a person-dependent skill set into a repeatable site-level program by building the training, workflows, safety infrastructure, implementation support, and measurement system around nerve blocks. Adrian must complete sales-language validation before overall closeout.",
+    "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
     "workstream": "Sales Materials and Scripts",
