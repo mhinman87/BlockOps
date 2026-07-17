@@ -664,9 +664,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-04",
     "title": "Define weekly ops review cadence",
-    "description": "Drafted in Obsidian Weekly Ops Review page: weekly reset checks milestone, workflows, blockers, owner next actions, priorities, locked items, and Mission Control updates. Needs Samir review.",
+    "description": "Samir-approved activation model: no mandatory weekly review through M3; current work stays continuous and milestone- or decision-driven. Activate a lightweight client-implementation review in M4, retain it in M5 and later only while active client work justifies it, and pause it otherwise. Bloq prepares the operating record; Samir handles only business decisions; routine updates stay in Mission Control.",
     "primaryOwner": "Bloq",
-    "status": "review",
+    "status": "done",
     "priority": "medium",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",
