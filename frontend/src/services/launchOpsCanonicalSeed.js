@@ -160,7 +160,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-LC-08",
     "title": "Define duplicate lead rule",
-    "description": "Drafted in Obsidian Lead Capture page: possible duplicates move to Needs Review and duplicate records should be preserved or linked instead of deleting context. Needs Max/Samir review for merge behavior.",
+    "description": "Samir-approved rule: suspected duplicates move to Needs Review; the system may suggest but never auto-merge or delete; exact email/phone matches are strong signals while similar names are warnings; the same person at multiple facilities is not automatically a duplicate; outreach pauses until review; the reviewer chooses merge, link, or keep separate; and all sources, notes, communications, owners, attachments, timestamps, and audit history are preserved. Max must verify the live CRM behavior.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
