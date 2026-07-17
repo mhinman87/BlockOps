@@ -33,6 +33,7 @@ const mapping = {
   Dashboard: ['Digital Platform', ['Human Capital', 'Value Intelligence']],
   'Decision Capture': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
   'Decision Log / Historical Archive': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
+  'Ideas and Explorations': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
   'Design Handoff Process': ['Digital Platform', ['Human Capital']],
   'Digital Platform Overview': ['Digital Platform', ['Stakeholder Integration', 'Value Intelligence']],
   'Equipment, Cart, Supply, and Restocking Standard': ['Physical Operations', ['Implementation Bundles', 'Human Capital', 'Stakeholder Integration', 'Value Intelligence']],

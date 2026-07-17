@@ -678,9 +678,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-05",
     "title": "Define decision capture rules",
-    "description": "Drafted in Obsidian Decision Capture page: capture decisions that change product, workflow, milestone, naming, client-facing rules, legal/compliance caution areas, or major trade-offs. Needs Samir review.",
+    "description": "Samir-approved two-lane rule: valuable ideas, brainstorming, possibilities, and unanswered questions are preserved in Ideas and Explorations with Captured, Exploring, Parked, Promoted, or Retired state; approved choices become concise decision records; only promoted actionable work enters Mission Control. Supabase is canonical, the internal Wiki is the governed readable view, and Obsidian is the brainstorming workspace and mirror.",
     "primaryOwner": "Bloq",
-    "status": "review",
+    "status": "done",
     "priority": "medium",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",

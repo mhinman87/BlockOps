@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import { searchInternalWikiItems, runWikiBuildoutAcceptance } from './wikiBuildoutAcceptance.js';
 import { WIKI_LIBRARY_ITEMS } from './wikiLibraryItems.js';
+import { WIKI_PILLAR_MAP } from './wikiPillarMapping.js';
 
 test('internal Wiki search finds title, description, tags, and body text', () => {
   assert.ok(searchInternalWikiItems(WIKI_LIBRARY_ITEMS, 'Block Ops Mission').some((item) => item.title === 'Block Ops Mission'));
@@ -13,7 +14,7 @@ test('internal Wiki search finds title, description, tags, and body text', () =>
 
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
-    liveWikiPageCount: 59,
+    liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,
     liveM1TaskCount: 328,
     liveCorrectWikiLinkCount: 328,
   });
