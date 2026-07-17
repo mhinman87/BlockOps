@@ -1183,9 +1183,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DCK-02",
     "title": "Define implementation bundle delivery process",
-    "description": "Drafted in Obsidian Implementation Bundle Delivery page: foundation baseline plus site-customized materials, review gates, approved final content, and source/agent/site representation traceability. Needs Samir review.",
+    "description": "Samir-approved delivery model: every engagement receives the minimum responsible foundation layer plus only purchased capability modules; verified site data creates a controlled site-specific instance without mutating global source; applicable domain gates apply per item; approved-final items may release incrementally; and delivery complete, training ready, or go-live ready requires every item for that bundle gate. The manifest records scope, versions, reviewers, evidence, release, and re-review triggers.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "critical",
     "workstream": "Clinical Standard & Deliverables",
     "milestoneSlug": "m1-mock-run-build-ready",
