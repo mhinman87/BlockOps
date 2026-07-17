@@ -384,9 +384,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-CL-01",
     "title": "Define communication logging threshold",
-    "description": "Drafted in Obsidian Client Communication Log page: log every meaningful touch that affects relationship context, pipeline status, next action, materials sent, or follow-up. Needs Adrian/Samir review.",
-    "primaryOwner": "Adrian",
-    "status": "review",
+    "description": "Approved M1 standard: manually log every meaningful external touch across every channel when it creates or changes relationship context, pipeline status, next action, follow-up timing, materials sent, meeting status, ownership, or decision history. Low-value threads may be summarized and system noise need not be recreated manually. Future target: automatically capture every external interaction in one complete omnichannel timeline when integrations make that low-overhead.",
+    "primaryOwner": "Samir",
+    "status": "done",
     "priority": "high",
     "workstream": "Client Communication Log",
     "milestoneSlug": "m1-mock-run-build-ready",
