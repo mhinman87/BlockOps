@@ -594,9 +594,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-SMS-03",
     "title": "Define sales material approval statuses",
-    "description": "Drafted in Obsidian Sales Materials and Scripts page: draft/internal, ready for Samir review, ready for Adrian review, legal/compliance review, approved final, and archive/source only. Needs Samir/Adrian review.",
+    "description": "Approved M1 baseline: Internal Draft, Internal Review, Legal Review Required only when triggered, Approved Final, and Archived/Superseded. Only Approved Final may be sent externally; approval records the exact version, approvers, and dates; editing an approved item creates a new Internal Draft requiring review again. Test in the mock workflow and adjust from operating evidence.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Sales Materials and Scripts",
     "milestoneSlug": "m1-mock-run-build-ready",
