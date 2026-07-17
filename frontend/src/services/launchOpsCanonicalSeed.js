@@ -692,7 +692,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-06",
     "title": "Define status rules by object type",
-    "description": "Drafted in Obsidian Status Rules page: Wiki note status, Mission Control task status, and client-facing deliverable approval status are separate. Needs Samir/Max review against live Supabase vocabulary.",
+    "description": "Samir-approved business architecture: knowledge, ideas/explorations, Mission Control tasks, and deliverables use separate status systems; client visibility is an independent permission; knowledge uses Internal Draft, Review Required, Current Internal, and Archived/Superseded; Mission Control does not use this_week without a real dated cadence; and done does not make output approved or client-safe. Pending Max verification against live Dashboard, Mission Control, and Supabase vocabulary.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
