@@ -622,9 +622,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-01",
     "title": "Define Block Ops operating system layers",
-    "description": "Drafted in Obsidian Block Ops Operating System page: Wiki/Obsidian is source truth, Mission Control is execution, Dashboard is calm summary, client portal is approved client-safe output. Needs Samir review.",
+    "description": "Approved operating model: Supabase is canonical live business truth; the internal Wiki is the governed readable knowledge view; Mission Control owns execution; Dashboard is the calm summary; the client portal exposes approved-final client-safe content and KPIs; Obsidian is the agent-optimized knowledge mirror, authoring workspace, source context, and continuity layer; GitHub is the code/version/recovery layer. Obsidian and seeds cannot overwrite newer verified live state.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -776,7 +776,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DP-05",
     "title": "Define internal Wiki / Compendium behavior",
-    "description": "Drafted in Obsidian Block Ops Wiki - Compendium page: Obsidian remains source-of-truth authoring layer, internal Wiki is polished reading/search layer, Mission Control links to Wiki context, and client portal stays separate. Needs Samir/Max review.",
+    "description": "Samir approved the business behavior: Supabase is canonical live state; the internal Wiki is the governed reading/search layer; Obsidian is the agent-optimized knowledge mirror, authoring workspace, source context, and continuity layer; Mission Control links execution to Wiki context; the client portal stays separate and approved-final only. Remains in review for Max to verify the implemented data and UI paths.",
     "primaryOwner": "Samir",
     "status": "review",
     "priority": "high",
