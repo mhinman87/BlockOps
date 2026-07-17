@@ -538,9 +538,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-PW-03",
     "title": "Define proposal claim and pricing review rules",
-    "description": "Drafted in Obsidian Proposal Workflow page: pricing is draft-only until approved, ROI/value claims need caveats, and unsupported outcome guarantees must be avoided. Needs Samir/Adrian/legal review.",
+    "description": "Approved internal rule: M1 uses labeled mock pricing; real pricing requires Samir approval; claims distinguish evidence, client data, and assumptions; outcome guarantees are prohibited; Adrian verifies sales accuracy; legal review is triggered by new sensitive claims or nonstandard terms.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "critical",
     "workstream": "Proposal Workflow",
     "milestoneSlug": "m1-mock-run-build-ready",
