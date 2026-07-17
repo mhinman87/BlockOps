@@ -314,7 +314,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-08",
     "title": "Define Day 10 close-loop / nurture rule",
-    "description": "Adrian-approved outreach cadence moves default no-response/stalled review to around business day 10, with a business day 7 fast lane. Samir still owns final not-fit, nurture, future-market, and close/no-response business rules.",
+    "description": "Adrian-approved outreach cadence moves default no-response/stalled review to around business day 10, with a business day 7 fast lane. Samir approved the future-market model: Nurture / Recycle Later plus structured Future Market / Geography hold reason and filtered view. Samir still owns the remaining not-fit, nurture, and close/no-response business rules.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
