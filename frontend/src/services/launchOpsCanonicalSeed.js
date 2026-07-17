@@ -174,7 +174,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-LC-09",
     "title": "Define lead handoff from capture to outreach",
-    "description": "Drafted in Obsidian Lead Capture and Outreach Sequence pages: record exists, source known or inferred, owner assigned, first channel clear, next action/due date set, and duplicate/not-fit issues resolved or flagged. Needs Adrian review.",
+    "description": "Samir-approved rule: a lead enters Contact Needed and Adrian's outreach queue only after the minimum record exists, source and owner are recorded, duplicate/spam/fit concerns are resolved, the lead is no longer in Needs Review, the first channel is identified, and the first action and due date are assigned. The Day 0-2 clock starts at Contact Needed; source paths share the gate but may use different channels/messages; handoff does not mean qualified, interested, or proposal-ready. Adrian must validate the operating flow.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
