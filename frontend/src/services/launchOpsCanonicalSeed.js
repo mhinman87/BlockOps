@@ -398,7 +398,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-CL-02",
     "title": "Define communication log required fields",
-    "description": "Drafted in Obsidian Client Communication Log page: lead/client, contact, facility, date/time, owner, channel, direction, source/context, summary, outcome, next step, follow-up due date, and materials sent. Needs Max review for schema.",
+    "description": "Samir approved a core-plus-conditional model. Always require lead/client record, date/time, team owner, channel, direction, brief summary, and outcome. When applicable require contact/facility, source/context, materials, status movement, next action/owner/due date, objection or disposition reason, sensitivity flags, and source message/external interaction ID for automated capture. Never force empty, guessed, or fabricated values. Max must verify the live schema and form behavior.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
