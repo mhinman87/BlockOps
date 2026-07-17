@@ -636,9 +636,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-02",
     "title": "Define roles and task ownership rules",
-    "description": "Drafted in Obsidian Roles and Ownership page: milestones are shared, workflows organize, and tasks are owned; reviewer and executor can differ. Needs Samir review.",
+    "description": "Approved ownership model: milestones are shared; workflows organize; every task has exactly one accountable owner; collaborators are optional; executor and reviewer roles are distinct; unknown ownership routes temporarily to Samir for reassignment; and done requires evidence plus applicable review. Full RACI is deferred unless operating evidence shows it is needed.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -1028,9 +1028,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OPS-OWNER-01",
     "title": "Apply default owner rule for new tasks",
-    "description": "Operating rule: every Mission Control task must have one accountable owner. If ownership is unclear, assign Samir by default so he can redirect to Adrian, Max, or Bloq as the workflow matures.",
+    "description": "Implemented operating rule: every Mission Control task has one accountable owner. If ownership is unclear, assign Samir temporarily so he can redirect to Adrian, Max, or Bloq. Verified against the live Mission Control task set with zero missing primary owners.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",
