@@ -356,9 +356,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-11",
     "title": "Define not-interested response handling",
-    "description": "Clarify how to close or recycle a lead that responds negatively.",
-    "primaryOwner": "Adrian",
-    "status": "ready",
+    "description": "Approved reason-based rule: timing, budget, priorities, or leadership-readiness objections move to Nurture / Recycle Later with a reason, owner, and review date; explicit do-not-contact or firm permanent rejection moves to Closed / Not Interested with future outreach suppressed; clear mismatch with Block Ops' target or offering moves to Not Fit with the disqualifying reason; and geography limitations use Nurture / Recycle Later with Future Market / Geography. Preserve full history in every path.",
+    "primaryOwner": "Samir",
+    "status": "done",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -412,7 +412,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-CL-03",
     "title": "Connect communication entries to CRM stage movement",
-    "description": "Approved business rule is documented in Obsidian: first outreach moves Contact Needed to Contacted; positive replies move toward discovery; after 3 unanswered attempts over the default 10-business-day cadence or approved 7-business-day fast lane, move to No Response / Stalled, stop active outreach, preserve history/owner/last-contact data, and assign a review date. Nurture requires a reason and re-entry trigger; silence alone is never Not Fit. Max must verify CRM implementation.",
+    "description": "Approved business rules are documented in Obsidian: first outreach moves Contact Needed to Contacted; positive replies move toward discovery; no-response thresholds move to No Response / Stalled with preserved history and a review date; temporary timing/budget/priority/readiness objections move to Nurture with a reason and review date; do-not-contact or firm permanent rejection moves to Closed / Not Interested with outreach suppressed; and actual mismatch moves to Not Fit with a reason. Max must verify CRM implementation.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
