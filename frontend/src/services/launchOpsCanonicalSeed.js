@@ -468,7 +468,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-QD-03",
     "title": "Define prospect brief requirements",
-    "description": "Drafted in Obsidian Qualification and Discovery page: facility, surgical mix, current blocks, champion, decision path, pain points, qualification read, red/yellow flags, questions for Samir, and recommended next step. Needs Samir/Adrian review.",
+    "description": "Samir approved Model B on 2026-07-18: one living Prospect Brief begins as a concise opportunity snapshot after the Initial Fit Conversation and expands only when the lead advances toward a Client Assessment Meeting. Stage 1 captures CRM/conversation facts, qualification, flags/unknowns, disposition, and one owned next action; Stage 2 adds only decision-relevant research, preliminary implementation hypotheses, and questions for Samir. Adrian must validate sales practicality; Max must separately verify a no-duplicate-entry CRM implementation.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
