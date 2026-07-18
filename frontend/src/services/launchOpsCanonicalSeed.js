@@ -426,9 +426,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-CL-04",
     "title": "Test communication log with both mock-client paths",
-    "description": "Run website/AI-chat and Adrian/network mock leads through communication logging, verify history appears on the lead/client record, and confirm owner/next follow-up/status changes are visible.",
+    "description": "Executed 2026-07-18 with website and Adrian/network live mock leads. Nine durable lead_notes preserve communication, qualification, brief, and decision history, but fields are prose-only and protected admin UI visibility could not be verified. Keep in review until Max implements structured history and Bloq visually retests.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "review",
     "priority": "high",
     "workstream": "Client Communication Log",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -496,9 +496,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-QD-05",
     "title": "Test fit and assessment journey with mock-client paths",
-    "description": "Run website/AI-chat and Adrian/network mock leads through Initial Fit Conversation, Opportunity Review, Client Assessment Meeting where appropriate, communication logging, CRM stage movement, and next-step creation.",
+    "description": "Executed 2026-07-18 against two live Supabase mock leads: website path cd4a03e5-2f50-4805-adec-207e8c460593 reached Need More Information with Stage 1 brief; Adrian/network path ecfb59c9-7fba-4938-b5c3-4b335bb744cf reached Client Assessment Meeting and Advance with Conditions with Stage 1/2 brief. Operating flow passed, but source/status taxonomy, structured communication/qualification/brief fields, and protected admin UI verification remain Max-owned blockers.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "review",
     "priority": "high",
     "workstream": "Qualification and Discovery",
     "milestoneSlug": "m1-mock-run-build-ready",
