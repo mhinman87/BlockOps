@@ -440,7 +440,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-QD-01",
     "title": "Define Initial Fit Conversation question bank",
-    "description": "Drafted in Obsidian Qualification and Discovery page: capture facility type, OR count, surgical mix, current block activity, champion candidate, surgeon buy-in, pain point, decision path, and timeline. Needs Adrian/Samir review.",
+    "description": "Samir-approved business model: every 15–20 minute Initial Fit Conversation covers five core areas—trigger/desired improvement, facility/surgical opportunity, current block activity/inconsistency, champion/stakeholder posture, and decision path/timing/next step—with conditional prompts used only when relevant or decision-changing. Unknowns remain explicit; Adrian must validate the sales language before closeout.",
     "primaryOwner": "Adrian",
     "status": "review",
     "priority": "high",
