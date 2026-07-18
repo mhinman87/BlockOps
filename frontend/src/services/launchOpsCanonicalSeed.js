@@ -342,7 +342,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-10",
     "title": "Define interested-lead handoff",
-    "description": "Approved: Adrian remains the relationship owner after a positive response and decides when the lead is ready to include Samir. Samir is not automatically added to every Initial Fit Call, and interest alone does not bypass qualification/discovery or trigger a proposal.",
+    "description": "Approved: Adrian remains the relationship owner after a positive response and decides when the lead is ready to include Samir. Samir is not automatically added to every Initial Fit Conversation, and interest alone does not bypass the Opportunity Review or Client Assessment Meeting or trigger Proposal Preparation.",
     "primaryOwner": "Samir",
     "status": "done",
     "priority": "high",
@@ -439,7 +439,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-QD-01",
-    "title": "Define Initial Fit Call question bank",
+    "title": "Define Initial Fit Conversation question bank",
     "description": "Drafted in Obsidian Qualification and Discovery page: capture facility type, OR count, surgical mix, current block activity, champion candidate, surgeon buy-in, pain point, decision path, and timeline. Needs Adrian/Samir review.",
     "primaryOwner": "Adrian",
     "status": "review",
@@ -481,8 +481,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-QD-04",
-    "title": "Define Scope Assessment Call question banks",
-    "description": "Approved: the Scope Assessment Call is required before proposal work; all five discovery areas must be answered or explicitly unresolved, and material unknowns block proposal creation until resolved.",
+    "title": "Define Client Assessment Meeting question banks",
+    "description": "Approved: the Client Assessment Meeting is required before Proposal Preparation; all five assessment areas must be answered or explicitly unresolved, and material unknowns block proposal creation until resolved.",
     "primaryOwner": "Samir",
     "status": "done",
     "priority": "high",
@@ -495,8 +495,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-QD-05",
-    "title": "Test qualification and discovery with mock-client paths",
-    "description": "Run website/AI-chat and Adrian/network mock leads through Initial Fit Call, qualification outcome, communication logging, CRM stage movement, and next-step creation.",
+    "title": "Test fit and assessment journey with mock-client paths",
+    "description": "Run website/AI-chat and Adrian/network mock leads through Initial Fit Conversation, Opportunity Review, Client Assessment Meeting where appropriate, communication logging, CRM stage movement, and next-step creation.",
     "primaryOwner": "Bloq",
     "status": "ready",
     "priority": "high",
