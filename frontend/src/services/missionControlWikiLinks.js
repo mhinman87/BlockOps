@@ -71,6 +71,7 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
   'M1-DP-05': 'Block Ops Wiki / Compendium',
   'M1-DP-06': 'Supabase Data Model',
   'M1-DP-07': 'Design Handoff Process',
+  'M1-234': 'Design Handoff Template',
 
   'M1-DCK-01': 'Client Onboarding',
   'M1-DCK-02': 'Implementation Bundle Delivery',

@@ -1,0 +1,39 @@
+// Canonical internal Wiki seed for the reusable design handoff packet.
+
+export const DESIGN_HANDOFF_TEMPLATE_ITEM = Object.freeze({
+  "id": "wiki.design-handoff-template",
+  "objectId": "wiki.design-handoff-template",
+  "title": "Design Handoff Template",
+  "description": "Reusable internal packet for turning approved design feedback into traceable, buildable work for Max or Claude Design.",
+  "category": "wiki-platform",
+  "status": "draft",
+  "publishBucket": "internal-current-draft",
+  "promotionState": "internal-current-draft",
+  "visibility": "internal-only",
+  "owner": "Bloq",
+  "reviewer": "Max",
+  "requiredGates": [
+    "max-technical-usability-review",
+    "source-stakeholder-acceptance"
+  ],
+  "completedGates": [],
+  "exactVersionApproved": false,
+  "representationType": "internal-wiki-template",
+  "provenance": [
+    "Design Handoff Process",
+    "Design Handoff to Max - Redesign List",
+    "M1-234"
+  ],
+  "version": "1.0",
+  "tags": [
+    "Block Ops Wiki",
+    "design-handoff",
+    "template",
+    "internal-only",
+    "M1-234"
+  ],
+  "hasContent": true,
+  "storagePath": null,
+  "content": "1|---\n2|type: template\n3|status: active\n4|owner: Bloq\n5|area: design-build-handoffs\n6|milestone: M1\n7|version: 1.0\n8|updated: 2026-07-18\n9|source:\n10|  - Design Handoff Process\n11|  - Design Handoff to Max - Redesign List\n12|related_mission_control_task: M1-234\n13|---\n14|\n15|# Design Handoff Template\n16|\n17|> Internal working template. Copy this note for each handoff; do not overwrite the template. Obsidian preserves the rationale, Mission Control tracks milestone execution, and the Development kanban tracks build execution.\n18|\n19|## Handoff control\n20|\n21|- **Handoff title:** [Required — short outcome-oriented name]\n22|- **Packet status:** [Capture / Draft / Ready for Max / In Review / Revision Required / Accepted / Superseded]\n23|- **Source stakeholder:** [Samir / Adrian / Max / Bloq]\n24|- **Stakeholder acceptance owner:** [One person]\n25|- **Prepared by:** [Name]\n26|- **Implementation owner:** [Max or assigned builder]\n27|- **Date prepared:** [YYYY-MM-DD]\n28|- **Priority:** [Critical / High / Medium / Low]\n29|- **Implementation destination:** [Internal Dashboard / Mission Control / Jarvis internal workspace / Client portal / Both internal and client-safe views / Obsidian only]\n30|\n31|## One-line request\n32|\n33|[State the desired outcome in one sentence. Example: “Make each owner’s current focus obvious without turning Dashboard into a task list.”]\n34|\n35|## Source context and traceability\n36|\n37|- **Source operation or phase:** [Link to the operation, phase, or milestone]\n38|- **Governing Wiki/Obsidian page:** [[Page name]]\n39|- **Related Mission Control workflow/task:** [Task key and title]\n40|- **Development kanban card:** [Link or ID when created]\n41|- **Related decision:** [Link or short citation]\n42|- **Affected route/component/file:** [If known; do not guess]\n43|\n44|## Problem being solved\n45|\n46|### Current state\n47|\n48|[Describe what the user sees or experiences now. Separate verified behavior from assumptions.]\n49|\n50|### Why it matters\n51|\n52|[Explain the business, operating, usability, safety, or client-trust consequence.]\n53|\n54|### Intended user/operator outcome\n55|\n56|[Describe what the person should understand, decide, or accomplish after the change.]\n57|\n58|## Evidence and references\n59|\n60|### Screenshots or recordings\n61|\n62|- [Attach or link each image/video]\n63|- [Annotate what Max should notice]\n64|\n65|### Reference examples\n66|\n67|- [Product, pattern, sketch, competitor, or prior version]\n68|- [State what to borrow and what not to copy]\n69|\n70|### Existing copy\n71|\n72|[Paste the current visible copy exactly, if applicable.]\n73|\n74|## Requested direction\n75|\n76|### Required changes\n77|\n78|1. [Non-negotiable outcome or behavior]\n79|2. [Non-negotiable outcome or behavior]\n80|\n81|### Open design space\n82|\n83|- [Areas where Max/Claude Design may propose a better solution]\n84|- [Alternatives worth exploring]\n85|\n86|### Copy direction\n87|\n88|- **Exact approved copy:** [Paste exact text, or “None”]\n89|- **Copy may be refined:** [Yes/No; identify approver]\n90|- **Terms that must remain:** [List]\n91|- **Terms that must not appear:** [List]\n92|\n93|### Layout and interaction notes\n94|\n95|- **Information hierarchy:** [What must be seen first, second, third]\n96|- **Primary action:** [If applicable]\n97|- **Secondary actions:** [If applicable]\n98|- **States to design:** [Default / Loading / Empty / Error / Locked / Blocked / Complete / Mobile, as applicable]\n99|- **Responsive behavior:** [Desktop/mobile expectations]\n100|- **Accessibility:** [Keyboard, contrast, labels, readable states, or other requirements]\n101|\n102|## Constraints and boundaries\n103|\n104|- **Product boundary:** [Dashboard vs Mission Control vs Jarvis vs client portal]\n105|- **Client visibility:** [Internal only / Client-safe only after approval / Approved client-facing final]\n106|- **Data/source-of-truth constraint:** [Supabase, governed Wiki, static source, or other]\n107|- **Must preserve:** [Existing behavior, data, navigation, audit history, etc.]\n108|- **Must not do:** [Explicit anti-goals]\n109|- **Technical constraints:** [Known constraints only; Max validates]\n110|- **Compliance/safety/legal gate:** [None known, or name the required reviewer]\n111|- **Out of scope:** [Prevent scope creep]\n112|\n113|## Desired output from Max / Claude Design\n114|\n115|Select and describe the expected return:\n116|\n117|- [ ] Clarifying questions\n118|- [ ] Design recommendation/rule\n119|- [ ] Wireframe or mockup\n120|- [ ] Component behavior specification\n121|- [ ] Copy recommendation\n122|- [ ] Technical feasibility assessment\n123|- [ ] Implementation task breakdown\n124|- [ ] Implemented change\n125|- [ ] Rejection/deferral with rationale\n126|\n127|**Requested format/location:** [Figma, Markdown, code branch, Development card, screenshot, etc.]\n128|\n129|## Open questions for Max\n130|\n131|1. [Question]\n132|2. [Question]\n133|\n134|If there are no open questions, write **None** rather than leaving the section ambiguous.\n135|\n136|## Acceptance criteria\n137|\n138|The returned or implemented design is acceptable only when all applicable checks pass:\n139|\n140|- [ ] The intended user/operator outcome is achieved.\n141|- [ ] Required changes are present.\n142|- [ ] Priority, status, ownership, or workflow meanings remain accurate where applicable.\n143|- [ ] Internal and client-facing boundaries are preserved.\n144|- [ ] Required states and responsive behavior are addressed.\n145|- [ ] Approved copy and terminology are preserved.\n146|- [ ] Max confirms technical feasibility or identifies an explicit blocker.\n147|- [ ] The source stakeholder explicitly accepts the result.\n148|\n149|### Request-specific acceptance checks\n150|\n151|1. [Observable pass/fail condition]\n152|2. [Observable pass/fail condition]\n153|3. [Observable pass/fail condition]\n154|\n155|## Return, implementation, and governance tracking\n156|\n157|- **Returned output:** [Link/location]\n158|- **Returned date:** [YYYY-MM-DD]\n159|- **Decision:** [Accepted / Revision Required / Deferred / Rejected]\n160|- **Decision rationale:** [Short explanation]\n161|- **Implementation tasks created:** [Mission Control or Development IDs]\n162|- **Source operation/SOP updated:** [Link and date]\n163|- **Wiki updated:** [Page and date]\n164|- **Obsidian updated:** [Page and date]\n165|- **Supabase/live system verified:** [What was checked and date]\n166|- **Stakeholder acceptance:** [Name, decision, date]\n167|\n168|## Revision history\n169|\n170|| Version | Date | Change | Owner |\n171||---|---|---|---|\n172|| 0.1 | [YYYY-MM-DD] | Initial handoff | [Name] |\n173|",
+  "kind": "wiki-page"
+});

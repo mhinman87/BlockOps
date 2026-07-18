@@ -26,6 +26,8 @@ const EXPLICIT_LINKS = Object.freeze({
   'Weekly Ops Review': ['Mission Control', 'Decision Capture', 'Status Rules'],
   'Decision Capture': ['Mission Control', 'Decision Log / Historical Archive', 'Ideas and Explorations', 'Weekly Ops Review'],
   'Ideas and Explorations': ['Decision Capture', 'Design Handoff Process', 'Decision Log / Historical Archive', 'Mission Control', 'Status Rules'],
+  'Design Handoff Process': ['Design Handoff Template', 'Mission Control', 'Dashboard', 'Digital Platform Overview'],
+  'Design Handoff Template': ['Design Handoff Process', 'Mission Control', 'Dashboard', 'Digital Platform Overview'],
   'Client Portal': ['Dashboard', 'Final Review / Approvals', 'Client-Facing Leak Audit', 'Block Ops Wiki Go-Live Readiness Matrix'],
   Dashboard: ['Client Portal', 'Digital Platform Overview', 'Supabase Data Model'],
   'Digital Platform Overview': ['Client Portal', 'Dashboard', 'Supabase Data Model', 'Backup and Continuity'],

@@ -35,6 +35,7 @@ const mapping = {
   'Decision Log / Historical Archive': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
   'Ideas and Explorations': ['Human Capital', ['Digital Platform', 'Value Intelligence']],
   'Design Handoff Process': ['Digital Platform', ['Human Capital']],
+  'Design Handoff Template': ['Digital Platform', ['Human Capital']],
   'Digital Platform Overview': ['Digital Platform', ['Stakeholder Integration', 'Value Intelligence']],
   'Equipment, Cart, Supply, and Restocking Standard': ['Physical Operations', ['Implementation Bundles', 'Human Capital', 'Stakeholder Integration', 'Value Intelligence']],
   'Evidence and Claims Governance': ['Value Intelligence', ['Human Capital', 'Stakeholder Integration', 'Implementation Bundles', 'Digital Platform']],
