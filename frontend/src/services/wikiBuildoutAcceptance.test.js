@@ -56,6 +56,18 @@ test('approved CRM model separates the lead lifecycle from the post-signature cl
   assert.equal(crm.publishBucket, 'internal-draft');
 });
 
+test('contract-to-live stages have explicit evidence-backed entry and exit gates', () => {
+  const crm = getWikiItem('CRM Pipeline Stages');
+
+  for (const stage of ['Contract & Signature', 'Client Kickoff', 'Onboarding', 'Training Scheduled', 'Training Ready', 'Go-Live Verification', 'Live', 'First Metrics Captured']) {
+    assert.match(crm.content, new RegExp(`#### ${stage.replace('&', '\\&')}[\\s\\S]*?\\*\\*Entry:`));
+  }
+  assert.match(crm.content, /Missing evidence, a required \*\*no\*\*, or an unresolved hard stop/);
+  assert.match(crm.content, /at least one measurable implementation-bundle KPI/);
+  assert.match(crm.content, /M1-GR-008` completed on 2026-07-19/);
+  assert.doesNotMatch(crm.content, /Detailed entry\/exit criteria remain the next Samir task/);
+});
+
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
     liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,
