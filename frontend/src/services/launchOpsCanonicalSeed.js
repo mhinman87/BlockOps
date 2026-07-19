@@ -1199,10 +1199,10 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DCK-03",
     "title": "Define training day readiness checklist",
-    "description": "Drafted in Obsidian Training Day Readiness page: champion, site configuration, materials, access, prep call, schedule, supplies, LAST readiness, observation logger, and educator/consultant boundary. Needs Samir review.",
+    "description": "Completed 2026-07-19: Samir approved the training-day readiness checklist and current engagement boundary. Under the Block Ops training agreement, Block Ops personnel act as educators and systems consultants—not treating clinicians; they do not perform blocks, touch patients, direct patient care, or supervise site clinicians. The client retains clinical authority. Any hands-on clinical service requires a separate credentialed, insured, contracted, and lawyer-approved arrangement. Final wording will be refined after outside counsel completes the legal documents.",
 
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "critical",
     "workstream": "Clinical Standard & Deliverables",
     "milestoneSlug": "m1-mock-run-build-ready",
