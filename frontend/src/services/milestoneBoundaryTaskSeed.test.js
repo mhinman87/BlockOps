@@ -25,6 +25,12 @@ test('milestone boundary additions preserve singular ownership and governed task
 });
 
 test('mock payment gates Client Kickoff and external review execution gates later validation', () => {
+  const paymentDefinition = taskByKey.get('M1-PAY-01');
+
+  assert.equal(paymentDefinition.status, 'done');
+  assert.match(paymentDefinition.description, /Only Simulated received, proposal-backed Not required, or an evidenced Authorized mock exception/);
+  assert.match(paymentDefinition.description, /all other states fail closed/);
+  assert.match(paymentDefinition.description, /does not create real invoicing, collection, accounting, finance approval, waiver authority, or payment operations/);
   assert.ok(hasDependency('M1-PAY-02', 'M1-PAY-01'));
   assert.ok(hasDependency('M1-104', 'M1-PAY-02'));
   assert.ok(hasDependency('M3-EXEC-01', 'M2-16', 'gate'));

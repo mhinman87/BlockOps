@@ -49,6 +49,15 @@ update launch_tasks_v2 set
 where task_key = 'M1-125';
 
 update launch_tasks_v2 set
+  status = 'done',
+  description = 'Completed 2026-07-19. M1 uses an explicitly mock-only payment record with proposal/version, amount/schedule or Unknown, billing contact or owned Unknown, configured condition, trigger/due state, accountable owner, evidence, exception controls, and downstream authorization. Only Simulated received, proposal-backed Not required, or an evidenced Authorized mock exception can satisfy the payment side of Client Kickoff; all other states fail closed. This does not create real invoicing, collection, accounting, finance approval, waiver authority, or payment operations. M1-PAY-02 retains live/mock-path testing.',
+  notes = concat_ws(E'\n', nullif(notes, ''), '2026-07-19: reconciled from the approved payment-dependent onboarding gate and explicit M1 mock-only boundary; detailed record/status rule is governed in Client Onboarding.'),
+  completed_at = coalesce(completed_at, now()),
+  changed_by_new_info = true,
+  updated_at = now()
+where task_key = 'M1-PAY-01';
+
+update launch_tasks_v2 set
   title = 'Check mock safety, equipment, supply, and procurement readiness evidence',
   description = 'Check that previously collected mock safety infrastructure, equipment/supply, staffing, workflow, procurement, evidence states, and Unknowns are recorded and routed correctly. This is not real clinical or site approval.',
   action_note = 'Perform a downstream check of the mock readiness record; flag missing or decision-changing inputs. M2 finalizes and validates the real-client standard.',

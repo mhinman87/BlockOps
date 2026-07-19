@@ -30,6 +30,19 @@ test('Batch 5 approval locks the no-exception real-client onboarding gate', () =
   assert.match(batchReview.description, /Clinical, legal, finance, and Max technical finalization remain separate gates/);
 });
 
+test('M1 mock payment record fails closed without creating real payment operations', () => {
+  const onboarding = getWikiItem('Client Onboarding');
+
+  for (const status of ['Not configured / Unknown', 'Not due', 'Due / Pending', 'Simulated received', 'Not required', 'Authorized mock exception', 'Blocked']) {
+    assert.match(onboarding.content, new RegExp(`\\*\\*${status.replace('/', '\\/')}`));
+  }
+  assert.match(onboarding.content, /Only permitted simulated waived state|only permitted simulated waived state/i);
+  assert.match(onboarding.content, /Simulated received[\s\S]*Not required[\s\S]*Authorized mock exception/);
+  assert.match(onboarding.content, /Every other payment state fails closed/);
+  assert.match(onboarding.content, /does not create an invoice, move money, collect funds, post accounting entries/);
+  assert.match(onboarding.content, /M1-PAY-02` remains the separate Bloq-owned live\/mock-path test/);
+});
+
 test('final review workflow is exact-version, independently gated, and fail-closed', () => {
   const readiness = getWikiItem('Block Ops Wiki Go-Live Readiness Matrix');
   const finalReview = getTask('M1-FINAL-REVIEW-01');
