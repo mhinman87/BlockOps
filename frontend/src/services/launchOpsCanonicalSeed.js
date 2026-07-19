@@ -1253,9 +1253,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-29",
     "title": "Define no-response threshold",
-    "description": "Set the operating rule for when a lead becomes no-response/stalled, such as no reply after a defined number of days or touches.",
+    "description": "Completed 2026-07-18 by reconciliation with approved M1-OS-08: after 3 unanswered outreach attempts over the default 10-business-day cadence—or the approved 7-business-day fast lane for warm, referral, or high-intent leads—move the lead to No Response / Stalled. Stop active outreach, preserve the record and full history, retain the owner and last-contact date, and assign a next review date. Silence alone is never Not Fit.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "No-Response / Stalled Lead",
     "milestoneSlug": "m1-mock-run-build-ready",
