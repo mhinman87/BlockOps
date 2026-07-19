@@ -706,9 +706,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OM-07",
     "title": "Review Batch 3 operating model pages",
-    "description": "Samir reviews Batch 3 pages for accuracy: Block Ops Operating System, Roles and Ownership, Mission Control Rules, Weekly Ops Review, Decision Capture, and Status Rules.",
+    "description": "Completed 2026-07-18: Samir approved Batch 3 operating-model pages and the display rule that formal M1–M5 milestone names appear consistently across the internal Wiki, Mission Control, Dashboard, Obsidian, and source records, paired with short plain-language explanations when useful. Remaining technical implementation checks stay with Max-owned tasks.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Operating Model",
     "milestoneSlug": "m1-mock-run-build-ready",

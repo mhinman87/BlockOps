@@ -284,8 +284,10 @@ This page preserves the approved launch-gate vocabulary after consolidation of m
 - **M1 — Mock Client Lead-to-Live Run:** prove that the built process can move realistic mock clients through the operating path and expose friction.
 - **M2 — Foundational Client Ready:** establish the operational, QA, document, platform, legal-review, automation, and support foundation needed to begin responsibly.
 - **M3 — External Validation Completed:** complete external validation, including the required attending review/test, and capture resulting decisions and remediation.
-- **M4 — Foundational Client Completed:** complete the foundational-client engagement and record the operating lessons and evidence.
-- **M5 — Paid Client Onboarded:** onboard a paid client through the approved process and record the supporting evidence.
+- **M4 — Foundational Client Completed Successfully:** complete the foundational-client engagement successfully and record the operating lessons and evidence.
+- **M5 — Paid Client Onboarded Successfully:** onboard a paid client through the approved process and record the supporting evidence.
+
+Use these formal names consistently across internal operating surfaces. Pair each name with a short plain-language explanation when context helps readability.
 
 ## Status authority
 
@@ -407,11 +409,11 @@ export const LEGACY_CONSOLIDATION_TEXT_REPLACEMENTS = Object.freeze({
   'Block Ops Operating System': Object.freeze([
     Object.freeze([
       '**M4 — Foundational Client Successfully Completed:** complete the first foundational client successfully.',
-      '**M4 — Foundational Client Completed:** complete the foundational-client engagement and record the operating lessons and evidence.',
+      '**M4 — Foundational Client Completed Successfully:** complete the foundational-client engagement successfully and record the operating lessons and evidence.',
     ]),
     Object.freeze([
       '**M5 — Paid Client Successfully Onboarded:** onboard a paid client successfully.',
-      '**M5 — Paid Client Onboarded:** onboard a paid client through the approved process and record supporting evidence.',
+      '**M5 — Paid Client Onboarded Successfully:** onboard a paid client through the approved process and record supporting evidence.',
     ]),
   ]),
 });
