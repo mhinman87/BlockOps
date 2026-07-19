@@ -1242,9 +1242,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DCK-06",
     "title": "Review Batch 5 delivery and clinical knowledge pages",
-    "description": "Samir reviews Batch 5 pages for accuracy: Client Onboarding, Implementation Bundle Delivery, Training Day Readiness, Go-Live Verification, and Clinical / Block Program Knowledge Index.",
+    "description": "Completed 2026-07-19: Samir approved Batch 5 and the remaining Client Onboarding entry gate. A real client receives no formal onboarding, portal access, or deliverables until the required agreement is executed and the required payment or finance condition is satisfied. Internal preparation may occur earlier but cannot be represented as completed onboarding. A business exception cannot waive a required legal signature; unusual real-client arrangements require documented clearance from the applicable legal and finance authorities. Clinical, legal, finance, and Max technical finalization remain separate gates.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Clinical Standard & Deliverables",
     "milestoneSlug": "m1-mock-run-build-ready",
