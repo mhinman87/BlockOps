@@ -776,9 +776,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DP-05",
     "title": "Define internal Wiki / Compendium behavior",
-    "description": "Samir approved the business behavior: Supabase is canonical live state; the internal Wiki is the governed reading/search layer; Obsidian is the agent-optimized knowledge mirror, authoring workspace, source context, and continuity layer; Mission Control links execution to Wiki context; the client portal stays separate and approved-final only. Remains in review for Max to verify the implemented data and UI paths.",
+    "description": "Completed 2026-07-18: Samir's approved Wiki/Compendium behavior is locked. Supabase is canonical live state; the internal Wiki is the governed reading/search layer; Obsidian is the authoring, agent-mirror, source-context, and continuity layer; Mission Control links execution to Wiki context; and the client portal remains separate and approved-final only. Max-owned search, navigation, permissions, and UI verification remain separate.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Platform & Internal/Client System",
     "milestoneSlug": "m1-mock-run-build-ready",

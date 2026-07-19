@@ -117,7 +117,7 @@ const report = {
     title,
     markerCount: (afterByTitle.get(title)?.body_md?.match(new RegExp(START.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length,
     hasCurrentAuthorityLanguage: title !== 'Block Ops Wiki Content Migration'
-      || afterByTitle.get(title)?.body_md?.includes('The Block Ops Wiki is canonical organizational knowledge.'),
+      || afterByTitle.get(title)?.body_md?.includes('Supabase is canonical live organizational and application state.'),
   })),
   duplicateNewTitles: [...newTitles].filter((title) => afterPages.filter((page) => page.title === title).length !== 1),
   clientFacingNewPages: LEGACY_CONSOLIDATION_NEW_PAGES

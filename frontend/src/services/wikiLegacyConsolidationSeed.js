@@ -371,13 +371,13 @@ export const LEGACY_CONSOLIDATION_PAGE_ADDITIONS = Object.freeze({
 - Raw internal reasoning must not automatically enter client agents.
 - Site-specific staffing, formulary, equipment, workflow, and escalation choices must not mutate global standards.
 - Promotion state, visibility, review gates, scope, representation type, and client-safe/agent-facing metadata control exposure.
-- The Block Ops Wiki is canonical organizational knowledge; Obsidian is optional drafting, staging, and backup context.`),
+- Supabase is canonical live organizational state; the Block Ops Wiki is its governed readable knowledge view; Obsidian is the authoring, agent-mirror, source-context, and continuity layer.`),
   'Block Ops Wiki Content Migration': block('Current authority hierarchy', `The consolidation pass supersedes earlier wording that treated Obsidian as the working source of truth.
 
-- The Block Ops Wiki is canonical organizational knowledge.
-- Live Supabase is canonical for application and execution state.
-- Mission Control owns current tasks, owners, dependencies, milestones, and completion evidence.
-- Obsidian is optional drafting, staging, and backup context.
+- Supabase is canonical live organizational and application state.
+- The Block Ops Wiki is the governed readable knowledge view backed by Supabase.
+- Mission Control owns current tasks, owners, dependencies, milestones, and completion evidence within that live state.
+- Obsidian is the authoring, agent-mirror, source-context, and continuity layer; it cannot override newer verified Supabase state.
 - Legacy workspace files remain provenance until their durable content is migrated, verified, and marked archive-reference.`),
   'Backup and Continuity': block('Legacy backup claims reconciled', `Legacy checklists describe backup requirements but do not prove a working backup or restore path. Current continuity evidence must identify the protected system, timestamp, owner, integrity result, restore test, RPO/RTO, exception state, and comparison with live truth. Supabase export/restore, deployment recovery, restricted legal storage, and recurring audit cadence remain review items until verified.`),
   'Decision Log / Historical Archive': block('Legacy consolidation decision', `On 2026-07-10, Samir approved consolidation of the old Knowledge, SOPs, and Scripts collection into the current Wiki. The approved defaults were:
