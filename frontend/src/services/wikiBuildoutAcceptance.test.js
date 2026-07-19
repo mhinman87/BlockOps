@@ -44,6 +44,18 @@ test('final review workflow is exact-version, independently gated, and fail-clos
   assert.match(finalReview.description, /Max-owned UI\/schema enforcement remains M1-FINAL-REVIEW-02/);
 });
 
+test('approved CRM model separates the lead lifecycle from the post-signature client lifecycle', () => {
+  const crm = getWikiItem('CRM Pipeline Stages');
+
+  assert.match(crm.content, /Part 1 — Lead lifecycle/);
+  assert.match(crm.content, /The record remains a lead through Contract & Signature/);
+  assert.match(crm.content, /Part 2 — Client lifecycle/);
+  assert.match(crm.content, /Client Kickoff[\s\S]*Onboarding[\s\S]*Training Scheduled[\s\S]*Training Ready[\s\S]*Go-Live Verification[\s\S]*Live[\s\S]*First Metrics Captured/);
+  assert.match(crm.content, /not renumbered as steps 10–16 of the lead journey/i);
+  assert.doesNotMatch(crm.content, /### Stage 10 — Won \/ Signed/);
+  assert.equal(crm.publishBucket, 'internal-draft');
+});
+
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
     liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,
