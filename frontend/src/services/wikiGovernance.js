@@ -1,4 +1,5 @@
 export const WIKI_PROMOTION_STATES = Object.freeze({
+  PLANNED_UNBUILT: 'planned-unbuilt',
   SOURCE_ONLY: 'source-only',
   INTERNAL_DRAFT: 'internal-draft',
   DOMAIN_REVIEW: 'domain-review',
@@ -48,6 +49,8 @@ export const canExposeWikiContentToClient = ({
 
 export const normalizeLegacyWikiBucket = (bucket) => {
   switch (bucket) {
+    case 'planned-unbuilt':
+      return WIKI_PROMOTION_STATES.PLANNED_UNBUILT;
     case 'restricted-review-gated':
     case 'system-gated-draft':
       return WIKI_PROMOTION_STATES.DOMAIN_REVIEW;

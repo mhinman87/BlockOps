@@ -9,6 +9,9 @@ const sourceByTitle = new Map([
   ['Go-Live Verification', '02 - Operations/Go-Live Verification.md'],
   ['Legal Review Index', '02 - Operations/Legal Review Index.md'],
   ['Client Onboarding', '03 - Client Delivery/Client Onboarding.md'],
+  ['Clinical / Block Program Knowledge Index', '02 - Operations/Clinical - Block Program Knowledge Index.md'],
+  ['Status Rules', '02 - Operations/Status Rules.md'],
+  ['Block Ops Wiki Go-Live Readiness Matrix', '02 - Operations/Block Ops Wiki Go-Live Readiness Matrix.md'],
 ]);
 
 let source = readFileSync(repoFile, 'utf8');

@@ -11,6 +11,7 @@ import {
 
 test('client exposure fails closed for drafts and candidates', () => {
   for (const promotionState of [
+    WIKI_PROMOTION_STATES.PLANNED_UNBUILT,
     WIKI_PROMOTION_STATES.INTERNAL_DRAFT,
     WIKI_PROMOTION_STATES.DOMAIN_REVIEW,
     WIKI_PROMOTION_STATES.INTERNAL_CURRENT,
@@ -51,6 +52,7 @@ test('client exposure requires every gate, exact-version approval, and leak-path
 });
 
 test('legacy Wiki buckets normalize conservatively', () => {
+  assert.equal(normalizeLegacyWikiBucket('planned-unbuilt'), WIKI_PROMOTION_STATES.PLANNED_UNBUILT);
   assert.equal(normalizeLegacyWikiBucket('internal-current-draft'), WIKI_PROMOTION_STATES.INTERNAL_DRAFT);
   assert.equal(normalizeLegacyWikiBucket('internal-draft'), WIKI_PROMOTION_STATES.INTERNAL_DRAFT);
   assert.equal(normalizeLegacyWikiBucket('system-gated-draft'), WIKI_PROMOTION_STATES.DOMAIN_REVIEW);

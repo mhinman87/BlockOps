@@ -1228,9 +1228,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DCK-05",
     "title": "Index clinical and block program knowledge library",
-    "description": "Drafted in Obsidian Clinical / Block Program Knowledge Index page: groups foundation deliverables by physical ops, training, patient integration, clinical safety, documentation/value, and ultrasound/technique. Needs Samir fact review before final use.",
+    "description": "Completed 2026-07-19: Samir approved the clinical and block-program knowledge index plus one universal layered classification model for all governed Block Ops content. Wiki pages, deliverables, SOPs, policies, templates, forms, training materials, legal documents, clinical references, and imported sources each carry independent lifecycle, visibility, and applicable approval-gate fields. Unverified index entries default to planned/unverified; one review cannot make an item final or client-visible; and substantive edits reopen applicable checks for the new exact version. Item-level existence, source, version, and domain review remain separate later work.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "critical",
     "workstream": "Clinical Standard & Deliverables",
     "milestoneSlug": "m1-mock-run-build-ready",
