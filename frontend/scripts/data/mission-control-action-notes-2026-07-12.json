@@ -50,6 +50,11 @@
     "action_note": "Verify the completed “Test signed-to-onboarding handoff” work against Client Onboarding and the live system. Confirm the recorded evidence (Signed-to-onboarding handoff tested successfully: signed client received portal login info and could proceed) remains reproducible, then retain the verification result in Mission Control; do not expose internal drafts to clients."
   },
   {
+    "task_id": "ae691521-01cf-4a83-9e90-6ac60597c1aa",
+    "task_key": "M1-137",
+    "action_note": "Apply the approved six-part M1 minimum onboarding setup scope in Client Onboarding. Before implementation, reconcile it against Max's actual admin CRM and portal build using KEEP, MODIFY, ADD, or EXCLUDE with evidence. M1 setup is complete only when authorized entry, linked setup record, access/isolation evidence, scoped mock bundle manifest, welcome/scheduling handoff, and controlled exit evidence are present for both required mock clients. Do not create a parallel CRM workflow."
+  },
+  {
     "task_id": "fd6867fe-2264-4627-b99b-1c021cb5597b",
     "task_key": "M1-140",
     "action_note": "Create the checklist of onboarding documents, references, and prep materials needed for the mock client. Use Client Onboarding as canonical knowledge and the live system or mock-client path where applicable. Record the artifact, test result, or screenshot/link in Mission Control as completion evidence, and keep drafts internal until approved."
