@@ -748,7 +748,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DP-03",
     "title": "Define internal Dashboard rules",
-    "description": "Drafted in Obsidian Dashboard page: Dashboard is the calm summary home with current milestone, overall progress, and individual task progress; it should shortcut into Mission Control without becoming a task dump. Needs Max/Samir review.",
+    "description": "Samir approved the business rules: Dashboard is the calm internal summary home with current milestone, overall progress, and individual task progress; it shortcuts into Mission Control without becoming a task dump. Bloq appears as Bloq (AI) only when it owns active Mission Control tasks, remains internal-only, and never appears in the client portal. Max still owns implementation verification.",
     "primaryOwner": "Max",
     "status": "review",
     "priority": "high",
@@ -818,9 +818,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DP-08",
     "title": "Review Batch 4 digital platform pages",
-    "description": "Samir and Max review Batch 4 pages for accuracy: Digital Platform Overview, Client Portal, Dashboard, Mission Control, Block Ops Wiki / Compendium, Supabase Data Model, and Design Handoff Process.",
+    "description": "Completed 2026-07-18: Samir reviewed Batch 4 business behavior and approved the last open display rule: show Bloq as Bloq (AI) on the internal Dashboard only when it owns active Mission Control tasks; never expose Bloq ownership in the client portal. Max-owned schema, RLS, deployment, search, navigation, layout, and UI checks remain separate technical tasks.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Platform & Internal/Client System",
     "milestoneSlug": "m1-mock-run-build-ready",
