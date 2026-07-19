@@ -1044,9 +1044,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-FINAL-REVIEW-01",
     "title": "Define final review and owner approval workflow",
-    "description": "Create the process for moving internal drafts to approved-final state: each relevant owner reviews the page/artifact, approves or requests changes, and final status is only applied after required approvals are recorded.",
+    "description": "Completed 2026-07-19 by reconciliation with M1-WIKI-10 and the approved universal governed-content model. Final review applies to one exact version and records one accountable owner, intended audience/use, required gates, and reviewer outcome of approved, changes required, or not applicable with date, scope, and evidence. All applicable gates must clear independently before promotion; no reviewer can waive another domain's required gate. Internal-current approval remains internal-only. Client-facing-final additionally requires an immutable/versioned artifact, business release approval, approved audience/scope, and verified portal, search, agent, download, link, cache, and print paths. Substantive edits reopen affected gates. Max-owned UI/schema enforcement remains M1-FINAL-REVIEW-02.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "critical",
     "workstream": "Final Review / Approvals",
     "milestoneSlug": "m1-mock-run-build-ready",

@@ -30,6 +30,20 @@ test('Batch 5 approval locks the no-exception real-client onboarding gate', () =
   assert.match(batchReview.description, /Clinical, legal, finance, and Max technical finalization remain separate gates/);
 });
 
+test('final review workflow is exact-version, independently gated, and fail-closed', () => {
+  const readiness = getWikiItem('Block Ops Wiki Go-Live Readiness Matrix');
+  const finalReview = getTask('M1-FINAL-REVIEW-01');
+
+  assert.equal(readiness.status, 'current');
+  assert.equal(readiness.publishBucket, 'internal-current');
+  assert.match(readiness.content, /Submit one exact version/);
+  assert.match(readiness.content, /No reviewer or executive may waive another domain's required gate/);
+  assert.match(readiness.content, /Internal-current approval remains internal-only|visibility remains `internal-only`/i);
+  assert.match(readiness.content, /Reopen on substantive change/i);
+  assert.equal(finalReview.status, 'done');
+  assert.match(finalReview.description, /Max-owned UI\/schema enforcement remains M1-FINAL-REVIEW-02/);
+});
+
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
     liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,
