@@ -1214,9 +1214,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DCK-04",
     "title": "Define go-live verification checklist",
-    "description": "Drafted in Obsidian Go-Live Verification page: portal access, approved materials, safety infrastructure, documentation/logging, support cadence, escalation path, metrics, and Mission Control status. Needs Samir/Max review.",
+    "description": "Completed 2026-07-19: Samir approved the joint, fail-closed go-live authority flow. Every required domain owner controls their own gate: the client/site clinical owner controls patient-care and safety readiness; the named Block Ops implementation owner controls Block Ops materials, access, service, and support readiness; qualified lawyers clear legal blockers; and the platform owner verifies live access and visibility controls. Any required no, missing approval, or unresolved hard stop means no-go. No person may override another qualified domain owner's stop. One named Block Ops implementation owner records the joint decision and evidence without gaining waiver authority. The proposed Day 3/7/14/30 support sequence remains nonmandatory and site-specific until separately approved.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "critical",
     "workstream": "Mock Client / Demo Flow",
     "milestoneSlug": "m1-mock-run-build-ready",
