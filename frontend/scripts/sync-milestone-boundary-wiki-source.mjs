@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const repoFile = new URL('../src/services/wikiLibraryItems.js', import.meta.url);
 const vaultRoot = '/home/bloq/Documents/Block Ops Vault';
 const sourceByTitle = new Map([
+  ['Proposal Workflow', '02 - Operations/Proposal Workflow.md'],
   ['Training Day Readiness', '02 - Operations/Training Day Readiness.md'],
   ['Go-Live Verification', '02 - Operations/Go-Live Verification.md'],
   ['Legal Review Index', '02 - Operations/Legal Review Index.md'],
