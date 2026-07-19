@@ -17,7 +17,9 @@
     "wiki-foundation:sync": "node scripts/sync-wiki-foundational-structure.mjs",
     "wiki-foundation:verify": "VERIFY_ONLY=1 node scripts/sync-wiki-foundational-structure.mjs",
     "mission-notes:sync": "node scripts/sync-mission-control-action-notes.mjs",
-    "mission-notes:verify": "VERIFY_ONLY=1 node scripts/sync-mission-control-action-notes.mjs"
+    "mission-notes:verify": "VERIFY_ONLY=1 node scripts/sync-mission-control-action-notes.mjs",
+    "milestone-boundary:verify": "node scripts/verify-milestone-boundary-alignment.mjs",
+    "wiki-boundary:source": "node scripts/sync-milestone-boundary-wiki-source.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",

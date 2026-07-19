@@ -1,25 +1,26 @@
 import { FUTURE_PRODUCT_DEPENDENCIES, FUTURE_PRODUCT_TASKS } from './futureProductTaskSeed.js';
+import { MILESTONE_BOUNDARY_DEPENDENCIES, MILESTONE_BOUNDARY_TASKS } from './milestoneBoundaryTaskSeed.js';
 
 export const CANONICAL_LAUNCH_MILESTONES = [
   {
     "slug": "m1-mock-run-build-ready",
     "title": "Mock Client Lead-to-Live Run",
-    "description": "M1 proves the full customer path by running a mock client from lead capture through CRM entry, follow-up, proposal, contract, go-live prep, and launch board organization.",
+    "description": "M1 rehearses the complete lead-to-mock-live path and proves how safety infrastructure, staffing and site roles, procurement, agreement, payment, and readiness inputs are collected, recorded, checked, and routed through mock downstream gates.",
     "status": "in_progress",
     "owner": "Max",
     "sortOrder": 1,
     "readinessScore": 20,
-    "gateNotes": "M1 is the end-to-end mock client rehearsal: lead pipelines, CRM, workflows, and Mission Control organization all have to work together."
+    "gateNotes": "M1 proves the mock workflow and gate logic only. It does not establish real-client legal, billing, clinical, training, support, portal, data, or site readiness; those are finalized and internally/mock verified in M2."
   },
   {
     "slug": "m2-mock-run-complete",
     "title": "Foundational Client Ready",
-    "description": "The team can responsibly accept a real foundational client with finalized deliverables, legal readiness, portal readiness, data intake solved, support readiness, governed agent capabilities, and M2-ready starter offerings for Mixed Reality training, patient education/experience, and payer intelligence/documentation guidance.",
+    "description": "The team can responsibly accept a real foundational client because deliverables, site-readiness and role intake, procurement, lawyer-finalized agreements, billing/payment operations, portal/data systems, training, go-live, and support controls are complete and internally/mock verified.",
     "status": "locked",
     "owner": "Max",
     "sortOrder": 2,
     "readinessScore": 2,
-    "gateNotes": "M2 is the real-client readiness gate: final deliverables, legal, portal, data, support, governed agents, the Mixed Reality working starter package, the patient education/experience foundation, and the payer intelligence/documentation-guidance foundation must be built and internally/mock validated. Real-patient foundational-client validation remains M4 evidence; a live payer-integration pilot remains M5 evidence."
+    "gateNotes": "M2 is the real-client readiness buildout gate: required forms, deliverables, legal documents, commercial operations, site/role/procurement pathways, portal/data systems, training, go-live, support, and applicable starter products must be final, governed, built, and internally/mock validated. External attending validation is M3; foundational-client execution is M4; paid-client onboarding is M5."
   },
   {
     "slug": "m3-trusted-anesthesiologist-validation",
@@ -598,6 +599,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "primaryOwner": "Samir",
     "status": "done",
     "priority": "high",
+
     "workstream": "Sales Materials and Scripts",
     "milestoneSlug": "m1-mock-run-build-ready",
     "complianceFlag": true,
@@ -1198,6 +1200,7 @@ export const CANONICAL_LAUNCH_TASKS = [
     "taskKey": "M1-DCK-03",
     "title": "Define training day readiness checklist",
     "description": "Drafted in Obsidian Training Day Readiness page: champion, site configuration, materials, access, prep call, schedule, supplies, LAST readiness, observation logger, and educator/consultant boundary. Needs Samir review.",
+
     "primaryOwner": "Samir",
     "status": "review",
     "priority": "critical",
@@ -1798,6 +1801,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-06",
+
     "title": "Make the portal operational for a real client",
     "description": "Confirm the portal sections, access rules, approved content flow, and live data path.",
     "primaryOwner": "Max",
@@ -1826,30 +1830,30 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-08",
-    "title": "Define training and boots-on-ground readiness",
-    "description": "Make the client training and site support process executable.",
+    "title": "Finalize training-day and on-site support readiness",
+    "description": "Finalize and internally/mock verify the real-client training-readiness packet: required site and Block Ops roles, roster, prework, agenda, approved materials, access, equipment and logistics, safety boundaries, contingency plan, attendance/completion evidence, unresolved-gap handling, and named approval authority.",
     "primaryOwner": "Samir",
     "status": "locked",
-    "priority": "high",
+    "priority": "critical",
     "workstream": "Training and Support",
     "milestoneSlug": "m2-mock-run-complete",
-    "complianceFlag": false,
+    "complianceFlag": true,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 80
   },
   {
     "taskKey": "M2-09",
-    "title": "Define billing, invoicing, and payment operations",
-    "description": "Make sure the money flow is operational and can be tracked without improvisation.",
+    "title": "Finalize billing, invoicing, and payment operations",
+    "description": "Finalize and internally/mock test customer billing intake, approved price and payment schedule, PO handling, invoice creation/approval/delivery, secure payment methods, payment-status tracking, accounts-receivable follow-up, disputes/credits/refunds, reconciliation, access controls, and evidence retention. No actual paid-client revenue proof is claimed until M5.",
     "primaryOwner": "Adrian",
     "status": "locked",
-    "priority": "high",
+    "priority": "critical",
     "workstream": "Commercial Operations",
     "milestoneSlug": "m2-mock-run-complete",
     "complianceFlag": true,
     "legalGateFlag": true,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 90
   },
   {
@@ -1924,31 +1928,31 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M2-15",
-    "title": "Operationalize the recurring pack-service promise",
-    "description": "Prove Block Ops can maintain every active pack through continuous Dashboard access, KPI history, approved updates, material notices, standard support, evidence-based recommendations, monthly data refresh where practical, quarterly performance review, and annual configuration review. Define boundaries, handoffs, response times, and premium service tiers before sale.",
+    "title": "Operationalize recurring support and service handoffs",
+    "description": "Finalize and internally/mock verify support channels and hours, severity definitions, response and escalation targets, accountable owner and backup, issue records, client communications, closure evidence, recurring Dashboard/KPI/update service, and the handoff from go-live into ongoing support.",
     "primaryOwner": "Samir",
     "status": "locked",
-    "priority": "high",
+    "priority": "critical",
     "workstream": "Training and Support",
     "milestoneSlug": "m2-mock-run-complete",
     "complianceFlag": false,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 150
   },
   {
     "taskKey": "M2-16",
-    "title": "Run the mock-client proof against M2",
-    "description": "Prove the real-client version of the workflow can run without major improvisation.",
-    "primaryOwner": "Max",
+    "title": "Run the M2 real-client-readiness proof",
+    "description": "Using mock client and site records only, run the finalized real-client workflow across site safety/readiness, staffing and accountable roles, procurement, lawyer-finalized agreement controls, billing/payment operations, portal/data, training, formal go-live/no-go, and support. Exercise failure/rework/escalation paths and close only with exact evidence, approvals, and no unresolved readiness blocker.",
+    "primaryOwner": "Bloq",
     "status": "locked",
     "priority": "critical",
-    "workstream": "Mock Client Proof",
+    "workstream": "M2 Real-Client Readiness Proof",
     "milestoneSlug": "m2-mock-run-complete",
-    "complianceFlag": false,
-    "legalGateFlag": false,
-    "changedByNewInfo": false,
-    "sortOrder": 160
+    "complianceFlag": true,
+    "legalGateFlag": true,
+    "changedByNewInfo": true,
+    "sortOrder": 200
   },
   {
     "taskKey": "M3-01",
@@ -2176,74 +2180,75 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M4-01",
-    "title": "Synthesize validation feedback",
-    "description": "Pull the review notes into one current truth.",
-    "primaryOwner": "Bloq",
+    "title": "Authorize the foundational-client engagement",
+    "description": "Confirm the real foundational client, executed agreement and commercial authorization, accountable client and Block Ops owners, approved scope, evidence plan, and M3 prerequisite completion before delivery begins.",
+    "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
-    "workstream": "Closure",
+    "workstream": "Foundational Client Delivery",
     "milestoneSlug": "m4-validation-closed",
-    "complianceFlag": false,
-    "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "complianceFlag": true,
+    "legalGateFlag": true,
+    "changedByNewInfo": true,
     "sortOrder": 10
   },
   {
     "taskKey": "M4-02",
-    "title": "Patch the major holes",
-    "description": "Fix the biggest issues found during validation.",
-    "primaryOwner": "Max",
+    "title": "Complete foundational-client site readiness",
+    "description": "Apply the M2-ready intake and controls to the real foundational-client site and verify safety infrastructure, staffing and accountable roles, equipment/supplies and procurement, portal/data access, training logistics, and unresolved blockers with site-specific evidence and approvals.",
+    "primaryOwner": "Bloq",
     "status": "locked",
     "priority": "critical",
-    "workstream": "Closure",
+    "workstream": "Foundational Client Delivery",
     "milestoneSlug": "m4-validation-closed",
-    "complianceFlag": false,
+    "complianceFlag": true,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 20
   },
   {
     "taskKey": "M4-03",
-    "title": "Resolve clinical clarity issues",
-    "description": "Clean up anything that made the clinical story vague or unsafe.",
+    "title": "Complete training, go-live, and support start",
+    "description": "Deliver the approved foundational-client training, record completion and exceptions, pass the qualified go-live/no-go gate, begin governed delivery, and confirm support channels, escalation, and first operating cadence are active.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "high",
-    "workstream": "Closure",
+    "workstream": "Foundational Client Delivery",
     "milestoneSlug": "m4-validation-closed",
     "complianceFlag": true,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 30
   },
   {
     "taskKey": "M4-04",
-    "title": "Retest the changed flow",
-    "description": "Confirm the patched flow still works cleanly end to end.",
-    "primaryOwner": "Max",
+    "title": "Verify foundational-client outcomes and acceptance",
+    "description": "Capture delivery evidence, KPI baselines and available results, incidents, support activity, remediation, client feedback, and acceptance against the approved foundational-client completion standard.",
+    "primaryOwner": "Bloq",
     "status": "locked",
     "priority": "high",
-    "workstream": "Retest",
+    "workstream": "Foundational Client Evidence",
     "milestoneSlug": "m4-validation-closed",
-    "complianceFlag": false,
+    "complianceFlag": true,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 40
   },
   {
     "taskKey": "M4-05",
-    "title": "Confirm validation is closed",
-    "description": "Decide if the system is ready to move on to founding partner motion.",
+    "title": "Approve foundational-client successful completion",
+    "description": "Close M4 only when the foundational client and accountable Block Ops owners accept the delivered scope, required evidence is complete, material incidents and blockers have controlled disposition, and the engagement satisfies the approved completion standard.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
-    "workstream": "Completion",
+    "workstream": "Foundational Client Completion",
     "milestoneSlug": "m4-validation-closed",
-    "complianceFlag": false,
-    "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "complianceFlag": true,
+    "legalGateFlag": true,
+    "changedByNewInfo": true,
     "sortOrder": 50
   },
+  ...MILESTONE_BOUNDARY_TASKS,
   ...FUTURE_PRODUCT_TASKS
 ];
 
@@ -2333,61 +2338,6 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
     "dependencyType": "finish_to_start"
   },
   {
-    "taskKey": "M2-05",
-    "dependsOnTaskKey": "M2-04",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-06",
-    "dependsOnTaskKey": "M2-05",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-07",
-    "dependsOnTaskKey": "M2-06",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-08",
-    "dependsOnTaskKey": "M2-07",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-09",
-    "dependsOnTaskKey": "M2-08",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-10",
-    "dependsOnTaskKey": "M2-09",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-11",
-    "dependsOnTaskKey": "M2-10",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-12",
-    "dependsOnTaskKey": "M2-11",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-13",
-    "dependsOnTaskKey": "M2-12",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-14",
-    "dependsOnTaskKey": "M2-13",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M2-15",
-    "dependsOnTaskKey": "M2-14",
-    "dependencyType": "finish_to_start"
-  },
-  {
     "taskKey": "M2-16",
     "dependsOnTaskKey": "M2-15",
     "dependencyType": "finish_to_start"
@@ -2398,6 +2348,7 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
     "dependencyType": "finish_to_start"
   },
   {
+
     "taskKey": "M3-03",
     "dependsOnTaskKey": "M3-02",
     "dependencyType": "finish_to_start"
@@ -2455,11 +2406,6 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
   {
     "taskKey": "M3-14",
     "dependsOnTaskKey": "M3-13",
-    "dependencyType": "finish_to_start"
-  },
-  {
-    "taskKey": "M3-15",
-    "dependsOnTaskKey": "M3-14",
     "dependencyType": "finish_to_start"
   },
   {
@@ -2545,6 +2491,7 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
 ];
 
 CANONICAL_LAUNCH_DEPENDENCIES.push(...FUTURE_PRODUCT_DEPENDENCIES);
+CANONICAL_LAUNCH_DEPENDENCIES.push(...MILESTONE_BOUNDARY_DEPENDENCIES);
 
 export const CANONICAL_DEPENDENCIES = CANONICAL_LAUNCH_DEPENDENCIES;
 

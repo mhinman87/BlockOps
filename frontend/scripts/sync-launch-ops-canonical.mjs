@@ -23,6 +23,7 @@ import {
   CANONICAL_LAUNCH_COLLABORATORS,
 } from '../src/services/launchOpsCanonicalSeed.js';
 import { getPrimaryWikiPageTitle } from '../src/services/missionControlWikiLinks.js';
+import { CANONICAL_MILESTONE_DEPENDENCIES } from '../src/services/milestoneBoundaryTaskSeed.js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY;
@@ -86,11 +87,12 @@ const selectAll = async (client, table, columns = '*') => {
 };
 
 const verify = async (client) => {
-  const [milestones, tasks, collaborators, dependencies, wikiPages] = await Promise.all([
+  const [milestones, tasks, collaborators, dependencies, milestoneDependencies, wikiPages] = await Promise.all([
     selectAll(client, 'launch_milestones', 'id, slug, status'),
     selectAll(client, 'launch_tasks_v2', 'id, task_key, status, workstream, milestone_id, primary_wiki_page_id'),
     selectAll(client, 'launch_task_collaborators', 'task_id, collaborator'),
     selectAll(client, 'launch_task_dependencies', 'task_id, depends_on_task_id, dependency_type'),
+    selectAll(client, 'launch_milestone_dependencies', 'milestone_id, depends_on_milestone_id'),
     selectAll(client, 'wiki_pages', 'id, title'),
   ]);
 
@@ -122,6 +124,7 @@ const verify = async (client) => {
       extraLiveTasks: tasks.length - liveCanonicalTasks.length,
       collaborators: collaborators.length,
       dependencies: dependencies.length,
+      milestoneDependencies: milestoneDependencies.length,
       canonicalTaskStatusSummary: statusSummary(liveCanonicalTasks),
       wikiTasks: wikiTasks.map((task) => ({
         taskKey: task.task_key,
@@ -185,6 +188,32 @@ const sync = async () => {
 
   const milestones = await selectAll(client, 'launch_milestones', 'id, slug');
   const milestoneIdBySlug = new Map(milestones.map((milestone) => [milestone.slug, milestone.id]));
+
+  const milestoneDependencyPayload = CANONICAL_MILESTONE_DEPENDENCIES.map((dependency) => ({
+    milestone_id: milestoneIdBySlug.get(dependency.milestoneSlug),
+    depends_on_milestone_id: milestoneIdBySlug.get(dependency.dependsOnMilestoneSlug),
+  }));
+  failIfError('upsert launch_milestone_dependencies', await client
+    .from('launch_milestone_dependencies')
+    .upsert(milestoneDependencyPayload, { onConflict: 'milestone_id,depends_on_milestone_id' }));
+  const existingMilestoneDependencies = await selectAll(
+    client,
+    'launch_milestone_dependencies',
+    'id, milestone_id, depends_on_milestone_id',
+  );
+  const canonicalMilestoneIds = new Set(milestoneDependencyPayload.map((row) => row.milestone_id));
+  const desiredMilestoneEdges = new Set(milestoneDependencyPayload
+    .map((row) => `${row.milestone_id}:${row.depends_on_milestone_id}`));
+  const staleCanonicalMilestoneDependencyIds = existingMilestoneDependencies
+    .filter((row) => canonicalMilestoneIds.has(row.milestone_id)
+      && !desiredMilestoneEdges.has(`${row.milestone_id}:${row.depends_on_milestone_id}`))
+    .map((row) => row.id);
+  if (staleCanonicalMilestoneDependencyIds.length) {
+    failIfError('delete stale canonical launch_milestone_dependencies', await client
+      .from('launch_milestone_dependencies')
+      .delete()
+      .in('id', staleCanonicalMilestoneDependencyIds));
+  }
   const wikiPages = await selectAll(client, 'wiki_pages', 'id, title');
   const wikiPageIdByTitle = new Map(wikiPages.map((page) => [page.title, page.id]));
 
@@ -219,7 +248,6 @@ const sync = async () => {
   const canonicalTaskIds = CANONICAL_LAUNCH_TASKS
     .map((task) => taskIdByKey.get(task.taskKey))
     .filter(Boolean);
-
   if (canonicalTaskIds.length) {
     failIfError('delete canonical launch_task_collaborators', await client
       .from('launch_task_collaborators')
@@ -248,9 +276,9 @@ const sync = async () => {
     }))
     .filter((row) => row.task_id && row.depends_on_task_id);
   if (dependencyPayload.length) {
-    failIfError('insert launch_task_dependencies', await client
+    failIfError('upsert launch_task_dependencies', await client
       .from('launch_task_dependencies')
-      .insert(dependencyPayload));
+      .upsert(dependencyPayload, { onConflict: 'task_id,depends_on_task_id' }));
   }
 
   await verify(client);

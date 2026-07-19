@@ -17,6 +17,8 @@ ${page.purpose}
 
 ${renderList(page.scope)}
 
+${page.milestoneApplication ? `## Milestone application\n\n${page.milestoneApplication}\n` : ''}
+
 ## Required structure
 
 ${page.sections.map((section, index) => `### ${index + 1}. ${section}\n\n**Milestone-built.** Record the approved standard, accountable owner, source, evidence, exceptions, and applicable site scope here.`).join('\n\n')}
@@ -68,6 +70,7 @@ const definitions = [
     secondaryPillars: ['Physical Operations', 'Digital Platform', 'Stakeholder Integration', 'Value Intelligence', 'Implementation Bundles'],
     purpose: 'Define the end-to-end control structure for deciding when Block Ops is ready to begin, advance, stabilize, and complete a foundational-client engagement without confusing milestone intent with verified readiness.',
     scope: ['Covers authorization through closeout and operating-memory capture.', 'Does not declare M2 or M4 complete; Mission Control evidence controls status.', 'Timing and evidence may be site- or agreement-specific until universal standards are approved.'],
+    milestoneApplication: 'M1 rehearses mock collection, recording, checks, and gates. M2 makes the operating pathways real-client ready and internally/mock verified. M3 completes external attending validation. M4 proves successful foundational-client delivery. M5 proves successful paid-client onboarding. Later execution cannot replace an earlier build gate, and an earlier mock result cannot prove real-client readiness.',
     sections: ['Lifecycle stages and accountable owners', 'Entry gates by stage', 'Required evidence and systems of record', 'Cross-pillar readiness checks', 'Exception and escalation authority', 'Client acceptance and closeout criteria', 'M2 readiness evidence', 'M4 completion evidence'],
     related: ['Client Onboarding', 'Site Readiness Assessment', 'Implementation Bundle Delivery', 'Training Day Readiness', 'Go-Live Verification', 'Recurring Client Support'],
   },
@@ -77,7 +80,8 @@ const definitions = [
     primaryPillar: 'Physical Operations', secondaryPillars: ['Human Capital', 'Digital Platform', 'Stakeholder Integration', 'Value Intelligence', 'Implementation Bundles'],
     purpose: 'Create a repeatable assessment record that identifies what is ready, what is unknown, what is blocked, and who owns resolution before implementation or go-live.',
     scope: ['Assessment informs decisions but does not replace site clinical governance, credentialing, legal review, or safety approval.', 'Site findings must not mutate the universal baseline without governed review.', 'Unknown is an allowed result and must not be silently scored as ready.'],
-    sections: ['Site profile and implementation scope', 'Stakeholders and decision authority', 'Current workflow and case environment', 'Physical space, scheduling, and patient flow', 'Equipment, ultrasound, carts, and supplies', 'Cleaning, infection control, storage, and restocking', 'Platform access, security, and data readiness', 'Training and competency-readiness inputs', 'Compliance, legal, and clinical-governance gates', 'Findings, blockers, owners, and readiness recommendation'],
+    milestoneApplication: 'M1 defines and tests the mock record and gate behavior using clearly labeled evidence states and explicit Unknowns. M2 finalizes, implements, and internally/mock verifies the real-client packet and approval workflow. M4 and M5 apply it to real sites with site-specific evidence and qualified approvals.',
+    sections: ['Site profile and implementation scope', 'Safety infrastructure and emergency resources', 'Staffing model and accountable clinical/operational roles', 'Stakeholders, buying authority, and decision rights', 'Current workflow and case environment', 'Physical space, scheduling, and patient flow', 'Equipment, ultrasound, carts, and supplies', 'Procurement owner, authorization, substitutions, vendors, lead times, and blockers', 'Agreement/signature path and review state', 'Payment trigger/status and billing owner', 'Cleaning, infection control, storage, and restocking', 'Platform access, security, and data readiness', 'Training and competency-readiness inputs', 'Compliance, legal, and clinical-governance gates', 'Evidence source, verification state, exceptions, owners, and readiness recommendation'],
     related: ['Foundational Client Readiness and Completion Matrix', 'Equipment, Cart, Supply, and Restocking Standard', 'Client Onboarding', 'Training Day Readiness', 'Go-Live Verification'],
   },
   {
@@ -104,7 +108,8 @@ const definitions = [
     primaryPillar: 'Physical Operations', secondaryPillars: ['Implementation Bundles', 'Human Capital', 'Stakeholder Integration', 'Value Intelligence'],
     purpose: 'Establish a site-adaptable physical readiness structure for required equipment, ultrasound access, carts, supplies, storage, inspection, and replenishment.',
     scope: ['Does not prescribe clinical use, medication selection, dose, sterility standard, or site purchasing terms.', 'Qualified reviewers and site policy control clinical, infection-control, medication, and regulatory details.', 'Par levels and ownership may vary by site and service scope.'],
-    sections: ['Equipment categories and readiness states', 'Ultrasound access and verification', 'Cart or storage planogram', 'Supply categories and approved substitutions', 'Par-level method', 'Restocking trigger and accountable owner', 'Inspection, expiration, and exception handling', 'Cleaning and storage interfaces', 'Site configuration record', 'Readiness evidence before training and go-live'],
+    milestoneApplication: 'M1 defines and tests collection and mock gate behavior only. M2 finalizes and internally/mock verifies the real-client procurement and restocking standard. M4 and M5 verify ordered, available, accepted, and maintained inventory at the real client site.',
+    sections: ['Equipment categories and readiness states', 'Ultrasound access and verification', 'Cart or storage planogram', 'Supply categories and approved substitutions', 'Purchasing owner and source/vendor status', 'Budget and authorization state', 'Lead times, receiving, and approved substitutions', 'Par-level method', 'Restocking trigger and accountable owner', 'Inspection, expiration, and exception handling', 'Cleaning and storage interfaces', 'Site configuration record', 'Readiness evidence before training and go-live'],
     related: ['Site Readiness Assessment', 'Foundation Implementation Bundle Manifest and Completion Standard', 'Training Day Readiness', 'Go-Live Verification', 'Compliance / Risk Controls'],
   },
   {
