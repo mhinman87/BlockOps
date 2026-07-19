@@ -720,9 +720,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-DP-01",
     "title": "Define digital platform surface map",
-    "description": "Drafted in Obsidian Digital Platform Overview page: client portal, internal Dashboard, Mission Control, Block Ops Wiki/Compendium, Obsidian, and Supabase each have separate roles. Needs Samir/Max review.",
+    "description": "Completed 2026-07-18: Samir's approved platform boundaries were reconciled into one surface map. Client Portal is approved-final client-facing; Dashboard is the internal summary; Mission Control is execution; the Wiki is the governed reading layer; Obsidian is authoring/agent mirror/continuity; Supabase is canonical live state; GitHub is code/version history; and Vercel is deployment. Internal Dashboard/prototype remains separate from the client-facing app. Max-owned technical verification remains separate.",
     "primaryOwner": "Samir",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Platform & Internal/Client System",
     "milestoneSlug": "m1-mock-run-build-ready",
