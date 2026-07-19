@@ -22,7 +22,7 @@
   {
     "task_id": "865a2b98-7a64-4c83-8491-745eacaf76b8",
     "task_key": "M1-116",
-    "action_note": "Prepare the mock contract package from the approved template and proposal details. Use Legal Review Index as canonical knowledge and the live system or mock-client path where applicable. Record the artifact, test result, or screenshot/link in Mission Control as completion evidence, and keep drafts internal until approved."
+    "action_note": "Before preparing anything new, audit Max's existing CRM contract and document flow. Produce a requirement-by-requirement reconciliation ledger with current implementation and evidence, classify each item as KEEP, MODIFY, ADD, or EXCLUDE, and define the approved target state and owner. Then prepare the internal mock package by reusing, modifying, or integrating with the existing build; do not create a parallel duplicate workflow. Use Legal Review Index as canonical knowledge. Record the ledger, resulting artifact, test result, and screenshot/link in Mission Control, and keep drafts internal until approved."
   },
   {
     "task_id": "12acb239-70ca-4f24-9173-f28f6fd910ac",
