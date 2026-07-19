@@ -1337,9 +1337,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-35",
     "title": "Define pause vs close rule",
-    "description": "Set the business rule for when a stalled lead should be paused, closed-lost, or kept active.",
+    "description": "Completed 2026-07-18: keep a lead active only while its outreach cadence remains open or a response has produced a dated next action. At the no-response threshold, pause it as No Response / Stalled and assign a human review date; never close automatically. Use Nurture / Recycle Later only with a specific temporary reason and re-entry trigger. Use Closed / No Response only after human review finds no near-term action and no justified nurture path; use Closed / Not Interested for an explicit do-not-contact request or firm permanent rejection; and use Not Fit only for a documented mismatch. Preserve the complete record and history in every path.",
     "primaryOwner": "Samir",
-    "status": "ready",
+    "status": "done",
     "priority": "medium",
     "workstream": "No-Response / Stalled Lead",
     "milestoneSlug": "m1-mock-run-build-ready",
