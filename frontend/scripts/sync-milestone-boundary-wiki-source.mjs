@@ -7,6 +7,8 @@ const vaultRoot = '/home/bloq/Documents/Block Ops Vault';
 const sourceByTitle = new Map([
   ['Proposal Workflow', '02 - Operations/Proposal Workflow.md'],
   ['CRM Pipeline Stages', '02 - Operations/CRM Pipeline Stages.md'],
+  ['Block Ops Wiki / Compendium', '02 - Operations/Block Ops Wiki - Compendium.md'],
+  ['Block Ops Wiki Client-Facing Candidate Register', '02 - Operations/Block Ops Wiki Client-Facing Candidate Register.md'],
   ['Training Day Readiness', '02 - Operations/Training Day Readiness.md'],
   ['Go-Live Verification', '02 - Operations/Go-Live Verification.md'],
   ['Legal Review Index', '02 - Operations/Legal Review Index.md'],
@@ -30,8 +32,10 @@ for (const [title, relativePath] of sourceByTitle) {
   }
   const contentMarker = '"content": ';
   const contentIndex = source.indexOf(contentMarker, titleIndex);
-  const nextObjectIndex = source.indexOf('\n  },', titleIndex);
-  if (contentIndex < 0 || contentIndex > nextObjectIndex) throw new Error(`Missing content field for ${title}`);
+  const objectDelimiterIndex = source.indexOf('\n  },', titleIndex);
+  const finalObjectIndex = source.indexOf('\n  }\n];', titleIndex);
+  const nextObjectIndex = objectDelimiterIndex >= 0 ? objectDelimiterIndex : finalObjectIndex;
+  if (contentIndex < 0 || nextObjectIndex < 0 || contentIndex > nextObjectIndex) throw new Error(`Missing content field for ${title}`);
   const valueStart = contentIndex + contentMarker.length;
   if (source[valueStart] !== '"') throw new Error(`Content for ${title} is not a JSON string`);
   let valueEnd = valueStart + 1;
