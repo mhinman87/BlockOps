@@ -205,6 +205,7 @@ export const M1_TASK_PRIMARY_WIKI_PAGE_OVERRIDES = Object.freeze({
   'M5-05': 'Client Onboarding',
   'M2-CLAIMS-01': 'Evidence and Claims Governance',
   'M2-DELIV-REVIEW-01': 'Foundation Implementation Bundle Manifest and Completion Standard',
+  'M2-KICKOFF-01': 'Client Onboarding',
   'M2-DOC-001': 'Commercial Product and Pack Architecture',
   'M2-07': 'Measurement Framework and Minimum Dataset',
 });

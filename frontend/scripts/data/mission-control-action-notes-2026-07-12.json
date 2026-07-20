@@ -2773,5 +2773,10 @@
     "task_id": "ee8c48d6-e1d5-4719-84d3-18053b3dcb2a",
     "task_key": "M4-XR-SITE-05",
     "action_note": "Publish site procedures for storage, cleaning, replacement, updates, support, escalation, and downtime in the client operations manual. Complete with owner training and client acceptance evidence. Procedures must require visible needle tip before movement and immediate stop/reacquisition if visibility is lost."
+  },
+  {
+    "task_id": "32462abd-6801-472a-9bd4-5c96bae54400",
+    "task_key": "M2-KICKOFF-01",
+    "action_note": "Draft the exact Client Kickoff facilitator language, transitions, prompts, recap wording, and client-facing script representations from the approved 45-minute agenda. Review for accuracy, role boundaries, scope consistency, and repeatability; bind final approval to the exact version and keep drafts internal."
   }
 ]
