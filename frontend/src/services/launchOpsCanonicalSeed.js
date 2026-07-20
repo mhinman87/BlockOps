@@ -1072,7 +1072,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-CLIENT-LEAK-01",
     "title": "Run client-facing leak audit workflow",
-    "description": "Test the client-facing app/portal paths early in M1 to confirm drafts, internal Mission Control details, Jarvis/internal language, implementation notes, and unapproved Wiki pages are not visible to clients. Create fix tasks for any leak found.",
+    "description": "Test the separate client application/portal paths early in M1 to confirm drafts, internal Mission Control details, Internal Operations System content/terminology, implementation notes, and unapproved Wiki pages are not visible to clients. Create fix tasks for any leak found.",
     "primaryOwner": "Max",
     "status": "ready",
     "priority": "critical",
