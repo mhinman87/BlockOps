@@ -62,7 +62,7 @@
   {
     "task_id": "fd6867fe-2264-4627-b99b-1c021cb5597b",
     "task_key": "M1-140",
-    "action_note": "Create the checklist of onboarding documents, references, and prep materials needed for the mock client. Use Client Onboarding as canonical knowledge and the live system or mock-client path where applicable. Record the artifact, test result, or screenshot/link in Mission Control as completion evidence, and keep drafts internal until approved."
+    "action_note": "Use the governed M1 Mock Onboarding Document and Material Checklist as the authoritative M1-140 artifact. Reconcile each workflow/control record and selected Foundation item against Max's existing CRM/content implementation as KEEP, MODIFY, ADD, or EXCLUDE. Record exact IDs, versions, owners, reviewers, evidence, visibility, and gate purpose for both required mock clients. Canonical representation state controls when legacy status conflicts; missing version, unverified visibility, or blocking Unknowns fail closed. Do not create redundant materials or a parallel assignment store."
   },
   {
     "task_id": "605e13c5-f5ed-4773-969a-f2376dfbd367",
