@@ -101,6 +101,22 @@ test('go-live readiness preserves the seven-category fail-closed framework', () 
   assert.match(goLive.content, /M1-173 — Define go-live checklist categories — reconciled and done 2026-07-21/);
 });
 
+test('M1 mock Live state activates mock operations without implying a real launch', () => {
+  const crm = getWikiItem('CRM Pipeline Stages');
+  const goLive = getWikiItem('Go-Live Verification');
+
+  for (const content of [crm.content, goLive.content]) {
+    assert.match(content, /simulated Go-Live Verification passed/);
+    assert.match(content, /mock effective date/);
+    assert.match(content, /mock operating (and support )?cadence|operating and support cadence/i);
+    assert.match(content, /initial metrics\/data-capture window|initial metrics window/i);
+    assert.match(content, /does (?:\*\*)?not(?:\*\*)? mean a real (client or )?site is operating/i);
+    assert.match(content, /outcome|value claim/i);
+  }
+  assert.match(crm.content, /unresolved non-blocking follow-ups remain owned and dated/);
+  assert.match(goLive.content, /M1-185 — Define live-state meaning — reconciled and done 2026-07-21/);
+});
+
 test('M1 mock support path has one front door and controlled issue logging', () => {
   const goLive = getWikiItem('Go-Live Verification');
   const recurringSupport = LEGACY_CONSOLIDATION_NEW_PAGES.find((page) => page.title === 'Recurring Client Support');
