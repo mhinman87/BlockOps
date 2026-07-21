@@ -132,6 +132,25 @@ test('M1 mock support path has one front door and controlled issue logging', () 
   assert.match(goLive.content, /M1-177 — Verify support path — mock support route approved and done 2026-07-21/);
 });
 
+test('M1 mock first-week cadence is lightweight, owned, and mock-only', () => {
+  const goLive = getWikiItem('Go-Live Verification');
+  const recurringSupport = LEGACY_CONSOLIDATION_NEW_PAGES.find((page) => page.title === 'Recurring Client Support');
+
+  for (const content of [goLive.content, recurringSupport.bodyMd]) {
+    assert.match(content, /Day 0/);
+    assert.match(content, /Day 3/);
+    assert.match(content, /Day 7/);
+    assert.match(content, /event-triggered escalation/i);
+    assert.match(content, /initial (metrics availability|data-capture path)/i);
+    assert.match(content, /one owner and due date|one owner plus a due date|one owner and due date to every unresolved item|one owner and due date to every unresolved action|one owner and due date for every unresolved action|one owner and due date for every unresolved item|assigns one owner and due date to every unresolved item/i);
+    assert.match(content, /asynchronous unless a real blocker or decision requires discussion/i);
+    assert.match(content, /no daily meeting/);
+    assert.match(content, /permanent real-client cadence/);
+    assert.match(content, /approv(?:ing|al of) (?:this |the )?definition (?:does not prove|is not evidence)/i);
+  }
+  assert.match(goLive.content, /M1-191 — Start live operating cadence — mock first-week cadence approved and done 2026-07-21/);
+});
+
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
     liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,

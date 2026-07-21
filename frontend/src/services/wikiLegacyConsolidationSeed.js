@@ -43,6 +43,17 @@ For the final M1 mock client lead-to-live run, **Samir is the single support fro
 
 This path must be exercised during the final M1 mock run with clearly labeled mock evidence. Definition approval is not test evidence and does not establish the permanent real-client support model.
 
+## M1 mock first-week cadence — approved 2026-07-21
+
+The final M1 mock client uses a lightweight **Day 0 / Day 3 / Day 7** operating cadence plus immediate event-triggered escalation:
+
+- **Day 0:** Samir confirms the mock \`Live\` state, owners, support route, open follow-ups, and first-metrics review date as part of go-live closeout.
+- **Day 3:** Samir reviews access/platform behavior, mock support activity, commitments, blockers, and whether the initial data-capture path is functioning.
+- **Day 7:** Samir reviews the same areas plus initial metrics availability, assigns one owner and due date to every unresolved item, and records stable, remediation-required, or unable-to-proceed disposition.
+- **Anytime:** urgent technical, clinical/safety, legal, or stakeholder issues route through the approved support path immediately.
+
+Checks are asynchronous unless a real blocker or decision requires discussion. M1 creates no daily meeting, standing group call, permanent support channel, response-time guarantee, service-level promise, or permanent real-client cadence. Approval of this definition is not evidence that the final mock run exercised it successfully.
+
 ## Core operating loop
 
 1. Collect the approved minimum data set through one controlled method.
@@ -374,7 +385,7 @@ export const LEGACY_CONSOLIDATION_PAGE_ADDITIONS = Object.freeze({
 - every released representation requires applicable version, owner, source, review, approval, and site-scope evidence;
 - old “Block Pack,” fixed-count, universal-clinical-default, and internal-review-only assumptions are superseded.`),
   'Training Day Readiness': block('Recovered training evidence doctrine', `Legacy on-site training plans reinforce hands-on preparation, role-specific readiness, structured evidence capture, explicit blockers, and post-session actions. Detailed treatment protocols, drug/dose guidance, monitoring thresholds, person-specific scope exceptions, photography, and competency claims remain outside this general operating page unless qualified review and site approval are recorded.`),
-  'Go-Live Verification': block('Bridge-support consolidation', `The legacy Day 3/7/14/30 bridge sequence is preserved as a proposed planning cadence, not mandatory policy. Exact timing, participants, data set, response expectations, and transition to recurring support remain agreement- and site-specific until approved. Durable requirements are named owners, early follow-up, evidence-backed blockers, controlled escalation, and a documented handoff to [[Recurring Client Support]].`),
+  'Go-Live Verification': block('Bridge-support consolidation', `The legacy Day 3/7/14/30 bridge sequence remains a proposed planning cadence for real clients, not mandatory universal policy. M1 uses only the approved mock Day 0/3/7 cadence plus event-triggered escalation. Real-client timing, participants, data set, response expectations, and transition to recurring support remain agreement- and site-specific until approved. Durable requirements are named owners, early follow-up, evidence-backed blockers, controlled escalation, and a documented handoff to [[Recurring Client Support]].`),
   'Dashboard': block('Client-health display boundary', `Legacy support and churn documents describe useful signals—engagement, implementation activity, unresolved support, champion continuity, access, payment, and risk—but do not prove that automated scoring or alerts exist. Dashboard may summarize verified health information; [[Client Health and Retention]] owns the business process, and Max must verify any live calculation or automation.`),
   'Block Ops Wiki / Compendium': block('Knowledge-layer consolidation', `Legacy layer-architecture material is preserved through explicit governance rather than a second top-level “three-layer” doctrine.
 
