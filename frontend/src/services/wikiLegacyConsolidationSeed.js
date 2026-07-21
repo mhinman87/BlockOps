@@ -31,6 +31,18 @@ A site enters recurring support only after:
 - access, approved-final content, and implementation-bundle configuration are verified;
 - critical launch blockers are closed or explicitly accepted by the accountable owner.
 
+## M1 mock support path — approved 2026-07-21
+
+For the final M1 mock client lead-to-live run, **Samir is the single support front door** as the assigned Block Ops implementation owner. The simulated contact channel is recorded in the mock-client record. M1 does not create a permanent support inbox, response-time guarantee, or service-level promise.
+
+- The receiver records the meaningful external touch in the [[Client Communication Log]].
+- A request requiring work becomes one linked Mission Control task with the mock client/site, category, severity, one accountable owner, next action, and follow-up date.
+- Samir triages technical/platform defects to Max, clinical or safety questions to the qualified client/site clinical owner, legal issues to qualified counsel, and stakeholder/commercial follow-up to the relationship owner.
+- Mission Control owns executable work; the Client Communication Log preserves what was requested, what Block Ops promised, disposition, and follow-up.
+- Patient-care decisions, clinical emergencies, and urgent safety response stay in the client's established clinical and emergency chain.
+
+This path must be exercised during the final M1 mock run with clearly labeled mock evidence. Definition approval is not test evidence and does not establish the permanent real-client support model.
+
 ## Core operating loop
 
 1. Collect the approved minimum data set through one controlled method.

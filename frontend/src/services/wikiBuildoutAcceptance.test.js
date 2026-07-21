@@ -5,6 +5,7 @@ import { searchInternalWikiItems, runWikiBuildoutAcceptance } from './wikiBuildo
 import { WIKI_LIBRARY_ITEMS } from './wikiLibraryItems.js';
 import { WIKI_PILLAR_MAP } from './wikiPillarMapping.js';
 import { CANONICAL_LAUNCH_TASKS } from './launchOpsCanonicalSeed.js';
+import { LEGACY_CONSOLIDATION_NEW_PAGES } from './wikiLegacyConsolidationSeed.js';
 
 const getWikiItem = (title) => WIKI_LIBRARY_ITEMS.find((item) => item.title === title);
 const getTask = (taskKey) => CANONICAL_LAUNCH_TASKS.find((task) => task.taskKey === taskKey);
@@ -98,6 +99,21 @@ test('go-live readiness preserves the seven-category fail-closed framework', () 
   assert.match(goLive.content, /Any required no, missing approval, or unresolved hard stop means no-go/i);
   assert.match(goLive.content, /M1, the framework is exercised only with clearly labeled mock evidence/i);
   assert.match(goLive.content, /M1-173 — Define go-live checklist categories — reconciled and done 2026-07-21/);
+});
+
+test('M1 mock support path has one front door and controlled issue logging', () => {
+  const goLive = getWikiItem('Go-Live Verification');
+  const recurringSupport = LEGACY_CONSOLIDATION_NEW_PAGES.find((page) => page.title === 'Recurring Client Support');
+
+  for (const content of [goLive.content, recurringSupport.bodyMd]) {
+    assert.match(content, /Samir is the single support front door/);
+    assert.match(content, /Client Communication Log/);
+    assert.match(content, /one linked Mission Control task/);
+    assert.match(content, /category, severity, one accountable owner, next action, and follow-up date/);
+    assert.match(content, /Patient-care decisions, clinical emergencies/);
+    assert.match(content, /does not (create|establish) (a |the )?permanent (support inbox|real-client support model)/i);
+  }
+  assert.match(goLive.content, /M1-177 — Verify support path — mock support route approved and done 2026-07-21/);
 });
 
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
