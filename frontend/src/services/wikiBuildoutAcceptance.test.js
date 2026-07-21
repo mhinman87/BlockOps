@@ -81,6 +81,25 @@ test('contract-to-live stages have explicit evidence-backed entry and exit gates
   assert.doesNotMatch(crm.content, /Detailed entry\/exit criteria remain the next Samir task/);
 });
 
+test('go-live readiness preserves the seven-category fail-closed framework', () => {
+  const goLive = getWikiItem('Go-Live Verification');
+
+  for (const category of [
+    'Onboarding and ownership',
+    'Training and safety readiness',
+    'Dashboard and platform state',
+    'Deliverables and content visibility',
+    'Support path and escalation',
+    'Blockers and domain approvals',
+    'Metrics baseline and evidence path',
+  ]) {
+    assert.match(goLive.content, new RegExp(`\\*\\*${category}\\*\\*`));
+  }
+  assert.match(goLive.content, /Any required no, missing approval, or unresolved hard stop means no-go/i);
+  assert.match(goLive.content, /M1, the framework is exercised only with clearly labeled mock evidence/i);
+  assert.match(goLive.content, /M1-173 — Define go-live checklist categories — reconciled and done 2026-07-21/);
+});
+
 test('M1-WIKI-14 acceptance passes against verified live baselines', () => {
   const result = runWikiBuildoutAcceptance({
     liveWikiPageCount: Object.keys(WIKI_PILLAR_MAP).length,
