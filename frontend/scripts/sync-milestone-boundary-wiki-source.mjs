@@ -8,6 +8,7 @@ const sourceByTitle = new Map([
   ['Proposal Workflow', '02 - Operations/Proposal Workflow.md'],
   ['CRM Pipeline Stages', '02 - Operations/CRM Pipeline Stages.md'],
   ['Digital Platform Overview', '02 - Operations/Digital Platform Overview.md'],
+  ['Backup and Continuity', '02 - Operations/Backup and Continuity.md'],
   ['Block Ops Wiki / Compendium', '02 - Operations/Block Ops Wiki - Compendium.md'],
   ['Block Ops Wiki Client-Facing Candidate Register', '02 - Operations/Block Ops Wiki Client-Facing Candidate Register.md'],
   ['Training Day Readiness', '02 - Operations/Training Day Readiness.md'],
