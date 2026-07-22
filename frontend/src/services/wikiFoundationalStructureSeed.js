@@ -108,7 +108,13 @@ The approved M1 value story uses six separately governed placeholders: block uti
 
 Before Dashboard use, each M1 metric receives the eight approved sanity checks: identity and definition, source and provenance, period and scope, missing-data handling, type and range, arithmetic and reconciliation, chronology and duplication, and interpretation and review gates. Record one result: Pass, Warning / Data-quality concern, Hold, or Unknown. A passing check proves only minimum internal consistency; it does not prove an outcome, value claim, or automated validation capability.
 
-Samir owns the business meaning and business thresholds; Max owns source fields, provenance, entry, calculation and validation implementation, and Dashboard representation; Bloq owns clearly labeled mock capture and application of the checks during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
+Samir owns the business meaning and business thresholds; Max owns source fields, provenance, entry, calculation and validation implementation, and Dashboard representation; Bloq owns clearly labeled mock capture and application of the checks during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.
+
+## M1 measurement cadence — approved 2026-07-21
+
+Day 0 after Live opens the first measurement window; Day 3 checks the data path and defensible quality state; Day 7 records and reviews the first governed snapshot, corrections, and next refresh date. After first capture, available KPI values and data-quality states refresh monthly where practical, formal performance/value review occurs quarterly, and metric selection, configuration, sources, and scope are reviewed annually. Material source corrections, duplicates, failed sanity checks, configuration or approved-definition changes, and material safety/compliance issues trigger an affected off-cycle refresh.
+
+Each refresh preserves the cutoff period, source timestamp, accountable owner, sanity-check result, corrections, historical snapshot, and next refresh date. Continuous Dashboard access does not imply real-time data, and cadence never converts missing information into a value. Max owns separate technical scheduling and implementation work; approval of this cadence does not prove that recurring automation or Dashboard behavior has been implemented.`,
     sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Level 1 structured Dashboard entry', 'Level 2 approved file import', 'Level 3 premium system integrations', 'KPI data-state model', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
@@ -203,7 +209,31 @@ M1-201 defines the minimum fail-closed review applied before an operational or v
 - **Technical owner:** Max owns field rules, validation implementation, duplicate detection, formula tests, and Dashboard behavior under separate tasks.
 - **Mock execution owner:** Bloq applies and records the checks during M1 mock capture.
 - M1 sets no universal statistical outlier threshold. An unusual change triggers review and a visible Data-quality concern; it is not automatically accepted, rejected, or interpreted.
-- A passing sanity check establishes only internal consistency and minimum readiness. It does not prove the underlying outcome, causal attribution, reimbursement, financial value, external claim, or automated capability.`,
+- A passing sanity check establishes only internal consistency and minimum readiness. It does not prove the underlying outcome, causal attribution, reimbursement, financial value, external claim, or automated capability.
+
+## M1 metric update cadence — approved 2026-07-21
+
+M1-205 defines when the approved metric set is checked, first recorded, refreshed, and formally reviewed. The cadence governs timing and ownership; it does not prove that source fields, automation, scheduling, Dashboard display, or a defensible value exists.
+
+| Timing | Required action |
+|---|---|
+| Day 0 after Live | Open the first measurement window and record the metric owner, source, period, and first-review date. |
+| Day 3 | Check that the data path functions and update available operational values or quality states when defensible. Preserve unavailable values as Unknown. |
+| Day 7 | Record and review the first governed metric snapshot, apply the approved sanity checks, assign corrections, and record the next refresh date. |
+| Monthly after first capture | Refresh available KPI values and data-quality states where practical. The first mock next-refresh date is approximately one month after the Day 7 snapshot. |
+| Quarterly | Conduct the formal Block Ops performance and value review using only validated metrics and approved interpretations. |
+| Annually | Review metric selection, definitions, client/site configuration, sources, and scope. |
+| Event-triggered | Refresh or correct affected metrics after a material source correction, duplicate, failed sanity check, configuration change, approved definition change, or material safety/compliance issue. |
+
+### Refresh controls and ownership
+
+- **Business owner:** Samir owns the cadence, formal interpretation, and approval of any metric-specific exception.
+- **Technical owner:** Max owns recurring-refresh scheduling, implementation, source behavior, and Dashboard behavior under separate technical work.
+- **Mock execution owner:** Bloq records the first clearly labeled mock snapshot, applies sanity checks, and preserves corrections and assumptions during the M1 run.
+- Each refresh records the cutoff period, source timestamp, accountable owner, sanity-check result, corrections, and next refresh date. Historical snapshots are preserved rather than silently overwritten.
+- Continuous Dashboard access does not mean real-time data. A more frequent refresh requires a defensible metric-specific source capability or an approved client/premium agreement.
+- Cadence never authorizes invented values. Unavailable values remain Unknown, Not configured, or Baseline collecting, as applicable.
+- M1 proves the cadence decision and handoff only. It does not require an indefinite mock subscription, and approval of this standard does not complete separate Max-owned technical implementation work.`,
     sections: ['Metric register', 'Business purpose and decision use', 'Exact definition and unit', 'Numerator, denominator, and exclusions', 'Source system and provenance', 'Data owner and steward', 'Calculation and refresh method', 'Quality thresholds and exception handling', 'Approved audiences and representations', 'Change history and retirement rules'],
     related: ['Measurement Framework and Minimum Dataset', 'Evidence and Claims Governance', 'Dashboard', 'Supabase Data Model', 'Client Health and Retention'],
   },
