@@ -114,7 +114,35 @@ Samir owns the business meaning and business thresholds; Max owns source fields,
 
 Day 0 after Live opens the first measurement window; Day 3 checks the data path and defensible quality state; Day 7 records and reviews the first governed snapshot, corrections, and next refresh date. After first capture, available KPI values and data-quality states refresh monthly where practical, formal performance/value review occurs quarterly, and metric selection, configuration, sources, and scope are reviewed annually. Material source corrections, duplicates, failed sanity checks, configuration or approved-definition changes, and material safety/compliance issues trigger an affected off-cycle refresh.
 
-Each refresh preserves the cutoff period, source timestamp, accountable owner, sanity-check result, corrections, historical snapshot, and next refresh date. Continuous Dashboard access does not imply real-time data, and cadence never converts missing information into a value. Max owns separate technical scheduling and implementation work; approval of this cadence does not prove that recurring automation or Dashboard behavior has been implemented.`,
+Each refresh preserves the cutoff period, source timestamp, accountable owner, sanity-check result, corrections, historical snapshot, and next refresh date. Continuous Dashboard access does not imply real-time data, and cadence never converts missing information into a value. Max owns separate technical scheduling and implementation work; approval of this cadence does not prove that recurring automation or Dashboard behavior has been implemented.
+
+## M1 first-metrics business review — completed 2026-07-21
+
+M1-207 reviewed the existing asc-demo metric series in live Supabase: six quality_metrics rows covering December 2025 through May 2026 and four financials rows covering Q3 2025 through Q2 2026. These are legacy demo records created before the approved M1 metric definitions, source mapping, capture, assumptions, and Dashboard-verification tasks were completed.
+
+### Business-meaning disposition
+
+**Hold — useful mock narrative scaffold, not a defensible client value story.** The records suggest a coherent prototype narrative: case/block activity rises, displayed block-success and patient-satisfaction rates rise, PACU length of stay and displayed opioid-use impact improve, complications decline, and the financial series rises. That is the right general shape for demonstrating how Block Ops could connect operational adoption, quality/recovery, and economic contribution.
+
+The current records may not be represented as verified performance, outcomes, opioid reduction, revenue, savings, or ROI:
+
+- The series does not include the six approved M1 operational measures and therefore does not prove operation of the mock lead-to-live system.
+- Source fields, accountable source owners, provenance, comparison populations, exclusions, assumptions, and required representation labels are absent.
+- Four of the six displayed block-success rates do not reconcile with (total blocks - failed blocks) / total blocks when rounded to one decimal place; only March and April reconcile.
+- PACU baseline, opioid-reduction, satisfaction, complication, revenue-impact, cost-savings, and ROI values lack the source and calculation evidence required for interpretation. The ROI denominator and approved cost basis are not present.
+- All rows were created at one timestamp, and the free-text notes use result-oriented language without showing contemporaneous capture or required review.
+- The database is_published flag is a technical field, not factual approval. These legacy rows must remain internal and unpublished until corrected and re-verified.
+
+### Decision and follow-up ownership
+
+- Preserve the records as internal legacy mock/prototype data; do not delete them or treat them as a baseline.
+- Remove them from published eligibility while preserving history.
+- **Max:** complete source/provenance mapping, display format, baseline-record design, and manual-entry process under M1-198, M1-GR-026, M1-199, and M1-200.
+- **Bloq:** capture the first governed mock values and document assumptions under M1-202 and M1-204.
+- **Max:** verify the corrected metrics appear with the right labels and visibility under M1-203.
+- Any later business interpretation remains gated by the approved sanity checks and applicable clinical, evidence, billing/compliance, legal, financial, and exact-wording review.
+
+Completion of M1-207 records Samir's review and Hold disposition; it does not approve the legacy values, satisfy First Metrics Captured, or complete any upstream implementation task.`,
     sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Level 1 structured Dashboard entry', 'Level 2 approved file import', 'Level 3 premium system integrations', 'KPI data-state model', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
