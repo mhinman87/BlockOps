@@ -1086,9 +1086,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-SYNC-01",
     "title": "Document source-of-truth and regression checklist",
-    "description": "Write the operating reference that explains Supabase/live Dashboard, Mission Control, Wiki/admin content, Obsidian, source seed, and verification checklist roles so future changes do not drift or update only one layer.",
+    "description": "Completed 2026-07-21: documented Supabase/live execution precedence, governed Wiki and Obsidian roles, repository seed boundaries, targeted test/build requirements, independent live readback, GitHub/production delivery checks, client fail-closed rules, and residual-owner reporting in Backup and Continuity.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "done",
     "priority": "high",
     "workstream": "Wiki / Obsidian Operating System",
     "milestoneSlug": "m1-mock-run-build-ready",
