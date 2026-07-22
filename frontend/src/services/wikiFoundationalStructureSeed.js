@@ -17,6 +17,7 @@ ${page.purpose}
 
 ${renderList(page.scope)}
 
+${page.approvedContent ? `${page.approvedContent}\n` : ''}
 ${page.milestoneApplication ? `## Milestone application\n\n${page.milestoneApplication}\n` : ''}
 
 ## Required structure
@@ -99,6 +100,11 @@ const definitions = [
     primaryPillar: 'Value Intelligence', secondaryPillars: ['Digital Platform', 'Stakeholder Integration', 'Physical Operations', 'Implementation Bundles'],
     purpose: 'Define the smallest defensible data structure needed to understand implementation activity and value without inventing automated collection, clinical outcomes, ROI, or universal reporting commitments.',
     scope: ['Every minimum purchasable pack must define two to three meaningful client-visible KPIs, generally spanning adoption, performance, and value without forcing artificial measures.', 'At least one core KPI must measure performance or value rather than activity alone.', 'Every pack must function with Level 1 structured aggregate Dashboard entry, improve with Level 2 approved de-identified file import, and optionally automate through premium Level 3 system integrations.', 'Every KPI displays one governed data state: Not configured, Baseline collecting, Tracking, Data-quality concern, or Verified for reporting.', 'Measures must have approved definitions, purpose, source, owner, and limitations.', 'PHI and sensitive data follow approved privacy, security, and site controls.', 'Unavailable or low-quality data must be shown as unknown rather than inferred.'],
+    approvedContent: `## M1 mock measurement baseline — approved 2026-07-21
+
+The first M1 operational capture uses six approved measures: mock workflow volume, journey coverage, stage cycle time, handoff quality, operating readiness, and first-week support activity. The set measures operation of the mock lead-to-live system only. It excludes revenue, ROI, opioid reduction, clinical outcomes, and other evidence-gated value claims.
+
+Samir owns the business meaning; Max owns source fields, provenance, entry, and Dashboard representation; Bloq owns clearly labeled mock capture and assumptions during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
     sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Level 1 structured Dashboard entry', 'Level 2 approved file import', 'Level 3 premium system integrations', 'KPI data-state model', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
@@ -118,6 +124,28 @@ const definitions = [
     primaryPillar: 'Value Intelligence', secondaryPillars: ['Digital Platform', 'Human Capital', 'Stakeholder Integration'],
     purpose: 'Prevent inconsistent metric language by giving every approved KPI one definition, owner, source, calculation rule, quality status, audience, and interpretation boundary.',
     scope: ['A proposed metric is not an approved KPI.', 'No calculation or automated dashboard capability is implied until technically verified.', 'Clinical, financial, reimbursement, quality, and outcome measures require applicable qualified review.'],
+    approvedContent: `## M1 mock first operational metric set — approved 2026-07-21
+
+M1-197 defines the minimum operational set for each clearly labeled M1 mock client. These measures test whether the lead-to-live operating system works; they do not claim that a real client, site, or clinical program is operating.
+
+| Metric | M1 definition and unit | Business use |
+|---|---|---|
+| Mock workflow volume | Count of mock client records reaching each approved lifecycle stage | Shows whether records are moving through the operating path |
+| Journey coverage | Required lead-to-live checkpoints completed with evidence divided by applicable checkpoints, shown as count and percentage | Shows whether the full required journey was exercised rather than selectively demonstrated |
+| Stage cycle time | Elapsed time in each lifecycle stage and total elapsed time from lead capture to Live | Identifies where the mock process slows down |
+| Handoff quality | Count of transitions with missing evidence, failed movement, or rework | Exposes handoff friction and continuity defects |
+| Operating readiness | Count of applicable go-live checks passed, unresolved blockers, and approved exceptions, displayed separately | Shows whether the mock operating gate passed cleanly and what remains open |
+| First-week support activity | Count of mock support requests received, resolved, and open at the Day 3 and Day 7 checkpoints | Tests whether the approved support route and first-week cadence function |
+
+### M1 ownership and boundaries
+
+- **Business owner:** Samir owns this approved metric selection and business meaning.
+- **Technical/source owner:** Max defines source fields, provenance state, entry path, and Dashboard representation under separate first-metrics tasks.
+- **Execution owner:** Bloq captures and labels the first mock values and assumptions during the final mock run.
+- Every value remains explicitly labeled **mock** and preserves whether it is manual, system-generated, estimated, placeholder, or Unknown.
+- Unknown or unavailable values remain Unknown; they are not inferred or converted into zero.
+- Revenue, ROI, opioid reduction, clinical outcomes, and other value claims are outside this operational set and remain separately definition-, evidence-, and review-gated.
+- Definition approval does not prove source fields, Dashboard display, sanity checks, capture, or reporting cadence have been implemented or tested.`,
     sections: ['Metric register', 'Business purpose and decision use', 'Exact definition and unit', 'Numerator, denominator, and exclusions', 'Source system and provenance', 'Data owner and steward', 'Calculation and refresh method', 'Quality thresholds and exception handling', 'Approved audiences and representations', 'Change history and retirement rules'],
     related: ['Measurement Framework and Minimum Dataset', 'Evidence and Claims Governance', 'Dashboard', 'Supabase Data Model', 'Client Health and Retention'],
   },
