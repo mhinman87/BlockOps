@@ -77,7 +77,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-04",
     "title": "Define high-level mock-client test paths",
-    "description": "Confirm M1 will use at least two distinct mock-client paths: one website or AI-chat lead and one Adrian relationship lead. Detailed client data inputs are defined later near closeout.",
+    "description": "Approved 2026-07-21: M1 uses seven primary mock leads plus one deliberate duplicate-entry attempt. Four distinct sources—AI chatbot, Adrian manual entry, Contact Us, and direct email—must reach mock Live through different journeys. Three additional leads prove early not-fit, permanent no-response, and late-stage decline endings. The duplicate attempt tests merge/link and duplicate-client prevention; it is not an eighth prospect. Detailed scenario inputs remain a controlled near-closeout task.",
     "primaryOwner": "Samir",
     "status": "done",
     "priority": "high",
@@ -1198,8 +1198,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-DCK-03",
-    "title": "Define training day readiness checklist",
-    "description": "Completed 2026-07-19: Samir approved the training-day readiness checklist and current engagement boundary. Under the Block Ops training agreement, Block Ops personnel act as educators and systems consultants—not treating clinicians; they do not perform blocks, touch patients, direct patient care, or supervise site clinicians. The client retains clinical authority. Any hands-on clinical service requires a separate credentialed, insured, contracted, and lawyer-approved arrangement. Final wording will be refined after outside counsel completes the legal documents.",
+    "title": "Define preliminary training-readiness boundary",
+    "description": "Completed 2026-07-19 as a preliminary governance definition and updated 2026-07-21 so it is not an M1 closeout requirement. M1 proves training scheduling and handoff only. Final training agenda, activities, materials, readiness review, event execution, completion evidence, and post-training follow-up are M2 work after the deliverables and offering are completed and organized. The engagement boundary remains: Block Ops personnel act as educators and systems consultants—not treating clinicians; they do not perform blocks, touch patients, direct patient care, or supervise site clinicians. The client retains clinical authority. Any hands-on clinical service requires a separate credentialed, insured, contracted, and lawyer-approved arrangement. Final wording will be refined after outside counsel completes the legal documents.",
 
     "primaryOwner": "Samir",
     "status": "done",
@@ -1424,7 +1424,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-FST-01",
     "title": "Define M1 final system test checklist",
-    "description": "Create the end-of-milestone checklist that proves M1 using mock client paths, edge cases, CRM visibility, portal/account flow, deliverables, proposal/contract flow, onboarding, go-live, and closeout proof.",
+    "description": "Maintain the end-of-milestone checklist that proves M1 with seven primary mock leads, one duplicate-entry attempt, four distinct lead-to-live journeys, three required non-live endings, CRM/communication visibility, portal/account flow, deliverables, proposal/contract flow, scheduling-only training scope, mock go-live, first metrics, critical-fix retest, and closeout proof.",
     "primaryOwner": "Bloq",
     "status": "done",
     "priority": "critical",
@@ -1438,7 +1438,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-FST-02",
     "title": "Define detailed mock-client data inputs near closeout",
-    "description": "Near M1 closeout, define facility names, contacts, exact scenarios, deliverable assignments, and portal content for the required mock clients.",
+    "description": "Near M1 closeout, define facility names, contacts, exact inputs, path-specific blockers and decisions, deliverable assignments, embedded edge tests, portal content, and expected outcomes for all seven primary mock leads plus the duplicate-entry attempt. Every record and artifact remains clearly labeled mock.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "medium",
@@ -1451,8 +1451,8 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-FST-03",
-    "title": "Run website / AI-chat mock client",
-    "description": "Near M1 closeout, run one website or AI-chat mock client from lead capture to mock go-live and capture pass/fail notes.",
+    "title": "Run AI-chat complete-path mock client",
+    "description": "Run the AI-chat lead from chatbot collection through clean automated intake, acknowledgement, CRM/source/owner verification, qualification, proposal, agreement, onboarding, portal access, training scheduling, explicitly simulated downstream training assumption, mock Live, support, and first metrics. Capture pass/fail evidence without claiming training readiness or execution.",
     "primaryOwner": "Bloq",
     "status": "locked",
     "priority": "critical",
@@ -1466,7 +1466,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-FST-04",
     "title": "Run Adrian relationship mock client",
-    "description": "Near M1 closeout, run one Adrian relationship mock client from manual/network lead entry to mock go-live and capture pass/fail notes.",
+    "description": "Run the Adrian manual/network lead through the warm relationship and faster complete path without skipping required gates. Verify no inappropriate automated acknowledgement, preserved relationship context, a different mock package, proposal/agreement, onboarding, portal access, training scheduling, explicitly simulated downstream training assumption, mock Live, support, and first metrics.",
     "primaryOwner": "Adrian",
     "status": "locked",
     "priority": "critical",
@@ -1479,10 +1479,10 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-FST-05",
-    "title": "Decide whether extra mock clients are needed",
-    "description": "After the two required mock clients run, decide if additional edge-case mock clients are needed for password reset, stalled leads, missing info, different deliverables, permissions, or messy CRM data.",
+    "title": "Approve comprehensive M1 mock-lead test set",
+    "description": "Completed 2026-07-21: Samir approved seven primary mock leads plus one duplicate-entry attempt. Four distinct source paths reach mock Live; three branch leads prove early not-fit, permanent no-response, and late-stage decline. Embedded tests cover password reset, rescheduling, different deliverables, permissions, messy intake, support, and first metrics. Add an eighth primary lead only if a major uncovered path emerges.",
     "primaryOwner": "Samir",
-    "status": "locked",
+    "status": "done",
     "priority": "high",
     "workstream": "M1 Final System Test",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -1492,9 +1492,107 @@ export const CANONICAL_LAUNCH_TASKS = [
     "sortOrder": 450
   },
   {
+    "taskKey": "M1-FST-07",
+    "title": "Run Contact Us stalled-and-resumed complete-path mock client",
+    "description": "Run a distinct Contact Us lead through incomplete intake, acknowledgement, retry reminders, pause, later return, preserved history, qualification, proposal, agreement, onboarding, portal access, training scheduling, explicitly simulated downstream training assumption, mock Live, support, and first metrics.",
+    "primaryOwner": "Bloq",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 451
+  },
+  {
+    "taskKey": "M1-FST-08",
+    "title": "Run direct-email conditional-and-revised complete-path mock client",
+    "description": "Run a direct-email lead through unstructured intake, CRM normalization, possible duplicate review, Need More Information or Advance with Conditions, owned blocker resolution, proposal/package revision, delayed agreement/payment condition, onboarding, portal access, training scheduling, explicitly simulated downstream training assumption, mock Live, support, and first metrics.",
+    "primaryOwner": "Bloq",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 452
+  },
+  {
+    "taskKey": "M1-FST-09",
+    "title": "Run early not-fit branch mock lead",
+    "description": "Run a repeated AI or manual-entry mock lead through initial fit to a supported Not a Fit / Closed outcome. Record the reason, final communication, owner, evidence, and verify that proposal, contract, onboarding, portal, scheduling, and go-live work are not created.",
+    "primaryOwner": "Adrian",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 453
+  },
+  {
+    "taskKey": "M1-FST-10",
+    "title": "Run permanent no-response branch mock lead",
+    "description": "Run a repeated Contact Us or direct-email mock lead through acknowledgement, the complete approved retry cadence, missed-contact visibility, and correct Nurture, Recycle, or No Response closure. Verify the record does not remain indefinitely active and no downstream sales/delivery work is invented.",
+    "primaryOwner": "Adrian",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 454
+  },
+  {
+    "taskKey": "M1-FST-11",
+    "title": "Run late-stage declined branch mock lead",
+    "description": "Run a repeated AI or manual-entry mock lead through qualification, assessment, proposal, questions, and at least one revision before a Declined / Closed outcome. Preserve decision context and verify contract, onboarding, portal, scheduling, and go-live work do not continue.",
+    "primaryOwner": "Adrian",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 455
+  },
+  {
+    "taskKey": "M1-FST-12",
+    "title": "Run deliberate duplicate-entry attempt",
+    "description": "Enter an existing mock contact or facility through a second source. Verify possible-duplicate detection, suppression of inappropriate duplicate messages, merge/link disposition, source-history preservation, one correct owner, and prevention of duplicate client, portal, entitlement, and onboarding records. This is a test event, not an eighth prospect.",
+    "primaryOwner": "Bloq",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 456
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "title": "Resolve and retest critical M1 mock-run failures",
+    "description": "Collect every failed or missing step from the seven leads and duplicate attempt, create one-owner repair tasks, verify each critical repair in the actual affected path, and preserve unresolved noncritical items with disposition for M2. M1 cannot close on an unverified critical fix.",
+    "primaryOwner": "Bloq",
+    "status": "locked",
+    "priority": "critical",
+    "workstream": "M1 Final System Test",
+    "milestoneSlug": "m1-mock-run-build-ready",
+    "complianceFlag": false,
+    "legalGateFlag": false,
+    "changedByNewInfo": true,
+    "sortOrder": 457
+  },
+  {
     "taskKey": "M1-FST-06",
     "title": "Write M1 completion readout",
-    "description": "Summarize what was tested, what passed, what failed, what got fixed, and what moves to M2.",
+    "description": "Write the M1 completion readout after all seven leads, the duplicate attempt, and critical-failure retests finish. Summarize each scenario, evidence, pass/fail result, repairs, retest result, scheduling-only training boundary, explicit mock assumptions, and work moved to M2.",
     "primaryOwner": "Bloq",
     "status": "locked",
     "priority": "critical",
@@ -1831,7 +1929,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M2-08",
     "title": "Finalize training-day and on-site support readiness",
-    "description": "Finalize and internally/mock verify the real-client training-readiness packet: required site and Block Ops roles, roster, prework, agenda, approved materials, access, equipment and logistics, safety boundaries, contingency plan, attendance/completion evidence, unresolved-gap handling, and named approval authority.",
+    "description": "After the Foundation Library, deliverables, and modular offering are completed and organized, finalize and internally/mock verify the actual training event: purpose and scope, agenda, activities, approved materials, participant preparation, site and Block Ops roles, roster, access, equipment and logistics, safety boundaries, contingencies, readiness/go-no-go review, attendance and completion evidence, knowledge/skill checks where applicable, post-training follow-up, unresolved-gap handling, and named approval authority. M1 scheduling evidence does not complete this task.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
@@ -2298,6 +2396,11 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
     "dependencyType": "finish_to_start"
   },
   {
+    "taskKey": "M1-FST-05",
+    "dependsOnTaskKey": "M1-04",
+    "dependencyType": "finish_to_start"
+  },
+  {
     "taskKey": "M1-FST-03",
     "dependsOnTaskKey": "M1-FST-02",
     "dependencyType": "finish_to_start"
@@ -2308,18 +2411,78 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
     "dependencyType": "finish_to_start"
   },
   {
-    "taskKey": "M1-FST-05",
+    "taskKey": "M1-FST-07",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-08",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-09",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-10",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-11",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-12",
+    "dependsOnTaskKey": "M1-FST-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
     "dependsOnTaskKey": "M1-FST-03",
     "dependencyType": "finish_to_start"
   },
   {
-    "taskKey": "M1-FST-05",
+    "taskKey": "M1-FST-13",
     "dependsOnTaskKey": "M1-FST-04",
     "dependencyType": "finish_to_start"
   },
   {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-07",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-08",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-09",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-10",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-11",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M1-FST-13",
+    "dependsOnTaskKey": "M1-FST-12",
+    "dependencyType": "finish_to_start"
+  },
+  {
     "taskKey": "M1-FST-06",
-    "dependsOnTaskKey": "M1-FST-05",
+    "dependsOnTaskKey": "M1-FST-13",
     "dependencyType": "finish_to_start"
   },
   {
@@ -2334,6 +2497,11 @@ export const CANONICAL_LAUNCH_DEPENDENCIES = [
   },
   {
     "taskKey": "M2-04",
+    "dependsOnTaskKey": "M2-02",
+    "dependencyType": "finish_to_start"
+  },
+  {
+    "taskKey": "M2-08",
     "dependsOnTaskKey": "M2-02",
     "dependencyType": "finish_to_start"
   },

@@ -13,7 +13,7 @@ import {
 const canonicalM1Tasks = CANONICAL_TASKS.filter((task) => task.milestoneSlug === 'm1-mock-run-build-ready');
 
 test('every canonical M1 task resolves to exactly one governed primary Wiki page', () => {
-  assert.equal(canonicalM1Tasks.length, 114);
+  assert.equal(canonicalM1Tasks.length, 121);
   for (const task of canonicalM1Tasks) {
     const title = getPrimaryWikiPageTitle(task);
     assert.ok(title, `${task.taskKey} has no primary Wiki page`);

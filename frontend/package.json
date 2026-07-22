@@ -19,7 +19,10 @@
     "mission-notes:sync": "node scripts/sync-mission-control-action-notes.mjs",
     "mission-notes:verify": "VERIFY_ONLY=1 node scripts/sync-mission-control-action-notes.mjs",
     "milestone-boundary:verify": "node scripts/verify-milestone-boundary-alignment.mjs",
-    "wiki-boundary:source": "node scripts/sync-milestone-boundary-wiki-source.mjs"
+    "wiki-boundary:source": "node scripts/sync-milestone-boundary-wiki-source.mjs",
+    "m1-seven-lead:sync": "node scripts/sync-m1-seven-lead-training-boundary.mjs",
+    "m1-seven-lead:verify": "VERIFY_ONLY=1 node scripts/sync-m1-seven-lead-training-boundary.mjs",
+    "test:services": "node --test src/services/*.test.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",

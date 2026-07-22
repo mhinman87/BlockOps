@@ -5,6 +5,12 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const repoFile = new URL('../src/services/wikiLibraryItems.js', import.meta.url);
 const vaultRoot = '/home/bloq/Documents/Block Ops Vault';
 const sourceByTitle = new Map([
+  ['Lead Capture', '02 - Operations/Lead Capture.md'],
+  ['Outreach Sequence', '02 - Operations/Outreach Sequence.md'],
+  ['Client Communication Log', '02 - Operations/Client Communication Log.md'],
+  ['Qualification and Discovery', '02 - Operations/Qualification and Discovery.md'],
+  ['Sales Materials and Scripts', '02 - Operations/Sales Materials and Scripts.md'],
+  ['Mission Control', '02 - Operations/Mission Control.md'],
   ['Proposal Workflow', '02 - Operations/Proposal Workflow.md'],
   ['CRM Pipeline Stages', '02 - Operations/CRM Pipeline Stages.md'],
   ['Digital Platform Overview', '02 - Operations/Digital Platform Overview.md'],
