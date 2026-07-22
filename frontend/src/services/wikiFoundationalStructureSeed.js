@@ -1,4 +1,4 @@
-export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-21-v3';
+export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-21-v4';
 
 const notice = `> **Internal scaffold — ${FOUNDATIONAL_STRUCTURE_VERSION}**  
 > This page establishes governed structure before every operating decision is complete. Sections marked **Milestone-built** must be completed and verified through Mission Control evidence. This scaffold does not create a clinical protocol, legal conclusion, contractual promise, billing rule, performance claim, or verified platform capability.`;
@@ -106,7 +106,9 @@ The first M1 operational capture uses six approved measures: mock workflow volum
 
 The approved M1 value story uses six separately governed placeholders: block utilization and opportunity, opioid-use impact, recovery and throughput impact, patient experience and quality, documentation and economic contribution, and net value and ROI. Each placeholder keeps its source, period, population, exclusions, assumptions, owner, and M1 capture/representation label visible. No placeholder may be represented as a measured result or external claim without the required source, implementation, evidence, review, and exact-wording approvals.
 
-Samir owns the business meaning; Max owns source fields, provenance, entry, calculation implementation, and Dashboard representation; Bloq owns clearly labeled mock capture and assumptions during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
+Before Dashboard use, each M1 metric receives the eight approved sanity checks: identity and definition, source and provenance, period and scope, missing-data handling, type and range, arithmetic and reconciliation, chronology and duplication, and interpretation and review gates. Record one result: Pass, Warning / Data-quality concern, Hold, or Unknown. A passing check proves only minimum internal consistency; it does not prove an outcome, value claim, or automated validation capability.
+
+Samir owns the business meaning and business thresholds; Max owns source fields, provenance, entry, calculation and validation implementation, and Dashboard representation; Bloq owns clearly labeled mock capture and application of the checks during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
     sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Level 1 structured Dashboard entry', 'Level 2 approved file import', 'Level 3 premium system integrations', 'KPI data-state model', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
@@ -171,7 +173,37 @@ M1-GR-025 defines six value-story lenses for the clearly labeled M1 mock client.
 - Unknown values remain Unknown, and missing values are never converted to zero. Comparison periods, populations, exclusions, sources, and assumptions must remain visible.
 - Clinical and quality interpretation requires qualified clinical/evidence review. Documentation, coding, reimbursement, revenue, and ROI interpretation requires applicable billing/compliance, legal, financial, and exact-wording review.
 - No lens permits a promise or claim of guaranteed outcomes, opioid reduction, faster discharge, increased capacity, revenue, reimbursement, savings, or ROI.
-- M1 approves the metric placeholders and value-story structure only. Actual values, source fields, formulas, sanity checks, Dashboard implementation, capture, and external promotion remain separate evidence-gated work.`,
+- M1 approves the metric placeholders and value-story structure only. Actual values, source fields, formulas, sanity checks, Dashboard implementation, capture, and external promotion remain separate evidence-gated work.
+
+## M1 metric sanity-check standard — approved 2026-07-21
+
+M1-201 defines the minimum fail-closed review applied before an operational or value-story metric is treated as ready for Dashboard use. The standard applies to clearly labeled M1 mock values and establishes later implementation requirements; it does not prove automated validation exists.
+
+| Check | Minimum pass condition | Obvious failure or hold condition |
+|---|---|---|
+| Identity and definition | Approved metric name, definition, unit, and intended business question are present | Metric identity, unit, or meaning is missing or conflicts with the governed definition |
+| Source and provenance | Source, accountable owner, mock-versus-real label, and manual, system-generated, estimated, placeholder, or Unknown provenance are explicit | Source or ownership is ambiguous, or a mock/estimated/placeholder value appears verified |
+| Period and scope | Measurement period, client/site, population or workflow scope, exclusions, and comparison basis are known where applicable | Periods, cohort, scope, or comparison basis are missing or mixed |
+| Missing-data handling | Missing values remain Unknown and missingness is visible | Missing values are converted to zero, silently estimated, or omitted from a denominator |
+| Type and range | Value uses the expected type and unit; counts are whole and nonnegative, durations are nonnegative, percentages are from 0% through 100%, and calculations are finite | Wrong unit/type, negative impossible value, percentage outside range, NaN, or infinity |
+| Arithmetic and reconciliation | Numerators do not exceed applicable denominators, required components reconcile, and the displayed result matches the governed formula | Formula output, numerator/denominator, or required component totals conflict |
+| Chronology and duplication | Start precedes end, the measurement window follows the approved lifecycle order, and the same client/site/metric/period record is not counted twice | Invalid chronology, overlapping scope that causes double counting, or duplicate record |
+| Interpretation and review gates | Representation matches the evidence and all applicable clinical, evidence, billing/compliance, legal, financial, and exact-wording reviews | A mock assumption, placeholder, outlier, clinical outcome, reimbursement, revenue, savings, or ROI appears as a verified conclusion without required approval |
+
+### Sanity-check result states
+
+- **Pass:** Every required check passes. The metric may be displayed only with its correct data and representation labels.
+- **Warning / Data-quality concern:** The value is plausible but incomplete, unusual, or awaiting review. It may appear only with the concern visible and without positive interpretation.
+- **Hold:** Required context is missing; arithmetic, chronology, scope, or provenance is invalid or ambiguous; or display would overstate the evidence. Do not present it as a valid KPI.
+- **Unknown:** No defensible value exists yet. Preserve Unknown rather than inferring or substituting a value.
+
+### M1 ownership and boundaries
+
+- **Business owner:** Samir owns the approved check meaning, business thresholds, and decisions about acceptable interpretation.
+- **Technical owner:** Max owns field rules, validation implementation, duplicate detection, formula tests, and Dashboard behavior under separate tasks.
+- **Mock execution owner:** Bloq applies and records the checks during M1 mock capture.
+- M1 sets no universal statistical outlier threshold. An unusual change triggers review and a visible Data-quality concern; it is not automatically accepted, rejected, or interpreted.
+- A passing sanity check establishes only internal consistency and minimum readiness. It does not prove the underlying outcome, causal attribution, reimbursement, financial value, external claim, or automated capability.`,
     sections: ['Metric register', 'Business purpose and decision use', 'Exact definition and unit', 'Numerator, denominator, and exclusions', 'Source system and provenance', 'Data owner and steward', 'Calculation and refresh method', 'Quality thresholds and exception handling', 'Approved audiences and representations', 'Change history and retirement rules'],
     related: ['Measurement Framework and Minimum Dataset', 'Evidence and Claims Governance', 'Dashboard', 'Supabase Data Model', 'Client Health and Retention'],
   },
