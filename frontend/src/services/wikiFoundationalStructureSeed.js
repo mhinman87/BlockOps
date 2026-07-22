@@ -1,4 +1,4 @@
-export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-12-v2';
+export const FOUNDATIONAL_STRUCTURE_VERSION = '2026-07-21-v3';
 
 const notice = `> **Internal scaffold — ${FOUNDATIONAL_STRUCTURE_VERSION}**  
 > This page establishes governed structure before every operating decision is complete. Sections marked **Milestone-built** must be completed and verified through Mission Control evidence. This scaffold does not create a clinical protocol, legal conclusion, contractual promise, billing rule, performance claim, or verified platform capability.`;
@@ -102,9 +102,11 @@ const definitions = [
     scope: ['Every minimum purchasable pack must define two to three meaningful client-visible KPIs, generally spanning adoption, performance, and value without forcing artificial measures.', 'At least one core KPI must measure performance or value rather than activity alone.', 'Every pack must function with Level 1 structured aggregate Dashboard entry, improve with Level 2 approved de-identified file import, and optionally automate through premium Level 3 system integrations.', 'Every KPI displays one governed data state: Not configured, Baseline collecting, Tracking, Data-quality concern, or Verified for reporting.', 'Measures must have approved definitions, purpose, source, owner, and limitations.', 'PHI and sensitive data follow approved privacy, security, and site controls.', 'Unavailable or low-quality data must be shown as unknown rather than inferred.'],
     approvedContent: `## M1 mock measurement baseline — approved 2026-07-21
 
-The first M1 operational capture uses six approved measures: mock workflow volume, journey coverage, stage cycle time, handoff quality, operating readiness, and first-week support activity. The set measures operation of the mock lead-to-live system only. It excludes revenue, ROI, opioid reduction, clinical outcomes, and other evidence-gated value claims.
+The first M1 operational capture uses six approved measures: mock workflow volume, journey coverage, stage cycle time, handoff quality, operating readiness, and first-week support activity. The set measures operation of the mock lead-to-live system only; it does not itself establish a value claim.
 
-Samir owns the business meaning; Max owns source fields, provenance, entry, and Dashboard representation; Bloq owns clearly labeled mock capture and assumptions during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
+The approved M1 value story uses six separately governed placeholders: block utilization and opportunity, opioid-use impact, recovery and throughput impact, patient experience and quality, documentation and economic contribution, and net value and ROI. Each placeholder keeps its source, period, population, exclusions, assumptions, owner, and M1 capture/representation label visible. No placeholder may be represented as a measured result or external claim without the required source, implementation, evidence, review, and exact-wording approvals.
+
+Samir owns the business meaning; Max owns source fields, provenance, entry, calculation implementation, and Dashboard representation; Bloq owns clearly labeled mock capture and assumptions during the final run. Unknown values remain Unknown. Definition approval does not prove implementation or capture.`,
     sections: ['Measurement objectives and audiences', 'Pack-level two-to-three-KPI contract', 'Core versus configured KPIs', 'Level 1 structured Dashboard entry', 'Level 2 approved file import', 'Level 3 premium system integrations', 'KPI data-state model', 'Universal minimum dataset', 'Site- and agreement-specific additions', 'Data ownership and access', 'Baseline and comparison periods', 'Quality checks and missing-data handling', 'Interpretation boundaries', 'Reporting cadence and representation approval', 'Value Intelligence expansion path', 'Milestone validation plan'],
     related: ['KPI Dictionary and Data Ownership', 'Evidence and Claims Governance', 'Dashboard', 'Client Health and Retention', 'Foundational Client Readiness and Completion Matrix'],
   },
@@ -145,7 +147,31 @@ M1-197 defines the minimum operational set for each clearly labeled M1 mock clie
 - Every value remains explicitly labeled **mock** and preserves whether it is manual, system-generated, estimated, placeholder, or Unknown.
 - Unknown or unavailable values remain Unknown; they are not inferred or converted into zero.
 - Revenue, ROI, opioid reduction, clinical outcomes, and other value claims are outside this operational set and remain separately definition-, evidence-, and review-gated.
-- Definition approval does not prove source fields, Dashboard display, sanity checks, capture, or reporting cadence have been implemented or tested.`,
+- Definition approval does not prove source fields, Dashboard display, sanity checks, capture, or reporting cadence have been implemented or tested.
+
+## M1 mock value-story metric set — approved 2026-07-21
+
+M1-GR-025 defines six value-story lenses for the clearly labeled M1 mock client. They are placeholders for explaining how a future client program could be measured; they are not measured results, approved external claims, or proof that the required source data, calculations, or Dashboard components exist.
+
+| Value lens | M1 placeholder definition | Future business question |
+|---|---|---|
+| Block utilization and opportunity | Eligible cases, blocks performed, block-utilization rate, and the addressable gap between eligible and performed cases | Is the program reaching the cases it was configured to support? |
+| Opioid-use impact | Approved baseline and comparison opioid-use measure, such as morphine milligram equivalents, with period, population, exclusions, and clinical review | Is opioid exposure changing for the approved comparison population? |
+| Recovery and throughput impact | PACU length of stay, discharge-readiness timing, and any separately justified capacity implication | Is recovery performance changing, and is any operational capacity effect supportable? |
+| Patient experience and quality | Approved measures such as postoperative nausea and vomiting, pain, satisfaction, or another qualified quality measure | Is the patient or quality experience changing on a defensible measure? |
+| Documentation and economic contribution | Correctly documented or charge-ready block encounters, approved reimbursement or revenue assumptions, and identifiable leakage | Is documentation supporting measurable and reviewable economic contribution? |
+| Net value and ROI | Approved quantified benefits minus approved program costs; ROI is net value divided by approved program costs when both inputs are valid and the denominator is nonzero | Does verified program value exceed the approved cost basis? |
+
+### M1 value-story controls
+
+- **Business owner:** Samir owns the selected lenses, intended business questions, and approval of any later business interpretation.
+- **Technical/source owner:** Max owns future source mapping, provenance, calculation implementation, and Dashboard representation; this definition task does not complete that work.
+- **Mock execution owner:** Bloq may enter only clearly labeled mock assumptions or placeholders during the final M1 run.
+- Every displayed value must carry one M1 capture/representation label: **Unknown**, **Not configured**, **Mock assumption**, **Baseline collecting**, or **Verified for reporting**. A mock assumption never becomes verified merely because it is displayed.
+- Unknown values remain Unknown, and missing values are never converted to zero. Comparison periods, populations, exclusions, sources, and assumptions must remain visible.
+- Clinical and quality interpretation requires qualified clinical/evidence review. Documentation, coding, reimbursement, revenue, and ROI interpretation requires applicable billing/compliance, legal, financial, and exact-wording review.
+- No lens permits a promise or claim of guaranteed outcomes, opioid reduction, faster discharge, increased capacity, revenue, reimbursement, savings, or ROI.
+- M1 approves the metric placeholders and value-story structure only. Actual values, source fields, formulas, sanity checks, Dashboard implementation, capture, and external promotion remain separate evidence-gated work.`,
     sections: ['Metric register', 'Business purpose and decision use', 'Exact definition and unit', 'Numerator, denominator, and exclusions', 'Source system and provenance', 'Data owner and steward', 'Calculation and refresh method', 'Quality thresholds and exception handling', 'Approved audiences and representations', 'Change history and retirement rules'],
     related: ['Measurement Framework and Minimum Dataset', 'Evidence and Claims Governance', 'Dashboard', 'Supabase Data Model', 'Client Health and Retention'],
   },
