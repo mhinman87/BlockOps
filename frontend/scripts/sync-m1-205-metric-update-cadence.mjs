@@ -62,14 +62,11 @@ if (!verifyOnly) {
     fail(`Update ${page.title}`, error);
   }
 
-  const legacyApprovalNote = 'Completed 2026-07-21: Samir approved the M1 metric cadence—Day 0 opens the first measurement window, Day 3 checks the data path and quality state, and Day 7 records and reviews the first governed snapshot plus the next refresh date. After first capture, available KPI values and quality states refresh monthly where practical, formal performance/value review occurs quarterly, configuration and scope are reviewed annually, and material corrections or governance events trigger an affected off-cycle refresh. Preserve source timestamp, period, owner, sanity result, corrections, history, and next refresh date. Continuous Dashboard access is not a real-time-data promise. Max owns technical scheduling under M1-206; cadence approval does not prove implementation.';
   const approvalNote = 'Completed 2026-07-21: Samir approved the M1 metric cadence—Day 0 opens the first measurement window, Day 3 checks the data path and quality state, and Day 7 records and reviews the first governed snapshot plus the next refresh date. After first capture, available KPI values and quality states refresh monthly where practical, formal performance/value review occurs quarterly, configuration and scope are reviewed annually, and material corrections or governance events trigger an affected off-cycle refresh. Preserve source timestamp, period, owner, sanity result, corrections, history, and next refresh date. Continuous Dashboard access is not a real-time-data promise. Separate Max-owned technical work must implement any scheduling or automation; cadence approval does not prove implementation.';
   const existingNotes = String(beforeTask.notes || '');
   const notes = existingNotes.includes(approvalNote)
     ? existingNotes
-    : existingNotes.includes(legacyApprovalNote)
-      ? existingNotes.replace(legacyApprovalNote, approvalNote)
-      : [existingNotes, approvalNote].filter(Boolean).join('\n\n');
+    : [existingNotes, approvalNote].filter(Boolean).join('\n\n');
   const { error } = await client.from('launch_tasks_v2').update({
     status: 'done', completed_at: now, updated_at: now,
     description: 'Define the approved Day 0/3/7 first-capture handoff into monthly refresh, quarterly formal review, annual scope review, and event-triggered correction.',
