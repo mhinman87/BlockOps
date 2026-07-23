@@ -216,16 +216,16 @@ export const CANONICAL_LAUNCH_TASKS = [
   },
   {
     "taskKey": "M1-08",
-    "title": "Prepare the sales materials package",
-    "description": "Gather the brochures, one-pagers, decks, and info sheets the lead receives after capture.",
+    "title": "Create sales brochure",
+    "description": "Create and review the governed Block Ops sales brochure as one deliverable. Version 0.1 is an internal draft built from the approved positioning spine and scope/claim guardrails; it remains blocked from external use until Adrian approves sales tone and contact details, Samir approves business and clinical boundaries, and any other required exact-version review is recorded.",
     "primaryOwner": "Adrian",
-    "status": "ready",
+    "status": "review",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
     "complianceFlag": false,
     "legalGateFlag": false,
-    "changedByNewInfo": false,
+    "changedByNewInfo": true,
     "sortOrder": 81
   },
   {

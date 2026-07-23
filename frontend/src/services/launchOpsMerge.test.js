@@ -92,3 +92,12 @@ test('approved outreach follow-up definitions remain closed in the canonical tas
   assert.match(finalNudge?.description || '', /close-the-loop email by default/);
   assert.equal(callRule?.status, 'done');
 });
+
+test('the granularized sales brochure task tracks its exact internal-review artifact', () => {
+  const brochure = CANONICAL_TASKS.find((task) => task.taskKey === 'M1-08');
+
+  assert.equal(brochure?.title, 'Create sales brochure');
+  assert.equal(brochure?.status, 'review');
+  assert.match(brochure?.description || '', /Version 0\.1 is an internal draft/);
+  assert.match(brochure?.description || '', /blocked from external use/);
+});
