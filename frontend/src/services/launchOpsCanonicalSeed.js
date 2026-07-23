@@ -301,9 +301,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-07",
     "title": "Define final nudge timing",
-    "description": "Adrian-approved baseline: default final nudge occurs around business day 7–8, or business day 5 for warm/referral/high-intent fast-lane leads; final close-loop is email-only by default.",
+    "description": "Approved final-nudge rule: use business day 7–8 for the default cadence and business day 5 for warm, referral, or high-intent fast-lane leads; send a final value-focused close-the-loop email by default, with an optional call only for warm or high-value leads, then prepare an unanswered lead for the governed no-response review.",
     "primaryOwner": "Adrian",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
