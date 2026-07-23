@@ -77,3 +77,13 @@ test('mergeBoardWithCanonical preserves live-only tasks', () => {
   assert.ok(extra, 'live-only task should be preserved');
   assert.equal(extra.isLiveOnly, true);
 });
+
+test('approved outreach follow-up definitions remain closed in the canonical task set', () => {
+  const followUp = CANONICAL_TASKS.find((task) => task.taskKey === 'M1-OS-06');
+  const callRule = CANONICAL_TASKS.find((task) => task.taskKey === 'M1-OS-09');
+
+  assert.equal(followUp?.status, 'done');
+  assert.match(followUp?.description || '', /3–4 business days after first touch/);
+  assert.match(followUp?.description || '', /keep the lead Contacted/);
+  assert.equal(callRule?.status, 'done');
+});

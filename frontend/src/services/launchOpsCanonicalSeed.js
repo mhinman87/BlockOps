@@ -287,9 +287,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-06",
     "title": "Define follow-up 3–4 business-day touch",
-    "description": "Adrian-approved baseline: if no response 3–4 business days after first touch, send follow-up by the best available channel and optionally call when phone exists and lead warmth/value justifies it.",
+    "description": "Approved follow-up rule: if there is no response 3–4 business days after first touch, send a follow-up through the best available channel; optionally call when a phone number exists and the lead's warmth or value justifies it; keep the lead Contacted and update attempt, owner, channel, last-contact, and next-follow-up data.",
     "primaryOwner": "Adrian",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
@@ -329,9 +329,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-OS-09",
     "title": "Define call attempt rule",
-    "description": "Adrian-approved channel baseline: website/contact/AI-chat leads are call-first when phone exists and email-first when no phone exists; Adrian/network leads use relationship judgment; referral/manual text-first is not default unless warm or permissioned.",
+    "description": "Approved channel rule: website/contact/AI-chat leads are call-first when a phone number exists and email-first otherwise; Adrian/network leads use relationship judgment; referrals use referral context and are not text-first unless warm or permissioned; most cold/manual leads are email-first, with calling reserved for strategic/high-value leads with a supplied phone number and likely correct contact.",
     "primaryOwner": "Adrian",
-    "status": "review",
+    "status": "done",
     "priority": "high",
     "workstream": "Outreach Sequence",
     "milestoneSlug": "m1-mock-run-build-ready",
