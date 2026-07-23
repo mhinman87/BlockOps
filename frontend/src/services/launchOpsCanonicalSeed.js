@@ -1410,9 +1410,9 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M1-40",
     "title": "Document No-Response / Stalled Lead workflow",
-    "description": "Write the internal operating note for the no-response/stalled-lead workflow and link it back to M1.",
+    "description": "Completed 2026-07-22: consolidated the approved no-response threshold, pause-versus-close rule, state transitions, evidence fields, and human-review outcomes into the Outreach Sequence operating note and linked it to the M1 permanent no-response and stalled-and-resumed scenarios. Implementation display and mock-path testing remain separate tasks M1-39 and M1-38.",
     "primaryOwner": "Bloq",
-    "status": "ready",
+    "status": "done",
     "priority": "medium",
     "workstream": "No-Response / Stalled Lead",
     "milestoneSlug": "m1-mock-run-build-ready",
