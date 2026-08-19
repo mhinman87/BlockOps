@@ -858,9 +858,13 @@ export const LandingPage = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary font-light text-sm text-gray-500 normal-case tracking-normal bg-white"
                   >
                     <option value="">Facility Type</option>
-                    <option value="hospital">Hospital</option>
-                    <option value="asc">Ambulatory Surgery Center</option>
-                    <option value="other">Other</option>
+                    <option value="ASC (Ambulatory Surgery Center)">ASC (Ambulatory Surgery Center)</option>
+                    <option value="Hospital">Hospital</option>
+                    <option value="Hospital system">Hospital system</option>
+                    <option value="Anesthesia group">Anesthesia group</option>
+                    <option value="Physician practice">Physician practice</option>
+                    <option value="Office-based surgery">Office-based surgery</option>
+                    <option value="Other">Other</option>
                   </select>
                   <textarea
                     name="message"
