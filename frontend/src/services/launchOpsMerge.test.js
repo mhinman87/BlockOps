@@ -101,3 +101,13 @@ test('the granularized sales brochure task tracks its exact internal-review arti
   assert.match(brochure?.description || '', /Version 0\.1 is an internal draft/);
   assert.match(brochure?.description || '', /blocked from external use/);
 });
+
+test('the locked M2 product catalog preserves the approved seven-pack coverage decision', () => {
+  const catalog = CANONICAL_TASKS.find((task) => task.taskKey === 'M2-02');
+
+  assert.equal(catalog?.status, 'locked');
+  assert.match(catalog?.description || '', /Clinical Standards & Safety/);
+  assert.match(catalog?.description || '', /Program Governance & Sustainability/);
+  assert.match(catalog?.description || '', /No eighth category or category-level redesign is currently required/);
+  assert.match(catalog?.description || '', /remaining gaps are incomplete products within these domains/);
+});

@@ -1746,7 +1746,7 @@ export const CANONICAL_LAUNCH_TASKS = [
   {
     "taskKey": "M2-02",
     "title": "Finalize the Foundation Library and modular product catalog",
-    "description": "Review, approve, and finalize the complete Foundation Library; classify each item into the Platform and Safety Core, Capability Packs, Block Packs, internal knowledge, or Premium Modules; and apply the locked Universal Pack Contract: scope, approved deliverables, implementation, two to three KPIs, Dashboard experience, recurring service, governance/evidence, and expansion map.",
+    "description": "Review, approve, and finalize the complete Foundation Library using the approved seven Capability Pack domains: Clinical Standards & Safety; Workforce Training & Competency; Operations & Site Readiness; Documentation & Revenue Cycle; Patient Education & Experience; Measurement, Quality & Value; and Program Governance & Sustainability. No eighth category or category-level redesign is currently required; remaining gaps are incomplete products within these domains. Classify each item into the shared operating core, Capability Packs, Block Packs, internal knowledge, or Premium Modules and apply the Universal Pack Contract. Keep this M2 work locked until its milestone is active.",
     "primaryOwner": "Samir",
     "status": "locked",
     "priority": "critical",
